@@ -1,0 +1,14 @@
+const serverPort = process.env.PORT || 4000;
+
+module.exports = {
+    server: {
+        port: serverPort,
+    },
+    db: {
+        name: "shiftup",
+        connectionString: process.env.SHIFTUP_CONNECTION_STRING,        
+        collections: {
+            users: "Users"
+        }
+    }
+};

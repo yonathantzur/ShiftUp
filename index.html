@@ -1,0 +1,51 @@
+<html dir="rtl" lang="he">
+
+<head>
+    <base href="/">
+    <title>ShiftUp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- <link rel="icon" href="logo/icon.png"> -->
+
+    <!-- Load angular libraries -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.min.js"></script>
+    <script src="node_modules/systemjs/dist/system.js"></script>
+    <!-- Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+        System.import('./app/main/main.js').catch(function (err) { console.error(err); });
+    </script>
+
+    <!-- START fonts import -->
+    <link rel="stylesheet" href="./app/fonts/fonts.css">
+    <!-- END fonts import -->
+
+    <!-- START application css import -->
+    <link rel="stylesheet" href="./app/components/app/app.css">
+    <!-- END application css import -->
+
+    <!-- START libraries css -->
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
+    <!-- END libraries css -->
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
+
+    <script>
+        $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
+    </script>
+</head>
+
+<body>
+    <app>
+    </app>
+</body>
+
+</html>

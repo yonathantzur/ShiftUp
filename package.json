@@ -1,0 +1,44 @@
+{
+  "name": "shiftup",
+  "version": "1.0.0",
+  "description": "ShiftUp website",
+  "scripts": {
+    "start": "tsc && concurrently \"nodemon --ignore app/ server.js\" \"tsc -w\" ",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@angular/common": "^7.2.3",
+    "@angular/compiler": "^7.2.3",
+    "@angular/core": "^7.2.3",
+    "@angular/forms": "^7.2.3",
+    "@angular/http": "^7.2.3",
+    "@angular/platform-browser": "^7.2.3",
+    "@angular/platform-browser-dynamic": "^7.2.3",
+    "@angular/router": "^7.2.3",
+    "@fortawesome/fontawesome-free": "^5.7.1",
+    "body-parser": "^1.18.3",
+    "bootstrap": "^4.2.1",
+    "bootstrap-material-design": "^4.1.1",
+    "core-js": "^2.6.3",
+    "express": "^4.16.4",
+    "jquery": "^3.3.1",
+    "js-sha512": "^0.8.0",
+    "jsonwebtoken": "^8.4.0",
+    "mongodb": "^3.1.13",
+    "nodemailer": "^5.1.1",
+    "popper.js": "^1.14.7",
+    "systemjs": "^0.21.4",
+    "zone.js": "^0.8.29"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.21",
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.9",
+    "typescript": "~3.3.1"
+  },
+  "repository": {}
+}
