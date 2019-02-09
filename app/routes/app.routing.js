@@ -10,10 +10,18 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var home_component_1 = require("../components/home/home.component");
 var login_component_1 = require("../components/login/login.component");
+var constraints_component_1 = require("../components/constraints/constraints.component");
+var workers_component_1 = require("../components/workers/workers.component");
+var calendar_component_1 = require("../components/calendar/calendar.component");
+var statistics_component_1 = require("../components/statistics/statistics.component");
 var routes = [
     { path: '', component: home_component_1.HomeComponent },
     { path: 'login', component: login_component_1.LoginComponent },
-    { path: '**', redirectTo: 'page-not-found' }
+    { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
+    { path: 'workers', component: workers_component_1.WorkersComponent },
+    { path: 'calendar', component: calendar_component_1.CalendarComponent },
+    { path: 'statistics', component: statistics_component_1.StatisticsComponent },
+    { path: '**', redirectTo: '' }
 ];
 var Routing = /** @class */ (function () {
     function Routing() {
