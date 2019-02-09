@@ -19,6 +19,7 @@ var navbar_component_1 = require("../components/navbar/navbar.component");
 var constraints_component_1 = require("../components/constraints/constraints.component");
 var workers_component_1 = require("../components/workers/workers.component");
 var calendar_component_1 = require("../components/calendar/calendar.component");
+var shiftCard_component_1 = require("../components/shiftCard/shiftCard.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 // Routing
@@ -43,6 +44,7 @@ var AppModule = /** @class */ (function () {
                 constraints_component_1.ConstraintsComponent,
                 workers_component_1.WorkersComponent,
                 calendar_component_1.CalendarComponent,
+                shiftCard_component_1.ShiftCardComponent,
                 calendarBoard_component_1.CalendarBoardComponent,
                 statistics_component_1.StatisticsComponent
             ],

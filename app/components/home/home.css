@@ -4,4 +4,13 @@
     margin-top: 15px;
     margin-right: 15px;
     position: absolute;
+    right: 0;
+}
+
+.shiftCard {
+    width: calc(40% - 20px);
+    height: calc(100% - 50px);
+    position: absolute;
+    left: 0;
+    display: flex;
 }

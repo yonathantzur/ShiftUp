@@ -12,6 +12,7 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 import { ConstraintsComponent } from '../components/constraints/constraints.component';
 import { WorkersComponent } from '../components/workers/workers.component';
 import { CalendarComponent } from '../components/calendar/calendar.component';
+import { ShiftCardComponent } from '../components/shiftCard/shiftCard.component';
 import { CalendarBoardComponent} from '../components/calendarBoard/calendarBoard.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 
@@ -34,6 +35,7 @@ import { Routing } from '../routes/app.routing'
     ConstraintsComponent,
     WorkersComponent,
     CalendarComponent,
+    ShiftCardComponent,
     CalendarBoardComponent,
     StatisticsComponent
   ],

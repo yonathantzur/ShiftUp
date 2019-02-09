@@ -10,6 +10,9 @@
 .navbarPages {
     width: 80%;
     display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 50px;
 }
 
 .navbarItem {
