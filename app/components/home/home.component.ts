@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-declare var $: any;
-
 @Component({
     selector: 'home',
     templateUrl: './home.html',
@@ -10,11 +8,31 @@ declare var $: any;
 })
 
 export class HomeComponent {
+    events: Array<any>;
+
     constructor() {
-        $(function () {            
-            $('#calendar').fullCalendar({                
-                height: "parent"
-            })
-        });
+        // TODO: load events from DB
+        this.events = [
+            {
+                title: 'שיבוץ',
+                start: '2019-02-10'
+            },
+            {
+                title: 'שיבוץ',
+                start: '2019-02-11'
+            },
+            {
+                title: 'שיבוץ',
+                start: '2019-02-12'
+            },
+            {
+                title: 'שיבוץ',
+                start: '2019-02-13'
+            },
+            {
+                title: 'שיבוץ',
+                start: '2019-02-14'
+            }
+        ]
     }
 }

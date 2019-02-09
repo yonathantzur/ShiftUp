@@ -2,5 +2,6 @@
     width: 60%;
     height: calc(100% - 80px);
     margin-top: 15px;
-    margin-right: 15px;    
+    margin-right: 15px;
+    position: absolute;
 }
