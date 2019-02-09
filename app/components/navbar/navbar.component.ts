@@ -9,11 +9,11 @@ import { Component } from '@angular/core';
 
 export class NavbarComponent {
     pages = [
-        { route: 'statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
-        { route: 'calendar', displayText: "לוח שיבוץ", icon: "fa fa-calendar-alt" },
-        { route: 'workers', displayText: "עובדים", icon: "fa fa-user-friends" },
+        { route: '', displayText: "בית", icon: "fa fa-home" },
         { route: 'constraints', displayText: "אילוצים", icon: "fa fa-file-alt" },
-        { route: '', displayText: "בית", icon: "fa fa-home" }
+        { route: 'workers', displayText: "עובדים", icon: "fa fa-user-friends" },
+        { route: 'calendar', displayText: "לוח שיבוץ", icon: "fa fa-calendar-alt" },
+        { route: 'statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" }
     ];
 
     searchValue = "";

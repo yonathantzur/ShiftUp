@@ -1,4 +1,16 @@
 <div class="navbarContainer">
+    <a class="navbarItem" routerLink="">
+        <span class="logo">ShiftUp</span>
+    </a>
+    <a *ngFor="let page of pages"
+        class="navbarItem"
+        routerLinkActive="activeNavbarItem"
+        [routerLinkActiveOptions]="{exact: true}"
+        [routerLink]="page.route"
+    >
+        <span class="navbarPageText">{{ page.displayText }}</span>
+        <i [class]="page.icon"></i>
+    </a>
     <div class="navbarItem searchNavbarItem">
         <div class="searchContainer">
             <input type="text"
@@ -10,16 +22,4 @@
             <span (click)="searchHandler($event)"><i class="fa fa-search pointer"></i></span>
         </div>
     </div>
-    <a *ngFor="let page of pages"
-        class="navbarItem"
-        routerLinkActive="activeNavbarItem"
-        [routerLinkActiveOptions]="{exact: true}"
-        [routerLink]="page.route"
-    >
-        <span class="navbarPageText">{{ page.displayText }}</span>
-        <i [class]="page.icon"></i>
-    </a>
-    <a class="navbarItem" routerLink="">
-        <span class="logo">ShiftUp</span>
-    </a>
 </div>
