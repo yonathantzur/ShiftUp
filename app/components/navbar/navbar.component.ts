@@ -16,8 +16,9 @@ export class NavbarComponent {
         { route: '', displayText: "בית", icon: "fa fa-home" }
     ];
 
+    searchValue = "";
+
     searchHandler = (event: any) => {
-        const navbarSearchElement: any = $('#navbarSearch')[0];
-        console.log("handle search: " + navbarSearchElement.value);
+        console.log("handle search: " + this.searchValue);
     }
 }

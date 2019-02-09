@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var NavbarComponent = /** @class */ (function () {
     function NavbarComponent() {
+        var _this = this;
         this.pages = [
             { route: 'statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
             { route: 'calendar', displayText: "לוח שיבוץ", icon: "fa fa-calendar-alt" },
@@ -16,9 +17,9 @@ var NavbarComponent = /** @class */ (function () {
             { route: 'constraints', displayText: "אילוצים", icon: "fa fa-file-alt" },
             { route: '', displayText: "בית", icon: "fa fa-home" }
         ];
+        this.searchValue = "";
         this.searchHandler = function (event) {
-            var navbarSearchElement = $('#navbarSearch')[0];
-            console.log("handle search: " + navbarSearchElement.value);
+            console.log("handle search: " + _this.searchValue);
         };
     }
     NavbarComponent = __decorate([

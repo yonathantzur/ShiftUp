@@ -1,7 +1,12 @@
 <div ngClass="navbarContainer">
     <div ngClass="navbarItem searchNavbarItem">
-        <div class="searchContainer">
-            <input type="text" placeholder="חיפוש" id="navbarSearch" ngClass="search" (keypress)="$event.key == 'Enter' ? searchHandler($event) : null" />
+        <div ngClass="searchContainer">
+            <input type="text"
+                id="navbarSearch"
+                ngClass="search"
+                placeholder="חיפוש"
+                [(ngModel)]="searchValue"
+                (keypress)="$event.key == 'Enter' ? searchHandler($event) : null" />
             <span (click)="searchHandler($event)"><i ngClass="fa fa-search pointer"></i></span>
         </div>
     </div>
