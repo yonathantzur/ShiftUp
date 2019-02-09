@@ -1,0 +1,25 @@
+<div ngClass="navbarContainer">
+    <div ngClass="navbarItem searchNavbarItem">
+        <div ngClass="searchContainer">
+            <input type="text"
+                id="navbarSearch"
+                ngClass="search"
+                placeholder="חיפוש"
+                [(ngModel)]="searchValue"
+                (keypress)="$event.key == 'Enter' ? searchHandler($event) : null" />
+            <span (click)="searchHandler($event)"><i ngClass="fa fa-search pointer"></i></span>
+        </div>
+    </div>
+    <a *ngFor="let page of pages"
+        ngClass="navbarItem"
+        routerLinkActive="activeNavbarItem"
+        [routerLinkActiveOptions]="{exact: true}"
+        [routerLink]="page.route"
+    >
+        <span ngClass="navbarPageText">{{ page.displayText }}</span>
+        <i [attr.class]="page.icon"></i>
+    </a>
+    <a ngClass="navbarItem" routerLink="">
+        <span ngClass="logo">ShiftUp</span>
+    </a>
+</div>

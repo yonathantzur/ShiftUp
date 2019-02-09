@@ -7,6 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from '../components/app/app.component';
 import { LoginComponent } from '../components/login/login.component';
 import { HomeComponent } from '../components/home/home.component';
+import { NavbarComponent } from '../components/navbar/navbar.component';
+import { ConstraintsComponent } from '../components/constraints/constraints.component';
+import { WorkersComponent } from '../components/workers/workers.component';
+import { CalendarComponent } from '../components/calendar/calendar.component';
+import { StatisticsComponent } from '../components/statistics/statistics.component';
 
 // Routing
 import { Routing } from '../routes/app.routing'
@@ -21,7 +26,12 @@ import { Routing } from '../routes/app.routing'
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    NavbarComponent,
+    ConstraintsComponent,
+    WorkersComponent,
+    CalendarComponent,
+    StatisticsComponent
   ],
   providers: [
   ],
