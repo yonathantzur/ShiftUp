@@ -1,0 +1,68 @@
+.navbarContainer {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    padding: 0px 10px; 
+    background-color: #e6e6e6;
+    direction: ltr;
+}
+
+.navbarItem {
+    width: 200px;
+    height: 100%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none !important;
+    direction: rtl;
+}
+
+.activeNavbarItem {
+    background-color: #ccc;
+}
+
+.searchNavbarItem {
+    width: 40%;
+    cursor: unset;
+    justify-content: unset;
+}
+
+.navbarItem :hover {
+    background-color: #ccc !important;
+}
+
+.logo {
+    font-family: 'Lobster';
+    font-size: 40px;
+}
+
+.searchContainer {
+    background-color: #fff;
+    width: 350px;
+    height: 50px;
+    float: right;
+    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+}
+
+.search {
+    background-color: transparent;
+    border-color: transparent;
+    width: 285px;
+    font-size: 20px;
+    outline: unset;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.navbarPageText{
+    margin-left: 10px;
+}

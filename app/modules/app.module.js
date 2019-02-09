@@ -14,6 +14,11 @@ var http_1 = require("@angular/common/http");
 var app_component_1 = require("../components/app/app.component");
 var login_component_1 = require("../components/login/login.component");
 var home_component_1 = require("../components/home/home.component");
+var navbar_component_1 = require("../components/navbar/navbar.component");
+var constraints_component_1 = require("../components/constraints/constraints.component");
+var workers_component_1 = require("../components/workers/workers.component");
+var calendar_component_1 = require("../components/calendar/calendar.component");
+var statistics_component_1 = require("../components/statistics/statistics.component");
 // Routing
 var app_routing_1 = require("../routes/app.routing");
 var AppModule = /** @class */ (function () {
@@ -30,7 +35,12 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 app_component_1.AppComponent,
                 login_component_1.LoginComponent,
-                home_component_1.HomeComponent
+                home_component_1.HomeComponent,
+                navbar_component_1.NavbarComponent,
+                constraints_component_1.ConstraintsComponent,
+                workers_component_1.WorkersComponent,
+                calendar_component_1.CalendarComponent,
+                statistics_component_1.StatisticsComponent
             ],
             providers: [],
             bootstrap: [app_component_1.AppComponent]

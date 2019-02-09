@@ -1,0 +1,1 @@
+{"version":3,"file":"workers.component.js","sourceRoot":"","sources":["workers.component.ts"],"names":[],"mappings":";;;;;;;;AAAA,sCAA0C;AAS1C;IAAA;IACA,CAAC;IADY,gBAAgB;QAP5B,gBAAS,CAAC;YACP,QAAQ,EAAE,SAAS;YACnB,WAAW,EAAE,gBAAgB;YAC7B,SAAS,EAAE,EAAE;YACb,SAAS,EAAE,CAAC,eAAe,CAAC;SAC/B,CAAC;OAEW,gBAAgB,CAC5B;IAAD,uBAAC;CAAA,AADD,IACC;AADY,4CAAgB"}
