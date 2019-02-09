@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+declare var $: any;
+
 @Component({
     selector: 'home',
     templateUrl: './home.html',
@@ -8,5 +10,11 @@ import { Component } from '@angular/core';
 })
 
 export class HomeComponent {
-
+    constructor() {
+        $(function () {            
+            $('#calendar').fullCalendar({                
+                height: "parent"
+            })
+        });
+    }
 }
