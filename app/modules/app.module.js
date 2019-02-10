@@ -22,6 +22,8 @@ var calendar_component_1 = require("../components/calendar/calendar.component");
 var shiftCard_component_1 = require("../components/shiftCard/shiftCard.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
+// Services
+var event_service_1 = require("../services/event/event.service");
 // Routing
 var app_routing_1 = require("../routes/app.routing");
 var AppModule = /** @class */ (function () {
@@ -48,7 +50,9 @@ var AppModule = /** @class */ (function () {
                 calendarBoard_component_1.CalendarBoardComponent,
                 statistics_component_1.StatisticsComponent
             ],
-            providers: [],
+            providers: [
+                event_service_1.EventService
+            ],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);

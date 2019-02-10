@@ -1,6 +1,6 @@
 <div class="navbarContainer">
     <div class="navbarPages">
-        <a class="navbarItem" routerLink="">
+        <a class="navbarItem" (click)="pageClick(pages[0])">
             <span class="logo">ShiftUp</span>
         </a>
         <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked' : page.isClicked}"

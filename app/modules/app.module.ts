@@ -13,8 +13,11 @@ import { ConstraintsComponent } from '../components/constraints/constraints.comp
 import { WorkersComponent } from '../components/workers/workers.component';
 import { CalendarComponent } from '../components/calendar/calendar.component';
 import { ShiftCardComponent } from '../components/shiftCard/shiftCard.component';
-import { CalendarBoardComponent} from '../components/calendarBoard/calendarBoard.component';
+import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoard.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
+
+// Services
+import { EventService } from '../services/event/event.service'
 
 // Routing
 import { Routing } from '../routes/app.routing'
@@ -40,6 +43,7 @@ import { Routing } from '../routes/app.routing'
     StatisticsComponent
   ],
   providers: [
+    EventService
   ],
   bootstrap: [AppComponent]
 })

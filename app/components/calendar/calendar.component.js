@@ -10,26 +10,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var shifts_service_1 = require("../../services/shifts/shifts.service");
 var CalendarComponent = /** @class */ (function () {
-    function CalendarComponent() {
+    function CalendarComponent(shiftService) {
+        this.shiftService = shiftService;
     }
     CalendarComponent.prototype.ngOnInit = function () {
-        this.calendar = $('#calendar').fullCalendar({
-            height: "parent"
+        var self = this;
+        self.calendar = $('#calendar').fullCalendar({
+            height: "parent",
+            viewRender: function (element) {
+                var dateRange = $('#calendar').fullCalendar('getDate')._i;
+                var year = dateRange[0];
+                var month = dateRange[1] + 1;
+                self.shiftService.GetAllShiftsForBusiness(year, month).then(function (shifts) {
+                    if (shifts) {
+                        var events_1 = [];
+                        shifts.forEach(function (shift) {
+                            events_1.push({
+                                id: shift._id,
+                                title: "שיבוץ",
+                                start: shift.date
+                            });
+                        });
+                        self.loadShifts(events_1);
+                    }
+                });
+            }
         });
-        this.calendar.fullCalendar('renderEvents', this.events);
     };
-    __decorate([
-        core_1.Input(),
-        __metadata("design:type", Array)
-    ], CalendarComponent.prototype, "events", void 0);
+    CalendarComponent.prototype.loadShifts = function (shifts) {
+        this.calendar.fullCalendar('renderEvents', shifts);
+    };
     CalendarComponent = __decorate([
         core_1.Component({
             selector: 'calendar',
             templateUrl: './calendar.html',
-            providers: [],
+            providers: [shifts_service_1.ShiftService],
             styleUrls: ['./calendar.css']
-        })
+        }),
+        __metadata("design:paramtypes", [shifts_service_1.ShiftService])
     ], CalendarComponent);
     return CalendarComponent;
 }());
