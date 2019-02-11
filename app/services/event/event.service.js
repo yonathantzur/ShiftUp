@@ -31,7 +31,7 @@ var EventService = /** @class */ (function () {
         else {
             this.events[name].push(event);
         }
-        eventsIds.push(id);
+        eventsIds && eventsIds.push(id);
     };
     EventService.prototype.Emit = function (name, data) {
         var self = this;

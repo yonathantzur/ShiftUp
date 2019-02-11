@@ -31,7 +31,7 @@ export class EventService {
             this.events[name].push(event);
         }
 
-        eventsIds.push(id);
+        eventsIds && eventsIds.push(id);
     }
 
     Emit(name: string, data?: any) {

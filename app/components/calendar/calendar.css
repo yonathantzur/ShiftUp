@@ -5,4 +5,5 @@
 
 .fc-event, .fc-event:hover {
     color: white !important;
+    text-align: right;
 }

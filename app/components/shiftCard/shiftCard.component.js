@@ -10,17 +10,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var shifts_service_1 = require("../../services/shifts/shifts.service");
+var event_service_1 = require("../../services/event/event.service");
 var ShiftCardComponent = /** @class */ (function () {
-    function ShiftCardComponent() {
+    function ShiftCardComponent(shiftService, eventService) {
+        this.shiftService = shiftService;
+        this.eventService = eventService;
+        var self = this;
+        this.eventService.Register("calanderEventClick", function (event) {
+            // Get shifts data with workers objects.
+            self.shiftService.GetShiftsWorkers(event.shiftsData).then(function (shiftsData) {
+                self.shiftsData = shiftsData;
+            });
+        });
+        this.eventService.Register("calanderViewRender", function () {
+            self.shiftsData = null;
+        });
     }
     ShiftCardComponent = __decorate([
         core_1.Component({
             selector: 'shiftCard',
             templateUrl: './shiftCard.html',
-            providers: [],
+            providers: [shifts_service_1.ShiftService],
             styleUrls: ['./shiftCard.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [shifts_service_1.ShiftService,
+            event_service_1.EventService])
     ], ShiftCardComponent);
     return ShiftCardComponent;
 }());

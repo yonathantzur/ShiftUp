@@ -21,8 +21,19 @@ var ShiftService = /** @class */ (function (_super) {
         _this.prefix = "/shifts";
         return _this;
     }
-    ShiftService.prototype.GetAllShiftsForBusiness = function (year, month) {
-        return _super.prototype.get.call(this, this.prefix + '/getAllShiftsForBusiness?year=' + year + '&month=' + month)
+    ShiftService.prototype.GetShiftsForBusiness = function (year, month) {
+        return _super.prototype.get.call(this, this.prefix + '/getShiftsForBusiness?year=' + year + '&month=' + month)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
+    ShiftService.prototype.GetShiftsWorkers = function (shiftsData) {
+        var data = { shiftsData: shiftsData };
+        return _super.prototype.post.call(this, this.prefix + '/getShiftsWorkers', data)
             .toPromise()
             .then(function (result) {
             return result;
