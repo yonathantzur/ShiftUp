@@ -6,7 +6,7 @@ module.exports = {
     },
     db: {
         name: "shiftup",
-        connectionString: process.env.SHIFTUP_CONNECTION_STRING,        
+        connectionString: process.env.SHIFTUP_CONNECTION_STRING || 'mongodb://localhost:27017/shiftup',
         collections: {
             users: "Users"
         }

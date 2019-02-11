@@ -12,8 +12,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var login_service_1 = require("../../services/login/login.service");
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent() {
+    function LoginComponent(loginService) {
+        this.loginService = loginService;
+        this.user = {};
     }
+    LoginComponent.prototype.onSubmit = function (loginForm) {
+        console.log(loginForm.value);
+        console.log(loginForm.valid);
+        if (loginForm.valid) {
+            this.user.email = loginForm.value.email;
+            this.user.password = loginForm.value.password;
+            this.loginService.UserLogin(this.user).then(function (result) {
+                if (result) {
+                    console.log(result);
+                }
+                else {
+                    console.log('error');
+                }
+            });
+        }
+        else {
+            window.alert("invalid details!");
+        }
+    };
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'login',
@@ -21,7 +42,7 @@ var LoginComponent = /** @class */ (function () {
             providers: [login_service_1.LoginService],
             styleUrls: ['./login.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [login_service_1.LoginService])
     ], LoginComponent);
     return LoginComponent;
 }());

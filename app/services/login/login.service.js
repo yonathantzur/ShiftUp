@@ -21,6 +21,16 @@ var LoginService = /** @class */ (function (_super) {
         _this.prefix = "/login";
         return _this;
     }
+    LoginService.prototype.UserLogin = function (user) {
+        return _super.prototype.post.call(this, this.prefix + "/api/userLogin", user)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return LoginService;
 }(basic_service_1.BasicService));
 exports.LoginService = LoginService;
