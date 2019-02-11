@@ -16,6 +16,7 @@ var CalendarComponent = /** @class */ (function () {
     function CalendarComponent(shiftService, eventService) {
         this.shiftService = shiftService;
         this.eventService = eventService;
+        this.eventsCache = {};
     }
     CalendarComponent.prototype.ngOnInit = function () {
         var self = this;
@@ -26,20 +27,27 @@ var CalendarComponent = /** @class */ (function () {
                 var dateRange = $('#calendar').fullCalendar('getDate')._i;
                 var year = dateRange[0];
                 var month = dateRange[1] + 1;
-                self.shiftService.GetShiftsForBusiness(year, month).then(function (shifts) {
-                    if (shifts) {
-                        var events_1 = [];
-                        shifts.forEach(function (shift) {
-                            events_1.push({
-                                id: shift._id,
-                                title: "שיבוץ",
-                                start: shift.date,
-                                shiftsData: shift.shiftsData
+                var eventsFromCache = self.eventsCache[year + "-" + month];
+                if (eventsFromCache) {
+                    self.loadShifts(eventsFromCache);
+                }
+                else {
+                    self.shiftService.GetShiftsForBusiness(year, month).then(function (shifts) {
+                        if (shifts) {
+                            var events_1 = [];
+                            shifts.forEach(function (shift) {
+                                events_1.push({
+                                    id: shift._id,
+                                    title: "שיבוץ",
+                                    start: shift.date,
+                                    shiftsData: shift.shiftsData
+                                });
                             });
-                        });
-                        self.loadShifts(events_1);
-                    }
-                });
+                            self.eventsCache[year + "-" + month] = events_1;
+                            self.loadShifts(events_1);
+                        }
+                    });
+                }
             },
             eventClick: function (event) {
                 // Mark selected event.

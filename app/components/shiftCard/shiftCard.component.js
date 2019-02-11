@@ -16,17 +16,32 @@ var ShiftCardComponent = /** @class */ (function () {
     function ShiftCardComponent(shiftService, eventService) {
         this.shiftService = shiftService;
         this.eventService = eventService;
+        this.shiftsDataCache = {};
+        this.eventsIds = [];
         var self = this;
-        this.eventService.Register("calanderEventClick", function (event) {
-            // Get shifts data with workers objects.
-            self.shiftService.GetShiftsWorkers(event.shiftsData).then(function (shiftsData) {
-                self.shiftsData = shiftsData;
-            });
-        });
-        this.eventService.Register("calanderViewRender", function () {
+        // Load shift data to show on card when event is clicked.
+        self.eventService.Register("calanderEventClick", function (event) {
+            var shiftsDataFromCache = self.shiftsDataCache[event.id];
+            // In case the shift data is in cache.
+            if (shiftsDataFromCache) {
+                self.shiftsData = shiftsDataFromCache;
+            }
+            else {
+                // Get shifts data with workers objects from DB.
+                self.shiftService.GetShiftsWorkers(event.shiftsData).then(function (shiftsData) {
+                    self.shiftsData = shiftsData;
+                    self.shiftsDataCache[event.id] = shiftsData;
+                });
+            }
+        }, self.eventsIds);
+        // Remove shiftsData when calendar dates range is changed.
+        self.eventService.Register("calanderViewRender", function () {
             self.shiftsData = null;
-        });
+        }, self.eventsIds);
     }
+    ShiftCardComponent.prototype.ngOnDestroy = function () {
+        this.eventService.UnsubscribeEvents(this.eventsIds);
+    };
     ShiftCardComponent = __decorate([
         core_1.Component({
             selector: 'shiftCard',
