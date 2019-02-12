@@ -10,17 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+var ShiftCardComponent = /** @class */ (function () {
+    function ShiftCardComponent() {
     }
-    AppComponent = __decorate([
+    ShiftCardComponent = __decorate([
         core_1.Component({
-            selector: 'app',
-            templateUrl: './app.html'
+            selector: 'shiftCard',
+            templateUrl: './shiftCard.html',
+            providers: [],
+            styleUrls: ['./shiftCard.css']
         }),
         __metadata("design:paramtypes", [])
-    ], AppComponent);
-    return AppComponent;
+    ], ShiftCardComponent);
+    return ShiftCardComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.ShiftCardComponent = ShiftCardComponent;
+//# sourceMappingURL=shiftCard.component.js.map

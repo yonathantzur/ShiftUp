@@ -23,7 +23,7 @@ export class LoginComponent {
             this.user.email = loginForm.value.email;
             this.user.password = loginForm.value.password;
 
-            this.loginService.UserLogin(this.user).then(result => {
+            this.loginService.UserLogin(this.user).then((result:any) => {
                 if (result) {
                     console.log(result);
                 }

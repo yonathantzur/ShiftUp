@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, Input } from '@angular/core';
+
+declare var $: any;
 
 @Component({
     selector: 'calendar',
@@ -7,5 +9,16 @@ import { Component } from '@angular/core';
     styleUrls: ['./calendar.css']
 })
 
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
+    calendar: any;
+    @Input()
+    events: Array<any>;
+
+    ngOnInit() {        
+        this.calendar = $('#calendar').fullCalendar({
+            height: "parent"
+        });
+
+        this.calendar.fullCalendar('renderEvents', this.events);      
+    }
 }

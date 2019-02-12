@@ -1,6 +1,6 @@
 /* START OVERRIDE BOOTSTRAP MATERIAL CSS */
 
-a, a:hover, a:focus {
+a, a:hover, a:focus, i {
     color: #4f4f4f !important;
 }
 

@@ -1,31 +1,25 @@
-<div class="container mt-7">
-<div class="logo">ShiftUp</div>
+<div class="loginForm shadow">
+<div class="appLogo">ShiftUp</div>
 <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
     <div class="form-group">
-        <label>email</label>
-        <input type="text" class="form-control" name="userEmail" ngModel #userEmail="ngModel" required/>
-        <div *ngIf="userEmail?.errors.required && userEmail.touched">Email is required</div>
+        <label class="formInput">אימייל</label>
+        <input type="email" class="form-control formInput"
+               name="userEmail" ngModel #userEmail="ngModel" required title="הכנס אימייל תקין"/>
+        <div class="warning" *ngIf="userEmail.errors?.required && userEmail.touched">נא להכניס אימייל</div>
     </div>
     <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control"
+        <label class="formInput">סיסמה</label>
+        <input type="password" class="form-control formInput"
                ngModel
                name="password"
                #password="ngModel"
                required/>
-        <div *ngIf="password.errors?.required && password.touched">Password is required</div>
+        <div class="warning" *ngIf="password.errors?.required && password.touched">נא להכניס סיסמה</div>
     </div>
 
-    <div class="form-group">
-        <button type=submit class="btn btn-primary">Login</button>
-        <a routerLink="/register" class="btn btn-link">Register</a>
+    <div class="form-group formButton">
+        <button type=submit class="btn btn-raised btn-dark">התחבר</button>
+        <button routerLink="/register" class="btn btn-raised btn-dark">הירשם</button>
     </div>
 </form>
 </div>
-<!--<div id="login">-->
-    <!--<div class="logo">ShiftUp</div>-->
-    <!--<form>-->
-        <!--<input type="text" id="email" class="fadeIn second" name="login" placeholder="login">-->
-        <!--<input type="text" id="password" class="fadeIn third" name="login" placeholder="password">-->
-        <!--<input type="submit" class="fadeIn fourth" value="Log In">-->
-    <!--</form>-->
