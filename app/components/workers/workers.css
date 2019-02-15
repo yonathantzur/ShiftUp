@@ -1,0 +1,32 @@
+#workers {
+    padding: 20px;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.newWorkerButton {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #fff;
+    background-color: #22bb22;
+    border-radius: 10px;
+    padding: 10px 40px;
+    cursor: pointer;
+}
+
+.workersContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.workerCard {
+    width: 450px;
+    height: 300px;
+    margin: 30px;
+    border: 1px solid #666;
+    border-radius: 5px;
+}

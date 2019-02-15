@@ -1,0 +1,13 @@
+<div class="worker">
+    <h3 class="name">{{worker.name}}</h3>
+    <div class="workerDetailsContaienr">
+        <h3 class="headDetail">{{worker.job}}</h3>
+        <h5 class="detail">תעודת זהות : {{worker.id}}</h5>
+        <h5 class="detail">גיל : {{worker.age}}</h5>
+        <h5 class="detail">שח לשעה : {{worker.hourSalery}}</h5>
+    </div>
+    <div class="buttonsContainer">
+        <button class="workerCardButton" (click)="calcWorkerSalery(worker)">חישוב שכר</button>
+        <button class="workerCardButton" (click)="deleteWorker(worker)">מחיקה</button>
+    </div>
+</div>
