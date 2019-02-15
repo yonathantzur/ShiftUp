@@ -1,0 +1,13 @@
+<div id="shiftCard">
+    <div class="cardContainer" *ngIf="shiftsData">
+        <div class="shiftContainer" *ngFor="let shift of shiftsData">
+            <div class="shiftName">{{shift.name}}</div>
+            <span class="worker" *ngFor="let worker of shift.workers; let i = index">
+                {{worker.firstName + " " + worker.lastName + ((i != shift.workers.length - 1) ? ", " : "")}}
+            </span>
+            <div class="workerContainer" *ngIf="shift.workers.length == 0">
+                אין עובדים
+            </div>
+        </div>
+    </div>
+</div>

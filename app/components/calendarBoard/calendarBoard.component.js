@@ -10,17 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+var CalendarBoardComponent = /** @class */ (function () {
+    function CalendarBoardComponent() {
     }
-    AppComponent = __decorate([
+    CalendarBoardComponent = __decorate([
         core_1.Component({
-            selector: 'app',
-            templateUrl: './app.html'
+            selector: 'calendarBoard',
+            templateUrl: './calendarBoard.html',
+            providers: [],
+            styleUrls: ['./calendarBoard.css']
         }),
         __metadata("design:paramtypes", [])
-    ], AppComponent);
-    return AppComponent;
+    ], CalendarBoardComponent);
+    return CalendarBoardComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.CalendarBoardComponent = CalendarBoardComponent;
+//# sourceMappingURL=calendarBoard.component.js.map

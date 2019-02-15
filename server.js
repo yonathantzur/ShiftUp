@@ -21,6 +21,7 @@ http.listen(config.server.port, () => {
 
 // Routes requires
 require('./modules/routes/login')(app);
+require('./modules/routes/shifts')(app);
 
 // Redirect angular requests back to client side.
 app.get('**', (req, res) => {

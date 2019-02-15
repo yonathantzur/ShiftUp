@@ -1,0 +1,25 @@
+#shiftCard {
+    display: flex;
+    width: 100%;
+}
+
+.cardContainer {        
+    align-self: center;
+    margin: auto;
+    border-bottom: 0.5px solid #858585;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.shiftContainer {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.shiftName {
+    font-size: 26px;
+}
+
+.worker {
+    font-size: 18px;
+}

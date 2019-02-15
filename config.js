@@ -8,7 +8,11 @@ module.exports = {
         name: "shiftup",
         connectionString: process.env.SHIFTUP_CONNECTION_STRING,        
         collections: {
-            users: "Users"
+            users: "Users",
+            businesses: "Businesses",
+            shifts: "Shifts",
+            constraints: "Constraints",
+            jobs: "Jobs"
         }
     }
 };

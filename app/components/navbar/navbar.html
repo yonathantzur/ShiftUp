@@ -1,23 +1,17 @@
 <div class="navbarContainer">
-    <a class="navbarItem" routerLink="">
-        <span class="logo">ShiftUp</span>
-    </a>
-    <a *ngFor="let page of pages"
-        class="navbarItem"
-        routerLinkActive="activeNavbarItem"
-        [routerLinkActiveOptions]="{exact: true}"
-        [routerLink]="page.route"
-    >
-        <span class="navbarPageText">{{ page.displayText }}</span>
-        <i [class]="page.icon"></i>
-    </a>
+    <div class="navbarPages">
+        <a class="navbarItem" (click)="pageClick(pages[0])">
+            <span class="logo">ShiftUp</span>
+        </a>
+        <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked' : page.isClicked}"
+            (click)="pageClick(page)">
+            <span class="navbarPageText">{{ page.displayText }}</span>
+            <i [class]="page.icon"></i>
+        </a>
+    </div>
     <div class="navbarItem searchNavbarItem">
         <div class="searchContainer">
-            <input type="text"
-                id="navbarSearch"
-                class="search"
-                placeholder="חיפוש"
-                [(ngModel)]="searchValue"
+            <input type="text" id="navbarSearch" class="search" placeholder="חיפוש" [(ngModel)]="searchValue"
                 (keypress)="$event.key == 'Enter' ? searchHandler($event) : null" />
             <span (click)="searchHandler($event)"><i class="fa fa-search pointer"></i></span>
         </div>
