@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Worker } from '../workerCard/workerCard.component';
+import { WorkerCardComponent, Worker } from '../workerCard/workerCard.component';
 
 @Component({
     selector: 'workers',
     templateUrl: './workers.html',
-    providers: [],
+    providers: [WorkerCardComponent],
     styleUrls: ['./workers.css']
 })
 
@@ -18,7 +18,18 @@ export class WorkersComponent {
         { id: 158815313, name: "גלעד שליט", job: "אחראי משמרת", age: 28, hourSalery: 42 },
     ];
 
-    addNewWorker = () => {
-        console.log("handle add new worker");
+    isNewWorkerDialogOpen: boolean = false;
+
+    openNewWorkerDialog = () => {
+        this.isNewWorkerDialogOpen = true;
+    }
+
+    onNewWorkerClose = (newWorker: Worker) => {
+        this.isNewWorkerDialogOpen = false;
+        this.workers.push(newWorker);
+    }
+
+    onDeleteWorker = (workerId: number) => {
+        this.workers = this.workers.filter(worker => worker.id !== workerId);
     }
 }

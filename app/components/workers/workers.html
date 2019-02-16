@@ -1,7 +1,8 @@
 <div id="workers">
     <h4 class="title">עובדי העסק</h4>
-    <button class="newWorkerButton" (click)="addNewWorker()">הוספת עובד חדש</button>
+    <button class="newWorkerButton" (click)="openNewWorkerDialog()">הוספת עובד חדש</button>
+    <newWorker *ngIf="isNewWorkerDialogOpen" (onClose)="onNewWorkerClose($event)"></newWorker>
     <div class="workersContainer">
-        <workerCard *ngFor="let worker of workers" [worker]=worker class="workerCard"></workerCard>
+        <workerCard *ngFor="let worker of workers" [worker]=worker class="workerCard" (onClose)="onDeleteWorker(worker.id)"></workerCard>
     </div>
 </div>

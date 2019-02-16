@@ -23,6 +23,7 @@ var shiftCard_component_1 = require("../components/shiftCard/shiftCard.component
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 var workerCard_component_1 = require("../components/workerCard/workerCard.component");
+var newWorker_component_1 = require("../components/newWorker/newWorker.component");
 // Services
 var event_service_1 = require("../services/event/event.service");
 // Routing
@@ -51,6 +52,7 @@ var AppModule = /** @class */ (function () {
                 calendarBoard_component_1.CalendarBoardComponent,
                 statistics_component_1.StatisticsComponent,
                 workerCard_component_1.WorkerCardComponent,
+                newWorker_component_1.NewWorkerComponent,
             ],
             providers: [
                 event_service_1.EventService

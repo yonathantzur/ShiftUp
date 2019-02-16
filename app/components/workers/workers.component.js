@@ -7,8 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var workerCard_component_1 = require("../workerCard/workerCard.component");
 var WorkersComponent = /** @class */ (function () {
     function WorkersComponent() {
+        var _this = this;
         this.workers = [
             { id: 323345120, name: "נופר ישראלי", job: "מארחת", age: 22, hourSalery: 28 },
             { id: 323545551, name: "יונתן צור", job: "טבח", age: 23, hourSalery: 40 },
@@ -17,15 +19,23 @@ var WorkersComponent = /** @class */ (function () {
             { id: 345852156, name: "ברי צקלה", job: "מלצר", age: 20, hourSalery: 30 },
             { id: 158815313, name: "גלעד שליט", job: "אחראי משמרת", age: 28, hourSalery: 42 },
         ];
-        this.addNewWorker = function () {
-            console.log("handle add new worker");
+        this.isNewWorkerDialogOpen = false;
+        this.openNewWorkerDialog = function () {
+            _this.isNewWorkerDialogOpen = true;
+        };
+        this.onNewWorkerClose = function (newWorker) {
+            _this.isNewWorkerDialogOpen = false;
+            _this.workers.push(newWorker);
+        };
+        this.onDeleteWorker = function (workerId) {
+            _this.workers = _this.workers.filter(function (worker) { return worker.id !== workerId; });
         };
     }
     WorkersComponent = __decorate([
         core_1.Component({
             selector: 'workers',
             templateUrl: './workers.html',
-            providers: [],
+            providers: [workerCard_component_1.WorkerCardComponent],
             styleUrls: ['./workers.css']
         })
     ], WorkersComponent);

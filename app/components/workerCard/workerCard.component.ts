@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -11,13 +11,14 @@ import { Component } from '@angular/core';
 
 export class WorkerCardComponent {
     worker: Worker;
+    @Output() onClose: EventEmitter<Worker> = new EventEmitter<Worker>();
 
-    calcWorkerSalery = (worker: Worker) => {
-        console.log("handle calculate worker salery " + worker.id);
+    calcWorkerSalery = () => {
+        console.log("handle calculate worker salery " + this.worker.id);
     }
     
-    deleteWorker = (worker: Worker) => {
-        console.log("hadnle delete worker " + worker.id);
+    deleteWorker = () => {
+        this.onClose.emit();
     }
 }
 
