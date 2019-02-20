@@ -1,13 +1,15 @@
-.blur {
-    /* filter: blur(5px) brightness(50%);
-    pointer-events: none; */
+.newWorkerAndBlurContainer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #777;
-    z-index: 1;
+}
+
+.blur {
+    filter: blur(0px) opacity(60%);
+    background-color: #000;
+    height: 100%;
 }
 
 #newWorker {
@@ -19,8 +21,8 @@
     margin: auto;
     z-index: 2;
     background-color: #eee;
-    border: 2px solid #000;
-    border-radius: 5px;
+    border: 1px solid #222;
+    border-radius: 20px;
 }
 
 .newWorkerTitle {
@@ -48,10 +50,17 @@
     width: 150px;
 }
 
-.newWorkerInput > div > input, .newWorkerInput > div > select {
+.newWorkerInput > div > input {
     width: 150px;
     padding: 5px;
     border-radius: 5px;
+}
+
+.newWorkerInput > div > select {
+    width: 150px;
+    padding: 5px;
+    border-radius: 5px;
+    -webkit-appearance: menulist;
 }
 
 .newWorkerButtonsContainer {
@@ -69,7 +78,11 @@
     padding: 10px;
     margin: auto;
     cursor: pointer;
-}  
+}
+
+.defaultOption {
+    color: #777;
+}
 
 .addButton {
     background-color: #2b2;
@@ -77,4 +90,27 @@
 
 .cancelButton {
     background-color: #e77;
+}
+
+.newWorkerError {
+    color: #f00;
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.showErrorAnimation {
+    animation: showError;
+    animation-duration: 1.5s;
+}
+
+@keyframes showError {
+    0%  { opacity: 0.2 }
+    20%  { opacity: 1 }
+    40%  { opacity: 0.2 }
+    60%  { opacity: 1 }
+    80%  { opacity: 0.2 }
+    100%  { opacity: 1 }
 }

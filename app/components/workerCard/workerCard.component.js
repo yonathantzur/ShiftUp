@@ -21,6 +21,16 @@ var WorkerCardComponent = /** @class */ (function () {
             _this.onClose.emit();
         };
     }
+    WorkerCardComponent.prototype.getWorkerJobDisplayText = function (job) {
+        switch (job) {
+            case "waiter": return "מלצר/ית";
+            case "shiftManager": return "אחראי/ת משמרת";
+            case "shef": return "טבח/ית";
+            case "host": return "מארח/ת";
+            case "dishWasher": return "שוטפ/ת כלים";
+            default: return "לא נמצא תפקיד";
+        }
+    };
     __decorate([
         core_1.Output(),
         __metadata("design:type", core_1.EventEmitter)

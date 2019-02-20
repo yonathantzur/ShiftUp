@@ -13,6 +13,17 @@ export class WorkerCardComponent {
     worker: Worker;
     @Output() onClose: EventEmitter<Worker> = new EventEmitter<Worker>();
 
+    getWorkerJobDisplayText(job: string) {
+        switch (job) {
+            case "waiter": return "מלצר/ית";
+            case "shiftManager": return "אחראי/ת משמרת";
+            case "shef": return "טבח/ית";
+            case "host": return "מארח/ת";
+            case "dishWasher": return "שוטפ/ת כלים";
+            default: return "לא נמצא תפקיד";
+        }
+    }
+
     calcWorkerSalery = () => {
         console.log("handle calculate worker salery " + this.worker.id);
     }

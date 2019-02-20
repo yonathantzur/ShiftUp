@@ -1,6 +1,8 @@
-<div class="blur">
+<div class="newWorkerAndBlurContainer">
+    <div class="blur" (click)="blurClicked()"></div>
     <div id="newWorker">
         <h3 class="newWorkerTitle">הוספת עובד חדש</h3>
+        <h6 class="newWorkerError" [ngClass]="{'showErrorAnimation' : strErrorMessage != ''}">{{strErrorMessage}}</h6>
         <div class="newWorkerParameters">
             <div class="newWorkerInput">
                 <div>שם :</div>
@@ -22,6 +24,7 @@
                 <div>משרה :</div>
                 <div>
                     <select (change)="onChange($event)" name="job" [(ngModel)]="newWorker.job">
+                        <option value="" class="defaultOption" selected>בחר משרה</option>
                         <option value="waiter">מלצר</option>
                         <option value="shiftManager">אחראי משמרת</option>
                         <option value="shef">טבח</option>

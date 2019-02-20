@@ -13,13 +13,14 @@ var core_1 = require("@angular/core");
 var NewWorkerComponent = /** @class */ (function () {
     function NewWorkerComponent() {
         var _this = this;
-        this.newWorker = { name: "", id: 0, age: 0, hourSalery: 0, job: "waiter" };
+        this.newWorker = { name: "", id: 0, age: 0, hourSalery: 0, job: "" };
         this.onClose = new core_1.EventEmitter();
-        this.onCancel = function () {
-            _this.onClose.emit(_this.newWorker);
+        this.strErrorMessage = "";
+        this.blurClicked = function () {
+            _this.onClose.emit();
         };
-        this.onSubmit = function () {
-            _this.onClose.emit(_this.newWorker);
+        this.onCancel = function () {
+            _this.onClose.emit();
         };
         this.onChange = function (event) {
             var fieldName = event.target.name;
@@ -29,11 +30,43 @@ var NewWorkerComponent = /** @class */ (function () {
             }
             _this.newWorker[fieldName] = fieldValue;
         };
-        // blurClicked = () => {
-        //     if (confirm("האם אתה בטוח שברצונך לצאת?")) {
-        //         this.onClose();
-        //     }
-        // }
+        this.onSubmit = function () {
+            if (_this.validatedWorker(_this.newWorker)) {
+                _this.onClose.emit(_this.newWorker);
+            }
+        };
+        this.validatedWorker = function (worker) {
+            _this.strErrorMessage = "";
+            if (!worker.name.match("[א-ת]{2,} {1}[א-ת]{2,}")) {
+                _this.strErrorMessage = "שם חייב להכיל שם פרטי ומשפחה בעלי 2 תווים לפחות";
+                return false;
+            }
+            else if (worker.id.toString().length != 9) {
+                _this.strErrorMessage = "מספר תעודת זהות חייב להכיל 9 ספרות";
+                return false;
+            }
+            else if (worker.age < 18) {
+                _this.strErrorMessage = "גיל חייב להיות לפחות 18";
+                return false;
+            }
+            else if (worker.age > 60) {
+                _this.strErrorMessage = "גיל חייב להיות לכל היותר 60";
+                return false;
+            }
+            else if (worker.hourSalery < 20) {
+                _this.strErrorMessage = "שכר לשעה חייב להיות לפחות 20";
+                return false;
+            }
+            else if (worker.hourSalery > 100) {
+                _this.strErrorMessage = "שכר לשעה חייב להיות לכל היותר 100";
+                return false;
+            }
+            else if (worker.job == "") {
+                _this.strErrorMessage = "לא נבחרה משרה";
+                return false;
+            }
+            return true;
+        };
     }
     __decorate([
         core_1.Output(),
