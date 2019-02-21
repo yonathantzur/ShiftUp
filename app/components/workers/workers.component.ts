@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { WorkerCardComponent, Worker } from '../workerCard/workerCard.component';
+import { Worker } from '../workerCard/workerCard.component';
 
 @Component({
     selector: 'workers',
     templateUrl: './workers.html',
-    providers: [WorkerCardComponent],
+    providers: [],
     styleUrls: ['./workers.css']
 })
 
@@ -17,7 +17,6 @@ export class WorkersComponent {
         { id: 345852156, name: "ברי צקלה", job: "waiter", age: 20, hourSalery: 30 },
         { id: 158815313, name: "גלעד שליט", job: "shiftManager", age: 28, hourSalery: 42 },
     ];
-
     isNewWorkerDialogOpen: boolean = false;
 
     openNewWorkerDialog = () => {
@@ -25,13 +24,23 @@ export class WorkersComponent {
     }
 
     onNewWorkerClose = (newWorker: Worker) => {
-        this.isNewWorkerDialogOpen = false;
         if (newWorker) {
+            if (this.workers.find(currWorker => currWorker.id == newWorker.id) !== undefined) {
+                alert("שגיאה! קיים עובד עם מספר תעודת זהות זהה");
+                return;
+            }
             this.workers.push(newWorker);
         }
+        this.isNewWorkerDialogOpen = false;
     }
 
     onDeleteWorker = (workerId: number) => {
         this.workers = this.workers.filter(worker => worker.id !== workerId);
+    }
+
+    onDeleteAllWorkers = () => {
+        if (confirm("האם אתה בטוח שברצונך למחוק את כל העובדים?")) {
+            this.workers = [];
+        }
     }
 }

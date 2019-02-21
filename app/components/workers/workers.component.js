@@ -7,7 +7,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var workerCard_component_1 = require("../workerCard/workerCard.component");
 var WorkersComponent = /** @class */ (function () {
     function WorkersComponent() {
         var _this = this;
@@ -24,20 +23,29 @@ var WorkersComponent = /** @class */ (function () {
             _this.isNewWorkerDialogOpen = true;
         };
         this.onNewWorkerClose = function (newWorker) {
-            _this.isNewWorkerDialogOpen = false;
             if (newWorker) {
+                if (_this.workers.find(function (currWorker) { return currWorker.id == newWorker.id; }) !== undefined) {
+                    alert("שגיאה! קיים עובד עם מספר תעודת זהות זהה");
+                    return;
+                }
                 _this.workers.push(newWorker);
             }
+            _this.isNewWorkerDialogOpen = false;
         };
         this.onDeleteWorker = function (workerId) {
             _this.workers = _this.workers.filter(function (worker) { return worker.id !== workerId; });
+        };
+        this.onDeleteAllWorkers = function () {
+            if (confirm("האם אתה בטוח שברצונך למחוק את כל העובדים?")) {
+                _this.workers = [];
+            }
         };
     }
     WorkersComponent = __decorate([
         core_1.Component({
             selector: 'workers',
             templateUrl: './workers.html',
-            providers: [workerCard_component_1.WorkerCardComponent],
+            providers: [],
             styleUrls: ['./workers.css']
         })
     ], WorkersComponent);
