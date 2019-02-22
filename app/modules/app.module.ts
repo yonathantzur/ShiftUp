@@ -15,6 +15,8 @@ import { CalendarComponent } from '../components/calendar/calendar.component';
 import { ShiftCardComponent } from '../components/shiftCard/shiftCard.component';
 import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoard.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
+import { WorkerCardComponent } from '../components/workerCard/workerCard.component';
+import { NewWorkerComponent } from '../components/newWorker/newWorker.component';
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -40,7 +42,9 @@ import { Routing } from '../routes/app.routing'
     CalendarComponent,
     ShiftCardComponent,
     CalendarBoardComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    WorkerCardComponent,
+    NewWorkerComponent,
   ],
   providers: [
     EventService
