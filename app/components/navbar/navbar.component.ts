@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {LoginService} from '../../services/login/login.service'
 
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.html',
-    providers: [],
+    providers: [LoginService],
     styleUrls: ['./navbar.css']
 })
 
@@ -18,7 +19,7 @@ export class NavbarComponent {
         { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line", isClicked: false }
     ];
 
-    constructor(private router: Router) { 
+    constructor(private router: Router, private loginService: LoginService) {
         this.pages.forEach((page: any) => {
             if (this.router.url == page.route) {
                 page.isClicked = true;
@@ -41,5 +42,10 @@ export class NavbarComponent {
 
     searchHandler = (event: any) => {
         console.log("handle search: " + this.searchValue);
+    }
+
+    logout() {
+        this.loginService.logout();
+        this.router.navigate(['/login']);
     }
 }

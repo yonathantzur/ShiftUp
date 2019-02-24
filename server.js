@@ -21,6 +21,7 @@ http.listen(config.server.port, () => {
 
 // Routes requires
 app.use('/login/api/', require('./modules/routes/login'));
+app.use('/registration/api/', require('./modules/routes/registration'));
 
 // Redirect angular requests back to client side.
 app.get('**', (req, res) => {

@@ -1,24 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const loginBL = require('../BL/loginBL');
+const regBL = require('../BL/registarionBL');
 const config = require('../../config');
 const JWT = require('../libs/jwt');
-
-// var prefix = prefix = "/login";
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
     res.sendStatus(200);
 });
 
-router.post("/userLogin", (req, res) => {
-    console.log("im in userLogin");
+router.post("/register", (req, res) => {
+    console.log("im in register");
     const userData = {
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        firstName:req.body.firstName,
+        lastName: req.body.lastName
     };
-    loginBL.UserLogin(userData).then((result) => {
-        console.log(result);
+    regBL.register(userData).then((result) => {
         res.send(result);
     }).catch((err) => {
         console.error(err);

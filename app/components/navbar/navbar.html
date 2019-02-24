@@ -3,6 +3,7 @@
         <a class="navbarItem" routerLink="">
             <span class="logo">ShiftUp</span>
         </a>
+        <a class="navbarItem" (click)="logout()">התנתק</a>
         <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked' : page.isClicked}"
             (click)="pageClick(page)">
             <span class="navbarPageText">{{ page.displayText }}</span>

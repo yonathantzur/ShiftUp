@@ -15,11 +15,13 @@ var constraints_component_1 = require("../components/constraints/constraints.com
 var workers_component_1 = require("../components/workers/workers.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
+var registration_component_1 = require("../components/registration/registration.component");
+var auth_guard_1 = require("../guards/auth.guard");
 var routes = [
     {
         path: '', component: main_component_1.MainComponent,
         children: [
-            { path: '', component: home_component_1.HomeComponent },
+            { path: '', component: home_component_1.HomeComponent, canActivate: [auth_guard_1.AuthGuard] },
             { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
             { path: 'workers', component: workers_component_1.WorkersComponent },
             { path: 'calendarBoard', component: calendarBoard_component_1.CalendarBoardComponent },
@@ -27,6 +29,7 @@ var routes = [
         ],
     },
     { path: 'login', component: login_component_1.LoginComponent },
+    { path: 'register', component: registration_component_1.RegistrationComponent },
     { path: '**', redirectTo: '' }
 ];
 var Routing = /** @class */ (function () {
