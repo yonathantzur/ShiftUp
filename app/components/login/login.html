@@ -20,7 +20,11 @@
 
     <div class="form-group formButton">
         <button type=submit class="btn btn-raised btn-dark">התחבר</button>
-        <button routerLink="/register" class="btn btn-raised btn-dark">הירשם</button>
+
+        <!-- Modal of registration -->
+        <!--<button routerLink="/registration" class="btn btn-raised btn-dark" data-toggle="modal" data-target="#elegantModalForm">הירשם</button>-->
+
     </div>
 </form>
+    <a [routerLink]="['/register']" class="btn btn-link">אין לך עדיין חשבון? הירשם</a>
 </div>

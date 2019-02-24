@@ -9,30 +9,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
 var login_service_1 = require("../../services/login/login.service");
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(loginService) {
+    function LoginComponent(loginService, 
+    // private formBuilder: FormBuilder,
+    route, router) {
         this.loginService = loginService;
+        this.route = route;
+        this.router = router;
         this.user = {};
+        this.submitted = false;
     }
+    LoginComponent.prototype.ngOnInit = function () {
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    };
     LoginComponent.prototype.onSubmit = function (loginForm) {
-        console.log(loginForm.value);
-        console.log(loginForm.valid);
+        var _this = this;
+        this.submitted = true;
         if (loginForm.valid) {
             this.user.email = loginForm.value.email;
             this.user.password = loginForm.value.password;
             this.loginService.UserLogin(this.user).then(function (result) {
                 if (result) {
-                    console.log(result);
+                    _this.router.navigate([_this.returnUrl]);
                 }
                 else {
-                    console.log('error');
+                    window.alert("שם משתמש או סיסמה לא נכונים");
                 }
             });
         }
         else {
-            window.alert("invalid details!");
+            window.alert("נא הכנס אימייל תקין וסיסמה");
         }
     };
     LoginComponent = __decorate([
@@ -42,7 +51,9 @@ var LoginComponent = /** @class */ (function () {
             providers: [login_service_1.LoginService],
             styleUrls: ['./login.css']
         }),
-        __metadata("design:paramtypes", [login_service_1.LoginService])
+        __metadata("design:paramtypes", [login_service_1.LoginService,
+            router_1.ActivatedRoute,
+            router_1.Router])
     ], LoginComponent);
     return LoginComponent;
 }());

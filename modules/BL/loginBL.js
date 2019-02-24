@@ -17,7 +17,9 @@ module.exports = {
                                 s: user.salt,
                             });
                             // resolve(user);
-                            resolve(token);
+                            resolve({
+                                token:token
+                            });
                         } catch (e) {
                             console.error(e);
                             reject('token generate failed')
