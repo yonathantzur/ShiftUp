@@ -18,7 +18,6 @@ router.post("/userLogin", (req, res) => {
         password: req.body.password
     };
     loginBL.UserLogin(userData).then((result) => {
-        console.log(result);
         res.send(result);
     }).catch((err) => {
         console.error(err);
