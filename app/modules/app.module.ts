@@ -13,9 +13,14 @@ import {ConstraintsComponent} from '../components/constraints/constraints.compon
 import {WorkersComponent} from '../components/workers/workers.component';
 import {CalendarComponent} from '../components/calendar/calendar.component';
 import {ShiftCardComponent} from '../components/shiftCard/shiftCard.component';
+import {WorkerCardComponent} from '../components/workerCard/workerCard.component';
 import {CalendarBoardComponent} from '../components/calendarBoard/calendarBoard.component';
 import {StatisticsComponent} from '../components/statistics/statistics.component';
+import {NewWorkerComponent} from '../components/newWorker/newWorker.component';
 import {RegistrationComponent} from "../components/registration/registration.component";
+
+// Services
+import {EventService} from '../services/event/event.service'
 
 // Routing
 import {Routing} from '../routes/app.routing'
@@ -33,16 +38,20 @@ import {Routing} from '../routes/app.routing'
         MainComponent,
         LoginComponent,
         HomeComponent,
-        NavbarComponent,
         ConstraintsComponent,
+        NavbarComponent,
         WorkersComponent,
         CalendarComponent,
         ShiftCardComponent,
         CalendarBoardComponent,
         StatisticsComponent,
+        WorkerCardComponent,
+        NewWorkerComponent,
         RegistrationComponent,
     ],
-    providers: [],
+    providers: [
+        EventService
+    ],
     bootstrap: [AppComponent]
 })
 

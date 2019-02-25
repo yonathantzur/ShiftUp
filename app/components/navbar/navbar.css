@@ -5,6 +5,7 @@
     padding: 0px 10px; 
     background-color: #e6e6e6;
     direction: ltr;
+    user-select: none;
 }
 
 .navbarPages {

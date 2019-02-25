@@ -20,6 +20,7 @@ http.listen(config.server.port, () => {
 });
 
 // Routes requires
+require('./modules/routes/shifts')(app);
 app.use('/login/api/', require('./modules/routes/login'));
 app.use('/registration/api/', require('./modules/routes/registration'));
 

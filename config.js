@@ -8,7 +8,11 @@ module.exports = {
         name: "shiftup",
         connectionString: process.env.SHIFTUP_CONNECTION_STRING || 'mongodb://localhost:27017/shiftup',
         collections: {
-            users: "Users"
+            users: "Users",
+            businesses: "Businesses",
+            shifts: "Shifts",
+            constraints: "Constraints",
+            jobs: "Jobs"
         }
     }
 };

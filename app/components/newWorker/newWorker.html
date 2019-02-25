@@ -1,0 +1,42 @@
+<div class="newWorkerAndBlurContainer">
+    <div class="blur" (click)="blurClicked()"></div>
+    <div id="newWorker">
+        <h3 class="newWorkerTitle">הוספת עובד חדש</h3>
+        <h6 class="newWorkerError" [ngClass]="{'showErrorAnimation' : strErrorMessage != ''}">{{strErrorMessage}}</h6>
+        <div class="newWorkerParameters">
+            <div class="newWorkerInput">
+                <div>שם :</div>
+                <div><input type="text" (change)="onChange($event)" name="name" [(ngModel)]="newWorker.name" /></div>
+            </div>
+            <div class="newWorkerInput">
+                <div>תעודת זהות :</div>
+                <div><input type="number" (change)="onChange($event)" name="id" [(ngModel)]="newWorker.id" /></div>
+            </div>
+            <div class="newWorkerInput">
+                <div>גיל :</div>
+                <div><input type="number" (change)="onChange($event)" name="age" [(ngModel)]="newWorker.age" /></div>
+            </div>
+            <div class="newWorkerInput">
+                <div>שח לשעה :</div>
+                <div><input type="number" (change)="onChange($event)" name="hourSalery" [(ngModel)]="newWorker.hourSalery" /></div>
+            </div>
+            <div class="newWorkerInput">
+                <div>משרה :</div>
+                <div>
+                    <select (change)="onChange($event)" name="job" [(ngModel)]="newWorker.job">
+                        <option value="" class="defaultOption" selected>בחר משרה</option>
+                        <option value="waiter">מלצר</option>
+                        <option value="shiftManager">אחראי משמרת</option>
+                        <option value="shef">טבח</option>
+                        <option value="host">מארחת</option>
+                        <option value="dishWasher">שוטף כלים</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="newWorkerButtonsContainer">
+            <button class="cancelButton" (click)="onCancel()">ביטול</button>
+            <button class="addButton" (click)="onSubmit()">הוספת העובד</button>
+        </div>
+    </div>
+</div>

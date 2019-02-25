@@ -20,9 +20,13 @@ var constraints_component_1 = require("../components/constraints/constraints.com
 var workers_component_1 = require("../components/workers/workers.component");
 var calendar_component_1 = require("../components/calendar/calendar.component");
 var shiftCard_component_1 = require("../components/shiftCard/shiftCard.component");
+var workerCard_component_1 = require("../components/workerCard/workerCard.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
+var newWorker_component_1 = require("../components/newWorker/newWorker.component");
 var registration_component_1 = require("../components/registration/registration.component");
+// Services
+var event_service_1 = require("../services/event/event.service");
 // Routing
 var app_routing_1 = require("../routes/app.routing");
 var AppModule = /** @class */ (function () {
@@ -42,16 +46,20 @@ var AppModule = /** @class */ (function () {
                 main_component_1.MainComponent,
                 login_component_1.LoginComponent,
                 home_component_1.HomeComponent,
-                navbar_component_1.NavbarComponent,
                 constraints_component_1.ConstraintsComponent,
+                navbar_component_1.NavbarComponent,
                 workers_component_1.WorkersComponent,
                 calendar_component_1.CalendarComponent,
                 shiftCard_component_1.ShiftCardComponent,
                 calendarBoard_component_1.CalendarBoardComponent,
                 statistics_component_1.StatisticsComponent,
+                workerCard_component_1.WorkerCardComponent,
+                newWorker_component_1.NewWorkerComponent,
                 registration_component_1.RegistrationComponent,
             ],
-            providers: [],
+            providers: [
+                event_service_1.EventService
+            ],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
