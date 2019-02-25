@@ -24,6 +24,7 @@
 
 .formInput{
     font-size: 15px;
+    direction: rtl;
 }
 
 .warning{
