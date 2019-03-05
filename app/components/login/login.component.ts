@@ -1,10 +1,9 @@
 import {NgForm} from '@angular/forms';
 import {LoginService} from '../../services/login/login.service';
 import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import Swal from 'sweetalert2'
-import {RegistrationComponent} from "../registration/registration.component";
+import {ActivatedRoute, Router} from '@angular/router';
+
+declare let Swal: any;
 
 @Component({
     selector: 'login',
@@ -13,39 +12,55 @@ import {RegistrationComponent} from "../registration/registration.component";
     styleUrls: ['./login.css']
 })
 
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
     user: any = {};
-    loginForm: FormGroup;
-    returnUrl: string;
     submitted = false;
 
     constructor(private loginService: LoginService,
-                // private formBuilder: FormBuilder,
                 private route: ActivatedRoute,
-                private router: Router) {}
+                private router: Router) {
+    }
 
     ngOnInit() {
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+       if(this.route.routeConfig.path.toLowerCase() === "logout"){
+           this.logout();
+       }
     }
 
     onSubmit(loginForm: NgForm) {
         this.submitted = true;
+
         if (loginForm.valid) {
             this.user.email = loginForm.value.email;
             this.user.password = loginForm.value.password;
 
             this.loginService.UserLogin(this.user).then((result: any) => {
                 if (result) {
-                    this.router.navigate([this.returnUrl]);
+                    this.router.navigateByUrl('/');
+                }
+                else if (result == false) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהתחברות',
+                        text: 'שם המשתמש או הסיסמה אינם נכונים'
+                    })
                 }
                 else {
-                    window.alert("שם משתמש או סיסמה לא נכונים");
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהתחברות',
+                        text: 'אופס... משהו השתבש'
+                    })
                 }
             });
+        }
+    }
 
-        }
-        else {
-            window.alert("נא הכנס אימייל תקין וסיסמה");
-        }
+    logout() {
+        this.loginService.logout().then((result) => {
+            if (result) {
+                this.router.navigateByUrl('/login');
+            }
+        });
     }
 }

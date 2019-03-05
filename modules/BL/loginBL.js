@@ -1,5 +1,6 @@
 const DAL = require('../DAL');
 const config = require('../../config');
+//const jwt = require('jsonwebtoken');
 const Hash = require('../libs/hash');
 const JWT = require('../libs/jwt');
 
@@ -10,28 +11,24 @@ module.exports = {
         return new Promise((resolve, reject) => {
             DAL.FindOne(usersCollectionName, {email: userData.email})
                 .then((user) => {
-                    if (user instanceof Object && user.salt && user.password === Hash.hash(userData.password, user.salt).hash) {
-                        try {
-                            const token = JWT.sign({
-                                i: user._id,
-                                s: user.salt,
-                            });
-                            // resolve(user);
-                            resolve({
-                                token:token
-                            });
-                        } catch (e) {
-                            console.error(e);
-                            reject('token generate failed')
-                        }
-                    } else {
-                        reject('user not match the password')
+                    if (user && user.password === Hash.hash(userData.password, user.salt).hash) {
+                        const token = JWT.sign(getTokenObjectFromUser(user), config.jwt.options);
+                        resolve(token);
                     }
-                })
-                .catch((err) => {
-                    reject('user not found');
-                });
+                    else {
+                        resolve(false);
+                    }
+                }).catch(reject);
         });
-    },
+    }
 
 };
+
+function getTokenObjectFromUser(user) {
+    return {
+        "id": user._id,
+        "email": user.email,
+        "firstName": user.firstName,
+        "lastName": user.lastName
+    }
+}

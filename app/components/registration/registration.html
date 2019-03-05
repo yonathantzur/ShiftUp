@@ -5,13 +5,13 @@
             <label class="formInput">שם פרטי</label>
             <input class="form-control formInput"
                    name="firstName" ngModel #firstName="ngModel" required title="נא הכנס שם פרטי"/>
-            <div class="warning" *ngIf="firstName.errors?.required && firstName.touched">נא להכניס אימייל</div>
+            <div class="warning" *ngIf="firstName.errors?.required && firstName.touched">נא להכניס שם פרטי</div>
         </div>
         <div class="form-group">
             <label class="formInput">שם משפחה</label>
             <input class="form-control formInput"
                    name="lastName" ngModel #lastName="ngModel" required title="נא הכנס שם משפחה"/>
-            <div class="warning" *ngIf="lastName.errors?.required && lastName.touched">נא להכניס אימייל</div>
+            <div class="warning" *ngIf="lastName.errors?.required && lastName.touched">נא להכניס שם משפחה</div>
         </div>
         <div class="form-group">
             <label class="formInput">אימייל</label>
@@ -34,5 +34,5 @@
             <button type=submit class="btn btn-raised btn-dark">הירשם</button>
         </div>
     </form>
-    <a [routerLink]="['/login']" class="btn btn-link">ביטול</a>
+    <a [routerLink]="['/login']" class="btn btn-link">חזרה</a>
 </div>

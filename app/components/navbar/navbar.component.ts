@@ -16,7 +16,8 @@ export class NavbarComponent {
         { route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt", isClicked: false },
         { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends", isClicked: false },
         { route: '/calendarBoard', displayText: "לוח שיבוץ", icon: "fa fa-calendar-alt", isClicked: false },
-        { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line", isClicked: false }
+        { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line", isClicked: false },
+        { route: '/logout', displayText: "התנתק", icon: "", isClicked: false }
     ];
 
     constructor(private router: Router, private loginService: LoginService) {
@@ -42,10 +43,5 @@ export class NavbarComponent {
 
     searchHandler = (event: any) => {
         console.log("handle search: " + this.searchValue);
-    }
-
-    logout() {
-        this.loginService.logout();
-        this.router.navigate(['/login']);
     }
 }

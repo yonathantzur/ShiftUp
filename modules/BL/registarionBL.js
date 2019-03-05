@@ -15,31 +15,29 @@ module.exports = {
                         userData.password = hashed.hash;
                         userData.salt = hashed.salt;
                         DAL.Insert(usersCollectionName, userData).then((userId) => {
-                            console.log("Insert user id:" + userId);
                             if (userId) {
-                                const token = JWT.sign({
-                                    i: userId,
-                                    s: userData.salt,
-                                });
-
-                                resolve({
-                                    token: token
-                                });
+                                userData.userId = userId;
+                                const token = JWT.sign(getTokenObjectFromUser(userData), config.jwt.options);
+                                resolve(token);
                             }
                             else {
-                                reject('error in registration ');
+                                reject(null);
                             }
-                        }).catch((err) => {
-                            reject(err);
-                        })
+                        }).catch(reject);
                     }
                     else {
-                        reject('user is already exist');
+                        reject(false);
                     }
-                })
-                .catch((err) => {
-                    reject('error in registration');
-                });
+                }).catch(reject);
         });
     },
 };
+
+function getTokenObjectFromUser(user) {
+    return {
+        "id": user.userId,
+        "email": user.email,
+        "firstName": user.firstName,
+        "lastName": user.lastName
+    }
+}

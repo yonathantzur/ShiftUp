@@ -1,16 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const regBL = require('../BL/registarionBL');
-const config = require('../../config');
 const JWT = require('../libs/jwt');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-    res.sendStatus(200);
-});
-
 router.post("/register", (req, res) => {
-    console.log("im in register");
     const userData = {
         email: req.body.email,
         password: req.body.password,
@@ -18,10 +11,14 @@ router.post("/register", (req, res) => {
         lastName: req.body.lastName
     };
     regBL.register(userData).then((result) => {
+        if (result) {
+            setTokenOnCookie(result, res);
+            result = true;
+        }
+
         res.send(result);
     }).catch((err) => {
-        console.error(err);
-        res.sendStatus(500);
+        res.send(err);
     });
 
 });
@@ -35,3 +32,10 @@ router.get("/userLoginTester", JWT.middleware, (req, res) => {
 });
 
 module.exports = router;
+
+function setTokenOnCookie(token, response) {
+    response.cookie("tk", token, {
+        maxAge:7776000000,
+        httpOnly: true
+    })
+}

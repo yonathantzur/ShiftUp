@@ -19,9 +19,9 @@ var registration_component_1 = require("../components/registration/registration.
 var auth_guard_1 = require("../guards/auth.guard");
 var routes = [
     {
-        path: '', component: main_component_1.MainComponent,
+        path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard],
         children: [
-            { path: '', component: home_component_1.HomeComponent, canActivate: [auth_guard_1.AuthGuard] },
+            { path: '', component: home_component_1.HomeComponent },
             { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
             { path: 'workers', component: workers_component_1.WorkersComponent },
             { path: 'calendarBoard', component: calendarBoard_component_1.CalendarBoardComponent },
@@ -29,6 +29,7 @@ var routes = [
         ],
     },
     { path: 'login', component: login_component_1.LoginComponent },
+    { path: 'logout', component: login_component_1.LoginComponent },
     { path: 'register', component: registration_component_1.RegistrationComponent },
     { path: '**', redirectTo: '' }
 ];

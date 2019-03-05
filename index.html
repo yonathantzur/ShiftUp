@@ -14,7 +14,9 @@
     <!-- Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
-        System.import('./app/main/main.js').catch(function (err) { console.error(err); });
+        System.import('./app/main/main.js').catch(function (err) {
+            console.error(err);
+        });
     </script>
 
     <!-- START fonts import -->
@@ -42,15 +44,18 @@
     <script src="node_modules/moment/min/moment.min.js"></script>
     <script src="node_modules/fullcalendar/dist/fullcalendar.min.js"></script>
     <script src="node_modules/fullcalendar/dist/locale/he.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 
     <script>
-        $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
+        $(document).ready(function () {
+            $('body').bootstrapMaterialDesign();
+        });
     </script>
 </head>
 
 <body>
-    <app>
-    </app>
+<app>
+</app>
 </body>
 
 </html>

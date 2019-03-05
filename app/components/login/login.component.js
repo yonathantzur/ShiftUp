@@ -13,9 +13,7 @@ var login_service_1 = require("../../services/login/login.service");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(loginService, 
-    // private formBuilder: FormBuilder,
-    route, router) {
+    function LoginComponent(loginService, route, router) {
         this.loginService = loginService;
         this.route = route;
         this.router = router;
@@ -23,7 +21,9 @@ var LoginComponent = /** @class */ (function () {
         this.submitted = false;
     }
     LoginComponent.prototype.ngOnInit = function () {
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        if (this.route.routeConfig.path.toLowerCase() === "logout") {
+            this.logout();
+        }
     };
     LoginComponent.prototype.onSubmit = function (loginForm) {
         var _this = this;
@@ -33,16 +33,32 @@ var LoginComponent = /** @class */ (function () {
             this.user.password = loginForm.value.password;
             this.loginService.UserLogin(this.user).then(function (result) {
                 if (result) {
-                    _this.router.navigate([_this.returnUrl]);
+                    _this.router.navigateByUrl('/');
+                }
+                else if (result == false) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהתחברות',
+                        text: 'שם המשתמש או הסיסמה אינם נכונים'
+                    });
                 }
                 else {
-                    window.alert("שם משתמש או סיסמה לא נכונים");
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהתחברות',
+                        text: 'אופס... משהו השתבש'
+                    });
                 }
             });
         }
-        else {
-            window.alert("נא הכנס אימייל תקין וסיסמה");
-        }
+    };
+    LoginComponent.prototype.logout = function () {
+        var _this = this;
+        this.loginService.logout().then(function (result) {
+            if (result) {
+                _this.router.navigateByUrl('/login');
+            }
+        });
     };
     LoginComponent = __decorate([
         core_1.Component({

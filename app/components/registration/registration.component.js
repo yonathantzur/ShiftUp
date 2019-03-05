@@ -13,60 +13,53 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var forms_1 = require("@angular/forms");
 var registration_service_1 = require("../../services/registration/registration.service");
-var login_service_1 = require("../../services/login/login.service");
 var RegistrationComponent = /** @class */ (function () {
-    function RegistrationComponent(formBuilder, router, regService, loginService) {
+    function RegistrationComponent(formBuilder, router, regService) {
         this.formBuilder = formBuilder;
         this.router = router;
         this.regService = regService;
-        this.loginService = loginService;
-        this.loading = false;
         this.submitted = false;
         this.user = {};
-        // redirect to home if already logged in
-        if (this.loginService.currentUserValue) {
-            this.router.navigate(['/']);
-        }
     }
-    Object.defineProperty(RegistrationComponent.prototype, "f", {
-        // convenience getter for easy access to form fields
-        get: function () { return this.registerForm.controls; },
-        enumerable: true,
-        configurable: true
-    });
     RegistrationComponent.prototype.onSubmit = function (regForm) {
         var _this = this;
         this.submitted = true;
-        // stop here if form is invalid
-        if (regForm.invalid) {
-            return;
+        if (regForm.valid) {
+            this.user.email = regForm.value.email;
+            this.user.firstName = regForm.value.firstName;
+            this.user.lastName = regForm.value.lastName;
+            this.user.password = regForm.value.password;
+            this.regService.register(this.user).then(function (result) {
+                if (result) {
+                    _this.router.navigateByUrl('/');
+                }
+                else if (result == false) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהרשמה',
+                        text: 'משתמש קיים'
+                    });
+                }
+                else {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהרשמה',
+                        text: 'אופס... משהו השתבש'
+                    });
+                }
+            });
         }
-        this.user.email = regForm.value.email;
-        this.user.firstName = regForm.value.firstName;
-        this.user.lastName = regForm.value.lastName;
-        this.user.password = regForm.value.password;
-        this.loading = true;
-        this.regService.register(this.user).then(function (result) {
-            if (result) {
-                alert("ברוך הבא" + _this.user.firstName + ", נרשמת בהצלחה!");
-                _this.router.navigate(['/']);
-            }
-            else {
-                window.alert("שגיאה בהרשמה");
-            }
-        });
     };
     RegistrationComponent = __decorate([
         core_1.Component({
             selector: 'registration',
             templateUrl: './registration.html',
-            providers: [registration_service_1.registrationService, login_service_1.LoginService],
+            providers: [registration_service_1.registrationService],
             styleUrls: ['./registration.css']
         }),
         __metadata("design:paramtypes", [forms_1.FormBuilder,
             router_1.Router,
-            registration_service_1.registrationService,
-            login_service_1.LoginService])
+            registration_service_1.registrationService])
     ], RegistrationComponent);
     return RegistrationComponent;
 }());

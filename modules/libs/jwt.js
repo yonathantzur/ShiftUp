@@ -4,12 +4,9 @@ const DAL = require('../DAL');
 const config = require('../../config');
 const usersCollectionName = config.db.collections.users;
 
-const options = {
-    algorithm: 'HS512',
-    expiresIn: '1h',
-};
+const options = config.jwt.options;
 
-const JWT_KEY = process.env.JWT_KEY || "ZuhQmXFdwERIZMnOu4qiCJyYXKkVfqVk";
+const JWT_KEY = config.jwt.secret;
 
 const decode = (token) => {
     // const jwtToken = Hash.decrypt(Buffer.from(token, 'base64').toString('utf-8')); // for encrypted token
