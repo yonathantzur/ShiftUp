@@ -1,52 +1,52 @@
 /* START OVERRIDE BOOTSTRAP MATERIAL CSS */
 
 a, a:hover, a:focus, i {
-    color: #4f4f4f !important;
+    color: #4f4f4f;
 }
 
-.form-control, .input-group .form-control {    
-    background-image: linear-gradient(0deg,#7882b6 2px,rgba(0,150,136,0) 0),linear-gradient(0deg,rgba(84,84,84,.26) 1px,transparent 0) !important;
+.form-control, .input-group .form-control {
+    background-image: linear-gradient(0deg, #7882b6 2px, rgba(0, 150, 136, 0) 0), linear-gradient(0deg, rgba(84, 84, 84, .26) 1px, transparent 0);
 }
 
 .form-control:focus {
-    box-shadow: none !important;
+    box-shadow: none;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #9d9d9d !important;    
-    font-size: 14px !important;
-    line-height: unset !important;
+    color: #9d9d9d;
+    font-size: 14px;
+    line-height: unset;
     opacity: 1; /* Firefox */
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #9d9d9d !important;
-    font-size: 14px !important;
-    line-height: unset !important;
+    color: #9d9d9d;
+    font-size: 14px;
+    line-height: unset;
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
-    color: #9d9d9d !important;
-    font-size: 14px !important;
-    line-height: unset !important;
+    color: #9d9d9d;
+    font-size: 14px;
+    line-height: unset;
 }
 
 .btn:not(.btn-raised).btn-primary, .input-group-btn .btn:not(.btn-raised).btn-primary {
-    color: #7882b6 !important;
+    color: #7882b6;
 }
 
 .btn:focus {
-    background-color: transparent !important;
-    border-color: #ccc !important;
+    background-color: transparent;
+    border-color: #ccc;
 }
 
 .btn:hover {
-    background-color: transparent !important;
-    border-color: #7882b6 !important;
+    background-color: transparent;
+    border-color: #7882b6;
 }
 
 .form-group.is-focused label, .form-group.is-focused label.control-label {
-    color: #7882b6 !important;
+    color: #7882b6;
 }
 
 .fc-event, .fc-event:hover {
@@ -56,15 +56,15 @@ a, a:hover, a:focus, i {
 
 /* END OVERRIDE BOOTSTRAP MATERIAL CSS */
 
-body {    
-    background-color: #EEE !important;
-    font-family: Rubik !important;
-    color: #4b4b4b !important;
-    text-align: right !important;
+body {
+    background-color: #EEE;
+    font-family: Rubik;
+    color: #4b4b4b;
+    text-align: right;
 }
 
 input {
-    color: #4b4b4b !important;
+    color: #4b4b4b;
 }
 
 ::-webkit-scrollbar {

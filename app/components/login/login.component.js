@@ -9,11 +9,57 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
 var login_service_1 = require("../../services/login/login.service");
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent() {
+    function LoginComponent(loginService, route, router) {
+        this.loginService = loginService;
+        this.route = route;
+        this.router = router;
+        this.user = {};
+        this.submitted = false;
     }
+    LoginComponent.prototype.ngOnInit = function () {
+        if (this.route.routeConfig.path.toLowerCase() === "logout") {
+            this.logout();
+        }
+    };
+    LoginComponent.prototype.onSubmit = function (loginForm) {
+        var _this = this;
+        this.submitted = true;
+        if (loginForm.valid) {
+            this.user.email = loginForm.value.email;
+            this.user.password = loginForm.value.password;
+            this.loginService.UserLogin(this.user).then(function (result) {
+                if (result) {
+                    _this.router.navigateByUrl('/');
+                }
+                else if (result == false) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהתחברות',
+                        text: 'שם המשתמש או הסיסמה אינם נכונים'
+                    });
+                }
+                else {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהתחברות',
+                        text: 'אופס... משהו השתבש'
+                    });
+                }
+            });
+        }
+    };
+    LoginComponent.prototype.logout = function () {
+        var _this = this;
+        this.loginService.logout().then(function (result) {
+            if (result) {
+                _this.router.navigateByUrl('/login');
+            }
+        });
+    };
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'login',
@@ -21,7 +67,9 @@ var LoginComponent = /** @class */ (function () {
             providers: [login_service_1.LoginService],
             styleUrls: ['./login.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [login_service_1.LoginService,
+            router_1.ActivatedRoute,
+            router_1.Router])
     ], LoginComponent);
     return LoginComponent;
 }());

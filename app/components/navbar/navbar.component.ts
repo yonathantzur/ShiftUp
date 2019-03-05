@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {LoginService} from '../../services/login/login.service'
 
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.html',
-    providers: [],
+    providers: [LoginService],
     styleUrls: ['./navbar.css']
 })
 
@@ -15,10 +16,11 @@ export class NavbarComponent {
         { route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt", isClicked: false },
         { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends", isClicked: false },
         { route: '/calendarBoard', displayText: "לוח שיבוץ", icon: "fa fa-calendar-alt", isClicked: false },
-        { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line", isClicked: false }
+        { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line", isClicked: false },
+        { route: '/logout', displayText: "התנתק", icon: "", isClicked: false }
     ];
 
-    constructor(private router: Router) { 
+    constructor(private router: Router, private loginService: LoginService) {
         this.pages.forEach((page: any) => {
             if (this.router.url == page.route) {
                 page.isClicked = true;

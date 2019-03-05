@@ -21,15 +21,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var basic_service_1 = require("../basic/basic.service");
-var LoginService = /** @class */ (function (_super) {
-    __extends(LoginService, _super);
-    function LoginService() {
+var registrationService = /** @class */ (function (_super) {
+    __extends(registrationService, _super);
+    function registrationService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/login";
+        _this.prefix = "/registration";
         return _this;
     }
-    LoginService.prototype.UserLogin = function (user) {
-        return _super.prototype.post.call(this, this.prefix + "/api/userLogin", user)
+    registrationService.prototype.register = function (user) {
+        return _super.prototype.post.call(this, this.prefix + "/api/register", user)
             .toPromise()
             .then(function (result) {
             return result;
@@ -38,30 +38,10 @@ var LoginService = /** @class */ (function (_super) {
             return null;
         });
     };
-    LoginService.prototype.logout = function () {
-        return _super.prototype.get.call(this, this.prefix + "/api/logout")
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
-    LoginService.prototype.isUserLogin = function () {
-        return _super.prototype.get.call(this, this.prefix + "/api/isUserLogin")
-            .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
-    };
-    LoginService = __decorate([
+    registrationService = __decorate([
         core_1.Injectable({ providedIn: 'root' })
-    ], LoginService);
-    return LoginService;
+    ], registrationService);
+    return registrationService;
 }(basic_service_1.BasicService));
-exports.LoginService = LoginService;
-//# sourceMappingURL=login.service.js.map
+exports.registrationService = registrationService;
+//# sourceMappingURL=registration.service.js.map

@@ -14,17 +14,15 @@
     <!-- Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
-        System.import('./app/main/main.js').catch(function (err) { console.error(err); });
+        System.import('./app/main/main.js').catch(function (err) {
+            console.error(err);
+        });
     </script>
 
     <!-- START fonts import -->
     <link rel="stylesheet" href="./app/fonts/fonts.css">
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <!-- END fonts import -->
-
-    <!-- START application css import -->
-    <link rel="stylesheet" href="./app/components/app/app.css">
-    <!-- END application css import -->
 
     <!-- START libraries css -->
     <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
@@ -35,6 +33,10 @@
     <link rel="stylesheet" href="node_modules/fullcalendar/dist/fullcalendar.min.css">
     <!-- END libraries css -->
 
+    <!-- START application css import -->
+    <link rel="stylesheet" href="./app/components/app/app.css">
+    <!-- END application css import -->
+
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -42,15 +44,18 @@
     <script src="node_modules/moment/min/moment.min.js"></script>
     <script src="node_modules/fullcalendar/dist/fullcalendar.min.js"></script>
     <script src="node_modules/fullcalendar/dist/locale/he.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 
     <script>
-        $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
+        $(document).ready(function () {
+            $('body').bootstrapMaterialDesign();
+        });
     </script>
 </head>
 
 <body>
-    <app>
-    </app>
+<app>
+</app>
 </body>
 
 </html>

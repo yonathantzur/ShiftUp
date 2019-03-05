@@ -7,7 +7,7 @@ const config = require('./config');
 
 // app define settings.
 app.set('trust proxy', 1);
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({
     limit: '10mb',
     extended: true
@@ -20,8 +20,9 @@ http.listen(config.server.port, () => {
 });
 
 // Routes requires
-require('./modules/routes/login')(app);
 require('./modules/routes/shifts')(app);
+app.use('/login/api/', require('./modules/routes/login'));
+app.use('/registration/api/', require('./modules/routes/registration'));
 
 // Redirect angular requests back to client side.
 app.get('**', (req, res) => {

@@ -11,17 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var login_service_1 = require("../../services/login/login.service");
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent(router) {
+    function NavbarComponent(router, loginService) {
         var _this = this;
         this.router = router;
+        this.loginService = loginService;
         this.searchValue = "";
         this.pages = [
             { route: '/', displayText: "בית", icon: "fa fa-home", isClicked: false },
             { route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt", isClicked: false },
             { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends", isClicked: false },
             { route: '/calendarBoard', displayText: "לוח שיבוץ", icon: "fa fa-calendar-alt", isClicked: false },
-            { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line", isClicked: false }
+            { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line", isClicked: false },
+            { route: '/logout', displayText: "התנתק", icon: "", isClicked: false }
         ];
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);
@@ -46,10 +49,10 @@ var NavbarComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'navbar',
             templateUrl: './navbar.html',
-            providers: [],
+            providers: [login_service_1.LoginService],
             styleUrls: ['./navbar.css']
         }),
-        __metadata("design:paramtypes", [router_1.Router])
+        __metadata("design:paramtypes", [router_1.Router, login_service_1.LoginService])
     ], NavbarComponent);
     return NavbarComponent;
 }());

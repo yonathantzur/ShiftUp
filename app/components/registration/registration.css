@@ -1,4 +1,4 @@
-.loginForm {
+.regForm {
     margin: auto;
     position: absolute;
     top: 50%;
@@ -10,21 +10,20 @@
     transform: translate(-50%,-50%);
 }
 
-.appLogo {
+.title {
     text-align: center;
     padding: 10px;
-    font-family: 'Lobster', serif !important;
     font-size: 50px;
 }
 
-.loginButton
+.regButton
 {
     font-size: large
 }
 
 .formInput{
-    font-size: 15px;
     direction: rtl;
+    font-size: 15px;
 }
 
 .warning{
@@ -47,11 +46,4 @@
     -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
     -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
     box-shadow:         3px 3px 5px 6px #ccc;
-}
-
-.registerBtn {
-    position: relative;
-    float: left;
-    font-size: 16px;
-    text-decoration: underline;
 }
