@@ -3,30 +3,27 @@
     <form #regForm="ngForm" (ngSubmit)="onSubmit(regForm)">
         <div class="form-group">
             <label class="formInput">שם פרטי</label>
-            <input class="form-control formInput"
-                   name="firstName" ngModel #firstName="ngModel" required title="נא הכנס שם פרטי"/>
+            <input class="form-control formInput" name="firstName" ngModel #firstName="ngModel" required
+                title="נא הכנס שם פרטי" />
             <div class="warning" *ngIf="firstName.errors?.required && firstName.touched">נא להכניס שם פרטי</div>
         </div>
         <div class="form-group">
             <label class="formInput">שם משפחה</label>
-            <input class="form-control formInput"
-                   name="lastName" ngModel #lastName="ngModel" required title="נא הכנס שם משפחה"/>
+            <input class="form-control formInput" name="lastName" ngModel #lastName="ngModel" required
+                title="נא הכנס שם משפחה" />
             <div class="warning" *ngIf="lastName.errors?.required && lastName.touched">נא להכניס שם משפחה</div>
         </div>
         <div class="form-group">
             <label class="formInput">אימייל</label>
-            <input type="email" class="form-control formInput"
-                   name="email" ngModel #email="ngModel" required title="הכנס אימייל תקין" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
+            <input type="email" class="form-control formInput" name="email" ngModel #email="ngModel" required
+                title="הכנס אימייל תקין" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
             <div class="warning" *ngIf="email.errors?.required && email.touched">נא להכניס אימייל</div>
             <div class="warning" *ngIf="email.errors?.pattern && email.touched">כתובת אימייל לא תקינה</div>
         </div>
         <div class="form-group">
             <label class="formInput">סיסמה</label>
-            <input type="password" class="form-control formInput"
-                   ngModel
-                   name="password"
-                   #password="ngModel"
-                   required/>
+            <input type="password" class="form-control formInput" ngModel name="password" #password="ngModel"
+                required />
             <div class="warning" *ngIf="password.errors?.required && password.touched">נא להכניס סיסמה</div>
         </div>
 
