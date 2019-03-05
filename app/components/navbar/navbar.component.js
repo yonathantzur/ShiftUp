@@ -22,9 +22,9 @@ var NavbarComponent = /** @class */ (function () {
             { route: '/', displayText: "בית", icon: "fa fa-home", isClicked: false },
             { route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt", isClicked: false },
             { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends", isClicked: false },
-            { route: '/calendarBoard', displayText: "לוח שיבוץ", icon: "fa fa-calendar-alt", isClicked: false },
+            { route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt", isClicked: false },
             { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line", isClicked: false },
-            { route: '/logout', displayText: "התנתק", icon: "", isClicked: false }
+            { route: '/logout', displayText: "התנתקות", icon: "fas fa-sign-out-alt", isClicked: false }
         ];
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);

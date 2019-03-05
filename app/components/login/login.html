@@ -18,9 +18,9 @@
                    required/>
             <div class="warning" *ngIf="password.errors?.required && password.touched">נא להכניס סיסמה</div>
         </div>
-        <div class="form-group formButton">
+        <div class="formButton">
             <button type=submit class="btn btn-raised btn-dark">התחברות</button>
         </div>
     </form>
-    <a [routerLink]="['/register']" class="btn btn-link registerBtn">משתמש חדש</a>
+    <a [routerLink]="['/register']" class="btn btn-link registerBtn">משתמש חדש?</a>
 </div>
