@@ -25,6 +25,7 @@ export class CalendarComponent implements OnInit {
 
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
+            editable: true,
             viewRender: function (element: any) {
                 self.eventService.Emit("calanderViewRender");
                 let dateRange = $('#calendar').fullCalendar('getDate')._i;
