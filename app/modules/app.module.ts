@@ -1,29 +1,30 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Components
-import {AppComponent} from '../components/app/app.component';
-import {MainComponent} from '../components/main/main.component';
-import {LoginComponent} from '../components/login/login.component';
-import {HomeComponent} from '../components/home/home.component';
-import {NavbarComponent} from '../components/navbar/navbar.component';
-import {ConstraintsComponent} from '../components/constraints/constraints.component';
-import {WorkersComponent} from '../components/workers/workers.component';
-import {CalendarComponent} from '../components/calendar/calendar.component';
-import {ShiftCardComponent} from '../components/shiftCard/shiftCard.component';
-import {WorkerCardComponent} from '../components/workerCard/workerCard.component';
-import {CalendarBoardComponent} from '../components/calendarBoard/calendarBoard.component';
-import {StatisticsComponent} from '../components/statistics/statistics.component';
-import {NewWorkerComponent} from '../components/newWorker/newWorker.component';
-import {RegistrationComponent} from "../components/registration/registration.component";
+import { AppComponent } from '../components/app/app.component';
+import { MainComponent } from '../components/main/main.component';
+import { LoginComponent } from '../components/login/login.component';
+import { HomeComponent } from '../components/home/home.component';
+import { NavbarComponent } from '../components/navbar/navbar.component';
+import { ConstraintsComponent } from '../components/constraints/constraints.component';
+import { WorkersComponent } from '../components/workers/workers.component';
+import { CalendarComponent } from '../components/calendar/calendar.component';
+import { ShiftCardComponent } from '../components/shiftCard/shiftCard.component';
+import { WorkerCardComponent } from '../components/workerCard/workerCard.component';
+import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoard.component';
+import { StatisticsComponent } from '../components/statistics/statistics.component';
+import { NewWorkerComponent } from '../components/newWorker/newWorker.component';
+import { RegistrationComponent } from "../components/registration/registration.component";
+import { NewBusinessComponent } from "../components/newBusiness/newBusiness.component";
 
 // Services
-import {EventService} from '../services/event/event.service'
+import { EventService } from '../services/event/event.service'
 
 // Routing
-import {Routing} from '../routes/app.routing'
+import { Routing } from '../routes/app.routing'
 
 @NgModule({
     imports: [
@@ -48,6 +49,7 @@ import {Routing} from '../routes/app.routing'
         WorkerCardComponent,
         NewWorkerComponent,
         RegistrationComponent,
+        NewBusinessComponent
     ],
     providers: [
         EventService

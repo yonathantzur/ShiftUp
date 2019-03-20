@@ -16,6 +16,7 @@ var workers_component_1 = require("../components/workers/workers.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 var registration_component_1 = require("../components/registration/registration.component");
+var newBusiness_component_1 = require("../components/newBusiness/newBusiness.component");
 var auth_guard_1 = require("../guards/auth.guard");
 var routes = [
     {
@@ -31,6 +32,7 @@ var routes = [
     { path: 'login', component: login_component_1.LoginComponent },
     { path: 'logout', component: login_component_1.LoginComponent },
     { path: 'register', component: registration_component_1.RegistrationComponent },
+    { path: 'business', component: newBusiness_component_1.NewBusinessComponent },
     { path: '**', redirectTo: '' }
 ];
 var Routing = /** @class */ (function () {
