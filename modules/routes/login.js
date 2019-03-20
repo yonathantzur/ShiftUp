@@ -40,7 +40,7 @@ router.get("/isUserLogin", (req, res) => {
 router.get("/logout", (req, res) => {
     try {
         removeTokenFromCookie(res);
-            res.send(true);
+        res.send(true);
     }
     catch (e) {
         res.send(false);
@@ -52,7 +52,7 @@ module.exports = router;
 
 function setTokenOnCookie(token, response) {
     response.cookie("tk", token, {
-        maxAge:7776000000,
+        maxAge: 7776000000,
         httpOnly: true
     })
 }
@@ -61,11 +61,11 @@ function removeTokenFromCookie(response) {
     response.clearCookie("tk");
 }
 
-function parseCookies(request){
+function parseCookies(request) {
     let list = {},
         rc = request.headers.cookie;
 
-    rc && rc.split(';').forEach(function( cookie ) {
+    rc && rc.split(';').forEach(function (cookie) {
         let parts = cookie.split('=');
         list[parts.shift().trim()] = decodeURI(parts.join('='));
     });

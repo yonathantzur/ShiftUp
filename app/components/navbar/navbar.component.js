@@ -24,7 +24,7 @@ var NavbarComponent = /** @class */ (function () {
             { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" },
             { route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" },
             { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
-            { route: '/logout', displayText: "התנתקות", icon: "fas fa-sign-out-alt" }
+            { route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt" }
         ];
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);

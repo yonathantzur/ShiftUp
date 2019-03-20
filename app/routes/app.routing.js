@@ -30,7 +30,6 @@ var routes = [
         ],
     },
     { path: 'login', component: login_component_1.LoginComponent },
-    { path: 'logout', component: login_component_1.LoginComponent },
     { path: 'register', component: registration_component_1.RegistrationComponent },
     { path: 'business', component: newBusiness_component_1.NewBusinessComponent },
     { path: '**', redirectTo: '' }

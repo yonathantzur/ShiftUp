@@ -24,7 +24,6 @@ const routes: Routes = [
         ],
     },
     { path: 'login', component: LoginComponent },
-    { path: 'logout', component: LoginComponent },
     { path: 'register', component: RegistrationComponent },
     { path: 'business', component: NewBusinessComponent },
     { path: '**', redirectTo: '' }
