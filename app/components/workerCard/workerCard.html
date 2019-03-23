@@ -1,10 +1,10 @@
 <div class="worker">
-    <h3 class="name">{{worker.name}}</h3>
+    <span class="name">{{worker.name}}</span>
     <div class="workerDetailsContaienr">
-        <h3 class="headDetail">{{getWorkerJobDisplayText(worker.job)}}</h3>
-        <h5 class="detail">תעודת זהות : {{worker.id}}</h5>
-        <h5 class="detail">גיל : {{worker.age}}</h5>
-        <h5 class="detail">שח לשעה : {{worker.hourSalery}}</h5>
+        <span class="headDetail">{{getWorkerJobDisplayText(worker.job)}}</span>
+        <span class="detail">תעודת זהות : {{worker.id}}</span>
+        <span class="detail">גיל : {{worker.age}}</span>
+        <span class="detail">שח לשעה : {{worker.hourSalery}}</span>
     </div>
     <div class="buttonsContainer">
         <button class="workerCardButton" (click)="calcWorkerSalery()">חישוב שכר</button>

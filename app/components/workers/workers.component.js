@@ -25,7 +25,12 @@ var WorkersComponent = /** @class */ (function () {
         this.onNewWorkerClose = function (newWorker) {
             if (newWorker) {
                 if (_this.workers.find(function (currWorker) { return currWorker.id == newWorker.id; }) !== undefined) {
-                    alert("שגיאה! קיים עובד עם מספר תעודת זהות זהה");
+                    Swal.fire({
+                        title: "שגיאה!",
+                        text: "קיים עובד עם מספר תעודת זהות זהה.",
+                        type: "error",
+                        confirmButtonText: "אישור"
+                    });
                     return;
                 }
                 _this.workers.push(newWorker);
@@ -33,12 +38,50 @@ var WorkersComponent = /** @class */ (function () {
             _this.isNewWorkerDialogOpen = false;
         };
         this.onDeleteWorker = function (workerId) {
-            _this.workers = _this.workers.filter(function (worker) { return worker.id !== workerId; });
+            Swal.fire({
+                title: "האם אתה בטוח?",
+                text: "העובד " + workerId + " יימחק.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "אישור",
+                cancelButtonText: "ביטול"
+            }).then(function (result) {
+                if (result.value) {
+                    _this.workers = _this.workers.filter(function (worker) { return worker.id !== workerId; });
+                    Swal.fire({
+                        title: "הפעולה הצליחה!",
+                        text: "העובד נמחק בהצלחה",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+            });
         };
         this.onDeleteAllWorkers = function () {
-            if (confirm("האם אתה בטוח שברצונך למחוק את כל העובדים?")) {
-                _this.workers = [];
-            }
+            Swal.fire({
+                title: "האם אתה בטוח?",
+                text: "כל העובדים יימחקו.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "אישור",
+                cancelButtonText: "ביטול"
+            }).then(function (result) {
+                if (result.value) {
+                    _this.workers = [];
+                    Swal.fire({
+                        title: "הפעולה הצליחה!",
+                        text: "כל העובדים נמחקו בהצלחה.",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
         };
     }
     WorkersComponent = __decorate([

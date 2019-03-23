@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Worker } from '../workerCard/workerCard.component';
 
+declare let Swal: any;
+
 @Component({
     selector: 'workers',
     templateUrl: './workers.html',
@@ -26,7 +28,12 @@ export class WorkersComponent {
     onNewWorkerClose = (newWorker: Worker) => {
         if (newWorker) {
             if (this.workers.find(currWorker => currWorker.id == newWorker.id) !== undefined) {
-                alert("שגיאה! קיים עובד עם מספר תעודת זהות זהה");
+                Swal.fire({
+                    title: "שגיאה!",
+                    text: "קיים עובד עם מספר תעודת זהות זהה.",
+                    type: "error",
+                    confirmButtonText: "אישור"
+                  });
                 return;
             }
             this.workers.push(newWorker);
@@ -35,12 +42,50 @@ export class WorkersComponent {
     }
 
     onDeleteWorker = (workerId: number) => {
-        this.workers = this.workers.filter(worker => worker.id !== workerId);
+        Swal.fire({
+            title: "האם אתה בטוח?",
+            text: "העובד " + workerId + " יימחק.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "אישור",
+            cancelButtonText: "ביטול"
+        }).then((result: any) => {
+            if (result.value) {
+                this.workers = this.workers.filter(worker => worker.id !== workerId);
+                Swal.fire({
+                    title: "הפעולה הצליחה!",
+                    text: "העובד נמחק בהצלחה",
+                    type: "success",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            }
+        });
     }
 
     onDeleteAllWorkers = () => {
-        if (confirm("האם אתה בטוח שברצונך למחוק את כל העובדים?")) {
-            this.workers = [];
-        }
+        Swal.fire({
+            title: "האם אתה בטוח?",
+            text: "כל העובדים יימחקו.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "אישור",
+            cancelButtonText: "ביטול"
+        }).then((result: any) => {
+            if (result.value) {
+                this.workers = [];
+                Swal.fire({
+                    title: "הפעולה הצליחה!",
+                    text: "כל העובדים נמחקו בהצלחה.",
+                    type: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
     }
 }
