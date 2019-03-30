@@ -7,9 +7,11 @@ class Shift {
     name: string;
     workersAmount: number;
 
-    constructor(name: string, workersAmount: number) {
+    constructor();
+    constructor(name: string, workersAmount: number)
+    constructor(name?: string, workersAmount?: number) {
         this.name = name;
-        this.workersAmount = workersAmount;
+        this.workersAmount = workersAmount || 3;
     }
 }
 
@@ -35,11 +37,14 @@ export class Business {
 })
 
 export class NewBusinessComponent {
-    business: Business = new Business();
+    business: Business;
 
-    constructor(private businessService: BusinessService) { }
+    constructor(private businessService: BusinessService) {
+        this.business = new Business();
+        this.business.shifts = [new Shift()];
+    }
 
-    AddBusiness() {        
+    addBusiness() {
         this.businessService.AddBusiness(this.business).then(result => {
             if (result) {
 
@@ -52,5 +57,12 @@ export class NewBusinessComponent {
                 })
             }
         });
+    }
+
+    addShift() {
+        this.business.shifts.push(new Shift());
+        setTimeout(() => {
+            $("#shifts-container")[0].scrollTop = $("#shifts-container")[0].scrollHeight;
+        }, 0);
     }
 }

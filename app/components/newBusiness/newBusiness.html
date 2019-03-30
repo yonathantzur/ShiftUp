@@ -7,19 +7,47 @@
         <form>
             <div class="form-group">
                 <div class="col-12 no-padding">
-                    <input [(ngModel)]="business.name" name="business-name" class="form-control user-input" type="text"
+                    <input [(ngModel)]="business.name" name="business-name" class="form-control" type="text"
                         placeholder="שם בית העסק">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-12 no-padding">
-                    <input [(ngModel)]="business.address" name="business-address" class="form-control user-input"
-                        type="text" placeholder="כתובת">
+                    <input [(ngModel)]="business.address" name="business-address" class="form-control" type="text"
+                        placeholder="כתובת">
                 </div>
             </div>
             <div class="form-group">
-                <button type="button" (click)="AddBusiness()" id="business-btn"
-                    class="col-12 btn btn-primary business-btn">יצירת עסק</button>
+                <div class="col-12 shifts">
+                    <div class="shifts-title">
+                        משמרות
+                    </div>
+                    <div id="shifts-container" class="shifts-container">
+                        <div class="shift" *ngFor="let shift of business.shifts;let i = index"
+                            [ngClass]="{'no-margin': (i == business.shifts.length - 1)}">
+                            <span class="shift-number">{{i + 1}}.</span>
+                            <div class="col-8 new-shift-input input-right">
+                                <label for="shift-name" class="new-shift-input-title">שם משמרת:</label>
+                                <input [(ngModel)]="shift.name" class="form-control new-shift-input-data"
+                                    name="shift-name" id="shift-name" type="text"
+                                    placeholder="למשל משמרת בוקר/ערב">
+                            </div>
+                            <div class="col-3 new-shift-input input-left">
+                                <label for="workers-amount" class="new-shift-input-title">כמות עובדים:</label>
+                                <input [(ngModel)]="shift.workersAmount" class="form-control new-shift-input-data"
+                                    value="5" min="1" name="workers-amount" id="workers-amount" type="number">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="new-shift-btn" (click)="addShift()">
+                    <span>הוספת משמרת</span>
+                    <i class="far fa-plus-square new-shift-icon"></i>
+                </span>
+            </div>
+            <div class="form-group">
+                <button type="button" (click)="addBusiness()" id="business-btn"
+                    class="btn btn-primary business-btn">יצירת עסק</button>
             </div>
         </form>
     </div>

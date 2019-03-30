@@ -14,7 +14,7 @@ var business_service_1 = require("../../services/business/business.service");
 var Shift = /** @class */ (function () {
     function Shift(name, workersAmount) {
         this.name = name;
-        this.workersAmount = workersAmount;
+        this.workersAmount = workersAmount || 3;
     }
     return Shift;
 }());
@@ -31,8 +31,9 @@ var NewBusinessComponent = /** @class */ (function () {
     function NewBusinessComponent(businessService) {
         this.businessService = businessService;
         this.business = new Business();
+        this.business.shifts = [new Shift()];
     }
-    NewBusinessComponent.prototype.AddBusiness = function () {
+    NewBusinessComponent.prototype.addBusiness = function () {
         this.businessService.AddBusiness(this.business).then(function (result) {
             if (result) {
             }
@@ -44,6 +45,12 @@ var NewBusinessComponent = /** @class */ (function () {
                 });
             }
         });
+    };
+    NewBusinessComponent.prototype.addShift = function () {
+        this.business.shifts.push(new Shift());
+        setTimeout(function () {
+            $("#shifts-container")[0].scrollTop = $("#shifts-container")[0].scrollHeight;
+        }, 0);
     };
     NewBusinessComponent = __decorate([
         core_1.Component({
