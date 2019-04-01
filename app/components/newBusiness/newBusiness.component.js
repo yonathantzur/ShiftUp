@@ -14,7 +14,7 @@ var business_service_1 = require("../../services/business/business.service");
 var Shift = /** @class */ (function () {
     function Shift(name, workersAmount) {
         this.name = name;
-        this.workersAmount = workersAmount || 3;
+        this.workersAmount = workersAmount || 1;
     }
     return Shift;
 }());
@@ -34,7 +34,7 @@ var NewBusinessComponent = /** @class */ (function () {
         this.business.shifts = [new Shift()];
     }
     NewBusinessComponent.prototype.addBusiness = function () {
-        this.businessService.AddBusiness(this.business).then(function (result) {
+        this.isShiftsValid() && this.businessService.AddBusiness(this.business).then(function (result) {
             if (result) {
             }
             else {
@@ -51,6 +51,31 @@ var NewBusinessComponent = /** @class */ (function () {
         setTimeout(function () {
             $("#shifts-container")[0].scrollTop = $("#shifts-container")[0].scrollHeight;
         }, 0);
+    };
+    NewBusinessComponent.prototype.removeShift = function (index) {
+        this.business.shifts.splice(index, 1);
+    };
+    NewBusinessComponent.prototype.isShiftsValid = function () {
+        var error;
+        var shifts = this.business.shifts;
+        for (var i = 0; i < shifts.length; i++) {
+            var shift = shifts[i];
+            if (!shift.name) {
+                error = "יש לוודא שלכל משמרת יש שם!";
+            }
+            else if (shift.workersAmount < 1) {
+                error = "מספר העובדים באחת מהמשמרות לא תקין!";
+            }
+            if (error) {
+                Swal.fire({
+                    type: 'error',
+                    title: 'בעייה בנתונים',
+                    text: error
+                });
+                return false;
+            }
+        }
+        return true;
     };
     NewBusinessComponent = __decorate([
         core_1.Component({

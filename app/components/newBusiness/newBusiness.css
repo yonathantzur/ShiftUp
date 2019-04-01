@@ -62,6 +62,7 @@ form {
     max-height: 165px;
     overflow-y: scroll;
     user-select: none;
+    position: relative;
 }
 
 .shifts-title {    
@@ -91,7 +92,8 @@ form {
 }
 
 .input-right {
-    padding-left: 10px; 
+    padding-left: 10px;
+    margin-right: 12px;
 }
 
 .input-left {
@@ -122,6 +124,16 @@ form {
 }
 
 .shift-number {
-    margin-left: 2%;
-    font-size: 14px;
+    font-size: 12px;
+    position: absolute;
+    right: 0;
+    margin-top: 15px;
+}
+
+.delete-shift-icon {
+    position: relative;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 12px;
 }

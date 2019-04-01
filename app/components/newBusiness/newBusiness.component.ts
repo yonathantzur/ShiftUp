@@ -11,7 +11,7 @@ class Shift {
     constructor(name: string, workersAmount: number)
     constructor(name?: string, workersAmount?: number) {
         this.name = name;
-        this.workersAmount = workersAmount || 3;
+        this.workersAmount = workersAmount || 1;
     }
 }
 
@@ -45,7 +45,7 @@ export class NewBusinessComponent {
     }
 
     addBusiness() {
-        this.businessService.AddBusiness(this.business).then(result => {
+        this.isShiftsValid() && this.businessService.AddBusiness(this.business).then(result => {
             if (result) {
 
             }
@@ -64,5 +64,38 @@ export class NewBusinessComponent {
         setTimeout(() => {
             $("#shifts-container")[0].scrollTop = $("#shifts-container")[0].scrollHeight;
         }, 0);
+    }
+
+    removeShift(index: any) {
+        this.business.shifts.splice(index, 1);
+    }
+
+    isShiftsValid() {
+        let error;
+        let shifts = this.business.shifts;
+
+        for (let i = 0; i < shifts.length; i++) {
+            let shift = shifts[i];
+
+            if (!shift.name) {
+                error = "יש לוודא שלכל משמרת יש שם!";
+
+            }
+            else if (shift.workersAmount < 1) {
+                error = "מספר העובדים באחת מהמשמרות לא תקין!";
+            }
+
+            if (error) {
+                Swal.fire({
+                    type: 'error',
+                    title: 'בעייה בנתונים',
+                    text: error
+                });
+
+                return false;
+            }
+        }
+
+        return true;
     }
 }

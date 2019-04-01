@@ -26,17 +26,19 @@
                         <div class="shift" *ngFor="let shift of business.shifts;let i = index"
                             [ngClass]="{'no-margin': (i == business.shifts.length - 1)}">
                             <span class="shift-number">{{i + 1}}.</span>
-                            <div class="col-8 new-shift-input input-right">
-                                <label for="shift-name" class="new-shift-input-title">שם משמרת:</label>
-                                <input [(ngModel)]="shift.name" class="form-control new-shift-input-data"
-                                    name="shift-name" id="shift-name" type="text"
+                            <div class="col-7 new-shift-input input-right">
+                                <label for="shift-name-{{i}}" class="new-shift-input-title">שם משמרת:</label>
+                                <input [(ngModel)]="shift.name" name="shift-name-{{i}}"
+                                    class="form-control new-shift-input-data" type="text"
                                     placeholder="למשל משמרת בוקר/ערב">
                             </div>
                             <div class="col-3 new-shift-input input-left">
-                                <label for="workers-amount" class="new-shift-input-title">כמות עובדים:</label>
-                                <input [(ngModel)]="shift.workersAmount" class="form-control new-shift-input-data"
-                                    value="5" min="1" name="workers-amount" id="workers-amount" type="number">
+                                <label for="workers-amount-{{1}}" class="new-shift-input-title">כמות עובדים:</label>
+                                <input [(ngModel)]="shift.workersAmount" name="workers-amount-{{i}}"
+                                    class="form-control new-shift-input-data" value="5" min="1" type="number">
                             </div>
+                            <i (click)="removeShift(i)" *ngIf="business.shifts.length > 1"
+                                class="far fa-trash-alt delete-shift-icon"></i>
                         </div>
                     </div>
                 </div>
