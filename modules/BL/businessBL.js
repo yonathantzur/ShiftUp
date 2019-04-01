@@ -6,7 +6,12 @@ const collectionName = config.db.collections.businesses;
 module.exports = {
     AddBusiness: (business) => {
         return new Promise((resolve, reject) => {
-            resolve();
+            business.managers = [];
+            business.workers = [];
+
+            DAL.Insert(collectionName, business).then(result => {
+                resolve(true);
+            }).catch(reject);
         });
     }
 

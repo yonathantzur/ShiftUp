@@ -33,19 +33,6 @@ var NewBusinessComponent = /** @class */ (function () {
         this.business = new Business();
         this.business.shifts = [new Shift()];
     }
-    NewBusinessComponent.prototype.addBusiness = function () {
-        this.isShiftsValid() && this.businessService.AddBusiness(this.business).then(function (result) {
-            if (result) {
-            }
-            else {
-                Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה',
-                    text: 'אופס... משהו השתבש'
-                });
-            }
-        });
-    };
     NewBusinessComponent.prototype.addShift = function () {
         this.business.shifts.push(new Shift());
         setTimeout(function () {
@@ -76,6 +63,42 @@ var NewBusinessComponent = /** @class */ (function () {
             }
         }
         return true;
+    };
+    NewBusinessComponent.prototype.isBusinessValid = function () {
+        var isValid = true;
+        var error;
+        if (!this.business.name) {
+            isValid = false;
+            error = "יש להזין את שם העסק!";
+        }
+        else if (!this.business.address) {
+            isValid = false;
+            error = "יש להזין את כתובת העסק!";
+        }
+        else if (!this.isShiftsValid()) {
+            isValid = false;
+        }
+        if (error) {
+            Swal.fire({
+                type: 'error',
+                title: 'בעייה בנתונים',
+                text: error
+            });
+        }
+        return isValid;
+    };
+    NewBusinessComponent.prototype.addBusiness = function () {
+        this.isBusinessValid() && this.businessService.AddBusiness(this.business).then(function (result) {
+            if (result) {
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
     };
     NewBusinessComponent = __decorate([
         core_1.Component({

@@ -44,21 +44,6 @@ export class NewBusinessComponent {
         this.business.shifts = [new Shift()];
     }
 
-    addBusiness() {
-        this.isShiftsValid() && this.businessService.AddBusiness(this.business).then(result => {
-            if (result) {
-
-            }
-            else {
-                Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה',
-                    text: 'אופס... משהו השתבש'
-                })
-            }
-        });
-    }
-
     addShift() {
         this.business.shifts.push(new Shift());
         setTimeout(() => {
@@ -97,5 +82,47 @@ export class NewBusinessComponent {
         }
 
         return true;
+    }
+
+    isBusinessValid() {
+        let isValid = true;
+        let error;
+
+        if (!this.business.name) {
+            isValid = false;
+            error = "יש להזין את שם העסק!";
+        }
+        else if (!this.business.address) {
+            isValid = false;
+            error = "יש להזין את כתובת העסק!";
+        }
+        else if (!this.isShiftsValid()) {
+            isValid = false;
+        }
+
+        if (error) {
+            Swal.fire({
+                type: 'error',
+                title: 'בעייה בנתונים',
+                text: error
+            });
+        }
+
+        return isValid;
+    }
+
+    addBusiness() {
+        this.isBusinessValid() && this.businessService.AddBusiness(this.business).then(result => {
+            if (result) {
+
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה',
+                    text: 'אופס... משהו השתבש'
+                })
+            }
+        });
     }
 }
