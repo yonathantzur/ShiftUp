@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var rxjs_1 = require("rxjs");
-var login_service_1 = require("../services/login/login.service");
+var login_service_1 = require("../../services/login/login.service");
 var AuthGuard = /** @class */ (function () {
     function AuthGuard(router, loginService, route) {
         this.router = router;

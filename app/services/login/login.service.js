@@ -58,6 +58,17 @@ var LoginService = /** @class */ (function (_super) {
             return null;
         });
     };
+    // In case the user is not set as a worker or as a manager.
+    LoginService.prototype.IsStatelessUser = function () {
+        return _super.prototype.get.call(this, this.prefix + "/isStatelessUser")
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     LoginService = __decorate([
         core_1.Injectable({ providedIn: 'root' })
     ], LoginService);

@@ -23,18 +23,7 @@ router.post("/userLogin", (req, res) => {
 });
 
 router.get("/isUserLogin", (req, res) => {
-    let cookies = parseCookies(req);
-    try {
-        if (jwt.decode(cookies.tk)) {
-            res.send(true);
-        }
-        else {
-            res.send(false);
-        }
-    }
-    catch (e) {
-        res.send(false);
-    }
+    res.send(getUserFromToken(req) ? true : false);
 });
 
 router.get("/logout", (req, res) => {
@@ -47,6 +36,21 @@ router.get("/logout", (req, res) => {
     }
 });
 
+router.get("/isStatelessUser", (req, res) => {
+    let user = getUserFromToken(req);
+
+    // In case the user is not login to system.
+    if (!user) {
+        res.send(false);
+    }
+    else {
+        loginBL.IsUserStateless(user.id).then(result => {
+            res.send(result);
+        }).catch(e => {
+            res.sendStatus(500);
+        })
+    }
+});
 
 module.exports = router;
 
@@ -71,4 +75,13 @@ function parseCookies(request) {
     });
 
     return list;
+}
+
+function getUserFromToken(req) {
+    try {
+        return jwt.decode(parseCookies(req).tk).payload;
+    }
+    catch (e) {
+        return null;
+    }
 }

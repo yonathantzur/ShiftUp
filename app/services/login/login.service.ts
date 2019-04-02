@@ -37,4 +37,16 @@ export class LoginService extends BasicService {
                 return null;
             });
     }
+
+    // In case the user is not set as a worker or as a manager.
+    IsStatelessUser() {
+        return super.get(this.prefix + "/isStatelessUser")
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
 }
