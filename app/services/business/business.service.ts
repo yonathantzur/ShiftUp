@@ -1,5 +1,5 @@
 import { BasicService } from '../basic/basic.service';
-import { Business } from '../../components/newBusiness/newBusiness.component';
+import { Business } from '../../components/newUser/newBusiness/newBusiness.component';
 
 export class BusinessService extends BasicService {
     prefix = "/api/business";

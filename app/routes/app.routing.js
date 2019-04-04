@@ -16,7 +16,7 @@ var workers_component_1 = require("../components/workers/workers.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 var registration_component_1 = require("../components/registration/registration.component");
-var newBusiness_component_1 = require("../components/newBusiness/newBusiness.component");
+var newUser_component_1 = require("../components/newUser/newUser.component");
 var auth_guard_1 = require("../guards/auth/auth.guard");
 var login_guard_1 = require("../guards/login/login.guard");
 var statelessUser_guard_1 = require("../guards/statelessUser/statelessUser.guard");
@@ -33,7 +33,7 @@ var routes = [
     },
     { path: 'login', component: login_component_1.LoginComponent, canActivate: [login_guard_1.LoginGuard] },
     { path: 'register', component: registration_component_1.RegistrationComponent, canActivate: [login_guard_1.LoginGuard] },
-    { path: 'business', component: newBusiness_component_1.NewBusinessComponent, canActivate: [statelessUser_guard_1.StatelessUserGuard] },
+    { path: 'role', component: newUser_component_1.NewUserComponent, canActivate: [statelessUser_guard_1.StatelessUserGuard] },
     { path: '**', redirectTo: '' }
 ];
 var Routing = /** @class */ (function () {

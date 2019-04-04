@@ -1,0 +1,26 @@
+.choose-container {
+    display: flex;
+    justify-content: center;
+}
+
+.choose-btn {
+    width: 250px;
+    height: 250px;
+    margin: 50px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.choose-btn:hover {
+    background-color: #e8edff;
+    transition: background-color 200ms linear;
+}
+
+.title {
+    margin: 30px;
+}

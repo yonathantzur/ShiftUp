@@ -18,7 +18,9 @@ import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoar
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { NewWorkerComponent } from '../components/newWorker/newWorker.component';
 import { RegistrationComponent } from "../components/registration/registration.component";
-import { NewBusinessComponent } from "../components/newBusiness/newBusiness.component";
+import { NewUserComponent } from "../components/newUser/newUser.component";
+import { NewBusinessComponent } from "../components/newUser/newBusiness/newBusiness.component";
+import { WorkerComponent } from "../components/newUser/worker/worker.component";
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -49,7 +51,9 @@ import { Routing } from '../routes/app.routing'
         WorkerCardComponent,
         NewWorkerComponent,
         RegistrationComponent,
-        NewBusinessComponent
+        NewUserComponent,
+        NewBusinessComponent,
+        WorkerComponent
     ],
     providers: [
         EventService

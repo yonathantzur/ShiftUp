@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var business_service_1 = require("../../services/business/business.service");
+var business_service_1 = require("../../../services/business/business.service");
 var router_1 = require("@angular/router");
 var Shift = /** @class */ (function () {
     function Shift(name, workersAmount) {

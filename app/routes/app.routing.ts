@@ -9,7 +9,7 @@ import { WorkersComponent } from '../components/workers/workers.component';
 import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoard.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { RegistrationComponent } from '../components/registration/registration.component';
-import { NewBusinessComponent } from '../components/newBusiness/newBusiness.component';
+import { NewUserComponent } from '../components/newUser/newUser.component';
 import { AuthGuard } from '../guards/auth/auth.guard';
 import { LoginGuard } from '../guards/login/login.guard';
 import { StatelessUserGuard } from '../guards/statelessUser/statelessUser.guard';
@@ -27,7 +27,7 @@ const routes: Routes = [
     },
     { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
     { path: 'register', component: RegistrationComponent, canActivate: [LoginGuard] },
-    { path: 'business', component: NewBusinessComponent, canActivate: [StatelessUserGuard] },
+    { path: 'role', component: NewUserComponent, canActivate: [StatelessUserGuard] },
     { path: '**', redirectTo: '' }
 ];
 
