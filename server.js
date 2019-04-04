@@ -4,6 +4,7 @@ const app = express();
 const http = require('http').Server(app);
 const path = require('path');
 const config = require('./config');
+const tokenHandler = require('./modules/handlers/tokenHandler');
 
 // app define settings.
 app.set('trust proxy', 1);
@@ -19,8 +20,13 @@ http.listen(config.server.port, () => {
     console.log("Server is up!");
 });
 
+app.use('/api', (req, res, next) => {
+    req.user = tokenHandler.getUserFromToken(req);
+    next();
+});
+
 // Routes requires
-require('./modules/routes/shifts')(app);
+app.use('/api/shifts/', require('./modules/routes/shifts'));
 app.use('/api/login/', require('./modules/routes/login'));
 app.use('/api/registration/', require('./modules/routes/registration'));
 app.use('/api/business/', require('./modules/routes/business'));

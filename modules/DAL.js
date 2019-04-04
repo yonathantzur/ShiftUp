@@ -30,7 +30,7 @@ GetDB();
 module.exports = {
     // Convert string id to mongoDB object id.
     GetObjectId(id) {
-        return new ObjectId(id);
+        return new ObjectId(id.toString());
     },
 
     // Getting documents from collection by filter.

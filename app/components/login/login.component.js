@@ -13,9 +13,8 @@ var login_service_1 = require("../../services/login/login.service");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(loginService, route, router) {
+    function LoginComponent(loginService, router) {
         this.loginService = loginService;
-        this.route = route;
         this.router = router;
         this.user = {};
         this.submitted = false;
@@ -62,7 +61,6 @@ var LoginComponent = /** @class */ (function () {
             styleUrls: ['./login.css']
         }),
         __metadata("design:paramtypes", [login_service_1.LoginService,
-            router_1.ActivatedRoute,
             router_1.Router])
     ], LoginComponent);
     return LoginComponent;

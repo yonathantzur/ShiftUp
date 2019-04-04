@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const loginBL = require('../BL/loginBL');
-const jwt = require('jsonwebtoken');
-const JWT = require('../libs/jwt');
+const tokenHandler = require('../handlers/tokenHandler');
 
 router.post("/userLogin", (req, res) => {
     const userData = {
@@ -12,7 +11,7 @@ router.post("/userLogin", (req, res) => {
 
     loginBL.UserLogin(userData).then((result) => {
         if (result) {
-            setTokenOnCookie(result, res);
+            tokenHandler.setTokenOnCookie(result, res);
             result = true;
         }
 
@@ -23,12 +22,12 @@ router.post("/userLogin", (req, res) => {
 });
 
 router.get("/isUserLogin", (req, res) => {
-    res.send(getUserFromToken(req) ? true : false);
+    res.send(tokenHandler.getUserFromToken(req) ? true : false);
 });
 
 router.get("/logout", (req, res) => {
     try {
-        removeTokenFromCookie(res);
+        tokenHandler.removeTokenFromCookie(res);
         res.send(true);
     }
     catch (e) {
@@ -37,7 +36,7 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/isStatelessUser", (req, res) => {
-    let user = getUserFromToken(req);
+    let user = tokenHandler.getUserFromToken(req);
 
     // In case the user is not login to system.
     if (!user) {
@@ -53,35 +52,3 @@ router.get("/isStatelessUser", (req, res) => {
 });
 
 module.exports = router;
-
-function setTokenOnCookie(token, response) {
-    response.cookie("tk", token, {
-        maxAge: 7776000000,
-        httpOnly: true
-    })
-}
-
-function removeTokenFromCookie(response) {
-    response.clearCookie("tk");
-}
-
-function parseCookies(request) {
-    let list = {},
-        rc = request.headers.cookie;
-
-    rc && rc.split(';').forEach(function (cookie) {
-        let parts = cookie.split('=');
-        list[parts.shift().trim()] = decodeURI(parts.join('='));
-    });
-
-    return list;
-}
-
-function getUserFromToken(req) {
-    try {
-        return jwt.decode(parseCookies(req).tk).payload;
-    }
-    catch (e) {
-        return null;
-    }
-}

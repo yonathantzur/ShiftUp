@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const regBL = require('../BL/registarionBL');
-const JWT = require('../libs/jwt');
+const registarionBL = require('../BL/registarionBL');
+const tokenHandler = require('../handlers/tokenHandler');
 
 router.post("/register", (req, res) => {
     const userData = {
         email: req.body.email,
         password: req.body.password,
-        firstName:req.body.firstName,
+        firstName: req.body.firstName,
         lastName: req.body.lastName
     };
-    regBL.register(userData).then((result) => {
+    registarionBL.register(userData).then((result) => {
         if (result) {
-            setTokenOnCookie(result, res);
+            tokenHandler.setTokenOnCookie(result, res);
             result = true;
         }
 
@@ -23,19 +23,4 @@ router.post("/register", (req, res) => {
 
 });
 
-router.post("/userLoginTester", JWT.middleware, (req, res) => {
-    res.json(req.user);
-});
-
-router.get("/userLoginTester", JWT.middleware, (req, res) => {
-    res.json(req.user);
-});
-
 module.exports = router;
-
-function setTokenOnCookie(token, response) {
-    response.cookie("tk", token, {
-        maxAge:7776000000,
-        httpOnly: true
-    })
-}

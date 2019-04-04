@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BusinessService } from '../../services/business/business.service';
+import { Router } from '@angular/router';
 
 declare let Swal: any;
 
@@ -39,7 +40,8 @@ export class Business {
 export class NewBusinessComponent {
     business: Business;
 
-    constructor(private businessService: BusinessService) {
+    constructor(private businessService: BusinessService,
+        private router: Router) {
         this.business = new Business();
         this.business.shifts = [new Shift()];
     }
@@ -114,7 +116,13 @@ export class NewBusinessComponent {
     addBusiness() {
         this.isBusinessValid() && this.businessService.AddBusiness(this.business).then(result => {
             if (result) {
+                Swal.fire({
+                    type: 'success',
+                    title: 'עסק חדש',
+                    text: 'העסק נוסף בהצלחה!'
+                });
 
+                this.router.navigateByUrl('/');
             }
             else {
                 Swal.fire({

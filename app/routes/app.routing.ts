@@ -11,6 +11,7 @@ import { StatisticsComponent } from '../components/statistics/statistics.compone
 import { RegistrationComponent } from '../components/registration/registration.component';
 import { NewBusinessComponent } from '../components/newBusiness/newBusiness.component';
 import { AuthGuard } from '../guards/auth/auth.guard';
+import { LoginGuard } from '../guards/login/login.guard';
 import { StatelessUserGuard } from '../guards/statelessUser/statelessUser.guard';
 
 const routes: Routes = [
@@ -24,8 +25,8 @@ const routes: Routes = [
             { path: 'statistics', component: StatisticsComponent },
         ],
     },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegistrationComponent },
+    { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+    { path: 'register', component: RegistrationComponent, canActivate: [LoginGuard] },
     { path: 'business', component: NewBusinessComponent, canActivate: [StatelessUserGuard] },
     { path: '**', redirectTo: '' }
 ];

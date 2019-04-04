@@ -18,6 +18,7 @@ var statistics_component_1 = require("../components/statistics/statistics.compon
 var registration_component_1 = require("../components/registration/registration.component");
 var newBusiness_component_1 = require("../components/newBusiness/newBusiness.component");
 var auth_guard_1 = require("../guards/auth/auth.guard");
+var login_guard_1 = require("../guards/login/login.guard");
 var statelessUser_guard_1 = require("../guards/statelessUser/statelessUser.guard");
 var routes = [
     {
@@ -30,8 +31,8 @@ var routes = [
             { path: 'statistics', component: statistics_component_1.StatisticsComponent },
         ],
     },
-    { path: 'login', component: login_component_1.LoginComponent },
-    { path: 'register', component: registration_component_1.RegistrationComponent },
+    { path: 'login', component: login_component_1.LoginComponent, canActivate: [login_guard_1.LoginGuard] },
+    { path: 'register', component: registration_component_1.RegistrationComponent, canActivate: [login_guard_1.LoginGuard] },
     { path: 'business', component: newBusiness_component_1.NewBusinessComponent, canActivate: [statelessUser_guard_1.StatelessUserGuard] },
     { path: '**', redirectTo: '' }
 ];
