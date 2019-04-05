@@ -22,7 +22,21 @@ router.post("/userLogin", (req, res) => {
 });
 
 router.get("/isUserLogin", (req, res) => {
-    res.send(tokenHandler.getUserFromToken(req) ? true : false);
+    let tokenObj = tokenHandler.getUserFromToken(req);
+    if (tokenObj) {
+        let userId = tokenObj.id;
+
+        loginBL.GetUserById(userId).then(user => {            
+            let token = tokenHandler.getToken(user);
+            tokenHandler.setTokenOnCookie(token, res);
+            res.send(true);
+        }).catch(err => {
+            res.sendStatus(500);
+        });
+    }
+    else {
+        res.send(false);
+    }
 });
 
 router.get("/logout", (req, res) => {

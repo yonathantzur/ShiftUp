@@ -25,8 +25,7 @@
 }
 
 .choose-btn:hover {
-    background-color: #e7e7e7;
-    transition: background-color 250ms linear;
+    background-color: #e7e7e7;    
 }
 
 .title {

@@ -28,6 +28,12 @@ module.exports = {
                 resolve(amount == 0);
             }).catch(reject);
         });
+    },
+
+    GetUserById(id) {
+        return new Promise((resolve, reject) => {
+            DAL.FindOne(usersCollectionName, { _id: DAL.GetObjectId(id) }).then(resolve).catch(reject);
+        });
     }
 
 };

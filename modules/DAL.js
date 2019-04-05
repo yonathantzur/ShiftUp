@@ -54,23 +54,35 @@ module.exports = {
     },
 
     // Getting documents from collection by filter.
-    Find(collectionName, filter, sortObj) {
+    Find(collectionName, filter, sortObj, limit) {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {
                 let collection = db.collection(collectionName);
                 sortObj = sortObj ? sortObj : {};
-                collection.find(filter).sort(sortObj).toArray().then(resolve).catch(reject);
+                let query = collection.find(filter).sort(sortObj);
+
+                if (limit != null) {
+                    query = query.limit(limit);
+                }
+
+                query.toArray().then(resolve).catch(reject);
             }).catch(reject);
         });
     },
 
     // Getting documents from collection by filter.
-    FindSpecific(collectionName, filter, projection, sortObj) {
+    FindSpecific(collectionName, filter, projection, sortObj, limit) {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {
                 let collection = db.collection(collectionName);
                 sortObj = sortObj ? sortObj : {};
-                collection.find(filter, { projection }).sort(sortObj).toArray().then(resolve).catch(reject);
+                let query = collection.find(filter, { projection }).sort(sortObj);
+
+                if (limit != null) {
+                    query = query.limit(limit);
+                }
+
+                query.toArray().then(resolve).catch(reject);
             }).catch(reject);
         });
     },

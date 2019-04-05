@@ -118,8 +118,8 @@ export class NewBusinessComponent {
             if (result) {
                 Swal.fire({
                     type: 'success',
-                    title: 'עסק חדש',
-                    text: 'העסק נוסף בהצלחה!'
+                    title: 'העסק נוסף בהצלחה',
+                    text: 'קוד בית העסק - ' + result.businessCode
                 });
 
                 this.router.navigateByUrl('/');
@@ -129,7 +129,7 @@ export class NewBusinessComponent {
                     type: 'error',
                     title: 'שגיאה',
                     text: 'אופס... משהו השתבש'
-                })
+                });
             }
         });
     }

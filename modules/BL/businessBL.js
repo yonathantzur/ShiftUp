@@ -10,8 +10,25 @@ module.exports = {
             business.managers = [DAL.GetObjectId(userId)];
             business.workers = [];
 
-            DAL.Insert(businessesCollectionName, business).then(result => {
-                resolve(result);
+            let fieldsObj = { "_id": 0, "businessCode": 1 };
+            let sortObj = { "businessCode": -1 };
+
+            // Get the max business code.
+            DAL.FindSpecific(businessesCollectionName, {}, fieldsObj, sortObj, 1).then(result => {
+                let businessCode;
+
+                // In case there are no businesses on DB.
+                if (result.length == 0) {
+                    businessCode = 1;
+                }
+                else {
+                    businessCode = result[0].businessCode + 1;
+                }
+
+                business.businessCode = businessCode;
+                DAL.Insert(businessesCollectionName, business).then(businessId => {
+                    resolve({ businessId, businessCode });
+                });
             }).catch(reject);
         });
     },

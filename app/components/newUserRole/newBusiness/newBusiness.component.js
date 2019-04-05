@@ -95,8 +95,8 @@ var NewBusinessComponent = /** @class */ (function () {
             if (result) {
                 Swal.fire({
                     type: 'success',
-                    title: 'עסק חדש',
-                    text: 'העסק נוסף בהצלחה!'
+                    title: 'העסק נוסף בהצלחה',
+                    text: 'קוד בית העסק - ' + result.businessCode
                 });
                 _this.router.navigateByUrl('/');
             }
