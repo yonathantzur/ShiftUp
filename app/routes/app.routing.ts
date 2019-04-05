@@ -9,7 +9,9 @@ import { WorkersComponent } from '../components/workers/workers.component';
 import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoard.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { RegistrationComponent } from '../components/registration/registration.component';
-import { NewUserComponent } from '../components/newUser/newUser.component';
+import { NewUserRoleComponent } from '../components/newUserRole/newUserRole.component';
+import { NewBusinessComponent } from '../components/newUserRole/newBusiness/newBusiness.component';
+import { WorkerComponent } from '../components/newUserRole/worker/worker.component';
 import { AuthGuard } from '../guards/auth/auth.guard';
 import { LoginGuard } from '../guards/login/login.guard';
 import { StatelessUserGuard } from '../guards/statelessUser/statelessUser.guard';
@@ -27,7 +29,14 @@ const routes: Routes = [
     },
     { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
     { path: 'register', component: RegistrationComponent, canActivate: [LoginGuard] },
-    { path: 'role', component: NewUserComponent, canActivate: [StatelessUserGuard] },
+    {
+        path: 'role', canActivate: [StatelessUserGuard],
+        children: [
+            { path: '', component: NewUserRoleComponent },
+            { path: 'business', component: NewBusinessComponent },
+            { path: 'worker', component: WorkerComponent }
+        ]
+    },
     { path: '**', redirectTo: '' }
 ];
 

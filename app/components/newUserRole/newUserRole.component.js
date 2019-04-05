@@ -10,27 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var ROLE;
-(function (ROLE) {
-    ROLE[ROLE["NOT_SELECTED"] = 0] = "NOT_SELECTED";
-    ROLE[ROLE["NEW_BUSINESS"] = 1] = "NEW_BUSINESS";
-    ROLE[ROLE["WORKER"] = 2] = "WORKER";
-})(ROLE || (ROLE = {}));
-var NewUserComponent = /** @class */ (function () {
-    function NewUserComponent() {
-        this.role = ROLE;
-        this.userRole = ROLE.NOT_SELECTED;
+var router_1 = require("@angular/router");
+var NewUserRoleComponent = /** @class */ (function () {
+    function NewUserRoleComponent(router) {
+        this.router = router;
     }
-    NewUserComponent = __decorate([
+    NewUserRoleComponent.prototype.businessSettings = function () {
+        this.router.navigateByUrl('/role/business');
+    };
+    NewUserRoleComponent.prototype.workerSettings = function () {
+        this.router.navigateByUrl('/role/worker');
+    };
+    NewUserRoleComponent = __decorate([
         core_1.Component({
             selector: 'newUser',
             templateUrl: './newUser.html',
             providers: [],
             styleUrls: ['./newUser.css']
         }),
-        __metadata("design:paramtypes", [])
-    ], NewUserComponent);
-    return NewUserComponent;
+        __metadata("design:paramtypes", [router_1.Router])
+    ], NewUserRoleComponent);
+    return NewUserRoleComponent;
 }());
-exports.NewUserComponent = NewUserComponent;
-//# sourceMappingURL=newUser.component.js.map
+exports.NewUserRoleComponent = NewUserRoleComponent;
+//# sourceMappingURL=newUserRole.component.js.map
