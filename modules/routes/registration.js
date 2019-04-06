@@ -4,13 +4,7 @@ const regBL = require('../BL/registarionBL');
 const JWT = require('../libs/jwt');
 
 router.post("/register", (req, res) => {
-    const userData = {
-        email: req.body.email,
-        password: req.body.password,
-        firstName:req.body.firstName,
-        lastName: req.body.lastName
-    };
-    regBL.register(userData).then((result) => {
+    regBL.register(req.body).then((result) => {
         if (result) {
             setTokenOnCookie(result, res);
             result = true;
