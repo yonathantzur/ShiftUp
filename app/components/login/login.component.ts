@@ -1,7 +1,7 @@
-import {NgForm} from '@angular/forms';
-import {LoginService} from '../../services/login/login.service';
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { LoginService } from '../../services/login/login.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 declare let Swal: any;
 
@@ -17,14 +17,12 @@ export class LoginComponent implements OnInit {
     submitted = false;
 
     constructor(private loginService: LoginService,
-                private route: ActivatedRoute,
-                private router: Router) {
+        private route: ActivatedRoute,
+        private router: Router) {
     }
 
     ngOnInit() {
-       if(this.route.routeConfig.path.toLowerCase() === "logout"){
-           this.logout();
-       }
+        this.logout();
     }
 
     onSubmit(loginForm: NgForm) {
@@ -57,10 +55,7 @@ export class LoginComponent implements OnInit {
     }
 
     logout() {
-        this.loginService.logout().then((result) => {
-            if (result) {
-                this.router.navigateByUrl('/login');
-            }
-        });
+        this.router.navigateByUrl('/login');
+        this.loginService.logout();
     }
 }

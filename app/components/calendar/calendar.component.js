@@ -22,6 +22,7 @@ var CalendarComponent = /** @class */ (function () {
         var self = this;
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
+            editable: true,
             viewRender: function (element) {
                 self.eventService.Emit("calanderViewRender");
                 var dateRange = $('#calendar').fullCalendar('getDate')._i;

@@ -21,9 +21,7 @@ var LoginComponent = /** @class */ (function () {
         this.submitted = false;
     }
     LoginComponent.prototype.ngOnInit = function () {
-        if (this.route.routeConfig.path.toLowerCase() === "logout") {
-            this.logout();
-        }
+        this.logout();
     };
     LoginComponent.prototype.onSubmit = function (loginForm) {
         var _this = this;
@@ -53,12 +51,8 @@ var LoginComponent = /** @class */ (function () {
         }
     };
     LoginComponent.prototype.logout = function () {
-        var _this = this;
-        this.loginService.logout().then(function (result) {
-            if (result) {
-                _this.router.navigateByUrl('/login');
-            }
-        });
+        this.router.navigateByUrl('/login');
+        this.loginService.logout();
     };
     LoginComponent = __decorate([
         core_1.Component({

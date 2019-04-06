@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, NgForm} from '@angular/forms';
-import {registrationService} from '../../services/registration/registration.service';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { registrationService } from '../../services/registration/registration.service';
 
 declare let Swal: any;
 
@@ -21,32 +21,32 @@ export class RegistrationComponent {
         private formBuilder: FormBuilder,
         private router: Router,
         private regService: registrationService,
-    ) {}
+    ) { }
 
     onSubmit(regForm: NgForm) {
         this.submitted = true;
         if (regForm.valid) {
             this.user = regForm.value;
             this.regService.register(this.user).then((result: any) => {
-                    if (result) {
-                        this.router.navigateByUrl('/');
-                    }
-                    else if (result == false) {
-                        Swal.fire({
-                            type: 'error',
-                            title: 'שגיאה בהרשמה',
-                            text: 'משתמש קיים'
-                        })
-                    }
-                    else {
-                        Swal.fire({
-                            type: 'error',
-                            title: 'שגיאה בהרשמה',
-                            text: 'אופס... משהו השתבש'
-                        })
-
-                    }
+                if (result) {
+                    this.router.navigateByUrl('/');
                 }
+                else if (result == false) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהרשמה',
+                        text: 'משתמש קיים'
+                    })
+                }
+                else {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'שגיאה בהרשמה',
+                        text: 'אופס... משהו השתבש'
+                    })
+
+                }
+            }
             );
         }
     }
