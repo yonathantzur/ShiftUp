@@ -51,12 +51,17 @@ router.get("/logout", (req, res) => {
 
 router.get("/isStatelessUser", (req, res) => {
     let user = tokenHandler.getUserFromToken(req);
-    if ((!user || !user.businessId) && !user.waitBusinessId) {
+    if (!user || (!user.businessId && !user.waitBusinessId)) {
         res.send(true);
     }
     else {
         res.send(false);
     }
+});
+
+router.get("/isWaitUser", (req, res) => {
+    let user = tokenHandler.getUserFromToken(req);
+    res.send((user && user.waitBusinessId) ? true : false);
 });
 
 module.exports = router;

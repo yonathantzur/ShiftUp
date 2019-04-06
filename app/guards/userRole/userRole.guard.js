@@ -26,7 +26,7 @@ var StatelessUserGuard = /** @class */ (function () {
                     observer.next(true);
                 }
                 else {
-                    _this.router.navigateByUrl('/');
+                    _this.router.navigateByUrl('/workerWait');
                     observer.next(false);
                 }
             });
@@ -67,4 +67,31 @@ var StateUserGuard = /** @class */ (function () {
     return StateUserGuard;
 }());
 exports.StateUserGuard = StateUserGuard;
+var WaitUserGuard = /** @class */ (function () {
+    function WaitUserGuard(router, loginService) {
+        this.router = router;
+        this.loginService = loginService;
+    }
+    WaitUserGuard.prototype.canActivate = function (route, state) {
+        var _this = this;
+        return rxjs_1.Observable.create(function (observer) {
+            _this.loginService.IsWaitUser().then(function (result) {
+                if (result) {
+                    observer.next(true);
+                }
+                else {
+                    _this.router.navigateByUrl('/login');
+                    observer.next(false);
+                }
+            });
+        });
+    };
+    WaitUserGuard = __decorate([
+        core_1.Injectable({ providedIn: 'root' }),
+        __metadata("design:paramtypes", [router_1.Router,
+            login_service_1.LoginService])
+    ], WaitUserGuard);
+    return WaitUserGuard;
+}());
+exports.WaitUserGuard = WaitUserGuard;
 //# sourceMappingURL=userRole.guard.js.map

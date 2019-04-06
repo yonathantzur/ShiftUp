@@ -43,7 +43,7 @@ module.exports = {
             let updateWorker = DAL.UpdateOne(usersCollectionName, wokrkerFindObj, wokrkerUpdateObj);
 
             Promise.all([updateManager, updateWorker]).then(results => {
-                resolve(true);
+                resolve(results[1]);
             }).catch(reject);
         });
     }

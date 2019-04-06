@@ -48,7 +48,7 @@ export class WorkerComponent {
     SendWorkerRequest() {
         this.workerService.SendWorkerRequest(this.business._id, this.business.manager._id).then(result => {
             if (result) {
-
+                this.router.navigateByUrl('/workerWait');
             }
             else {
                 Swal.fire({

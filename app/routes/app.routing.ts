@@ -15,7 +15,7 @@ import { WorkerComponent } from '../components/newUserRole/worker/worker.compone
 import { WorkerWaitComponent } from '../components/newUserRole/workerWait/workerWait.component';
 import { AuthGuard } from '../guards/auth/auth.guard';
 import { LoginGuard } from '../guards/auth/auth.guard';
-import { StatelessUserGuard } from '../guards/userRole/userRole.guard';
+import { StatelessUserGuard, WaitUserGuard } from '../guards/userRole/userRole.guard';
 import { StateUserGuard } from '../guards/userRole/userRole.guard';
 
 const routes: Routes = [
@@ -39,7 +39,7 @@ const routes: Routes = [
             { path: 'worker', component: WorkerComponent }
         ]
     },
-    { path: 'wait', component: WorkerWaitComponent },
+    { path: 'workerWait', component: WorkerWaitComponent, canActivate: [WaitUserGuard] },
     { path: '**', redirectTo: '' }
 ];
 

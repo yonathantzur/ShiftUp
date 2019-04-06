@@ -45,7 +45,7 @@ var routes = [
             { path: 'worker', component: worker_component_1.WorkerComponent }
         ]
     },
-    { path: 'wait', component: workerWait_component_1.WorkerWaitComponent },
+    { path: 'workerWait', component: workerWait_component_1.WorkerWaitComponent, canActivate: [userRole_guard_1.WaitUserGuard] },
     { path: '**', redirectTo: '' }
 ];
 var Routing = /** @class */ (function () {

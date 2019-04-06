@@ -44,8 +44,10 @@ var WorkerComponent = /** @class */ (function () {
         this.router.navigateByUrl('/role');
     };
     WorkerComponent.prototype.SendWorkerRequest = function () {
+        var _this = this;
         this.workerService.SendWorkerRequest(this.business._id, this.business.manager._id).then(function (result) {
             if (result) {
+                _this.router.navigateByUrl('/workerWait');
             }
             else {
                 Swal.fire({

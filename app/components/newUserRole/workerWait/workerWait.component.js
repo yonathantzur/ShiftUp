@@ -12,11 +12,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var worker_service_1 = require("../../../services/worker/worker.service");
 var router_1 = require("@angular/router");
+var login_service_1 = require("../../../services/login/login.service");
 var WorkerWaitComponent = /** @class */ (function () {
-    function WorkerWaitComponent(workerService, router) {
+    function WorkerWaitComponent(workerService, router, loginService) {
         this.workerService = workerService;
         this.router = router;
+        this.loginService = loginService;
     }
+    WorkerWaitComponent.prototype.logout = function () {
+        var _this = this;
+        this.loginService.logout().then(function () {
+            _this.router.navigateByUrl('/login');
+        });
+    };
     WorkerWaitComponent = __decorate([
         core_1.Component({
             selector: 'workerWait',
@@ -25,7 +33,8 @@ var WorkerWaitComponent = /** @class */ (function () {
             styleUrls: ['./workerWait.css']
         }),
         __metadata("design:paramtypes", [worker_service_1.WorkerService,
-            router_1.Router])
+            router_1.Router,
+            login_service_1.LoginService])
     ], WorkerWaitComponent);
     return WorkerWaitComponent;
 }());

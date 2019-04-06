@@ -37,3 +37,34 @@ form {
 .no-padding {
     padding: 0 !important;
 }
+
+.logout-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #979faf;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px 1px grey;
+}
+
+@keyframes logout-btn {
+    from {width: 40px; height: 40px;}
+    to {width: 45px; height: 45px;}
+}
+
+.logout-btn:hover {
+    width: 45px;
+    height: 45px;
+    animation-name: logout-btn;
+    animation-duration: 600ms;
+}
+
+.logout-icon {
+    color: whitesmoke;
+}

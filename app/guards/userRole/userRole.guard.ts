@@ -15,7 +15,7 @@ export class StatelessUserGuard implements CanActivate {
                     observer.next(true);
                 }
                 else {
-                    this.router.navigateByUrl('/');
+                    this.router.navigateByUrl('/workerWait');
                     observer.next(false);
                 }
             });
@@ -42,5 +42,25 @@ export class StateUserGuard implements CanActivate {
             });
         });
     }
+}
 
+@Injectable({ providedIn: 'root' })
+export class WaitUserGuard implements CanActivate {
+    constructor(
+        private router: Router,
+        private loginService: LoginService) { }
+
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        return Observable.create((observer: any) => {
+            this.loginService.IsWaitUser().then(result => {
+                if (result) {
+                    observer.next(true);
+                }
+                else {
+                    this.router.navigateByUrl('/login');
+                    observer.next(false);
+                }
+            });
+        });
+    }
 }
