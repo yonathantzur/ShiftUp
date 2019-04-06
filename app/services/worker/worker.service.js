@@ -41,6 +41,16 @@ var WorkerService = /** @class */ (function (_super) {
             return null;
         });
     };
+    WorkerService.prototype.GetWaitBusinessDetails = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getWaitBusinessDetails')
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return WorkerService;
 }(basic_service_1.BasicService));
 exports.WorkerService = WorkerService;

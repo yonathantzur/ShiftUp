@@ -21,4 +21,13 @@ router.post("/sendWorkerRequest", (req, res) => {
     })
 });
 
+router.get("/getWaitBusinessDetails", (req, res) => {
+    workerBL.GetWaitBusinessDetails(req.user.waitBusinessId).then(business => {
+        business.workerName = req.user.firstName + " " + req.user.lastName;
+        res.send(business);
+    }).catch(err => {
+        res.sendStatus(500);
+    });
+});
+
 module.exports = router;

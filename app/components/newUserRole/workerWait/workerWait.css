@@ -68,3 +68,27 @@ form {
 .logout-icon {
     color: whitesmoke;
 }
+
+.business-details {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.business-detail-title {
+    text-decoration: underline;
+}
+
+.cancel-btn {
+    border-style: solid;
+    border-width: 1px;
+    background-color: #f44336;
+    color: white !important;
+    border-radius: 4px;
+    margin-top: 10px;
+    width: 100px;    
+}
+
+.cancel-btn:hover, .cancel-btn:focus {
+    background-color: #f44336 !important;
+    border-color: #7882b6 !important;
+}

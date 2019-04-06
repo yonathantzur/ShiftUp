@@ -25,4 +25,15 @@ export class WorkerService extends BasicService {
             });
     }
 
+    GetWaitBusinessDetails() {
+        return super.get(this.prefix + '/getWaitBusinessDetails')
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
 }

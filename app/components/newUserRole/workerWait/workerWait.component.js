@@ -19,11 +19,19 @@ var WorkerWaitComponent = /** @class */ (function () {
         this.router = router;
         this.loginService = loginService;
     }
+    WorkerWaitComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.workerService.GetWaitBusinessDetails().then(function (result) {
+            _this.business = result;
+        });
+    };
     WorkerWaitComponent.prototype.logout = function () {
         var _this = this;
         this.loginService.logout().then(function () {
             _this.router.navigateByUrl('/login');
         });
+    };
+    WorkerWaitComponent.prototype.cancelRequest = function () {
     };
     WorkerWaitComponent = __decorate([
         core_1.Component({
