@@ -3,11 +3,12 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 500px;
+    width: 400px;
     border:#4f4f4f;
     border-radius: 90px;
     padding: 30px;
     transform: translate(-50%,-50%);
+    height: 90%;
 }
 
 .title {
@@ -33,6 +34,10 @@
 
 .formButton {
     text-align: center;
+}
+
+.returnLink {
+    top: -40px;
 }
 
 .formButton > button {

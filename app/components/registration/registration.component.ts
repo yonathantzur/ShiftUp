@@ -26,10 +26,7 @@ export class RegistrationComponent {
     onSubmit(regForm: NgForm) {
         this.submitted = true;
         if (regForm.valid) {
-            this.user.email = regForm.value.email;
-            this.user.firstName = regForm.value.firstName;
-            this.user.lastName = regForm.value.lastName;
-            this.user.password = regForm.value.password;
+            this.user = regForm.value;
             this.regService.register(this.user).then((result: any) => {
                     if (result) {
                         this.router.navigateByUrl('/');

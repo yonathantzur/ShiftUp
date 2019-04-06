@@ -14,6 +14,20 @@
             <div class="warning" *ngIf="lastName.errors?.required && lastName.touched">נא להכניס שם משפחה</div>
         </div>
         <div class="form-group">
+            <label class="formInput">תאריך לידה</label>
+                <input type='date' class="form-control"
+                       name="birthDate" ngModel #birthDate="ngModel" required title="נא הכנס תאריך לידה"/>
+            <div class="warning" *ngIf="birthDate.errors?.required && birthDate.touched">נא להכניס תאריך לידה</div>
+        </div>
+        <div class="form-group">
+            <label class="formInput">תעודת זהות</label>
+            <input class="form-control formInput" type="number"
+                   name="userId" ngModel #userId="ngModel" required title="נא הכנס תעודת זהות"  minlength="10" maxlength="10" />
+            <div class="warning" *ngIf="userId.errors?.required && userId.touched">נא להכניס תעודת זהות</div>
+            <div class="warning" *ngIf="(userId.errors?.minlength || userId.errors?.maxlength) &&  userId.touched">תעודת הזהות לא תקינה</div>
+
+        </div>
+        <div class="form-group">
             <label class="formInput">אימייל</label>
             <input type="email" class="form-control formInput"
                    name="email" ngModel #email="ngModel" required title="הכנס אימייל תקין" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
@@ -34,5 +48,5 @@
             <button type=submit class="btn btn-raised btn-dark">הירשם</button>
         </div>
     </form>
-    <a [routerLink]="['/login']" class="btn btn-link">חזרה</a>
+    <a [routerLink]="['/login']" class="btn btn-link returnLink">חזרה</a>
 </div>
