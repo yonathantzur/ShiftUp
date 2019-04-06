@@ -20,11 +20,12 @@ var newUserRole_component_1 = require("../components/newUserRole/newUserRole.com
 var newBusiness_component_1 = require("../components/newUserRole/newBusiness/newBusiness.component");
 var worker_component_1 = require("../components/newUserRole/worker/worker.component");
 var auth_guard_1 = require("../guards/auth/auth.guard");
-var login_guard_1 = require("../guards/login/login.guard");
-var statelessUser_guard_1 = require("../guards/statelessUser/statelessUser.guard");
+var auth_guard_2 = require("../guards/auth/auth.guard");
+var userRole_guard_1 = require("../guards/userRole/userRole.guard");
+var userRole_guard_2 = require("../guards/userRole/userRole.guard");
 var routes = [
     {
-        path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard],
+        path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard, userRole_guard_2.StateUserGuard],
         children: [
             { path: '', component: home_component_1.HomeComponent },
             { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
@@ -33,10 +34,10 @@ var routes = [
             { path: 'statistics', component: statistics_component_1.StatisticsComponent },
         ],
     },
-    { path: 'login', component: login_component_1.LoginComponent, canActivate: [login_guard_1.LoginGuard] },
-    { path: 'register', component: registration_component_1.RegistrationComponent, canActivate: [login_guard_1.LoginGuard] },
+    { path: 'login', component: login_component_1.LoginComponent, canActivate: [auth_guard_2.LoginGuard] },
+    { path: 'register', component: registration_component_1.RegistrationComponent, canActivate: [auth_guard_2.LoginGuard] },
     {
-        path: 'role', canActivate: [statelessUser_guard_1.StatelessUserGuard],
+        path: 'role', canActivate: [userRole_guard_1.StatelessUserGuard],
         children: [
             { path: '', component: newUserRole_component_1.NewUserRoleComponent },
             { path: 'business', component: newBusiness_component_1.NewBusinessComponent },

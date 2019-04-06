@@ -13,12 +13,13 @@ import { NewUserRoleComponent } from '../components/newUserRole/newUserRole.comp
 import { NewBusinessComponent } from '../components/newUserRole/newBusiness/newBusiness.component';
 import { WorkerComponent } from '../components/newUserRole/worker/worker.component';
 import { AuthGuard } from '../guards/auth/auth.guard';
-import { LoginGuard } from '../guards/login/login.guard';
-import { StatelessUserGuard } from '../guards/statelessUser/statelessUser.guard';
+import { LoginGuard } from '../guards/auth/auth.guard';
+import { StatelessUserGuard } from '../guards/userRole/userRole.guard';
+import { StateUserGuard } from '../guards/userRole/userRole.guard';
 
 const routes: Routes = [
     {
-        path: '', component: MainComponent, canActivate: [AuthGuard],
+        path: '', component: MainComponent, canActivate: [AuthGuard, StateUserGuard],
         children: [
             { path: '', component: HomeComponent },
             { path: 'constraints', component: ConstraintsComponent },

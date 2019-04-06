@@ -13,19 +13,46 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var rxjs_1 = require("rxjs");
 var login_service_1 = require("../../services/login/login.service");
-var LoginGuard = /** @class */ (function () {
-    function LoginGuard(router, loginService, route) {
+var StatelessUserGuard = /** @class */ (function () {
+    function StatelessUserGuard(router, loginService) {
+        this.router = router;
+        this.loginService = loginService;
+    }
+    StatelessUserGuard.prototype.canActivate = function (route, state) {
+        var _this = this;
+        return rxjs_1.Observable.create(function (observer) {
+            _this.loginService.IsStatelessUser().then(function (result) {
+                if (result) {
+                    observer.next(true);
+                }
+                else {
+                    _this.router.navigateByUrl('/');
+                    observer.next(false);
+                }
+            });
+        });
+    };
+    StatelessUserGuard = __decorate([
+        core_1.Injectable({ providedIn: 'root' }),
+        __metadata("design:paramtypes", [router_1.Router,
+            login_service_1.LoginService])
+    ], StatelessUserGuard);
+    return StatelessUserGuard;
+}());
+exports.StatelessUserGuard = StatelessUserGuard;
+var StateUserGuard = /** @class */ (function () {
+    function StateUserGuard(router, loginService, route) {
         this.router = router;
         this.loginService = loginService;
         this.route = route;
     }
-    LoginGuard.prototype.canActivate = function (route, state) {
+    StateUserGuard.prototype.canActivate = function (route, state) {
         var _this = this;
         return rxjs_1.Observable.create(function (observer) {
-            _this.loginService.isUserLogin().then(function (result) {
+            _this.loginService.IsStatelessUser().then(function (result) {
                 if (result) {
-                    _this.router.navigateByUrl('/');
                     observer.next(false);
+                    _this.router.navigateByUrl('/role');
                 }
                 else {
                     observer.next(true);
@@ -33,13 +60,13 @@ var LoginGuard = /** @class */ (function () {
             });
         });
     };
-    LoginGuard = __decorate([
+    StateUserGuard = __decorate([
         core_1.Injectable({ providedIn: 'root' }),
         __metadata("design:paramtypes", [router_1.Router,
             login_service_1.LoginService,
             router_1.ActivatedRoute])
-    ], LoginGuard);
-    return LoginGuard;
+    ], StateUserGuard);
+    return StateUserGuard;
 }());
-exports.LoginGuard = LoginGuard;
-//# sourceMappingURL=login.guard.js.map
+exports.StateUserGuard = StateUserGuard;
+//# sourceMappingURL=userRole.guard.js.map
