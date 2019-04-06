@@ -21,6 +21,7 @@ import { RegistrationComponent } from "../components/registration/registration.c
 import { NewUserRoleComponent } from "../components/newUserRole/newUserRole.component";
 import { NewBusinessComponent } from "../components/newUserRole/newBusiness/newBusiness.component";
 import { WorkerComponent } from "../components/newUserRole/worker/worker.component";
+import { WorkerWaitComponent } from "../components/newUserRole/workerWait/workerWait.component";
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -53,7 +54,8 @@ import { Routing } from '../routes/app.routing'
         RegistrationComponent,
         NewUserRoleComponent,
         NewBusinessComponent,
-        WorkerComponent
+        WorkerComponent,
+        WorkerWaitComponent
     ],
     providers: [
         EventService

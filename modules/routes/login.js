@@ -23,10 +23,10 @@ router.post("/userLogin", (req, res) => {
 
 router.get("/isUserLogin", (req, res) => {
     let tokenObj = tokenHandler.getUserFromToken(req);
-    if (tokenObj) {
+    if (tokenObj && tokenObj.businessId) {
         let userId = tokenObj.id;
 
-        loginBL.GetUserById(userId).then(user => {            
+        loginBL.GetUserById(userId).then(user => {
             let token = tokenHandler.getToken(user);
             tokenHandler.setTokenOnCookie(token, res);
             res.send(true);
@@ -51,17 +51,11 @@ router.get("/logout", (req, res) => {
 
 router.get("/isStatelessUser", (req, res) => {
     let user = tokenHandler.getUserFromToken(req);
-
-    // In case the user is not login to system.
-    if (!user) {
-        res.send(false);
+    if ((!user || !user.businessId) && !user.waitBusinessId) {
+        res.send(true);
     }
     else {
-        loginBL.IsUserStateless(user.id).then(result => {
-            res.send(result);
-        }).catch(e => {
-            res.sendStatus(500);
-        })
+        res.send(false);
     }
 });
 

@@ -44,7 +44,7 @@ var WorkerComponent = /** @class */ (function () {
         this.router.navigateByUrl('/role');
     };
     WorkerComponent.prototype.SendWorkerRequest = function () {
-        this.workerService.SendWorkerRequest(this.business.manager._id).then(function (result) {
+        this.workerService.SendWorkerRequest(this.business._id, this.business.manager._id).then(function (result) {
             if (result) {
             }
             else {

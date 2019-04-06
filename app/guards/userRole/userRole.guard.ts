@@ -27,9 +27,7 @@ export class StatelessUserGuard implements CanActivate {
 export class StateUserGuard implements CanActivate {
     constructor(
         private router: Router,
-        private loginService: LoginService,
-        private route: ActivatedRoute
-    ) { }
+        private loginService: LoginService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return Observable.create((observer: any) => {
@@ -44,4 +42,5 @@ export class StateUserGuard implements CanActivate {
             });
         });
     }
+
 }

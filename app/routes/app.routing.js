@@ -19,6 +19,7 @@ var registration_component_1 = require("../components/registration/registration.
 var newUserRole_component_1 = require("../components/newUserRole/newUserRole.component");
 var newBusiness_component_1 = require("../components/newUserRole/newBusiness/newBusiness.component");
 var worker_component_1 = require("../components/newUserRole/worker/worker.component");
+var workerWait_component_1 = require("../components/newUserRole/workerWait/workerWait.component");
 var auth_guard_1 = require("../guards/auth/auth.guard");
 var auth_guard_2 = require("../guards/auth/auth.guard");
 var userRole_guard_1 = require("../guards/userRole/userRole.guard");
@@ -44,6 +45,7 @@ var routes = [
             { path: 'worker', component: worker_component_1.WorkerComponent }
         ]
     },
+    { path: 'wait', component: workerWait_component_1.WorkerWaitComponent },
     { path: '**', redirectTo: '' }
 ];
 var Routing = /** @class */ (function () {

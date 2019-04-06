@@ -49,4 +49,16 @@ export class LoginService extends BasicService {
                 return null;
             });
     }
+
+    // In case the user is wait for business work approve.
+    IsWaitUser() {
+        return super.get(this.prefix + "/isWaitUser")
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
 }

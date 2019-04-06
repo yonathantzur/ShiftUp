@@ -41,10 +41,9 @@ var StatelessUserGuard = /** @class */ (function () {
 }());
 exports.StatelessUserGuard = StatelessUserGuard;
 var StateUserGuard = /** @class */ (function () {
-    function StateUserGuard(router, loginService, route) {
+    function StateUserGuard(router, loginService) {
         this.router = router;
         this.loginService = loginService;
-        this.route = route;
     }
     StateUserGuard.prototype.canActivate = function (route, state) {
         var _this = this;
@@ -63,8 +62,7 @@ var StateUserGuard = /** @class */ (function () {
     StateUserGuard = __decorate([
         core_1.Injectable({ providedIn: 'root' }),
         __metadata("design:paramtypes", [router_1.Router,
-            login_service_1.LoginService,
-            router_1.ActivatedRoute])
+            login_service_1.LoginService])
     ], StateUserGuard);
     return StateUserGuard;
 }());

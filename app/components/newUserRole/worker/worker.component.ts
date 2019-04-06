@@ -46,7 +46,7 @@ export class WorkerComponent {
     }
 
     SendWorkerRequest() {
-        this.workerService.SendWorkerRequest(this.business.manager._id).then(result => {
+        this.workerService.SendWorkerRequest(this.business._id, this.business.manager._id).then(result => {
             if (result) {
 
             }

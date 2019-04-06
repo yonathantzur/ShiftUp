@@ -11,7 +11,7 @@ router.get("/getBusinessByCode", (req, res) => {
 });
 
 router.post("/sendWorkerRequest", (req, res) => {
-    workerBL.SendWorkerRequest(req.user, req.body.managerId).then(result => {
+    workerBL.SendWorkerRequest(req.user, req.body.managerId, req.body.businessId).then(result => {
         res.send(result);
     }).catch(err => {
         res.sendStatus(500);

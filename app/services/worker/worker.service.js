@@ -31,8 +31,8 @@ var WorkerService = /** @class */ (function (_super) {
             return null;
         });
     };
-    WorkerService.prototype.SendWorkerRequest = function (managerId) {
-        return _super.prototype.post.call(this, this.prefix + '/sendWorkerRequest', { managerId: managerId })
+    WorkerService.prototype.SendWorkerRequest = function (businessId, managerId) {
+        return _super.prototype.post.call(this, this.prefix + '/sendWorkerRequest', { businessId: businessId, managerId: managerId })
             .toPromise()
             .then(function (result) {
             return result;

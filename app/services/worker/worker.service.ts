@@ -14,8 +14,8 @@ export class WorkerService extends BasicService {
             });
     }
 
-    SendWorkerRequest(managerId: string) {
-        return super.post(this.prefix + '/sendWorkerRequest', { managerId })
+    SendWorkerRequest(businessId: string, managerId: string) {
+        return super.post(this.prefix + '/sendWorkerRequest', { businessId, managerId })
             .toPromise()
             .then((result: any) => {
                 return result;

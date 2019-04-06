@@ -1,0 +1,39 @@
+::-webkit-input-placeholder {
+    font-size: 14px;    
+}
+
+form {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 20px !important;
+}
+
+.title {
+    font-size: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-icon {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.body {
+    margin: auto;
+    margin-top: 25px;
+    padding: 25px;
+    padding-top: 15px;
+    padding-bottom: 0;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 0px 0px 5px 0px #828282;
+}
+
+.no-padding {
+    padding: 0 !important;
+}

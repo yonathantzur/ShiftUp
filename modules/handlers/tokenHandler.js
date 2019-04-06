@@ -18,7 +18,8 @@ module.exports = {
             "email": user.email,
             "firstName": user.firstName,
             "lastName": user.lastName,
-            "businessId": user.businessId
+            "businessId": user.businessId,
+            "waitBusinessId": user.waitBusinessId
         }
     },
 

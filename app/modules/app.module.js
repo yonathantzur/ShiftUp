@@ -28,6 +28,7 @@ var registration_component_1 = require("../components/registration/registration.
 var newUserRole_component_1 = require("../components/newUserRole/newUserRole.component");
 var newBusiness_component_1 = require("../components/newUserRole/newBusiness/newBusiness.component");
 var worker_component_1 = require("../components/newUserRole/worker/worker.component");
+var workerWait_component_1 = require("../components/newUserRole/workerWait/workerWait.component");
 // Services
 var event_service_1 = require("../services/event/event.service");
 // Routing
@@ -61,7 +62,8 @@ var AppModule = /** @class */ (function () {
                 registration_component_1.RegistrationComponent,
                 newUserRole_component_1.NewUserRoleComponent,
                 newBusiness_component_1.NewBusinessComponent,
-                worker_component_1.WorkerComponent
+                worker_component_1.WorkerComponent,
+                workerWait_component_1.WorkerWaitComponent
             ],
             providers: [
                 event_service_1.EventService

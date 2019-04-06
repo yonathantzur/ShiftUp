@@ -32,9 +32,19 @@ module.exports = {
         });
     },
 
-    SendWorkerRequest(worker, managerId) {
+    SendWorkerRequest(worker, managerId, businessId) {
         return new Promise((resolve, reject) => {
-            resolve(true);
+            let managerFindObj = { "_id": DAL.GetObjectId(managerId) };
+            let managerUpdateObj = { $push: { "requests": DAL.GetObjectId(worker.id) } }
+            let wokrkerFindObj = { "_id": DAL.GetObjectId(worker.id) };
+            let wokrkerUpdateObj = { $set: { "waitBusinessId": DAL.GetObjectId(businessId) } };
+
+            let updateManager = DAL.UpdateOne(usersCollectionName, managerFindObj, managerUpdateObj);
+            let updateWorker = DAL.UpdateOne(usersCollectionName, wokrkerFindObj, wokrkerUpdateObj);
+
+            Promise.all([updateManager, updateWorker]).then(results => {
+                resolve(true);
+            }).catch(reject);
         });
     }
 };

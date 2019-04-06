@@ -12,6 +12,7 @@ import { RegistrationComponent } from '../components/registration/registration.c
 import { NewUserRoleComponent } from '../components/newUserRole/newUserRole.component';
 import { NewBusinessComponent } from '../components/newUserRole/newBusiness/newBusiness.component';
 import { WorkerComponent } from '../components/newUserRole/worker/worker.component';
+import { WorkerWaitComponent } from '../components/newUserRole/workerWait/workerWait.component';
 import { AuthGuard } from '../guards/auth/auth.guard';
 import { LoginGuard } from '../guards/auth/auth.guard';
 import { StatelessUserGuard } from '../guards/userRole/userRole.guard';
@@ -38,6 +39,7 @@ const routes: Routes = [
             { path: 'worker', component: WorkerComponent }
         ]
     },
+    { path: 'wait', component: WorkerWaitComponent },
     { path: '**', redirectTo: '' }
 ];
 

@@ -34,7 +34,7 @@
             <div class="form-group" *ngIf="business">
                 <button type="button" (click)="SendWorkerRequest()" class="btn btn-primary join-btn">שליחת בקשה</button>
             </div>
-            <div class="form-group details-text">
+            <div class="form-group details-text" *ngIf="!business">
                 * להצטרפות כעובד, יש לפנות למנהל בית העסק ולבקש את קוד העסק.
             </div>
         </form>

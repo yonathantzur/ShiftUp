@@ -69,6 +69,17 @@ var LoginService = /** @class */ (function (_super) {
             return null;
         });
     };
+    // In case the user is wait for business work approve.
+    LoginService.prototype.IsWaitUser = function () {
+        return _super.prototype.get.call(this, this.prefix + "/isWaitUser")
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     LoginService = __decorate([
         core_1.Injectable({ providedIn: 'root' })
     ], LoginService);
