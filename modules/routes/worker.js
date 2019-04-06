@@ -10,4 +10,12 @@ router.get("/getBusinessByCode", (req, res) => {
     })
 });
 
+router.post("/sendWorkerRequest", (req, res) => {
+    workerBL.SendWorkerRequest(req.user, req.body.managerId).then(result => {
+        res.send(result);
+    }).catch(err => {
+        res.sendStatus(500);
+    })
+});
+
 module.exports = router;

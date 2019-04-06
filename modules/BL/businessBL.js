@@ -19,7 +19,7 @@ module.exports = {
 
                 // In case there are no businesses on DB.
                 if (result.length == 0) {
-                    businessCode = 100;
+                    businessCode = 10;
                 }
                 else {
                     businessCode = result[0].businessCode + 1;

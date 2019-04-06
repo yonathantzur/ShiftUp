@@ -14,4 +14,15 @@ export class WorkerService extends BasicService {
             });
     }
 
+    SendWorkerRequest(managerId: string) {
+        return super.post(this.prefix + '/sendWorkerRequest', { managerId })
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
 }

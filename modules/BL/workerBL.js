@@ -19,7 +19,7 @@ module.exports = {
                 if (business) {
                     let managerId = DAL.GetObjectId(business.manager);
                     let managerQueryObj = { _id: managerId };
-                    let managerQueryFields = { "_id": 0, "firstName": 1, "lastName": 1 };
+                    let managerQueryFields = { "firstName": 1, "lastName": 1 };
                     DAL.FindOneSpecific(usersCollectionName, managerQueryObj, managerQueryFields).then(manager => {
                         business.manager = manager;
                         resolve(business);
@@ -29,6 +29,12 @@ module.exports = {
                     resolve(false)
                 }
             }).catch(reject);
+        });
+    },
+
+    SendWorkerRequest(worker, managerId) {
+        return new Promise((resolve, reject) => {
+            resolve(true);
         });
     }
 };

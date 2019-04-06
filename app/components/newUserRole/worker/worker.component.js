@@ -11,14 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var worker_service_1 = require("../../../services/worker/worker.service");
+var router_1 = require("@angular/router");
 var WorkerComponent = /** @class */ (function () {
-    function WorkerComponent(workerService) {
+    function WorkerComponent(workerService, router) {
         this.workerService = workerService;
+        this.router = router;
     }
     WorkerComponent.prototype.SearchForBusiness = function () {
         var _this = this;
         this.business = null;
-        this.workerService.GetBusinessByCode(this.businessId).then(function (result) {
+        this.businessId && this.workerService.GetBusinessByCode(this.businessId).then(function (result) {
             if (result == false) {
                 Swal.fire({
                     type: 'error',
@@ -38,6 +40,22 @@ var WorkerComponent = /** @class */ (function () {
             }
         });
     };
+    WorkerComponent.prototype.back = function () {
+        this.router.navigateByUrl('/role');
+    };
+    WorkerComponent.prototype.SendWorkerRequest = function () {
+        this.workerService.SendWorkerRequest(this.business.manager._id).then(function (result) {
+            if (result) {
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
+    };
     WorkerComponent = __decorate([
         core_1.Component({
             selector: 'worker',
@@ -45,7 +63,8 @@ var WorkerComponent = /** @class */ (function () {
             providers: [worker_service_1.WorkerService],
             styleUrls: ['./worker.css']
         }),
-        __metadata("design:paramtypes", [worker_service_1.WorkerService])
+        __metadata("design:paramtypes", [worker_service_1.WorkerService,
+            router_1.Router])
     ], WorkerComponent);
     return WorkerComponent;
 }());

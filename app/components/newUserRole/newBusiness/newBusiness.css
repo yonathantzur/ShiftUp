@@ -137,3 +137,34 @@ form {
     cursor: pointer;
     font-size: 12px;
 }
+
+.back-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #979faf;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px 1px grey;
+}
+
+@keyframes back-btn {
+    from {width: 40px; height: 40px;}
+    to {width: 45px; height: 45px;}
+}
+
+.back-btn:hover {
+    width: 45px;
+    height: 45px;
+    animation-name: back-btn;
+    animation-duration: 600ms;
+}
+
+.back-icon {
+    color: whitesmoke;
+}

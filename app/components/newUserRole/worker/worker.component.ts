@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { WorkerService } from '../../../services/worker/worker.service';
+import { Router } from '@angular/router';
 
 declare let Swal: any;
 
@@ -14,11 +15,12 @@ export class WorkerComponent {
     businessId: number;
     business: any;
 
-    constructor(private workerService: WorkerService) { }
+    constructor(private workerService: WorkerService,
+        private router: Router) { }
 
     SearchForBusiness() {
         this.business = null;
-        this.workerService.GetBusinessByCode(this.businessId).then(result => {
+        this.businessId && this.workerService.GetBusinessByCode(this.businessId).then(result => {
             if (result == false) {
                 Swal.fire({
                     type: 'error',
@@ -35,6 +37,25 @@ export class WorkerComponent {
             }
             else {
                 this.business = result
+            }
+        });
+    }
+
+    back() {
+        this.router.navigateByUrl('/role');
+    }
+
+    SendWorkerRequest() {
+        this.workerService.SendWorkerRequest(this.business.manager._id).then(result => {
+            if (result) {
+
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה',
+                    text: 'אופס... משהו השתבש'
+                });
             }
         });
     }

@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login/login.service'
 
 @Component({
-    selector: 'newUser',
-    templateUrl: './newUser.html',
-    providers: [],
-    styleUrls: ['./newUser.css']
+    selector: 'newUserRole',
+    templateUrl: './newUserRole.html',
+    providers: [LoginService],
+    styleUrls: ['./newUserRole.css']
 })
 
 export class NewUserRoleComponent {
-
-    constructor(private router: Router) { }
+    constructor(private router: Router,
+        private loginService: LoginService) { }
 
     businessSettings() {
         this.router.navigateByUrl('/role/business');
@@ -20,4 +21,9 @@ export class NewUserRoleComponent {
         this.router.navigateByUrl('/role/worker');
     }
 
+    logout() {
+        this.loginService.logout().then(() => {
+            this.router.navigateByUrl('/login');
+        });
+    }
 }

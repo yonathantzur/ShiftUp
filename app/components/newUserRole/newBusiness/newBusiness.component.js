@@ -109,6 +109,9 @@ var NewBusinessComponent = /** @class */ (function () {
             }
         });
     };
+    NewBusinessComponent.prototype.back = function () {
+        this.router.navigateByUrl('/role');
+    };
     NewBusinessComponent = __decorate([
         core_1.Component({
             selector: 'newBusiness',
