@@ -119,7 +119,7 @@ export class NewBusinessComponent {
                 Swal.fire({
                     type: 'success',
                     title: 'העסק נוסף בהצלחה',
-                    text: 'קוד בית העסק - ' + result.businessCode
+                    text: 'קוד בית העסק: ' + result.businessCode
                 });
 
                 this.router.navigateByUrl('/');

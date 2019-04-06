@@ -10,17 +10,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var worker_service_1 = require("../../../services/worker/worker.service");
 var WorkerComponent = /** @class */ (function () {
-    function WorkerComponent() {
+    function WorkerComponent(workerService) {
+        this.workerService = workerService;
     }
+    WorkerComponent.prototype.SearchForBusiness = function () {
+        var _this = this;
+        this.business = null;
+        this.workerService.GetBusinessByCode(this.businessId).then(function (result) {
+            if (result == false) {
+                Swal.fire({
+                    type: 'error',
+                    title: 'אופס...',
+                    text: 'נראה כי הקוד שהוזן לא שייך לאף בית עסק'
+                });
+            }
+            else if (result == null) {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+            else {
+                _this.business = result;
+            }
+        });
+    };
     WorkerComponent = __decorate([
         core_1.Component({
             selector: 'worker',
             templateUrl: './worker.html',
-            providers: [],
+            providers: [worker_service_1.WorkerService],
             styleUrls: ['./worker.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [worker_service_1.WorkerService])
     ], WorkerComponent);
     return WorkerComponent;
 }());

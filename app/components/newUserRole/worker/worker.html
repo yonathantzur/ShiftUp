@@ -5,18 +5,32 @@
     </div>
     <div class="body row col-md-4 col-10">
         <form>
-            <div class="form-group">
-                <div class="col-8 search-input">
+            <div class="form-group search-container">
+                <div class="search-input">
                     <input [(ngModel)]="businessId" name="business-id" class="form-control" type="text"
                         placeholder="קוד בית העסק">
                 </div>
-                <span class="search-btn">
-                    <i class="material-icons search-btn-icon">
-                        search
-                    </i>
-                </span>
+                <div class="search-btn" [ngClass]="{'disabled-btn': !businessId}" (click)="SearchForBusiness()">
+                    <i class="material-icons search-btn-icon">search</i>
+                </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="business">
+                <div class="business-details">
+                    <div>
+                        <span class="business-detail-title">שם בית העסק</span>:
+                        {{business.name}}
+                    </div>
+                    <div>
+                        <span class="business-detail-title">כתובת</span>:
+                        {{business.address}}
+                    </div>
+                    <div>
+                        <span class="business-detail-title">מנהל</span>:
+                        {{business.manager.firstName + " " + business.manager.lastName}}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="business">
                 <button type="button" class="btn btn-primary join-btn">שליחת בקשה</button>
             </div>
             <div class="form-group details-text">

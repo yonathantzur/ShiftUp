@@ -7,7 +7,7 @@ const usersCollectionName = config.db.collections.users;
 module.exports = {
     AddBusiness: (userId, business) => {
         return new Promise((resolve, reject) => {
-            business.managers = [DAL.GetObjectId(userId)];
+            business.manager = DAL.GetObjectId(userId);
             business.workers = [];
 
             let fieldsObj = { "_id": 0, "businessCode": 1 };
@@ -19,7 +19,7 @@ module.exports = {
 
                 // In case there are no businesses on DB.
                 if (result.length == 0) {
-                    businessCode = 1;
+                    businessCode = 100;
                 }
                 else {
                     businessCode = result[0].businessCode + 1;
