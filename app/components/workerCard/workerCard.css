@@ -46,11 +46,18 @@
 .workerCardButton {
     width: 100px;
     color: #fff;
-    background-color: #4444ff;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .removeUserIcon {
     color: #fff;
+}
+
+.removeUserButton {
+    background-color: #ff4747;
+}
+
+.calcUserButton {
+    background-color: #5f5cff;
 }
