@@ -21,6 +21,9 @@ http.listen(config.server.port, () => {
 
 // Routes requires
 require('./modules/routes/shifts')(app);
+require('./modules/routes/users')(app);
+require('./modules/routes/workers')(app);
+require('./modules/routes/businesses')(app);
 app.use('/login/api/', require('./modules/routes/login'));
 app.use('/registration/api/', require('./modules/routes/registration'));
 
