@@ -1,17 +1,23 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { Worker } from '../workerCard/workerCard.component';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
     selector: 'newWorker',
     templateUrl: './newWorker.html',
-    providers: [],
-    styleUrls: ['./newWorker.css']
+    providers: [UsersService],
+    styleUrls: ['./newWorker.css'],
+    inputs: ['business: business']
 })
 
 export class NewWorkerComponent {
-    newWorker: Worker = { name: "", id: 0, age: 0, hourSalery: 0, job: "" };
+    business: any;
+    newWorker: any = { userId: "", salary: 20 };
     @Output() onClose: EventEmitter<Worker> = new EventEmitter<Worker>();
     strErrorMessage: string = "";
+    isUserIdValid: boolean = false;
+
+    constructor(private usersService: UsersService) {
+    }
 
     blurClicked = () => {
         this.onClose.emit();
@@ -23,13 +29,34 @@ export class NewWorkerComponent {
 
     onChange = (event: any) => {
         const fieldName: string = event.target.name;
-        let fieldValue: string | number = event.target.value;
+        let fieldValue: string | number | boolean = event.target.value;
 
-        if (event.target.type == "number") {
-            fieldValue = parseInt(fieldValue.toString());
+        if (event.target.type == "number" || event.target.type == "range") {
+            fieldValue = (fieldValue == "") ? 0 : parseInt(fieldValue.toString());
         }
 
         this.newWorker[fieldName] = fieldValue;
+    }
+
+    onUserIdChange = (newUserId: string) => {
+        if (newUserId.match("^[0-9]{0,9}$")) {
+            this.strErrorMessage = "";
+            this.newWorker["userId"] = newUserId;
+            if (newUserId.length == 9) {
+                this.usersService.IsUserAvailableForBusiness(newUserId).then(isAvailable => {
+                    if (isAvailable) {
+                        this.isUserIdValid = true;
+                    } else {
+                        this.isUserIdValid = false;
+                    }
+                });
+            }
+        } else {
+            this.strErrorMessage = "מספר תעודת זהות לא תקין";
+            if (newUserId.length == 9) {
+                this.isUserIdValid = false;
+            }
+        }
     }
 
     onSubmit = () => {
@@ -38,28 +65,13 @@ export class NewWorkerComponent {
         }
     }
 
-    validatedWorker = (worker: Worker) => {
+    validatedWorker = (worker: any) => {
         this.strErrorMessage = "";
-        if (!worker.name.match("[א-ת]{2,} {1}[א-ת]{2,}")) {
-            this.strErrorMessage = "שם חייב להכיל שם פרטי ומשפחה בעלי 2 תווים לפחות";
+        if (parseInt(worker.userId) < 0) {
+            this.strErrorMessage = "מספר תעודת זהות לא תקין";
             return false;
-        } else if (worker.id.toString().length != 9) {
+        } else if (worker.userId.length != 9) {
             this.strErrorMessage = "מספר תעודת זהות חייב להכיל 9 ספרות";
-            return false;
-        } else if (worker.age < 18) {
-            this.strErrorMessage = "גיל חייב להיות לפחות 18";
-            return false;
-        } else if (worker.age > 60) {
-            this.strErrorMessage = "גיל חייב להיות לכל היותר 60";
-            return false;
-        } else if (worker.hourSalery < 20) {
-            this.strErrorMessage = "שכר לשעה חייב להיות לפחות 20";
-            return false;
-        } else if (worker.hourSalery > 100) {
-            this.strErrorMessage = "שכר לשעה חייב להיות לכל היותר 100";
-            return false;
-        } else if (worker.job == "") {
-            this.strErrorMessage = "לא נבחרה משרה";
             return false;
         }
 

@@ -18,7 +18,6 @@ module.exports = {
             businesses: "Businesses",
             shifts: "Shifts",
             constraints: "Constraints",
-            jobs: "Jobs"
         }
     }
 };

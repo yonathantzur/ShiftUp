@@ -10,26 +10,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var users_service_1 = require("../../services/users/users.service");
 var WorkerCardComponent = /** @class */ (function () {
-    function WorkerCardComponent() {
+    function WorkerCardComponent(usersService) {
         var _this = this;
+        this.usersService = usersService;
         this.onClose = new core_1.EventEmitter();
+        this.workerUserData = {};
         this.calcWorkerSalery = function () {
-            console.log("handle calculate worker salery " + _this.worker.id);
+            console.log("handle calculate worker salary " + _this.worker.userId);
         };
         this.deleteWorker = function () {
             _this.onClose.emit();
         };
     }
-    WorkerCardComponent.prototype.getWorkerJobDisplayText = function (job) {
-        switch (job) {
-            case "waiter": return "מלצר/ית";
-            case "shiftManager": return "אחראי/ת משמרת";
-            case "shef": return "טבח/ית";
-            case "host": return "מארח/ת";
-            case "dishWasher": return "שוטפ/ת כלים";
-            default: return "לא נמצא תפקיד";
-        }
+    WorkerCardComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.usersService.GetUserById(this.worker.userId)
+            .then(function (userData) { return _this.workerUserData = userData; });
     };
     __decorate([
         core_1.Output(),
@@ -39,10 +37,11 @@ var WorkerCardComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'workerCard',
             templateUrl: './workerCard.html',
-            providers: [],
+            providers: [users_service_1.UsersService],
             styleUrls: ['./workerCard.css'],
             inputs: ['worker: worker']
-        })
+        }),
+        __metadata("design:paramtypes", [users_service_1.UsersService])
     ], WorkerCardComponent);
     return WorkerCardComponent;
 }());

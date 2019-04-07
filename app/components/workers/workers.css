@@ -28,7 +28,6 @@
 .workersWrapper {
     display: flex;
     justify-content: center;
-    padding: 0px 5%;
 }
 
 .workersContainer {
