@@ -16,7 +16,7 @@ module.exports = {
                         userData.salt = hashed.salt;
                         DAL.Insert(usersCollectionName, userData).then((userId) => {
                             if (userId) {
-                                userData.userId = userId;
+                                //userData.userId = userId;
                                 const token = JWT.sign(getTokenObjectFromUser(userData), config.jwt.options);
                                 resolve(token);
                             }
@@ -38,6 +38,8 @@ function getTokenObjectFromUser(user) {
         "id": user.userId,
         "email": user.email,
         "firstName": user.firstName,
-        "lastName": user.lastName
+        "lastName": user.lastName,
+        "Id": user.userId,
+        "birthDate": user.birthDate
     }
 }

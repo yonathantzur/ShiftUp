@@ -27,6 +27,9 @@ app.use('/api', (req, res, next) => {
 
 // Routes requires
 app.use('/api/shifts/', require('./modules/routes/shifts'));
+require('./modules/routes/users')(app);
+require('./modules/routes/workers')(app);
+require('./modules/routes/businesses')(app);
 app.use('/api/login/', require('./modules/routes/login'));
 app.use('/api/registration/', require('./modules/routes/registration'));
 app.use('/api/business/', require('./modules/routes/business'));

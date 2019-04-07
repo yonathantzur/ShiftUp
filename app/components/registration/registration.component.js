@@ -25,10 +25,7 @@ var RegistrationComponent = /** @class */ (function () {
         var _this = this;
         this.submitted = true;
         if (regForm.valid) {
-            this.user.email = regForm.value.email;
-            this.user.firstName = regForm.value.firstName;
-            this.user.lastName = regForm.value.lastName;
-            this.user.password = regForm.value.password;
+            this.user = regForm.value;
             this.regService.register(this.user).then(function (result) {
                 if (result) {
                     _this.router.navigateByUrl('/');

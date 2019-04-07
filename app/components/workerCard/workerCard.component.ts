@@ -1,42 +1,40 @@
-import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
+import { UsersService } from '../../services/users/users.service';
+
+declare let Swal: any;
 
 @Component({
     selector: 'workerCard',
     templateUrl: './workerCard.html',
-    providers: [],
+    providers: [UsersService],
     styleUrls: ['./workerCard.css'],
     inputs: ['worker: worker']
 })
 
 export class WorkerCardComponent {
-    worker: Worker;
+    worker: any;
     @Output() onClose: EventEmitter<Worker> = new EventEmitter<Worker>();
+    workerUserData: any = {};
 
-    getWorkerJobDisplayText(job: string) {
-        switch (job) {
-            case "waiter": return "מלצר/ית";
-            case "shiftManager": return "אחראי/ת משמרת";
-            case "shef": return "טבח/ית";
-            case "host": return "מארח/ת";
-            case "dishWasher": return "שוטפ/ת כלים";
-            default: return "לא נמצא תפקיד";
-        }
+    constructor(private usersService: UsersService) {
+    }
+
+    ngOnInit() {
+        this.usersService.GetUserById(this.worker.userId)
+            .then((userData: any) => this.workerUserData = userData);
     }
 
     calcWorkerSalery = () => {
-        console.log("handle calculate worker salery " + this.worker.id);
+        Swal.fire({
+            title: "עדיין בפיתוח! עובדים על זה",
+            text: "חישוב שכר עבור עובד " + this.worker.userId,
+            type: "warning",
+            confirmButtonText: "אישור"
+        });
     }
     
     deleteWorker = () => {
         this.onClose.emit();
     }
-}
-
-export interface Worker {
-    id: number;
-    name: string;
-    job: string;
-    age: number;
-    hourSalery: number;
 }

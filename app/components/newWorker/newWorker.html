@@ -5,38 +5,33 @@
         <h6 class="newWorkerError" [ngClass]="{'showErrorAnimation' : strErrorMessage != ''}">{{strErrorMessage}}</h6>
         <div class="newWorkerParameters">
             <div class="newWorkerInput">
-                <div>שם :</div>
-                <div><input type="text" (change)="onChange($event)" name="name" [(ngModel)]="newWorker.name" /></div>
+                <div class="newWorkerParameter">תעודת זהות :</div>
+                <div class="newWorkerValue">
+                    <div class="newWorkerIdContainer">
+                        <input type="string" name="userId" maxlength="9"
+                            (ngModelChange)="onUserIdChange($event)" [(ngModel)]="newWorker.userId" />
+                    </div>
+                    <span *ngIf="newWorker.userId.length === 9">
+                        <i *ngIf="isUserIdValid" class="fa fa-user-check isAvailableWorkerId"></i>
+                        <i *ngIf="!isUserIdValid" class="fa fa-times isAvailableWorkerId"></i>
+                    </span>
+                </div>
             </div>
             <div class="newWorkerInput">
-                <div>תעודת זהות :</div>
-                <div><input type="number" (change)="onChange($event)" name="id" [(ngModel)]="newWorker.id" /></div>
-            </div>
-            <div class="newWorkerInput">
-                <div>גיל :</div>
-                <div><input type="number" (change)="onChange($event)" name="age" [(ngModel)]="newWorker.age" /></div>
-            </div>
-            <div class="newWorkerInput">
-                <div>שח לשעה :</div>
-                <div><input type="number" (change)="onChange($event)" name="hourSalery" [(ngModel)]="newWorker.hourSalery" /></div>
-            </div>
-            <div class="newWorkerInput">
-                <div>משרה :</div>
-                <div>
-                    <select (change)="onChange($event)" name="job" [(ngModel)]="newWorker.job">
-                        <option value="" class="defaultOption" selected>בחר משרה</option>
-                        <option value="waiter">מלצר</option>
-                        <option value="shiftManager">אחראי משמרת</option>
-                        <option value="shef">טבח</option>
-                        <option value="host">מארחת</option>
-                        <option value="dishWasher">שוטף כלים</option>
-                    </select>
+                <div class="newWorkerParameter">שכר לשעה :</div>
+                <div class="newWorkerValue">
+                    <span>{{newWorker.salary}}<i class="fa fa-shekel-sign"></i></span>
+                    &nbsp;
+                    <input type="range" (change)="onChange($event)"
+                        name="salary" [(ngModel)]="newWorker.salary"
+                        min="20" max="100"
+                    />
                 </div>
             </div>
         </div>
         <div class="newWorkerButtonsContainer">
             <button class="cancelButton" (click)="onCancel()">ביטול</button>
-            <button class="addButton" (click)="onSubmit()">הוספת העובד</button>
+            <button class="addButton" (click)="onSubmit()" [disabled]="!isUserIdValid">הוספת העובד</button>
         </div>
     </div>
 </div>

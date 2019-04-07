@@ -1,11 +1,21 @@
 <div id="workers">
-    <h4 class="title">עובדי העסק</h4>
-    <button class="newWorkerButton" (click)="openNewWorkerDialog()">הוספת עובד חדש</button>
-    <button class="deleteAllWorkersButton" (click)="onDeleteAllWorkers()">מחיקת כל העובדים</button>
-    <newWorker *ngIf="isNewWorkerDialogOpen" (onClose)="onNewWorkerClose($event)"></newWorker>
+    <h4 class="title">
+        <i class="fa fa-users"></i>
+        עובדי העסק {{business.name}}
+    </h4>
+    <button class="newWorkerButton" (click)="openNewWorkerDialog()">
+        <i class="fa fa-user-plus plusWorkerIcon"></i>
+        הוספת עובד חדש
+    </button>
+    <!-- <button class="deleteAllWorkersButton" (click)="onDeleteAllWorkers()">מחיקת כל העובדים</button> -->
+    <newWorker *ngIf="isNewWorkerDialogOpen" (onClose)="onNewWorkerClose($event)" [business]="business"></newWorker>
     <div class="workersWrapper">
         <div class="workersContainer">
-            <workerCard *ngFor="let worker of workers" [worker]=worker class="workerCard" (onClose)="onDeleteWorker(worker.id)"></workerCard>
+            <workerCard *ngFor="let worker of workers" [worker]=worker class="workerCard" (onClose)="onDeleteWorker(worker.userId)"></workerCard>
         </div>
     </div>
+    <h3 *ngIf="workers.length == 0" class="noWorkers">
+            <i class="fa fa-user-times"></i>&nbsp;
+            אין עובדים לעסק, יש להוסיף על ידי הכפתור למעלה
+    </h3>
 </div>

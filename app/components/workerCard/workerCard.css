@@ -1,6 +1,6 @@
 .worker {
-    height: 300px;
-    width: 450px;
+    height: 150px;
+    width: 250px;
     margin: auto;
     border: 1px solid #666;
     border-radius: 5px;
@@ -8,7 +8,7 @@
 
 .name {
     width: 100%;
-    height: 25%;
+    height: 30%;
     background-color: #ddd;
     border-bottom: 1px solid #666;
     border-top-left-radius: 5px;
@@ -17,39 +17,47 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    font-size: 20px;
 }
 
 .workerDetailsContaienr {
     width: 100%;
-    height: 50%;
+    height: 40%;
     text-align: center;
-    padding: 15px;
-}
-
-.headDetail {
-    font-weight: bold;
+    display: flex;
+    flex-direction: column;
 }
 
 .detail {
-    text-align: right;
-    margin-right: 100px;
-    margin-left: 100px;
+    height: 33%;
+    margin-right: 20px;
+    margin-left: 20px;
+    font-size: 16px;
 }
 
 .buttonsContainer {
     width: 100%;
-    height: 25%;
+    height: 30%;
     display: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    padding: 5px 10px 10px 10px;
 }
 
 .workerCardButton {
-    width: 120px;
+    width: 100px;
     color: #fff;
-    background-color: #4444ff;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
+    border-radius: 5px;
     cursor: pointer;
+}
+
+.removeUserIcon {
+    color: #fff;
+}
+
+.removeUserButton {
+    background-color: #ff4747;
+}
+
+.calcUserButton {
+    background-color: #5f5cff;
 }
