@@ -2,6 +2,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 import { UsersService } from '../../services/users/users.service';
 
+declare let Swal: any;
+
 @Component({
     selector: 'workerCard',
     templateUrl: './workerCard.html',
@@ -24,7 +26,12 @@ export class WorkerCardComponent {
     }
 
     calcWorkerSalery = () => {
-        console.log("handle calculate worker salary " + this.worker.userId);
+        Swal.fire({
+            title: "עדיין בפיתוח! עובדים על זה",
+            text: "חישוב שכר עבור עובד " + this.worker.userId,
+            type: "warning",
+            confirmButtonText: "אישור"
+        });
     }
     
     deleteWorker = () => {

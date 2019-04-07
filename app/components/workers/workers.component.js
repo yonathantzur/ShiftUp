@@ -10,21 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var users_service_1 = require("../../services/users/users.service");
 var businesses_service_1 = require("../../services/businesses/businesses.service");
 var workers_service_1 = require("../../services/workers/workers.service");
 var WorkersComponent = /** @class */ (function () {
-    function WorkersComponent(usersService, businessesService, workersService) {
+    function WorkersComponent(businessesService, workersService) {
         var _this = this;
-        this.usersService = usersService;
         this.businessesService = businessesService;
         this.workersService = workersService;
         this.business = {};
-        this.workers = [
-        // { userId: '315856716', salary: 28 },
-        // { userId: '208203430', salary: 40 },
-        // { userId: '316579614', salary: 31 },
-        ];
+        this.workers = [];
         this.isNewWorkerDialogOpen = false;
         this.openNewWorkerDialog = function () {
             _this.isNewWorkerDialogOpen = true;
@@ -134,11 +128,10 @@ var WorkersComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'workers',
             templateUrl: './workers.html',
-            providers: [users_service_1.UsersService, businesses_service_1.BusinessesService, workers_service_1.WorkersService],
+            providers: [businesses_service_1.BusinessesService, workers_service_1.WorkersService],
             styleUrls: ['./workers.css']
         }),
-        __metadata("design:paramtypes", [users_service_1.UsersService,
-            businesses_service_1.BusinessesService,
+        __metadata("design:paramtypes", [businesses_service_1.BusinessesService,
             workers_service_1.WorkersService])
     ], WorkersComponent);
     return WorkersComponent;

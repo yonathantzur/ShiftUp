@@ -18,7 +18,12 @@ var WorkerCardComponent = /** @class */ (function () {
         this.onClose = new core_1.EventEmitter();
         this.workerUserData = {};
         this.calcWorkerSalery = function () {
-            console.log("handle calculate worker salary " + _this.worker.userId);
+            Swal.fire({
+                title: "עדיין בפיתוח! עובדים על זה",
+                text: "חישוב שכר עבור עובד " + _this.worker.userId,
+                type: "warning",
+                confirmButtonText: "אישור"
+            });
         };
         this.deleteWorker = function () {
             _this.onClose.emit();

@@ -16,6 +16,11 @@
     cursor: pointer;
 }
 
+.plusWorkerIcon {
+    margin-left: 5px;
+    color: #fff;
+}
+
 .deleteAllWorkersButton {
     margin: 0px 10px;
     color: #fff;
@@ -38,4 +43,11 @@
 
 .workerCard {
     margin: 15px;
+}
+
+.noWorkers {
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

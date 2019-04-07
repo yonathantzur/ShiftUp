@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-import { UsersService } from '../../services/users/users.service';
 import { BusinessesService } from '../../services/businesses/businesses.service';
 import { WorkersService } from '../../services/workers/workers.service';
 
@@ -9,21 +8,16 @@ declare let Swal: any;
 @Component({
     selector: 'workers',
     templateUrl: './workers.html',
-    providers: [UsersService, BusinessesService, WorkersService],
+    providers: [BusinessesService, WorkersService],
     styleUrls: ['./workers.css']
 })
 
 export class WorkersComponent {
     business: any = {};
-    workers: Array<any> = [
-        // { userId: '315856716', salary: 28 },
-        // { userId: '208203430', salary: 40 },
-        // { userId: '316579614', salary: 31 },
-    ];
+    workers: Array<any> = [];
     isNewWorkerDialogOpen: boolean = false;
 
     constructor(
-        private usersService: UsersService,
         private businessesService: BusinessesService,
         private workersService: WorkersService
     ) {}
@@ -61,7 +55,7 @@ export class WorkersComponent {
                             text: "העובד " + newWorker.userId + " נוסף בהצלחה לעסק",
                             type: "success",
                             confirmButtonText: "אישור"
-                          });
+                        });
                     })
                     .catch((err: any) => {
                         Swal.fire({
@@ -69,7 +63,7 @@ export class WorkersComponent {
                             text: "הפעולה נכשלה",
                             type: "error",
                             confirmButtonText: "אישור"
-                          });
+                        });
                         return;
                     });
             }

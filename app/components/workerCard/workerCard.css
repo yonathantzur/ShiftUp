@@ -50,3 +50,7 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+.removeUserIcon {
+    color: #fff;
+}
