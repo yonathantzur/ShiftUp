@@ -4,7 +4,7 @@ const registarionBL = require('../BL/registarionBL');
 const tokenHandler = require('../handlers/tokenHandler');
 
 router.post("/register", (req, res) => {
-    regBL.register(req.body).then((result) => {
+    registarionBL.register(req.body).then((result) => {
         if (result) {
             tokenHandler.setTokenOnCookie(result, res);
             result = true;

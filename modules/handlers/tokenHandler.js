@@ -18,6 +18,8 @@ module.exports = {
             "email": user.email,
             "firstName": user.firstName,
             "lastName": user.lastName,
+            "birthDate": user.birthDate,
+            "userId": user.userId,
             "businessId": user.businessId,
             "waitBusinessId": user.waitBusinessId
         }
