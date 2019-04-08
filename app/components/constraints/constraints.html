@@ -3,29 +3,26 @@
                 <table class="table tbConstraints">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">שם עובד</th>
+                        <th scope="col">תעודת זהות</th>
+                        <th scope="col">תפקיד</th>
                         <th scope="col">טווח תאריכים</th>
                         <th scope="col">פירוט</th>
+                        <th scope="col">סטטוס בקשה</th>
                         <th scope="col">פעולות נוספות</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>נופר ישראלי</td>
-                        <td>10.1.19 - 11.1.19</td>
-                        <td>לימודים</td>
+                    <tr *ngFor="let constraint of constraints">
+                        <td>שם עובד</td>
+                        <td>{{ constraint.userId }}</td>
+                        <td>תפקיד</td>
+                        <td>{{ constraint.startDate + '-' + constraint.endDate }}</td>
+                        <td>{{ constraint.description }}</td>
+                        <td>{{ constraint.status }}</td>
                         <td><a href=""><img class="iconConstraints" src="/public/icons/ok.png"></a>
                             <a href=""><img class="iconConstraints" src="/public/icons/cancel.png"></a>
                                 <a href=""><img class="iconConstraints" src="/public/icons/trash.png"></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>יונתן צור</td>
-                        <td>19.2.19 - 20.2.19</td>
-                        <td>תור לרופא</td>
-                        <td></td>
                     </tr>
                     </tbody>
                 </table>
