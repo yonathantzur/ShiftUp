@@ -12,6 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var login_service_1 = require("../../services/login/login.service");
+var page = /** @class */ (function () {
+    function page() {
+    }
+    return page;
+}());
 var NavbarComponent = /** @class */ (function () {
     function NavbarComponent(router, loginService) {
         var _this = this;
@@ -24,7 +29,7 @@ var NavbarComponent = /** @class */ (function () {
             { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" },
             { route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" },
             { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
-            { route: '/logout', displayText: "התנתקות", icon: "fas fa-sign-out-alt" }
+            { route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: this.logout.bind(this) }
         ];
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);
@@ -35,12 +40,26 @@ var NavbarComponent = /** @class */ (function () {
             }
         });
     }
+    NavbarComponent.prototype.logout = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.loginService.logout().then(resolve).catch(reject);
+        });
+    };
     NavbarComponent.prototype.pageClick = function (page) {
+        var _this = this;
         this.pages.forEach(function (page) {
             page.isClicked = false;
         });
         page.isClicked = true;
-        this.routeTo(page.route);
+        if (page.action) {
+            page.action().then(function () {
+                _this.routeTo(page.route);
+            });
+        }
+        else {
+            this.routeTo(page.route);
+        }
     };
     NavbarComponent.prototype.routeTo = function (path) {
         this.router.navigateByUrl(path);

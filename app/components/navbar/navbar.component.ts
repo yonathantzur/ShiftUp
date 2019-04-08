@@ -2,6 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login/login.service'
 
+class page {
+    route: string;
+    displayText: string;
+    icon: string;
+    action?: Function
+}
+
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.html',
@@ -11,13 +18,13 @@ import { LoginService } from '../../services/login/login.service'
 
 export class NavbarComponent {
     searchValue: string = "";
-    pages: Array<any> = [
+    pages: Array<page> = [
         { route: '/', displayText: "בית", icon: "fa fa-home" },
         { route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" },
         { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" },
         { route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" },
         { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
-        { route: '/logout', displayText: "התנתקות", icon: "fas fa-sign-out-alt" }
+        { route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: this.logout.bind(this) }
     ];
 
     constructor(private router: Router, private loginService: LoginService) {
@@ -28,13 +35,27 @@ export class NavbarComponent {
         })
     }
 
+    logout() {
+        return new Promise((resolve, reject) => {
+            this.loginService.logout().then(resolve).catch(reject);
+        });
+    }
+
     pageClick(page: any) {
         this.pages.forEach((page: any) => {
             page.isClicked = false;
         })
 
         page.isClicked = true;
-        this.routeTo(page.route);
+
+        if (page.action) {
+            page.action().then(() => {
+                this.routeTo(page.route);
+            });
+        }
+        else {
+            this.routeTo(page.route);
+        }
     }
 
     routeTo(path: string) {

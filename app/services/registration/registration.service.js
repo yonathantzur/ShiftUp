@@ -25,11 +25,11 @@ var registrationService = /** @class */ (function (_super) {
     __extends(registrationService, _super);
     function registrationService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/registration";
+        _this.prefix = "/api/registration";
         return _this;
     }
     registrationService.prototype.register = function (user) {
-        return _super.prototype.post.call(this, this.prefix + "/api/register", user)
+        return _super.prototype.post.call(this, this.prefix + "/register", user)
             .toPromise()
             .then(function (result) {
             return result;
