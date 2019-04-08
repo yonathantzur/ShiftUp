@@ -26,6 +26,7 @@ require('./modules/routes/workers')(app);
 require('./modules/routes/businesses')(app);
 app.use('/login/api/', require('./modules/routes/login'));
 app.use('/registration/api/', require('./modules/routes/registration'));
+app.use('/constraints/api/', require('./modules/routes/constraints'));
 
 // Redirect angular requests back to client side.
 app.get('**', (req, res) => {

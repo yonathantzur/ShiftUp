@@ -1,6 +1,5 @@
 const DAL = require('../DAL');
 const config = require('../../config');
-//const jwt = require('jsonwebtoken');
 const Hash = require('../libs/hash');
 const JWT = require('../libs/jwt');
 
