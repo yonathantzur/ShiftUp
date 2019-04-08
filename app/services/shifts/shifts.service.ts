@@ -1,7 +1,7 @@
 import { BasicService } from '../basic/basic.service';
 
 export class ShiftService extends BasicService {
-    prefix = "/shifts";
+    prefix = "/api/shifts";
 
     GetShiftsForBusiness(year: number, month: number) {
         return super.get(this.prefix + '/getShiftsForBusiness?year=' + year + '&month=' + month)

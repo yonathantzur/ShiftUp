@@ -1,14 +1,14 @@
 const DAL = require('../DAL');
 const config = require('../../config');
 const Hash = require('../libs/hash');
-const JWT = require('../libs/jwt');
+const tokenHandler = require('../handlers/tokenHandler');
 
 const usersCollectionName = config.db.collections.users;
 
 module.exports = {
     register: (userData) => {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(usersCollectionName, {email: userData.email})
+            DAL.FindOne(usersCollectionName, { email: userData.email })
                 .then((user) => {
                     if (!user) {
                         const hashed = Hash.hash(userData.password);
@@ -16,8 +16,8 @@ module.exports = {
                         userData.salt = hashed.salt;
                         DAL.Insert(usersCollectionName, userData).then((userId) => {
                             if (userId) {
-                                //userData.userId = userId;
-                                const token = JWT.sign(getTokenObjectFromUser(userData), config.jwt.options);
+                                userData.userId = userId;
+                                const token = tokenHandler.getToken(userData);
                                 resolve(token);
                             }
                             else {
@@ -32,14 +32,3 @@ module.exports = {
         });
     },
 };
-
-function getTokenObjectFromUser(user) {
-    return {
-        "id": user.userId,
-        "email": user.email,
-        "firstName": user.firstName,
-        "lastName": user.lastName,
-        "Id": user.userId,
-        "birthDate": user.birthDate
-    }
-}

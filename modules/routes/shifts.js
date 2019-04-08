@@ -1,24 +1,23 @@
+const express = require('express');
+const router = express.Router();
 const shiftsBL = require('../BL/shiftsBL');
 
-var prefix = "/shifts";
+router.get("/getShiftsForBusiness", (req, res) => {
+    shiftsBL.GetShiftsForBusiness(req.user.businessId,
+        req.query.year,
+        req.query.month).then(shifts => {
+            res.send(shifts);
+        }).catch(err => {
+            res.status(500).end();
+        });
+});
 
-module.exports = (app) => {
-    app.get(prefix + "/getShiftsForBusiness", (req, res) => {
-        // TODO: get user business from token.
-        shiftsBL.GetShiftsForBusiness("5c605e3f7daa9a69a9107284",
-            req.query.year,
-            req.query.month).then(shifts => {
-                res.send(shifts);
-            }).catch(err => {
-                res.status(500).end();
-            });
+router.post("/getShiftsWorkers", (req, res) => {
+    shiftsBL.GetShiftsWorkers(req.body.shiftsData).then(shiftsData => {
+        res.send(shiftsData);
+    }).catch(err => {
+        res.status(500).end();
     });
+});
 
-    app.post(prefix + "/getShiftsWorkers", (req, res) => {        
-        shiftsBL.GetShiftsWorkers(req.body.shiftsData).then(shiftsData => {
-                res.send(shiftsData);
-            }).catch(err => {
-                res.status(500).end();
-            });
-    });
-};
+module.exports = router;

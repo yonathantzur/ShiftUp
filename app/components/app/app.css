@@ -59,12 +59,12 @@ a, a:hover, a:focus, i {
 body {
     background-color: #EEE;
     font-family: Rubik;
-    color: #4b4b4b;
+    color: #5a5a5a;
     text-align: right;
 }
 
 input {
-    color: #4b4b4b;
+    color: #5a5a5a;
 }
 
 ::-webkit-scrollbar {

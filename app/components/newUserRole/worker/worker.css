@@ -1,0 +1,132 @@
+::-webkit-input-placeholder {
+    font-size: 14px;    
+}
+
+form {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 20px !important;
+}
+
+.title {
+    font-size: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-icon {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.body {
+    margin: auto;
+    margin-top: 25px;
+    padding: 25px;
+    padding-top: 15px;
+    padding-bottom: 0;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 0px 0px 5px 0px #828282;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.search-container {
+    display: flex;
+}
+
+.join-btn {
+    border-style: solid;
+    border-width: 1px;
+    background-color: #007bff;
+    color: white !important;
+    border-radius: 4px;
+    margin-top: 10px;
+    width: 120px;
+}
+
+.join-btn:hover, .join-btn:focus {
+    background-color: #007bff !important;
+    border-color: #7882b6 !important;
+}
+
+.details-text {
+    font-size: 12px;
+    user-select: none;
+}
+
+.search-input {
+    padding: 0;
+    display: inline-block;
+}
+
+.search-btn {
+    margin-right: 15px;
+    box-shadow: 0px 0px 5px 1px #c2c2c2;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background-color: #4799ff;
+    font-size: 22px;
+    align-self: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.search-btn-icon {
+    color: #f3f3f3;
+}
+
+.business-details {
+    font-size: 14px;
+}
+
+.business-detail-title {
+    text-decoration: underline;
+}
+
+.disabled-btn {
+    background-color: #9d9d9d;
+    cursor: default;
+}
+
+.back-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #979faf;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px 1px grey;
+}
+
+@keyframes back-btn {
+    from {width: 40px; height: 40px;}
+    to {width: 45px; height: 45px;}
+}
+
+.back-btn:hover {
+    width: 45px;
+    height: 45px;
+    animation-name: back-btn;
+    animation-duration: 600ms;
+}
+
+.back-icon {
+    color: whitesmoke;
+}
