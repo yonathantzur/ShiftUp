@@ -43,7 +43,7 @@ module.exports = {
 
     GetBusinessById(businessId) {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(businessCollectionName, {_id: DAL.GetObjectId(businessId)})
+            DAL.FindOne(businessesCollectionName, {_id: DAL.GetObjectId(businessId)})
                 .then(business => resolve(business))
                 .catch(reject);
         });
@@ -51,7 +51,7 @@ module.exports = {
 
     GetWorkersForBusiness(businessId) {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(businessCollectionName, {_id: DAL.GetObjectId(businessId)})
+            DAL.FindOne(businessesCollectionName, {_id: DAL.GetObjectId(businessId)})
                 .then(business => {
                     DAL.FindSpecific(usersCollectionName, {_id: {$in: business.workers}})
                         .then(workers => resolve(workers))
