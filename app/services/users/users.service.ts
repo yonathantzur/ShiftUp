@@ -1,13 +1,13 @@
 import { BasicService } from '../basic/basic.service';
 
 export class UsersService extends BasicService {
-    prefix = "/users";
+    prefix = "/api/users";
 
     GetAllUsers() {
         return super.get(this.prefix + '/getAllUsers')
             .toPromise()
             .then((result: any) => result)
-            .catch((err: any) => null);
+            .catch((err: any) =>  null);
     }
 
     GetUserById(userId: string) {

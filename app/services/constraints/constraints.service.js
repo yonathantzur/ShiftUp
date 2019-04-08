@@ -25,11 +25,11 @@ var ConstraintsService = /** @class */ (function (_super) {
     __extends(ConstraintsService, _super);
     function ConstraintsService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/constraints";
+        _this.prefix = "/api/constraints";
         return _this;
     }
     ConstraintsService.prototype.getAllConstraints = function () {
-        return _super.prototype.get.call(this, this.prefix + "/api/getAllConstraints")
+        return _super.prototype.get.call(this, this.prefix + "/getAllConstraints")
             .toPromise()
             .then(function (result) {
             return result;

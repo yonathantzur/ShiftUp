@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var worker_service_1 = require("../../../services/worker/worker.service");
+var workers_service_1 = require("../../../services/workers/workers.service");
 var router_1 = require("@angular/router");
 var login_service_1 = require("../../../services/login/login.service");
 var WorkerWaitComponent = /** @class */ (function () {
@@ -37,10 +37,10 @@ var WorkerWaitComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'workerWait',
             templateUrl: './workerWait.html',
-            providers: [worker_service_1.WorkerService],
+            providers: [workers_service_1.WorkersService],
             styleUrls: ['./workerWait.css']
         }),
-        __metadata("design:paramtypes", [worker_service_1.WorkerService,
+        __metadata("design:paramtypes", [workers_service_1.WorkersService,
             router_1.Router,
             login_service_1.LoginService])
     ], WorkerWaitComponent);

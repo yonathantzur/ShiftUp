@@ -18,7 +18,7 @@ var UsersService = /** @class */ (function (_super) {
     __extends(UsersService, _super);
     function UsersService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/users";
+        _this.prefix = "/api/users";
         return _this;
     }
     UsersService.prototype.GetAllUsers = function () {

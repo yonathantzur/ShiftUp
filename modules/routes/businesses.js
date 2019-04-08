@@ -1,66 +1,51 @@
+const express = require('express');
+const router = express.Router();
 const businessesBL = require('../BL/businessesBL');
-const usersBL = require('../BL/usersBL');
-const jwt = require('jsonwebtoken');
+const tokenHandler = require('../handlers/tokenHandler');
 
-var prefix = "/businesses";
+router.post("/addBusiness", (req, res) => {
+    let userId = req.user.id;
+    businessesBL.AddBusiness(userId, req.body).then((result) => {
+        businessesBL.AddBusinessToUser(userId, result.businessId).then(user => {
+            let token = tokenHandler.getToken(user);
+            tokenHandler.setTokenOnCookie(token, res);
+            res.send(result);
+        });
+    }).catch((err) => {
+        res.sendStatus(500);
+    });
+});
 
-module.exports = (app) => {
+router.get("/getLoggedInBusiness", (req, res) => {
+    const businessId = req.user.businessId;
 
-    app.get(prefix + "/getLoggedInBusiness", (req, res) => {
-        const cookies = parseCookies(req);
-        try {
-            const decodedToken = jwt.decode(cookies.tk);
-            const businessId = decodedToken.payload.businessId;
-            if (businessId && businessId != "") {
-                businessesBL.GetBusinessById(businessId)
-                    .then(business => {
-                        if (business) {
-                            res.send(business);
-                        } else {
-                            res.status(500).end();
-                        }
-                    }).catch(err => {
-                        res.status(500).end();
-                    }
-                );
-            } else {
+    if (businessId) {
+        businessesBL.GetBusinessById(businessId)
+            .then(business => {
+                res.send(business);
+            }).catch(err => {
                 res.status(500).end();
             }
-        } catch (err) {
-            res.status(500).end();
-        }
-    });
+        );
+    } else {
+        res.status(500).end();
+    }
+});
 
-    app.get(prefix + "/getWorkersForBusiness", (req, res) => {
-        const cookies = parseCookies(req);
-        const decodedToken = jwt.decode(cookies.tk);
-        const businessId = decodedToken.payload.businessId;
-        if (businessId && businessId != "") {
-            businessesBL.GetWorkersForBusiness(businessId)
-                .then(workers => {
-                    if (workers) {
-                        res.send(workers);
-                    } else {
-                        res.status(500).end();
-                    }
-                }).catch(err => {
-                    res.status(500).end();
-                }
-            );
-        } else {
-            res.status(500).end();
-        }
-    });
-};
+router.get("/getWorkersForBusiness", (req, res) => {
+    const businessId = req.user.businessId;
 
-function parseCookies(request){
-    let list = {},
-        rc = request.headers.cookie;
+    if (businessId) {
+        businessesBL.GetWorkersForBusiness(businessId)
+            .then(workers => {
+                res.send(workers);
+            }).catch(err => {
+                res.status(500).end();
+            }
+        );
+    } else {
+        res.status(500).end();
+    }
+});
 
-    rc && rc.split(';').forEach(function( cookie ) {
-        let parts = cookie.split('=');
-        list[parts.shift().trim()] = decodeURI(parts.join('='));
-    });
-
-    return list;
-}
+module.exports = router;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BusinessService } from '../../../services/business/business.service';
+import { BusinessesService } from '../../../services/businesses/businesses.service';
 import { Router } from '@angular/router';
 
 declare let Swal: any;
@@ -33,14 +33,14 @@ export class Business {
 @Component({
     selector: 'newBusiness',
     templateUrl: './newBusiness.html',
-    providers: [BusinessService],
+    providers: [BusinessesService],
     styleUrls: ['./newBusiness.css']
 })
 
 export class NewBusinessComponent {
     business: Business;
 
-    constructor(private businessService: BusinessService,
+    constructor(private businessesService: BusinessesService,
         private router: Router) {
         this.business = new Business();
         this.business.shifts = [new Shift()];
@@ -114,7 +114,7 @@ export class NewBusinessComponent {
     }
 
     addBusiness() {
-        this.isBusinessValid() && this.businessService.AddBusiness(this.business).then(result => {
+        this.isBusinessValid() && this.businessesService.AddBusiness(this.business).then(result => {
             if (result) {
                 Swal.fire({
                     type: 'success',

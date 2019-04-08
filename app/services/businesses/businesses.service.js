@@ -18,7 +18,7 @@ var BusinessesService = /** @class */ (function (_super) {
     __extends(BusinessesService, _super);
     function BusinessesService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/businesses";
+        _this.prefix = "/api/businesses";
         return _this;
     }
     BusinessesService.prototype.GetLoggedInBusiness = function () {
@@ -32,6 +32,16 @@ var BusinessesService = /** @class */ (function (_super) {
             .toPromise()
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
+    };
+    BusinessesService.prototype.AddBusiness = function (business) {
+        return _super.prototype.post.call(this, this.prefix + '/addBusiness', business)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
     };
     return BusinessesService;
 }(basic_service_1.BasicService));

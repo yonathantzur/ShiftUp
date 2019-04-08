@@ -1,9 +1,6 @@
-//constraints
 const express = require('express');
 const constraintsBL = require('../BL/constraintsBL');
 const router = express.Router();
-
-//var prefix = "/constraints";
 
 
 router.get("/getAllConstraints", (req, res) => {

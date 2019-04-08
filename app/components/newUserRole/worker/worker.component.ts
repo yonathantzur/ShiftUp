@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WorkerService } from '../../../services/worker/worker.service';
+import { WorkersService } from '../../../services/workers/workers.service';
 import { Router } from '@angular/router';
 
 declare let Swal: any;
@@ -7,7 +7,7 @@ declare let Swal: any;
 @Component({
     selector: 'worker',
     templateUrl: './worker.html',
-    providers: [WorkerService],
+    providers: [WorkersService],
     styleUrls: ['./worker.css']
 })
 
@@ -15,12 +15,12 @@ export class WorkerComponent {
     businessId: number;
     business: any;
 
-    constructor(private workerService: WorkerService,
+    constructor(private workersService: WorkersService,
         private router: Router) { }
 
     SearchForBusiness() {
         this.business = null;
-        this.businessId && this.workerService.GetBusinessByCode(this.businessId).then(result => {
+        this.businessId && this.workersService.GetBusinessByCode(this.businessId).then(result => {
             if (result == false) {
                 Swal.fire({
                     type: 'error',
@@ -46,7 +46,7 @@ export class WorkerComponent {
     }
 
     SendWorkerRequest() {
-        this.workerService.SendWorkerRequest(this.business._id, this.business.manager._id).then(result => {
+        this.workersService.SendWorkerRequest(this.business._id, this.business.manager._id).then(result => {
             if (result) {
                 this.router.navigateByUrl('/workerWait');
             }

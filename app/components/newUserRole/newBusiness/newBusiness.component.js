@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var business_service_1 = require("../../../services/business/business.service");
+var businesses_service_1 = require("../../../services/businesses/businesses.service");
 var router_1 = require("@angular/router");
 var Shift = /** @class */ (function () {
     function Shift(name, workersAmount) {
@@ -29,8 +29,8 @@ var Business = /** @class */ (function () {
 }());
 exports.Business = Business;
 var NewBusinessComponent = /** @class */ (function () {
-    function NewBusinessComponent(businessService, router) {
-        this.businessService = businessService;
+    function NewBusinessComponent(businessesService, router) {
+        this.businessesService = businessesService;
         this.router = router;
         this.business = new Business();
         this.business.shifts = [new Shift()];
@@ -91,7 +91,7 @@ var NewBusinessComponent = /** @class */ (function () {
     };
     NewBusinessComponent.prototype.addBusiness = function () {
         var _this = this;
-        this.isBusinessValid() && this.businessService.AddBusiness(this.business).then(function (result) {
+        this.isBusinessValid() && this.businessesService.AddBusiness(this.business).then(function (result) {
             if (result) {
                 Swal.fire({
                     type: 'success',
@@ -116,10 +116,10 @@ var NewBusinessComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'newBusiness',
             templateUrl: './newBusiness.html',
-            providers: [business_service_1.BusinessService],
+            providers: [businesses_service_1.BusinessesService],
             styleUrls: ['./newBusiness.css']
         }),
-        __metadata("design:paramtypes", [business_service_1.BusinessService,
+        __metadata("design:paramtypes", [businesses_service_1.BusinessesService,
             router_1.Router])
     ], NewBusinessComponent);
     return NewBusinessComponent;
