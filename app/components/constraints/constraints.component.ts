@@ -1,26 +1,41 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
-import {LoginService} from "../../services/login/login.service";
+import { UsersService } from "../../services/users/users.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'constraints',
     templateUrl: './constraints.html',
-    providers: [ConstraintsService],
+    providers: [ConstraintsService, UsersService],
     styleUrls: ['./constraints.css']
 })
 
 export class ConstraintsComponent implements OnInit {
-    constraints: any = {};
+    constraints: Array<any> = [];
+    usernames: any = {};
 
-    constructor(private ConstraintsService: ConstraintsService,
+    constructor(private constraintsService: ConstraintsService,
+                private usersService: UsersService,
                 private route: ActivatedRoute,
                 private router: Router) {
     }
 
     ngOnInit() {
-        this.ConstraintsService.getAllConstraints().then((data: any) => {
+        this.constraintsService.getAllConstraints().then((data: any) => {
             this.constraints = data;
         });
+        this.InitiateAllUsernames();
     }
+    
+    InitiateAllUsernames() {
+        if(this.constraints) {
+            for(let con in this.constraints) {
+                this.usersService.GetUserById(this.constraints[con].userId).then((data: any) => {
+                    this.usernames.firstName.push(data.firstName);
+                    this.usernames.lastName.push(data.lastName);
+                });
+            }
+        }
+    }
+
 }

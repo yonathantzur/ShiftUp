@@ -3,8 +3,9 @@
                 <table class="table tbConstraints">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">שם עובד</th>
+                        <th scope="col">#</th>
                         <th scope="col">תעודת זהות</th>
+                        <th scope="col">שם</th>
                         <th scope="col">תפקיד</th>
                         <th scope="col">טווח תאריכים</th>
                         <th scope="col">פירוט</th>
@@ -13,11 +14,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let constraint of constraints">
-                        <td>שם עובד</td>
+                    <tr *ngFor="let constraint of constraints; let i=index; let username of usernames">
+                        <td>{{i+1}}</td>
                         <td>{{ constraint.userId }}</td>
+                        <td>{{username.firstName + " " + username.lastName}}</td>
                         <td>תפקיד</td>
-                        <td>{{ constraint.startDate + '-' + constraint.endDate }}</td>
+                        <td>{{ constraint.startDate + ' עד ' + constraint.endDate }}</td>
                         <td>{{ constraint.description }}</td>
                         <td>{{ constraint.status }}</td>
                         <td><a href=""><img class="iconConstraints" src="/public/icons/ok.png"></a>
