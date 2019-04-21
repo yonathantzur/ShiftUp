@@ -37,13 +37,3 @@ module.exports = {
     },
 
 };
-
-function getTokenObjectFromUser(user) {
-    return {
-        "id": user._id,
-        "email": user.email,
-        "userId": user.userId,
-        "firstName": user.firstName,
-        "lastName": user.lastName,
-        "businessId": user.businessId
-    }

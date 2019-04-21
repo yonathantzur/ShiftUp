@@ -31,16 +31,24 @@ module.exports = {
 
     AddWorkerToBusiness(businessId, userId, salary) {
         return new Promise((resolve, reject) => {
-
             DAL.UpdateOne(usersCollectionName, { userId: userId }, {
                 $set: {
                     businessId: DAL.GetObjectId(businessId),
                     salary: salary
+                },
+                $unset: {
+                    waitBusinessId: "",
                 }
-            }).then(user => {
-                DAL.UpdateOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) }, {
-                    $push: { workers: user._id }
-                }).then(business => resolve(business))
+            })
+            .then(user => {
+                DAL.Update(usersCollectionName, {}, {
+                    $pull: { requests: DAL.GetObjectId(user._id) }
+                }).then(() => {
+                    DAL.UpdateOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) }, {
+                        $push: { workers: user._id }
+                    }).then(business => resolve(business))
+                        .catch(reject);
+                })
                     .catch(reject);
             })
                 .catch(reject);

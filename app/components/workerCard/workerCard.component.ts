@@ -25,6 +25,11 @@ export class WorkerCardComponent {
             .then((userData: any) => this.workerUserData = userData);
     }
 
+    calcAge = (strBirthDate: string) => {
+        const birthDate = new Date(strBirthDate).valueOf();
+        return new Date(Date.now() - birthDate).getFullYear() - 1970;
+    }
+
     calcWorkerSalery = () => {
         Swal.fire({
             title: "עדיין בפיתוח! עובדים על זה",

@@ -17,6 +17,10 @@ var WorkerCardComponent = /** @class */ (function () {
         this.usersService = usersService;
         this.onClose = new core_1.EventEmitter();
         this.workerUserData = {};
+        this.calcAge = function (strBirthDate) {
+            var birthDate = new Date(strBirthDate).valueOf();
+            return new Date(Date.now() - birthDate).getFullYear() - 1970;
+        };
         this.calcWorkerSalery = function () {
             Swal.fire({
                 title: "עדיין בפיתוח! עובדים על זה",
