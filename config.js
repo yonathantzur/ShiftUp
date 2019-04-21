@@ -17,7 +17,7 @@ module.exports = {
             users: "Users",
             businesses: "Businesses",
             shifts: "Shifts",
-            constraints: "Constraints",
+            constraints: "Constraints"
         }
     }
 };

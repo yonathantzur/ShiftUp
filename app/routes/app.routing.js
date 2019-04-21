@@ -16,10 +16,17 @@ var workers_component_1 = require("../components/workers/workers.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 var registration_component_1 = require("../components/registration/registration.component");
-var auth_guard_1 = require("../guards/auth.guard");
+var newUserRole_component_1 = require("../components/newUserRole/newUserRole.component");
+var newBusiness_component_1 = require("../components/newUserRole/newBusiness/newBusiness.component");
+var worker_component_1 = require("../components/newUserRole/worker/worker.component");
+var workerWait_component_1 = require("../components/newUserRole/workerWait/workerWait.component");
+var auth_guard_1 = require("../guards/auth/auth.guard");
+var auth_guard_2 = require("../guards/auth/auth.guard");
+var userRole_guard_1 = require("../guards/userRole/userRole.guard");
+var userRole_guard_2 = require("../guards/userRole/userRole.guard");
 var routes = [
     {
-        path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard],
+        path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard, userRole_guard_2.StateUserGuard],
         children: [
             { path: '', component: home_component_1.HomeComponent },
             { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
@@ -28,9 +35,17 @@ var routes = [
             { path: 'statistics', component: statistics_component_1.StatisticsComponent },
         ],
     },
-    { path: 'login', component: login_component_1.LoginComponent },
-    { path: 'logout', component: login_component_1.LoginComponent },
-    { path: 'register', component: registration_component_1.RegistrationComponent },
+    { path: 'login', component: login_component_1.LoginComponent, canActivate: [auth_guard_2.LoginGuard] },
+    { path: 'register', component: registration_component_1.RegistrationComponent, canActivate: [auth_guard_2.LoginGuard] },
+    {
+        path: 'role', canActivate: [userRole_guard_1.StatelessUserGuard],
+        children: [
+            { path: '', component: newUserRole_component_1.NewUserRoleComponent },
+            { path: 'business', component: newBusiness_component_1.NewBusinessComponent },
+            { path: 'worker', component: worker_component_1.WorkerComponent }
+        ]
+    },
+    { path: 'workerWait', component: workerWait_component_1.WorkerWaitComponent, canActivate: [userRole_guard_1.WaitUserGuard] },
     { path: '**', redirectTo: '' }
 ];
 var Routing = /** @class */ (function () {

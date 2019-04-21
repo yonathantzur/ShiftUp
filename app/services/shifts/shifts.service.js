@@ -18,7 +18,7 @@ var ShiftService = /** @class */ (function (_super) {
     __extends(ShiftService, _super);
     function ShiftService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/shifts";
+        _this.prefix = "/api/shifts";
         return _this;
     }
     ShiftService.prototype.GetShiftsForBusiness = function (year, month) {

@@ -1,0 +1,170 @@
+::-webkit-input-placeholder {
+    font-size: 14px;    
+}
+
+form {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 20px !important;
+}
+
+.title {
+    font-size: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-icon {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.body {
+    margin: auto;
+    margin-top: 25px;
+    padding: 25px;
+    padding-top: 15px;
+    padding-bottom: 0;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 0px 0px 5px 0px #828282;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.business-btn {
+    border-style: solid;
+    border-width: 1px;
+    background-color: #007bff;
+    color: white !important;
+    border-radius: 4px;
+    margin-top: 10px;
+    width: 120px;
+}
+
+.business-btn:hover, .business-btn:focus {
+    background-color: #007bff !important;
+    border-color: #7882b6 !important;
+}
+
+.shifts {
+    padding: 5px;
+}
+
+.shifts-container {
+    padding: 10px; 
+    max-height: 165px;
+    overflow-y: scroll;
+    user-select: none;
+    position: relative;
+}
+
+.shifts-title {    
+    user-select: none;
+    margin-bottom: 15px;
+    text-decoration: underline;
+}
+
+.new-shift-icon {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.new-shift-input {
+    display: inline-block;
+    padding: 0;
+}
+
+.new-shift-input-title {
+    position: absolute;
+    font-size: 12px;
+    top: -8px;
+}
+
+.new-shift-input-data {
+    font-size: 14px;
+}
+
+.input-right {
+    padding-left: 10px;
+    margin-right: 12px;
+}
+
+.input-left {
+    padding-right: 10px;
+}
+
+.new-shift-btn {
+    font-size: 14px;
+    user-select: none;
+    padding: 4px 6px 4px 6px;
+    display: inline-block;
+    background-color: #efefef;
+    cursor: pointer;
+    position: absolute;
+    left: 45px;
+}
+
+.new-shift-btn:hover {
+    text-decoration: underline;
+}
+
+.shift {
+    margin-bottom: 20px;
+}
+
+.no-margin {
+    margin-bottom: 0 !important;
+}
+
+.shift-number {
+    font-size: 12px;
+    position: absolute;
+    right: 0;
+    margin-top: 15px;
+}
+
+.delete-shift-icon {
+    position: relative;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.back-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #979faf;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px 1px grey;
+}
+
+@keyframes back-btn {
+    from {width: 40px; height: 40px;}
+    to {width: 45px; height: 45px;}
+}
+
+.back-btn:hover {
+    width: 45px;
+    height: 45px;
+    animation-name: back-btn;
+    animation-duration: 600ms;
+}
+
+.back-icon {
+    color: whitesmoke;
+}

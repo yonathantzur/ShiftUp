@@ -1,0 +1,96 @@
+.choose-container {
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes btn-size {
+    from {width: 100px; height: 100px; font-size: 8px;}
+    to {width: 250px; height: 250px; font-size: 18px;}
+}
+
+.choose-btn {
+    width: 250px;
+    height: 250px;
+    border: 0.5px solid gray;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    animation-name: btn-size;
+    animation-duration: 600ms;
+    position: relative;
+    font-size: 18px;
+}
+
+.choose-btn:hover {
+    background-color: #e7e7e7;    
+}
+
+.title {
+    margin: 30px;
+    user-select: none;
+}
+
+.btn-container {
+    margin: 50px;
+}
+
+.marker {
+    margin: 50px;
+}
+
+.marker-hover {
+    border-bottom: 0.5px solid #979797;    
+    padding-bottom: 20px;
+}
+
+
+@keyframes icon-size {
+    from {font-size: 8px;}
+    to {font-size:30px;}
+}
+
+.btn-text {
+    margin-top: 15%;
+}
+
+.btn-icon {
+    position: absolute;
+    top: 35%;
+    font-size: 30px;
+    animation-name: icon-size;
+    animation-duration: 600ms;
+}
+
+.logout-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #979faf;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px 1px grey;
+}
+
+@keyframes logout-btn {
+    from {width: 40px; height: 40px;}
+    to {width: 45px; height: 45px;}
+}
+
+.logout-btn:hover {
+    width: 45px;
+    height: 45px;
+    animation-name: logout-btn;
+    animation-duration: 600ms;
+}
+
+.logout-icon {
+    color: whitesmoke;
+}

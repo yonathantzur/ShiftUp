@@ -1,0 +1,38 @@
+<div id="workerWait">
+    <div class="title">
+        <span>עובד חדש</span>
+        <i class="title-icon fas fa-user"></i>
+    </div>
+    <div class="body row col-md-4 col-10">
+        <form>
+            <div class="form-group" *ngIf="business">
+                <p>
+                    שלום {{business.workerName}},
+                    <br>
+                    יש להמתין לאישור של מנהל בית העסק.
+                </p>
+                <div class="business-details">
+                    <div>
+                        <span class="business-detail-title">שם בית העסק</span>:
+                        {{business.name}}
+                    </div>
+                    <div>
+                        <span class="business-detail-title">כתובת</span>:
+                        {{business.address}}
+                    </div>
+                    <div>
+                        <span class="business-detail-title">מנהל</span>:
+                        {{business.manager.firstName + " " + business.manager.lastName}}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" (click)="cancelRequest()" id="cancel-btn"
+                    class="btn btn-primary cancel-btn">ביטול בקשה</button>
+            </div>
+        </form>
+    </div>
+    <div class="logout-btn" title="התנתקות" (click)="logout()">
+        <i class="fas fa-sign-out-alt logout-icon"></i>
+    </div>
+</div>

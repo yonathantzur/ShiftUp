@@ -19,14 +19,13 @@ export class WorkersComponent {
 
     constructor(
         private businessesService: BusinessesService,
-        private workersService: WorkersService
-    ) {}
-    
+        private workersService: WorkersService) { }
+
     ngOnInit() {
         this.businessesService.GetLoggedInBusiness().then((business: any) => {
             this.business = business;
         });
-        
+
         this.businessesService.GetWorkersForBusiness().then((workers: any) => {
             this.workers = workers;
         });
@@ -44,7 +43,7 @@ export class WorkersComponent {
                     text: "קיים עובד עם מספר תעודת זהות זהה.",
                     type: "error",
                     confirmButtonText: "אישור"
-                  });
+                });
                 return;
             } else {
                 this.workersService.AddWorkerToBusiness(newWorker.userId, newWorker.salary)
@@ -102,7 +101,7 @@ export class WorkersComponent {
                             timer: 1000
                         });
                     })
-                
+
             }
         });
     }

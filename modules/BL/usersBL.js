@@ -30,10 +30,10 @@ module.exports = {
         });
     },
 
-    IsUserAvailableForBusiness(userId) {
+    IsUserAvailableForBusiness(userId, managerBusinessId) {
         return new Promise((resolve, reject) => {
             DAL.FindOne(usersCollectionName, {userId: userId})
-                .then(user => resolve(user.businessId == undefined))
+                .then(user => resolve(user.waitBusinessId == managerBusinessId))
                 .catch(e => resolve(false));
         });
     }

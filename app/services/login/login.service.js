@@ -25,11 +25,11 @@ var LoginService = /** @class */ (function (_super) {
     __extends(LoginService, _super);
     function LoginService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/login";
+        _this.prefix = "/api/login";
         return _this;
     }
     LoginService.prototype.UserLogin = function (user) {
-        return _super.prototype.post.call(this, this.prefix + "/api/userLogin", user)
+        return _super.prototype.post.call(this, this.prefix + "/userLogin", user)
             .toPromise()
             .then(function (result) {
             return result;
@@ -39,7 +39,7 @@ var LoginService = /** @class */ (function (_super) {
         });
     };
     LoginService.prototype.logout = function () {
-        return _super.prototype.get.call(this, this.prefix + "/api/logout")
+        return _super.prototype.get.call(this, this.prefix + "/logout")
             .toPromise()
             .then(function (result) {
             return result;
@@ -49,7 +49,29 @@ var LoginService = /** @class */ (function (_super) {
         });
     };
     LoginService.prototype.isUserLogin = function () {
-        return _super.prototype.get.call(this, this.prefix + "/api/isUserLogin")
+        return _super.prototype.get.call(this, this.prefix + "/isUserLogin")
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
+    // In case the user is not set as a worker or as a manager.
+    LoginService.prototype.IsStatelessUser = function () {
+        return _super.prototype.get.call(this, this.prefix + "/isStatelessUser")
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
+    // In case the user is wait for business work approve.
+    LoginService.prototype.IsWaitUser = function () {
+        return _super.prototype.get.call(this, this.prefix + "/isWaitUser")
             .toPromise()
             .then(function (result) {
             return result;
