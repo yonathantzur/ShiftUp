@@ -35,6 +35,7 @@
     "mongodb": "^3.2.3",
     "nodemailer": "^6.1.0",
     "popper.js": "^1.15.0",
+    "python-shell": "^1.0.7",
     "sweetalert2": "^8.8.5",
     "systemjs": "^0.21.6",
     "zone.js": "^0.9.0"
