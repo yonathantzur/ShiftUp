@@ -3,7 +3,6 @@ const config = require('../../config');
 
 const usersCollectionName = config.db.collections.users;
 const shiftsCollectionName = config.db.collections.shifts;
-const businessesCollectionName = config.db.collections.businesses;
 
 module.exports = {
 
