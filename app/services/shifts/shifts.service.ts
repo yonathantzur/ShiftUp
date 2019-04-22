@@ -14,6 +14,17 @@ export class ShiftService extends BasicService {
             });
     }
 
+    GetMyShiftsForBusiness(year: number, month: number) {
+        return super.get(this.prefix + '/getMyShiftsForBusiness?year=' + year + '&month=' + month)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
     GetShiftsWorkers(shiftsData: Array<any>) {
         let data = { shiftsData };
 

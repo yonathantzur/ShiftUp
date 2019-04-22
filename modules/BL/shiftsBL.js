@@ -7,7 +7,7 @@ const businessesCollectionName = config.db.collections.businesses;
 
 module.exports = {
 
-    GetShiftsForBusiness(businessId, year, month) {
+    GetShiftsForBusiness(businessId, year, month, userId) {
         return new Promise((resolve, reject) => {
 
             if (month < 10) {
@@ -18,6 +18,10 @@ module.exports = {
                 "businessId": DAL.GetObjectId(businessId),
                 "date": new RegExp(year + "-" + month + "-.*")
             };
+
+            if (userId) {
+                findFilter["shiftsData.workers"] = DAL.GetObjectId(userId);
+            }
 
             DAL.Find(shiftsCollectionName, findFilter).then(resolve).catch(reject);
         });
@@ -45,7 +49,7 @@ module.exports = {
                 shiftsData.forEach(shift => {
                     shift.workers = shift.workers.map(workerId => {
                         return getWorkerById(workerId, workers);
-                    });                
+                    });
                 });
 
                 resolve(shiftsData);

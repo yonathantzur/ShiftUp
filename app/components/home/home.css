@@ -9,8 +9,41 @@
 
 .shiftCard {
     width: calc(40% - 20px);
-    height: calc(100% - 50px);
+    height: calc(100% - 120px);
     position: absolute;
     left: 0;
+    top: 120px;
+    display: flex;    
+}
+
+.data-filter-container {
+    width: calc(40% - 20px);
+    height: 70px;
+    position: absolute;
+    left: 0;
+    top: 50px;
     display: flex;
+    padding: 10px;
+}
+
+.shifts-filter {
+    width: 100%;
+}
+
+.filter-label {
+    font-size: 14px;
+}
+
+.filter-select {
+    width: 60%;
+    padding: 0;
+    bottom: 10px;
+    position: relative;
+}
+
+.select-icon {
+    position: absolute;
+    top: 35px;
+    right: 56%;
+    color: gray;    
 }
