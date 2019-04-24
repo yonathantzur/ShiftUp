@@ -10,9 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var event_service_1 = require("../../services/event/event.service");
+var enums_1 = require("../../enums/enums");
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent() {
+    function HomeComponent(eventService) {
+        this.eventService = eventService;
+        this.shiftsFilter = enums_1.SHIFTS_FILTER;
     }
+    HomeComponent.prototype.Filter = function (value) {
+        this.eventService.Emit('changeFilter', value);
+    };
     HomeComponent = __decorate([
         core_1.Component({
             selector: 'home',
@@ -20,7 +27,7 @@ var HomeComponent = /** @class */ (function () {
             providers: [],
             styleUrls: ['./home.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [event_service_1.EventService])
     ], HomeComponent);
     return HomeComponent;
 }());
