@@ -31,6 +31,16 @@ var ShiftService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ShiftService.prototype.GetMyShiftsForBusiness = function (year, month) {
+        return _super.prototype.get.call(this, this.prefix + '/getMyShiftsForBusiness?year=' + year + '&month=' + month)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     ShiftService.prototype.GetShiftsWorkers = function (shiftsData) {
         var data = { shiftsData: shiftsData };
         return _super.prototype.post.call(this, this.prefix + '/getShiftsWorkers', data)

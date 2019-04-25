@@ -1,4 +1,14 @@
 <div id="home">
     <calendar class="calendar"></calendar>
+    <div class="data-filter-container">
+        <div class="form-group shifts-filter">
+            <label class="filter-label">תצוגת משמרות</label>            
+            <select class="form-control filter-select" (change)="Filter($event.target.value)">
+                <option [value]="shiftsFilter.ALL">הכל</option>
+                <option [value]="shiftsFilter.ME">אני</option>
+            </select>
+            <i class="fas fa-sort-down select-icon"></i>
+        </div>
+    </div>
     <shiftCard class="shiftCard"></shiftCard>
 </div>

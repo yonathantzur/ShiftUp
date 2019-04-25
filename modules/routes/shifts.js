@@ -12,6 +12,17 @@ router.get("/getShiftsForBusiness", (req, res) => {
         });
 });
 
+router.get("/getMyShiftsForBusiness", (req, res) => {
+    shiftsBL.GetShiftsForBusiness(req.user.businessId,
+        req.query.year,
+        req.query.month,
+        req.user.id).then(shifts => {
+            res.send(shifts);
+        }).catch(err => {
+            res.status(500).end();
+        });
+});
+
 router.post("/getShiftsWorkers", (req, res) => {
     shiftsBL.GetShiftsWorkers(req.body.shiftsData).then(shiftsData => {
         res.send(shiftsData);

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ShiftService } from '../../services/shifts/shifts.service';
 import { EventService } from '../../services/event/event.service';
+
+import { SHIFTS_FILTER } from '../../enums/enums'
 
 declare let $: any;
 
@@ -12,13 +14,41 @@ declare let $: any;
     styleUrls: ['./calendar.css']
 })
 
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
     calendar: any;
     markedEvent: any;
     eventsCache: Object = {};
+    viewState: SHIFTS_FILTER = SHIFTS_FILTER.ALL;
+
+    eventsIds: Array<string> = [];
 
     constructor(private shiftService: ShiftService,
-        private eventService: EventService) { }
+        private eventService: EventService) {
+        let self = this;
+
+        self.eventService.Register("changeFilter", (filter: SHIFTS_FILTER) => {
+            self.eventService.Emit("calanderViewRender");
+            self.viewState = filter;
+            self.eventsCache = {};
+            let dateRange = $('#calendar').fullCalendar('getDate')._i;
+            let year: number = dateRange[0];
+            let month: number = dateRange[1] + 1;
+
+            let reqQuery;
+
+            if (filter == SHIFTS_FILTER.ALL) {
+                reqQuery = self.shiftService.GetShiftsForBusiness(year, month);
+            }
+            else if (filter == SHIFTS_FILTER.ME) {
+                reqQuery = self.shiftService.GetMyShiftsForBusiness(year, month);
+            }
+
+            reqQuery.then((shifts: Array<any>) => {
+                shifts && self.handleShiftsResult(shifts, year, month);
+            });
+
+        }, self.eventsIds);
+    }
 
     ngOnInit() {
         let self = this;
@@ -38,22 +68,17 @@ export class CalendarComponent implements OnInit {
                     self.loadShifts(eventsFromCache);
                 }
                 else {
-                    self.shiftService.GetShiftsForBusiness(year, month).then((shifts: Array<any>) => {
-                        if (shifts) {
-                            let events: Array<any> = [];
+                    let reqQuery;
 
-                            shifts.forEach((shift: any) => {
-                                events.push({
-                                    id: shift._id,
-                                    title: "שיבוץ",
-                                    start: shift.date,
-                                    shiftsData: shift.shiftsData
-                                });
-                            });
+                    if (self.viewState == SHIFTS_FILTER.ALL) {
+                        reqQuery = self.shiftService.GetShiftsForBusiness(year, month);
+                    }
+                    else if (self.viewState == SHIFTS_FILTER.ME) {
+                        reqQuery = self.shiftService.GetMyShiftsForBusiness(year, month);
+                    }
 
-                            self.eventsCache[year + "-" + month] = events;
-                            self.loadShifts(events);
-                        }
+                    reqQuery.then((shifts: Array<any>) => {
+                        shifts && self.handleShiftsResult(shifts, year, month);
                     });
                 }
             },
@@ -68,7 +93,28 @@ export class CalendarComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        this.eventService.UnsubscribeEvents(this.eventsIds);
+    }
+
+    handleShiftsResult(shifts: Array<any>, year: number, month: number) {
+        let events: Array<any> = [];
+
+        shifts.forEach((shift: any) => {
+            events.push({
+                id: shift._id,
+                title: "שיבוץ",
+                start: shift.date,
+                shiftsData: shift.shiftsData
+            });
+        });
+
+        this.eventsCache[year + "-" + month] = events;
+        this.loadShifts(events);
+    }
+
     loadShifts(shifts: Array<any>) {
+        this.calendar.fullCalendar('removeEvents');
         this.calendar.fullCalendar('renderEvents', shifts);
     }
 }

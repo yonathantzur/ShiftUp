@@ -2,6 +2,7 @@ const DAL = require('../DAL');
 const config = require('../../config');
 const Hash = require('../libs/hash');
 const tokenHandler = require('../handlers/tokenHandler');
+const mailer = require('../mailer');
 
 const usersCollectionName = config.db.collections.users;
 
@@ -19,6 +20,7 @@ module.exports = {
                                 userData.userId = userId;
                                 const token = tokenHandler.getToken(userData);
                                 resolve(token);
+                                mailer.RegisterMail(userData.email, userData.firstName);
                             }
                             else {
                                 reject(null);

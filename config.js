@@ -19,5 +19,9 @@ module.exports = {
             shifts: "Shifts",
             constraints: "Constraints"
         }
+    },
+    mailer: {
+        mail: "shiftup@group.com",
+        apiKeyCode: process.env.SHIFTUP_MAIL_KEY_CODE
     }
 };
