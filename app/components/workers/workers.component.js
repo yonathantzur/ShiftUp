@@ -19,9 +19,11 @@ var WorkersComponent = /** @class */ (function () {
         this.workersService = workersService;
         this.business = {};
         this.workers = [];
-        this.isNewWorkerDialogOpen = false;
-        this.openNewWorkerDialog = function () {
-            _this.isNewWorkerDialogOpen = true;
+        this.isNewWorkerComponentActive = false;
+        this.hoverBtn = false;
+        this.activateNewWorkerComponent = function () {
+            _this.hoverBtn = false;
+            _this.isNewWorkerComponentActive = true;
         };
         this.onNewWorkerClose = function (newWorker) {
             if (newWorker) {
@@ -56,7 +58,7 @@ var WorkersComponent = /** @class */ (function () {
                     });
                 }
             }
-            _this.isNewWorkerDialogOpen = false;
+            _this.isNewWorkerComponentActive = false;
         };
         this.onDeleteWorker = function (workerUserId) {
             Swal.fire({

@@ -45,7 +45,7 @@ module.exports = {
                     $pull: { requests: DAL.GetObjectId(user._id) }
                 }).then(() => {
                     DAL.UpdateOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) }, {
-                        $push: { workers: user._id }
+                        $addToSet: { workers: user._id }
                     }).then(business => resolve(business))
                         .catch(reject);
                 })

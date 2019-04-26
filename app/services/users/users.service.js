@@ -28,7 +28,7 @@ var UsersService = /** @class */ (function (_super) {
             .catch(function (err) { return null; });
     };
     UsersService.prototype.GetUserById = function (userId) {
-        return _super.prototype.get.call(this, this.prefix + '/getUserById?userId=' + userId)
+        return _super.prototype.get.call(this, this.prefix + '/getUserByUserId?userId=' + userId)
             .toPromise()
             .then(function (result) { return result; })
             .catch(function (err) { return null; });

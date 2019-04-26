@@ -3,12 +3,21 @@
         <i class="fa fa-users"></i>
         עובדי העסק {{business.name}}
     </h4>
-    <button class="newWorkerButton" (click)="openNewWorkerDialog()">
+    <!-- <button class="newWorkerButton" (click)="openNewWorkerDialog()">
         <i class="fa fa-user-plus plusWorkerIcon"></i>
         הוספת עובד חדש
-    </button>
+    </button> -->
+    <div class="marker" *ngIf="!isNewWorkerComponentActive">
+        <div class="newWorkerButton2" [ngClass]="{'newWorkerButton2-hover': hoverBtn}"
+            (click)="activateNewWorkerComponent()" (mouseenter)="hoverBtn=true;" (mouseleave)="hoverBtn=false;">
+            <span class="btn-text">הוספת עובד חדש</span>
+            <i class="btn-icon fas fa-user-plus"></i>
+        </div>
+    </div>
+    
     <!-- <button class="deleteAllWorkersButton" (click)="onDeleteAllWorkers()">מחיקת כל העובדים</button> -->
-    <newWorker *ngIf="isNewWorkerDialogOpen" (onClose)="onNewWorkerClose($event)" [business]="business"></newWorker>
+    <!-- <newWorker *ngIf="isNewWorkerDialogOpen" (onClose)="onNewWorkerClose($event)" [business]="business"></newWorker> -->
+    <newWorker (onSubmit)="onNewWorkerClose($event)" *ngIf="isNewWorkerComponentActive"></newWorker>
     <div class="workersWrapper">
         <div class="workersContainer">
             <workerCard *ngFor="let worker of workers" [worker]=worker class="workerCard" (onClose)="onDeleteWorker(worker.userId)"></workerCard>

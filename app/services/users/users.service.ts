@@ -11,7 +11,7 @@ export class UsersService extends BasicService {
     }
 
     GetUserById(userId: string) {
-        return super.get(this.prefix + '/getUserById?userId=' + userId)
+        return super.get(this.prefix + '/getUserByUserId?userId=' + userId)
             .toPromise()
             .then((result: any) => result)
             .catch((err: any) => null);

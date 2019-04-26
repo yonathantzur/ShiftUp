@@ -16,18 +16,17 @@
     font-size: 50px;
 }
 
-.regButton
-{
+.regButton {
     font-size: large
 }
 
-.formInput{
+.formInput {
     direction: rtl;
     font-size: 15px;
     margin: 0;
 }
 
-.warning{
+.warning {
     font-size: 12px;
     color: maroon;
 }
@@ -39,10 +38,10 @@
 .formButton > button {
     font-size: large;
     width: 40%;
-    margin:0 15px 0;
+    margin: 0 15px 0;
 }
 
-.shadow{
+.shadow {
     box-shadow: 1px 1px 6px 1px #afafaf !important;
 }
 

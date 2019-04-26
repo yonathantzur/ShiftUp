@@ -16,14 +16,12 @@ var NewWorkerComponent = /** @class */ (function () {
         var _this = this;
         this.usersService = usersService;
         this.newWorker = { userId: "", salary: 20 };
-        this.onClose = new core_1.EventEmitter();
-        this.strErrorMessage = "";
+        this.onSubmit = new core_1.EventEmitter();
+        this.strUserIdErrorMessage = "";
+        this.strSalaryErrorMessage = "";
         this.isUserIdValid = false;
-        this.blurClicked = function () {
-            _this.onClose.emit();
-        };
         this.onCancel = function () {
-            _this.onClose.emit();
+            _this.onSubmit.emit();
         };
         this.onChange = function (event) {
             var fieldName = event.target.name;
@@ -35,7 +33,8 @@ var NewWorkerComponent = /** @class */ (function () {
         };
         this.onUserIdChange = function (newUserId) {
             if (newUserId.match("^[0-9]{0,9}$")) {
-                _this.strErrorMessage = "";
+                _this.strUserIdErrorMessage = "";
+                _this.strSalaryErrorMessage = "";
                 _this.newWorker["userId"] = newUserId;
                 if (newUserId.length == 9) {
                     _this.usersService.IsUserAvailableForBusiness(newUserId).then(function (isAvailable) {
@@ -47,43 +46,63 @@ var NewWorkerComponent = /** @class */ (function () {
                         }
                     });
                 }
+                else {
+                    _this.isUserIdValid = false;
+                    _this.strUserIdErrorMessage = "מספר תעודת זהות חייב להכיל 9 ספרות";
+                }
             }
             else {
-                _this.strErrorMessage = "מספר תעודת זהות לא תקין";
+                _this.strUserIdErrorMessage = "מספר תעודת זהות לא תקין";
                 if (newUserId.length == 9) {
                     _this.isUserIdValid = false;
                 }
             }
         };
-        this.onSubmit = function () {
+        this.submitHandler = function (addNewWorkerForm) {
+            console.log(addNewWorkerForm);
             if (_this.validatedWorker(_this.newWorker)) {
-                _this.onClose.emit(_this.newWorker);
+                _this.onSubmit.emit(_this.newWorker);
             }
         };
         this.validatedWorker = function (worker) {
-            _this.strErrorMessage = "";
+            _this.strUserIdErrorMessage = "";
             if (parseInt(worker.userId) < 0) {
-                _this.strErrorMessage = "מספר תעודת זהות לא תקין";
+                _this.strUserIdErrorMessage = "מספר תעודת זהות לא תקין";
                 return false;
             }
             else if (worker.userId.length != 9) {
-                _this.strErrorMessage = "מספר תעודת זהות חייב להכיל 9 ספרות";
+                _this.strUserIdErrorMessage = "מספר תעודת זהות חייב להכיל 9 ספרות";
                 return false;
             }
-            return true;
+            else if (worker.salary < 20 || worker.salary > 100) {
+                _this.strSalaryErrorMessage = "שכר לשעה לא בטווח המותר";
+                return false;
+            }
+            return _this.usersService.IsUserAvailableForBusiness(worker.userId).then(function (isAvailable) {
+                if (isAvailable) {
+                    _this.strUserIdErrorMessage = "";
+                    return true;
+                }
+                else {
+                    _this.strUserIdErrorMessage = "מספר תעודת זהות לא ביקש להצטרף לעסק";
+                    return false;
+                }
+            }).catch(function () {
+                _this.strUserIdErrorMessage = "קרתה שגיאה";
+                return false;
+            });
         };
     }
     __decorate([
         core_1.Output(),
         __metadata("design:type", core_1.EventEmitter)
-    ], NewWorkerComponent.prototype, "onClose", void 0);
+    ], NewWorkerComponent.prototype, "onSubmit", void 0);
     NewWorkerComponent = __decorate([
         core_1.Component({
             selector: 'newWorker',
             templateUrl: './newWorker.html',
             providers: [users_service_1.UsersService],
-            styleUrls: ['./newWorker.css'],
-            inputs: ['business: business']
+            styleUrls: ['./newWorker.css']
         }),
         __metadata("design:paramtypes", [users_service_1.UsersService])
     ], NewWorkerComponent);

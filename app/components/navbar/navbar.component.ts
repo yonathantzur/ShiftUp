@@ -33,6 +33,7 @@ export class NavbarComponent {
                 page.isClicked = true;
             }
         })
+        console.log(this);
     }
 
     logout() {

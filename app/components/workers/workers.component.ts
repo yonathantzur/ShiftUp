@@ -15,7 +15,8 @@ declare let Swal: any;
 export class WorkersComponent {
     business: any = {};
     workers: Array<any> = [];
-    isNewWorkerDialogOpen: boolean = false;
+    isNewWorkerComponentActive: boolean = false;
+    hoverBtn: boolean = false;
 
     constructor(
         private businessesService: BusinessesService,
@@ -31,8 +32,9 @@ export class WorkersComponent {
         });
     }
 
-    openNewWorkerDialog = () => {
-        this.isNewWorkerDialogOpen = true;
+    activateNewWorkerComponent = () => {
+        this.hoverBtn = false;
+        this.isNewWorkerComponentActive = true;
     }
 
     onNewWorkerClose = (newWorker: any) => {
@@ -67,7 +69,7 @@ export class WorkersComponent {
                     });
             }
         }
-        this.isNewWorkerDialogOpen = false;
+        this.isNewWorkerComponentActive = false;
     }
 
     onDeleteWorker = (workerUserId: string) => {

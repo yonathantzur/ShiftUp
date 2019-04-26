@@ -10,7 +10,7 @@ router.get("/getAllUsers", (req, res) => {
     });
 });
 
-router.get("/getUserById", (req, res) => {
+router.get("/getUserByUserId", (req, res) => {
     usersBL.GetUserByUserId(req.query.userId).then(user => {
         res.send(user);
     }).catch(err => {

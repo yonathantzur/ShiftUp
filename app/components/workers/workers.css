@@ -16,6 +16,49 @@
     cursor: pointer;
 }
 
+.marker {
+    margin: 50px auto;
+    width: 250px;   
+    padding-bottom: 20px;
+    animation-name: marker-size;
+    animation-duration: 1000ms;
+}
+
+@keyframes marker-size {
+    0% {width: 100px; height: 100px;}
+    100% {width: 250px; height: 250px;}
+}
+
+.newWorkerButton2 {
+    width: 250px;
+    height: 250px;
+    animation-name: marker-size;
+    animation-duration: 1000ms;
+    border: 0.5px solid gray;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    font-size: 18px;
+}
+
+.newWorkerButton2-hover {
+    background-color: #e7e7e7;
+}
+
+.btn-text {
+    margin-top: 15%;
+}
+
+.btn-icon {
+    position: absolute;
+    top: 35%;
+    font-size: 30px;
+}
+
 .plusWorkerIcon {
     margin-left: 5px;
     color: #fff;
@@ -46,7 +89,7 @@
 }
 
 .noWorkers {
-    height: 600px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
