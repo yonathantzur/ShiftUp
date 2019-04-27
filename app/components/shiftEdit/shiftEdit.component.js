@@ -37,6 +37,21 @@ var ShiftEditComponent = /** @class */ (function () {
     ShiftEditComponent.prototype.CloseWindow = function () {
         this.eventService.Emit("closeShiftEdit");
     };
+    ShiftEditComponent.prototype.UpdateEventShifts = function () {
+        var _this = this;
+        this.shiftService.UpdateEventShifts(this.event.id, this.event.shiftsData).then(function (result) {
+            if (result) {
+                _this.CloseWindow();
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בעדכון המשמרות',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)

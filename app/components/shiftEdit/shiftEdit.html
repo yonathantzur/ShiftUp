@@ -3,10 +3,10 @@
     <div class="container">
         <i class="material-icons icon top-icon close-icon" (click)="CloseWindow()">close</i>
         <div class="title">
-            עריכת שיבוץ
+            עריכת שיבוץ - {{event.date}}
         </div>
         <div class="loader" *ngIf="isLoading"></div>
-        <div *ngIf="!isLoading">
+        <div class="data" *ngIf="!isLoading">
             <div class="sector-title">משמרות</div>
             <div class="shifts-container">
                 <div class="shift-data" *ngFor="let shift of event.shiftsData">

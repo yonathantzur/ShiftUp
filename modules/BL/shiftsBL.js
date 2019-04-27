@@ -78,6 +78,28 @@ let self = module.exports = {
                 });
             }).catch(reject);
         });
+    },
+
+    UpdateEventShifts(shiftId, shiftsData) {
+        return new Promise((resolve, reject) => {
+            DAL.FindOne(shiftsCollectionName, { "_id": DAL.GetObjectId(shiftId) }).then(shift => {
+                // Remove workers name from shifts workers.
+                shiftsData = shiftsData.map(shift => {
+                    return {
+                        "name": shiftsData.name,
+                        "workers": shift.workers.map(worker => {
+                            return DAL.GetObjectId(worker._id);
+                        })
+                    }
+                });
+
+                shift.shiftsData = shiftsData;
+
+                // TODO: save the shift.
+
+                resolve(true);
+            }).catch(reject);
+        });
     }
 
 };

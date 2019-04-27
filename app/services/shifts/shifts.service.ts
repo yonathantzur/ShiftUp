@@ -38,8 +38,21 @@ export class ShiftService extends BasicService {
             });
     }
 
-    GetEventDetails(event: any) {    
+    GetEventDetails(event: any) {
         return super.post(this.prefix + '/getEventDetails', event)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
+    UpdateEventShifts(shiftId: string, shiftsData: Array<any>) {
+        let data = { shiftId, shiftsData };
+
+        return super.post(this.prefix + '/updateEventShifts', data)
             .toPromise()
             .then((result: any) => {
                 return result;

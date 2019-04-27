@@ -107,9 +107,23 @@ var CalendarComponent = /** @class */ (function () {
     CalendarComponent.prototype.createEventObjectToEdit = function (event) {
         var eventObj = {
             "id": event.id,
-            "shiftsData": event.shiftsData
+            "shiftsData": event.shiftsData,
+            "date": this.formatEventDate(event.start._i)
         };
         return eventObj;
+    };
+    CalendarComponent.prototype.formatEventDate = function (dateStr) {
+        var date = new Date(dateStr);
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        return (day + "/" + month + "/" + year);
     };
     CalendarComponent = __decorate([
         core_1.Component({

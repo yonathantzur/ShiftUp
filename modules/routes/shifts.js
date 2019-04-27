@@ -39,4 +39,12 @@ router.post("/getEventDetails", (req, res) => {
     });
 });
 
+router.post("/updateEventShifts", (req, res) => {
+    shiftsBL.UpdateEventShifts(req.body.shiftId, req.body.shiftsData).then(result => {
+        res.send(result);
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
+
 module.exports = router;

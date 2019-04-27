@@ -42,4 +42,19 @@ export class ShiftEditComponent implements OnInit {
     CloseWindow() {
         this.eventService.Emit("closeShiftEdit");
     }
+
+    UpdateEventShifts() {
+        this.shiftService.UpdateEventShifts(this.event.id, this.event.shiftsData).then(result => {
+            if (result) {
+                this.CloseWindow();
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בעדכון המשמרות',
+                    text: 'אופס... משהו השתבש'
+                })
+            }
+        });
+    }
 }

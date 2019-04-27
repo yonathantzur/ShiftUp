@@ -11,8 +11,8 @@
 
 .container {
     position: fixed;
-    width: 80%;
-    height: 70%;
+    width: 90%;
+    height: 90%;
     background-color: #f3f3f3;
     box-shadow: 4px 4px 30px 5px #5d5d5d;
     border-radius: 3px;
@@ -70,53 +70,15 @@ label {
     bottom: 14px;    
 }
 
-.next-icon {
-    left: 15px;
-    width: 25px;
-    height: 25px;
-    font-size: 20px;
-    border: 1px solid var(--main-text-color);
-    border-radius: 50%;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-}
-
-.next-icon:hover {
-    background-color: #89a6ff;
-    color: white;
-}
-
-.disabled-icon {
-    color: #bdbdbd !important;
-    border-color: #bdbdbd;
-    background-color: transparent !important;
-    cursor: default;
-}
-
-.save-btn {
-    position: absolute;
-    left: 20px;
-    bottom: 10px;
-    box-shadow: 1px 1px 5px 1px #a7a7a7;
-    padding: 6px 15px 6px 15px;
-}
-
-.back-icon {
-    right: 15px;
-}
-
-.microtext {
-    color: var(--microtext-color);
-    font-size: 12px;
-    position: absolute;
-    line-height: 20px
-}
-
 .loader {
     position: absolute;
     top: calc(50% - 25px);
     right: calc(50% - 30px);
+}
+
+.data {
+    overflow: auto;
+    height: calc(90% - 30px);
 }
 
 .sector-title {
@@ -132,8 +94,7 @@ label {
 
 .shift-data {
     width: 100%;
-    justify-content: center;    
-    display: grid;
+    text-align: center;
 }
 
 .shift-name {
@@ -142,4 +103,5 @@ label {
 }
 
 .workers-container {
+    
 }
