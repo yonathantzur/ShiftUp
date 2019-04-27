@@ -10,8 +10,8 @@ module.exports = {
             business.manager = DAL.GetObjectId(userId);
             business.workers = [];
 
-            let fieldsObj = {"_id": 0, "businessCode": 1};
-            let sortObj = {"businessCode": -1};
+            let fieldsObj = { "_id": 0, "businessCode": 1 };
+            let sortObj = { "businessCode": -1 };
 
             // Get the max business code.
             DAL.FindSpecific(businessesCollectionName, {}, fieldsObj, sortObj, 1).then(result => {
@@ -27,7 +27,7 @@ module.exports = {
 
                 business.businessCode = businessCode;
                 DAL.Insert(businessesCollectionName, business).then(businessId => {
-                    resolve({businessId, businessCode});
+                    resolve({ businessId, businessCode });
                 });
             }).catch(reject);
         });
@@ -35,29 +35,30 @@ module.exports = {
 
     AddBusinessToUser(userId, businessId) {
         return new Promise((resolve, reject) => {
-            let userFilter = {_id: DAL.GetObjectId(userId)}
-            let setObj = {$set: {"businessId": DAL.GetObjectId(businessId)}};
+            let userFilter = { _id: DAL.GetObjectId(userId) }
+            let setObj = { $set: { "businessId": DAL.GetObjectId(businessId) } };
             DAL.UpdateOne(usersCollectionName, userFilter, setObj).then(resolve).catch(reject);
         });
     },
 
     GetBusinessById(businessId) {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(businessesCollectionName, {_id: DAL.GetObjectId(businessId)})
-                .then(business => resolve(business))
-                .catch(reject);
+            DAL.FindOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) })
+                .then(resolve).catch(reject);
         });
     },
 
     GetWorkersForBusiness(businessId) {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(businessesCollectionName, {_id: DAL.GetObjectId(businessId)})
+            DAL.FindOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) })
                 .then(business => {
-                    DAL.FindSpecific(usersCollectionName, {_id: {$in: business.workers}})
-                        .then(workers => resolve(workers))
+                    let workers = business.workers;
+                    workers.push(business.manager);
+
+                    DAL.FindSpecific(usersCollectionName, { _id: { $in: workers } })
+                        .then(resolve)
                         .catch(reject);
-                })
-                .catch(reject);
+                }).catch(reject);
         });
     }
 

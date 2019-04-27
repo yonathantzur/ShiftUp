@@ -52,6 +52,16 @@ var ShiftService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ShiftService.prototype.GetEventDetails = function (event) {
+        return _super.prototype.post.call(this, this.prefix + '/getEventDetails', event)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return ShiftService;
 }(basic_service_1.BasicService));
 exports.ShiftService = ShiftService;

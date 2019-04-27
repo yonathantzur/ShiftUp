@@ -31,4 +31,12 @@ router.post("/getShiftsWorkers", (req, res) => {
     });
 });
 
+router.post("/getEventDetails", (req, res) => {
+    shiftsBL.GetEventDetails(req.body, req.user.businessId).then(event => {
+        res.send(event);
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
+
 module.exports = router;

@@ -3,7 +3,25 @@
     <div class="container">
         <i class="material-icons icon top-icon close-icon" (click)="CloseWindow()">close</i>
         <div class="title">
-            עריכת משמרת
+            עריכת שיבוץ
+        </div>
+        <div class="loader" *ngIf="isLoading"></div>
+        <div *ngIf="!isLoading">
+            <div class="sector-title">משמרות</div>
+            <div class="shifts-container">
+                <div class="shift-data" *ngFor="let shift of event.shiftsData">
+                    <div class="shift-name">
+                        {{shift.name}}
+                    </div>
+                    <div *ngFor="let shiftWorker of shift.workers" class="shift-worker">
+                        {{shiftWorker.firstName + " " + shiftWorker.lastName}}
+                    </div>
+                </div>
+            </div>
+            <div class="sector-title">עובדי העסק</div>
+            <div class="workers-container">
+                <div *ngFor="let worker of event.businessWorkers">{{worker.name}}</div>
+            </div>
         </div>
     </div>
 </div>

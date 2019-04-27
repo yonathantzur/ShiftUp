@@ -17,6 +17,23 @@ var ShiftEditComponent = /** @class */ (function () {
         this.shiftService = shiftService;
         this.eventService = eventService;
     }
+    ShiftEditComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.isLoading = true;
+        this.shiftService.GetEventDetails(this.event).then(function (fullEvent) {
+            _this.isLoading = false;
+            if (fullEvent) {
+                _this.event = fullEvent;
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בטעינת הנתונים',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
+    };
     ShiftEditComponent.prototype.CloseWindow = function () {
         this.eventService.Emit("closeShiftEdit");
     };

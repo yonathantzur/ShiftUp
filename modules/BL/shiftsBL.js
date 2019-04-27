@@ -1,10 +1,11 @@
 const DAL = require('../DAL');
+const businessesBL = require('../BL/businessesBL');
 const config = require('../../config');
 
 const usersCollectionName = config.db.collections.users;
 const shiftsCollectionName = config.db.collections.shifts;
 
-module.exports = {
+let self = module.exports = {
 
     GetShiftsForBusiness(businessId, year, month, userId) {
         return new Promise((resolve, reject) => {
@@ -54,6 +55,28 @@ module.exports = {
                 resolve(shiftsData);
             }).catch(reject);
 
+        });
+    },
+
+    GetEventDetails(event, businessId) {
+        return new Promise((resolve, reject) => {
+            self.GetShiftsWorkers(event.shiftsData).then(shiftsData => {
+                event.shiftsData = shiftsData;
+
+                businessesBL.GetWorkersForBusiness(businessId).then(workers => {
+                    workers = workers.map(worker => {
+                        return {
+                            "id": worker._id,
+                            "name": worker.firstName + " " + worker.lastName
+                        }
+                    })
+
+                    event.businessId = businessId;
+                    event.businessWorkers = workers;
+
+                    resolve(event);
+                });
+            }).catch(reject);
         });
     }
 

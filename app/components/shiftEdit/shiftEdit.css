@@ -1,4 +1,4 @@
-#shiftEdit .overlay {
+.overlay {
     position: fixed;
     top: 0;
     right: 0;
@@ -9,7 +9,7 @@
     background-color: rgba(0, 0, 0, 0.30);
 }
 
-#shiftEdit .container {
+.container {
     position: fixed;
     width: 80%;
     height: 70%;
@@ -26,7 +26,7 @@
     max-width: 1000px
 }
 
-#shiftEdit .title {
+.title {
     font-size: 20px;
     text-align: center;
     padding: 10px;
@@ -37,27 +37,27 @@
     width: calc(100% - 25px);
 }
 
-#shiftEdit .icon {
+.icon {
     font-size: 24px;
     cursor: pointer;    
     user-select: none;
 }
 
-#shiftEdit .top-icon {
+.top-icon {
     position: absolute;
     top: 15px;
 }
 
-#shiftEdit .close-icon {
+.close-icon {
     left: 15px;
     color: #7d7d7d;
 }
 
-#shiftEdit .close-icon:hover {
+.close-icon:hover {
     color: #696969;
 }
 
-#shiftEdit label {
+label {
     margin: 0;
     margin-bottom: 3px;
     line-height: 0;
@@ -65,12 +65,12 @@
     user-select: none;
 }
 
-#shiftEdit .bottom-icon {
+.bottom-icon {
     position: absolute;
     bottom: 14px;    
 }
 
-#shiftEdit .next-icon {
+.next-icon {
     left: 15px;
     width: 25px;
     height: 25px;
@@ -82,19 +82,19 @@
     align-items: center;
 }
 
-#shiftEdit .next-icon:hover {
+.next-icon:hover {
     background-color: #89a6ff;
     color: white;
 }
 
-#shiftEdit .disabled-icon {
+.disabled-icon {
     color: #bdbdbd !important;
     border-color: #bdbdbd;
     background-color: transparent !important;
     cursor: default;
 }
 
-#shiftEdit .save-btn {
+.save-btn {
     position: absolute;
     left: 20px;
     bottom: 10px;
@@ -102,13 +102,44 @@
     padding: 6px 15px 6px 15px;
 }
 
-#shiftEdit .back-icon {
+.back-icon {
     right: 15px;
 }
 
-#shiftEdit .microtext {
+.microtext {
     color: var(--microtext-color);
     font-size: 12px;
     position: absolute;
     line-height: 20px
+}
+
+.loader {
+    position: absolute;
+    top: calc(50% - 25px);
+    right: calc(50% - 30px);
+}
+
+.sector-title {
+    font-size: 22px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    text-decoration: underline;
+}
+
+.shifts-container {
+    display: flex;
+}
+
+.shift-data {
+    width: 100%;
+    justify-content: center;    
+    display: grid;
+}
+
+.shift-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.workers-container {
 }
