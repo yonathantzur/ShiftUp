@@ -1,0 +1,115 @@
+#shiftEdit .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.30);
+}
+
+#shiftEdit .container {
+    position: fixed;
+    width: 400;
+    height: 300px;
+    background-color: #f3f3f3;
+    box-shadow: 4px 4px 30px 5px #5d5d5d;
+    border-radius: 3px;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1001;
+    margin: auto;
+    max-width: 90%;
+    max-height: 70%;
+    min-height: 250px;
+}
+
+#shiftEdit .title {
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    user-select: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: calc(100% - 25px);
+}
+
+#shiftEdit .icon {
+    font-size: 24px;
+    cursor: pointer;    
+    user-select: none;
+}
+
+#shiftEdit .top-icon {
+    position: absolute;
+    top: 15px;
+}
+
+#shiftEdit .close-icon {
+    left: 15px;
+    color: #7d7d7d;
+}
+
+#shiftEdit .close-icon:hover {
+    color: #696969;
+}
+
+#shiftEdit label {
+    margin: 0;
+    margin-bottom: 3px;
+    line-height: 0;
+    font-size: 14px;
+    user-select: none;
+}
+
+#shiftEdit .bottom-icon {
+    position: absolute;
+    bottom: 14px;    
+}
+
+#shiftEdit .next-icon {
+    left: 15px;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    border: 1px solid var(--main-text-color);
+    border-radius: 50%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+#shiftEdit .next-icon:hover {
+    background-color: #89a6ff;
+    color: white;
+}
+
+#shiftEdit .disabled-icon {
+    color: #bdbdbd !important;
+    border-color: #bdbdbd;
+    background-color: transparent !important;
+    cursor: default;
+}
+
+#shiftEdit .save-btn {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+    box-shadow: 1px 1px 5px 1px #a7a7a7;
+    padding: 6px 15px 6px 15px;
+}
+
+#shiftEdit .back-icon {
+    right: 15px;
+}
+
+#shiftEdit .microtext {
+    color: var(--microtext-color);
+    font-size: 12px;
+    position: absolute;
+    line-height: 20px
+}

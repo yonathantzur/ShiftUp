@@ -26,6 +26,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
         private eventService: EventService) {
         let self = this;
 
+        self.eventService.Register("closeShiftEdit", () => {
+
+        });
+
         self.eventService.Register("changeFilter", (filter: SHIFTS_FILTER) => {
             self.eventService.Emit("calanderViewRender");
             self.viewState = filter;
@@ -56,6 +60,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
             editable: true,
+            eventRender: function (event: any, element: any) {
+                element.bind('dblclick', () => {
+                    let x = event;
+                    let y = 1;
+                });
+            },
             viewRender: function (element: any) {
                 self.eventService.Emit("calanderViewRender");
                 let dateRange = $('#calendar').fullCalendar('getDate')._i;

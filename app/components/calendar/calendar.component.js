@@ -21,6 +21,8 @@ var CalendarComponent = /** @class */ (function () {
         this.viewState = enums_1.SHIFTS_FILTER.ALL;
         this.eventsIds = [];
         var self = this;
+        self.eventService.Register("closeShiftEdit", function () {
+        });
         self.eventService.Register("changeFilter", function (filter) {
             self.eventService.Emit("calanderViewRender");
             self.viewState = filter;
@@ -45,6 +47,12 @@ var CalendarComponent = /** @class */ (function () {
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
             editable: true,
+            eventRender: function (event, element) {
+                element.bind('dblclick', function () {
+                    var x = event;
+                    var y = 1;
+                });
+            },
             viewRender: function (element) {
                 self.eventService.Emit("calanderViewRender");
                 var dateRange = $('#calendar').fullCalendar('getDate')._i;
