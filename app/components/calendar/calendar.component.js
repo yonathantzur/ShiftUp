@@ -22,6 +22,7 @@ var CalendarComponent = /** @class */ (function () {
         this.eventsIds = [];
         var self = this;
         self.eventService.Register("closeShiftEdit", function () {
+            self.eventEditObject = null;
         });
         self.eventService.Register("changeFilter", function (filter) {
             self.eventService.Emit("calanderViewRender");
@@ -49,8 +50,7 @@ var CalendarComponent = /** @class */ (function () {
             editable: true,
             eventRender: function (event, element) {
                 element.bind('dblclick', function () {
-                    var x = event;
-                    var y = 1;
+                    self.eventEditObject = self.createEventObjectToEdit(event);
                 });
             },
             viewRender: function (element) {
@@ -103,6 +103,13 @@ var CalendarComponent = /** @class */ (function () {
     CalendarComponent.prototype.loadShifts = function (shifts) {
         this.calendar.fullCalendar('removeEvents');
         this.calendar.fullCalendar('renderEvents', shifts);
+    };
+    CalendarComponent.prototype.createEventObjectToEdit = function (event) {
+        var eventObj = {
+            "id": event.id,
+            "shiftsData": event.shiftsData
+        };
+        return eventObj;
     };
     CalendarComponent = __decorate([
         core_1.Component({

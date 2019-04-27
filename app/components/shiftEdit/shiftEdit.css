@@ -11,8 +11,8 @@
 
 #shiftEdit .container {
     position: fixed;
-    width: 400;
-    height: 300px;
+    width: 80%;
+    height: 70%;
     background-color: #f3f3f3;
     box-shadow: 4px 4px 30px 5px #5d5d5d;
     border-radius: 3px;
@@ -22,9 +22,8 @@
     bottom: 0;
     z-index: 1001;
     margin: auto;
-    max-width: 90%;
-    max-height: 70%;
     min-height: 250px;
+    max-width: 1000px
 }
 
 #shiftEdit .title {

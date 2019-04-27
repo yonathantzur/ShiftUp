@@ -10,22 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var shifts_service_1 = require("../../services/shifts/shifts.service");
 var event_service_1 = require("../../services/event/event.service");
 var ShiftEditComponent = /** @class */ (function () {
-    function ShiftEditComponent(eventService) {
+    function ShiftEditComponent(shiftService, eventService) {
+        this.shiftService = shiftService;
         this.eventService = eventService;
     }
     ShiftEditComponent.prototype.CloseWindow = function () {
         this.eventService.Emit("closeShiftEdit");
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], ShiftEditComponent.prototype, "event", void 0);
     ShiftEditComponent = __decorate([
         core_1.Component({
             selector: 'shiftEdit',
             templateUrl: './shiftEdit.html',
-            providers: [],
+            providers: [shifts_service_1.ShiftService],
             styleUrls: ['./shiftEdit.css']
         }),
-        __metadata("design:paramtypes", [event_service_1.EventService])
+        __metadata("design:paramtypes", [shifts_service_1.ShiftService,
+            event_service_1.EventService])
     ], ShiftEditComponent);
     return ShiftEditComponent;
 }());

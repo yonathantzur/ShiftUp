@@ -20,6 +20,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     eventsCache: Object = {};
     viewState: SHIFTS_FILTER = SHIFTS_FILTER.ALL;
 
+    // Event edit properties.
+    eventEditObject: any;
+
     eventsIds: Array<string> = [];
 
     constructor(private shiftService: ShiftService,
@@ -27,7 +30,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         let self = this;
 
         self.eventService.Register("closeShiftEdit", () => {
-
+            self.eventEditObject = null;
         });
 
         self.eventService.Register("changeFilter", (filter: SHIFTS_FILTER) => {
@@ -62,8 +65,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
             editable: true,
             eventRender: function (event: any, element: any) {
                 element.bind('dblclick', () => {
-                    let x = event;
-                    let y = 1;
+                    self.eventEditObject = self.createEventObjectToEdit(event);
                 });
             },
             viewRender: function (element: any) {
@@ -126,5 +128,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
     loadShifts(shifts: Array<any>) {
         this.calendar.fullCalendar('removeEvents');
         this.calendar.fullCalendar('renderEvents', shifts);
+    }
+
+    createEventObjectToEdit(event: any) {
+        let eventObj = {
+            "id": event.id,
+            "shiftsData": event.shiftsData
+        };
+
+        return eventObj;
     }
 }
