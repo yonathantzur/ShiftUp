@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { BusinessesService } from '../../services/businesses/businesses.service';
 import { WorkersService } from '../../services/workers/workers.service';
 
@@ -16,11 +16,12 @@ export class WorkersComponent {
     business: any = {};
     workers: Array<any> = [];
     isNewWorkerComponentActive: boolean = false;
-    hoverBtn: boolean = false;
+    btnHover: number = null;
 
     constructor(
         private businessesService: BusinessesService,
-        private workersService: WorkersService) { }
+        private workersService: WorkersService,
+        private router: Router) { }
 
     ngOnInit() {
         this.businessesService.GetLoggedInBusiness().then((business: any) => {
@@ -33,11 +34,15 @@ export class WorkersComponent {
     }
 
     activateNewWorkerComponent = () => {
-        this.hoverBtn = false;
+        this.btnHover = null;
         this.isNewWorkerComponentActive = true;
     }
 
-    onNewWorkerClose = (newWorker: any) => {
+    showRequests = () => {
+        this.router.navigateByUrl('/workers/requests');
+    }
+
+    onNewWorkerSubmit = (newWorker: any) => {
         if (newWorker) {
             if (this.workers.find(currWorker => currWorker.userId == newWorker.userId)) {
                 Swal.fire({

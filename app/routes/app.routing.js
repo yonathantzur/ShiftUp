@@ -13,7 +13,7 @@ var home_component_1 = require("../components/home/home.component");
 var login_component_1 = require("../components/login/login.component");
 var constraints_component_1 = require("../components/constraints/constraints.component");
 var workers_component_1 = require("../components/workers/workers.component");
-var newWorker_component_1 = require("../components/newWorker/newWorker.component");
+var workersRequests_component_1 = require("../components/workersRequests/workersRequests.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 var registration_component_1 = require("../components/registration/registration.component");
@@ -31,9 +31,11 @@ var routes = [
         children: [
             { path: '', component: home_component_1.HomeComponent },
             { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
-            { path: 'workers', children: [
+            {
+                path: 'workers',
+                children: [
                     { path: '', component: workers_component_1.WorkersComponent },
-                    { path: 'newWorker', component: newWorker_component_1.NewWorkerComponent }
+                    { path: 'requests', component: workersRequests_component_1.WorkersRequestsComponent }
                 ]
             },
             { path: 'calendarBoard', component: calendarBoard_component_1.CalendarBoardComponent },

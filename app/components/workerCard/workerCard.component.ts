@@ -21,7 +21,7 @@ export class WorkerCardComponent {
     }
 
     ngOnInit() {
-        this.usersService.GetUserById(this.worker.userId)
+        this.usersService.GetUserByUserId(this.worker.userId)
             .then((userData: any) => this.workerUserData = userData);
     }
 

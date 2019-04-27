@@ -77,3 +77,19 @@
 .navbarPageText{
     margin: 10px;
 }
+
+/* .requestsIndicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    font-size: 20px;
+    border-radius: 50%;
+    background-color: #f45;
+    color: #fff;
+} */
+
+.requestsIndicator {
+    color: red !important;
+}

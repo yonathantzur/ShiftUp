@@ -3,27 +3,30 @@
         <i class="fa fa-users"></i>
         עובדי העסק {{business.name}}
     </h4>
-    <!-- <button class="newWorkerButton" (click)="openNewWorkerDialog()">
-        <i class="fa fa-user-plus plusWorkerIcon"></i>
-        הוספת עובד חדש
-    </button> -->
-    <div class="marker" *ngIf="!isNewWorkerComponentActive">
-        <div class="newWorkerButton2" [ngClass]="{'newWorkerButton2-hover': hoverBtn}"
-            (click)="activateNewWorkerComponent()" (mouseenter)="hoverBtn=true;" (mouseleave)="hoverBtn=false;">
-            <span class="btn-text">הוספת עובד חדש</span>
-            <i class="btn-icon fas fa-user-plus"></i>
+    <div class="chooseBtn">
+        <div class="marker" *ngIf="!isNewWorkerComponentActive">
+            <div class="newWorkerButton" [ngClass]="{'newWorkerButton-hover': btnHover==1}"
+                (click)="activateNewWorkerComponent()" (mouseenter)="btnHover=1;" (mouseleave)="btnHover=null;">
+                <span class="btn-text">הוספת עובד חדש</span>
+                <i class="btn-icon fas fa-user-plus"></i>
+            </div>
         </div>
+        <div class="marker" *ngIf="!isNewWorkerComponentActive">
+            <div class="newWorkerButton" [ngClass]="{'newWorkerButton-hover': btnHover==2}"
+                (click)="showRequests()" (mouseenter)="btnHover=2;" (mouseleave)="btnHover=null;">
+                <span class="btn-text">הצג בקשות ממתינות</span>
+                <i class="btn-icon fas fa-bell"></i>
+            </div>
+        </div>      
     </div>
-    
     <!-- <button class="deleteAllWorkersButton" (click)="onDeleteAllWorkers()">מחיקת כל העובדים</button> -->
-    <!-- <newWorker *ngIf="isNewWorkerDialogOpen" (onClose)="onNewWorkerClose($event)" [business]="business"></newWorker> -->
-    <newWorker (onSubmit)="onNewWorkerClose($event)" *ngIf="isNewWorkerComponentActive"></newWorker>
+    <newWorker (onSubmit)="onNewWorkerSubmit($event)" *ngIf="isNewWorkerComponentActive"></newWorker>
     <div class="workersWrapper">
         <div class="workersContainer">
             <workerCard *ngFor="let worker of workers" [worker]=worker class="workerCard" (onClose)="onDeleteWorker(worker.userId)"></workerCard>
         </div>
     </div>
-    <h3 *ngIf="workers.length == 0" class="noWorkers">
+    <h3 *ngIf="workers.length == 0 && !isNewWorkerComponentActive" class="noWorkers">
             <i class="fa fa-user-times"></i>&nbsp;
             אין עובדים לעסק, יש להוסיף על ידי הכפתור למעלה
     </h3>

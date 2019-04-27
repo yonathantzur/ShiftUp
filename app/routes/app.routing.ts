@@ -6,7 +6,7 @@ import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from '../components/login/login.component';
 import { ConstraintsComponent } from '../components/constraints/constraints.component'
 import { WorkersComponent } from '../components/workers/workers.component';
-import { NewWorkerComponent } from '../components/newWorker/newWorker.component';
+import { WorkersRequestsComponent } from '../components/workersRequests/workersRequests.component';
 import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoard.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { RegistrationComponent } from '../components/registration/registration.component';
@@ -25,11 +25,12 @@ const routes: Routes = [
         children: [
             { path: '', component: HomeComponent },
             { path: 'constraints', component: ConstraintsComponent },
-            { path: 'workers', children: [
+            {
+                path: 'workers',
+                children: [
                     { path: '', component: WorkersComponent },
-                    { path: 'newWorker', component: NewWorkerComponent }
-                ]
-            },
+                    { path: 'requests', component: WorkersRequestsComponent }
+            ] },
             { path: 'calendarBoard', component: CalendarBoardComponent },
             { path: 'statistics', component: StatisticsComponent },
         ],

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login/login.service'
+import { LoginService } from '../../services/login/login.service';
+import { UsersService } from '../../services/users/users.service';
 
 class page {
     route: string;
@@ -12,7 +13,7 @@ class page {
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.html',
-    providers: [LoginService],
+    providers: [LoginService, UsersService],
     styleUrls: ['./navbar.css']
 })
 
@@ -22,18 +23,31 @@ export class NavbarComponent {
         { route: '/', displayText: "בית", icon: "fa fa-home" },
         { route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" },
         { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" },
+        { route: '/workers/requests', displayText: "בקשות ממתינות", icon: "fas fa-bell" },
         { route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" },
         { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
         { route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: this.logout.bind(this) }
     ];
+    loggedInUser: any;
 
-    constructor(private router: Router, private loginService: LoginService) {
+    constructor(
+        private router: Router,
+        private loginService: LoginService,
+        private usersService: UsersService
+    ) {
         this.pages.forEach((page: any) => {
             if (this.router.url == page.route) {
                 page.isClicked = true;
             }
         })
-        console.log(this);
+    }
+
+    ngOnInit() {
+        if (this.loggedInUser == undefined) {
+            this.usersService.GetLoggedInUser().then((user) => {
+                this.loggedInUser = user;
+            })
+        }
     }
 
     logout() {

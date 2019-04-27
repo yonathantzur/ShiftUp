@@ -23,14 +23,6 @@ var NewWorkerComponent = /** @class */ (function () {
         this.onCancel = function () {
             _this.onSubmit.emit();
         };
-        this.onChange = function (event) {
-            var fieldName = event.target.name;
-            var fieldValue = event.target.value;
-            if (event.target.type == "number" || event.target.type == "range") {
-                fieldValue = (fieldValue == "") ? 0 : parseInt(fieldValue.toString());
-            }
-            _this.newWorker[fieldName] = fieldValue;
-        };
         this.onUserIdChange = function (newUserId) {
             if (newUserId.match("^[0-9]{0,9}$")) {
                 _this.strUserIdErrorMessage = "";
@@ -40,9 +32,12 @@ var NewWorkerComponent = /** @class */ (function () {
                     _this.usersService.IsUserAvailableForBusiness(newUserId).then(function (isAvailable) {
                         if (isAvailable) {
                             _this.isUserIdValid = true;
+                            _this.strUserIdErrorMessage = "";
+                            _this.newWorker.userId = newUserId;
                         }
                         else {
                             _this.isUserIdValid = false;
+                            _this.strUserIdErrorMessage = "מספר תעודת זהות לא ביקש להצטרף לעסק";
                         }
                     });
                 }
@@ -58,14 +53,23 @@ var NewWorkerComponent = /** @class */ (function () {
                 }
             }
         };
+        this.onSalaryChange = function (newSalary) {
+            _this.strSalaryErrorMessage = "";
+            if (newSalary < 20 || newSalary > 100) {
+                _this.strSalaryErrorMessage = "שכר לשעה לא בטווח המותר";
+            }
+            else {
+                _this.newWorker.salary = newSalary;
+            }
+        };
         this.submitHandler = function (addNewWorkerForm) {
-            console.log(addNewWorkerForm);
             if (_this.validatedWorker(_this.newWorker)) {
                 _this.onSubmit.emit(_this.newWorker);
             }
         };
         this.validatedWorker = function (worker) {
             _this.strUserIdErrorMessage = "";
+            _this.strSalaryErrorMessage = "";
             if (parseInt(worker.userId) < 0) {
                 _this.strUserIdErrorMessage = "מספר תעודת זהות לא תקין";
                 return false;

@@ -3,10 +3,14 @@
         <a class="navbarItem" (click)="pageClick(pages[0])">
             <span class="logo">ShiftUp</span>
         </a>
-        <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked' : page.isClicked}"
+        <!-- <span class="navbarItem">שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span> -->
+        <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked': page.isClicked}"
             (click)="pageClick(page)">
-            <span class="navbarPageText">{{ page.displayText }}</span>
-            <i [class]="page.icon"></i>
+            <!-- <i class="fas fa-bell requestsIndicator"
+                *ngIf="page.route=='/workers' && loggedInUser && loggedInUser.requests && loggedInUser.requests.length > 0"
+                [title]="loggedInUser.requests.length + ' בקשות ממתינות'"></i> -->
+            <span class="navbarPageText">{{page.displayText}}</span>
+            <i [class]="page.icon" [ngClass]="{'requestsIndicator': page.route=='/workers/requests'&&loggedInUser&&loggedInUser.requests&&loggedInUser.requests>0}"></i>
         </a>
     </div>
     <div class="navbarItem searchNavbarItem">

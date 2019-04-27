@@ -23,17 +23,6 @@ export class NewWorkerComponent {
         this.onSubmit.emit();
     }
 
-    onChange = (event: any) => {
-        const fieldName: string = event.target.name;
-        let fieldValue: string | number | boolean = event.target.value;
-
-        if (event.target.type == "number" || event.target.type == "range") {
-            fieldValue = (fieldValue == "") ? 0 : parseInt(fieldValue.toString());
-        }
-
-        this.newWorker[fieldName] = fieldValue;
-    }
-
     onUserIdChange = (newUserId: string) => {
         if (newUserId.match("^[0-9]{0,9}$")) {
             this.strUserIdErrorMessage = "";
@@ -43,8 +32,11 @@ export class NewWorkerComponent {
                 this.usersService.IsUserAvailableForBusiness(newUserId).then(isAvailable => {
                     if (isAvailable) {
                         this.isUserIdValid = true;
+                        this.strUserIdErrorMessage = "";
+                        this.newWorker.userId = newUserId;
                     } else {
                         this.isUserIdValid = false;
+                        this.strUserIdErrorMessage = "מספר תעודת זהות לא ביקש להצטרף לעסק";
                     }
                 });
             } else {
@@ -59,8 +51,16 @@ export class NewWorkerComponent {
         }
     }
 
+    onSalaryChange = (newSalary: number) => {
+        this.strSalaryErrorMessage = "";
+        if (newSalary < 20 || newSalary > 100) {
+            this.strSalaryErrorMessage = "שכר לשעה לא בטווח המותר";
+        } else {
+            this.newWorker.salary = newSalary;
+        }
+    }
+
     submitHandler = (addNewWorkerForm: NgForm) => {
-        console.log(addNewWorkerForm);
         if (this.validatedWorker(this.newWorker)){
             this.onSubmit.emit(this.newWorker);
         }
@@ -68,6 +68,7 @@ export class NewWorkerComponent {
 
     validatedWorker = (worker: any) => {
         this.strUserIdErrorMessage = "";
+        this.strSalaryErrorMessage = "";
         if (parseInt(worker.userId) < 0) {
             this.strUserIdErrorMessage = "מספר תעודת זהות לא תקין";
             return false;

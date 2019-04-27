@@ -1,37 +1,32 @@
-<div class="newWorkerContainer">
+<div class="newWorkerContainer" [ngClass]="{'fadeInComponent': fadeClass=='fadeInComponent', 'fadeOutComponent': fadeClass=='fadeOutComponent'}">
     <h3 class="newWorkerTitle">הוספת עובד חדש</h3>
-    <div class="newWorkerParameters">
-        <form #addNewWorkerForm="ngForm" (ngSubmit)="submitHandler(addNewWorkerForm)">
-        <div class="form-group userIdContainer">
+    <form #addNewWorkerForm="ngForm" (ngSubmit)="submitHandler(addNewWorkerForm)">
+        <div class="form-group">
             <div>
                 <label class="formInput">תעודת זהות</label>
-                <input type="string" name="userId" minlength="9" maxlength="9" class="form-control formInput"
-                    (ngModelChange)="onUserIdChange($event)" [(ngModel)]="newWorker.userId" />
+                <div class="userIdContainer">
+                    <input type="string" name="userId" minlength="9" maxlength="9" class="form-control formInput"
+                        (ngModelChange)="onUserIdChange($event)" [(ngModel)]="newWorker.userId" />
+                    <div class="isUserIdAvailableContainer" *ngIf="newWorker.userId.length === 9">
+                        <span>
+                            <i *ngIf="isUserIdValid" class="fa fa-user-check isAvailableWorkerId"></i>
+                            <i *ngIf="!isUserIdValid" class="fa fa-times isAvailableWorkerId"></i>
+                        </span>
+                    </div>
+                </div>
                 <h6 class="newWorkerError" [ngClass]="{'showErrorAnimation' : strUserIdErrorMessage != ''}">{{strUserIdErrorMessage}}</h6>
-            </div>
-            <div class="isUserIdAvailableContainer" *ngIf="newWorker.userId.length === 9">
-                <span>
-                    <i *ngIf="isUserIdValid" class="fa fa-user-check isAvailableWorkerId"></i>
-                    <i *ngIf="!isUserIdValid" class="fa fa-times isAvailableWorkerId"></i>
-                </span>
             </div>
         </div>
         <div class="form-group">
             <label class="formInput">שכר לשעה (20 - 100)</label>
-            <input type="number" (change)="onChange($event)"
-                name="salary" [(ngModel)]="newWorker.salary"
-                min="20" max="100" class="form-control formInput"
-            />
-            <h6 class="newWorkerError" [ngClass]="{'showErrorAnimation' : strUserIdErrorMessage != ''}">{{strSalaryErrorMessage}}</h6>
+            <input type="number" name="salary" class="form-control formInput" min="20" max="100" 
+                [(ngModel)]="newWorker.salary" (ngModelChange)="onSalaryChange($event)" />
+            <h6 class="newWorkerError" [ngClass]="{'showErrorAnimation' : strSalaryErrorMessage != ''}">{{strSalaryErrorMessage}}</h6>
         </div>
         <div class="formButton">
             <button class="btn btn-raised btn-dark" [ngClass]="{'disabledButton': !isUserIdValid}"
                 type=submit [disabled]="!isUserIdValid">הוספת העובד</button>
             <button class="btn btn-raised btn-dark" (click)="onCancel()">ביטול</button>
         </div>
-        </form>
-    </div>
-    <!-- <div class="newWorkerButtonsContainer"> -->
-        <!-- <button class="addButton" (click)="submitHandler()" [disabled]="!isUserIdValid">הוספת העובד</button> -->
-    <!-- </div> -->
+    </form>
 </div>

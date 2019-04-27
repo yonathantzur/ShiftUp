@@ -7,33 +7,29 @@
     font-weight: bold;
 }
 
-.newWorkerButton {
-    margin: 0px 10px;
-    color: #fff;
-    background-color: #2b2;
-    border-radius: 10px;
-    padding: 10px 40px;
-    cursor: pointer;
+.chooseBtn {
+    width: 60%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnsContainer {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .marker {
+    width: 200px;
+    height: 200px;
     margin: 50px auto;
-    width: 250px;   
-    padding-bottom: 20px;
-    animation-name: marker-size;
-    animation-duration: 1000ms;
 }
 
-@keyframes marker-size {
-    0% {width: 100px; height: 100px;}
-    100% {width: 250px; height: 250px;}
-}
-
-.newWorkerButton2 {
-    width: 250px;
-    height: 250px;
-    animation-name: marker-size;
-    animation-duration: 1000ms;
+.newWorkerButton {
+    width: 100%;
+    height: 100%;
     border: 0.5px solid gray;
     border-radius: 50%;
     display: flex;
@@ -45,7 +41,7 @@
     font-size: 18px;
 }
 
-.newWorkerButton2-hover {
+.newWorkerButton-hover {
     background-color: #e7e7e7;
 }
 
@@ -56,7 +52,7 @@
 .btn-icon {
     position: absolute;
     top: 35%;
-    font-size: 30px;
+    font-size: 24px;
 }
 
 .plusWorkerIcon {
@@ -76,6 +72,7 @@
 .workersWrapper {
     display: flex;
     justify-content: center;
+    padding: 10px;
 }
 
 .workersContainer {

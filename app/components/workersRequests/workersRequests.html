@@ -1,0 +1,43 @@
+<div class="workersRequestsContainer">
+    <div class="backToWorkers" [ngClass]="{'backToWorkers-hover': btnHover==1}"
+    (mouseenter)="btnHover=1;" (mouseleave)="btnHover=null;" (click)="backToWorkersHandler()">
+        <span class="btn-text">חזרה לכל העובדים</span>
+        <i class="btn-icon fa fa-user-friends"></i>
+    </div>
+    <h4 class="title">
+        <i class="fas fa-address-book"></i>
+        בקשות ממתינות לעסק {{business.name}}
+    </h4>
+    <table class="table requestsTable" *ngIf="requestUsers.length>0">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">תעודת זהות</th>
+                <th scope="col">שם</th>
+                <th scope="col">גיל</th>
+                <th scope="col">שכר לשעה (20 - 100)</th>
+                <th scope="col">פעולות</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let requestUser of requestUsers; let i=index;">
+            <td>{{i+1}}</td>
+            <td>{{requestUser.userId }}</td>
+            <td>{{requestUser.firstName + " " + requestUser.lastName}}</td>
+            <td>{{calcAge(requestUser.birthDate)}}</td>
+            <td>
+                <input type="number" name="salary" class="form-control formInput" min="20" max="100" 
+                    [(ngModel)]="salaries[i]" (ngModelChange)="onSalaryChange($event, i)" />
+                <span class="newWorkerError" [ngClass]="{'showErrorAnimation' : salariesErrorMessages[i] != ''}">{{salariesErrorMessages[i]}}</span>
+            </td>
+            <td>
+                <a href=""><img class="iconRequests" src="/public/icons/ok.png"></a>
+                <a href=""><img class="iconRequests" src="/public/icons/cancel.png"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div *ngIf="requestUsers.length==0">
+        <h1 class="noRequests">אין בקשות הממתינות לאישור</h1>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+.workersRequestsContainer {
+    padding: 20px;
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.requestsTable {
+    margin: auto;
+    width: 60%;
+}
+
+th, td, .formInput {
+    text-align: center;
+}
+
+.newWorkerError {
+    color: maroon;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.showErrorAnimation {
+    animation: showError;
+    animation-duration: 1.5s;
+}
+
+@keyframes showError {
+    0%  { opacity: 0.2 }
+    20%  { opacity: 1 }
+    40%  { opacity: 0.2 }
+    60%  { opacity: 1 }
+    80%  { opacity: 0.2 }
+    100%  { opacity: 1 }
+}
+
+.noRequests {
+    margin-top: 200px;
+}
+
+.backToWorkers {
+    margin: 50px auto;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.5px solid grey;
+    border-radius: 50%;
+    user-select: none;
+    position: relative;
+    font-size: 18px;
+}
+
+.backToWorkers-hover {
+    background-color: #e7e7e7;
+}
+
+.btn-text {
+    margin-top: 15%;
+}
+
+.btn-icon {
+    position: absolute;
+    top: 35%;
+    font-size: 24px;
+}

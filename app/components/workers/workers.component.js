@@ -10,22 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var businesses_service_1 = require("../../services/businesses/businesses.service");
 var workers_service_1 = require("../../services/workers/workers.service");
 var WorkersComponent = /** @class */ (function () {
-    function WorkersComponent(businessesService, workersService) {
+    function WorkersComponent(businessesService, workersService, router) {
         var _this = this;
         this.businessesService = businessesService;
         this.workersService = workersService;
+        this.router = router;
         this.business = {};
         this.workers = [];
         this.isNewWorkerComponentActive = false;
-        this.hoverBtn = false;
+        this.btnHover = null;
         this.activateNewWorkerComponent = function () {
-            _this.hoverBtn = false;
+            _this.btnHover = null;
             _this.isNewWorkerComponentActive = true;
         };
-        this.onNewWorkerClose = function (newWorker) {
+        this.showRequests = function () {
+            _this.router.navigateByUrl('/workers/requests');
+        };
+        this.onNewWorkerSubmit = function (newWorker) {
             if (newWorker) {
                 if (_this.workers.find(function (currWorker) { return currWorker.userId == newWorker.userId; })) {
                     Swal.fire({
@@ -134,7 +139,8 @@ var WorkersComponent = /** @class */ (function () {
             styleUrls: ['./workers.css']
         }),
         __metadata("design:paramtypes", [businesses_service_1.BusinessesService,
-            workers_service_1.WorkersService])
+            workers_service_1.WorkersService,
+            router_1.Router])
     ], WorkersComponent);
     return WorkersComponent;
 }());
