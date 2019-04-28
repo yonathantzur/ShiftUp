@@ -16,6 +16,7 @@ export class ShiftEditComponent implements OnInit {
     @Input()
     event: any;
     isLoading: boolean;
+    selectedWorker: any;
 
     constructor(private shiftService: ShiftService,
         private eventService: EventService) { }
@@ -43,9 +44,40 @@ export class ShiftEditComponent implements OnInit {
         this.eventService.Emit("closeShiftEdit");
     }
 
+    SelectWorker(worker: any) {
+        let isWorkerSelected = worker.isSelected;
+        this.selectedWorker = null;
+
+        this.event.businessWorkers.forEach((worker: any) => {
+            worker.isSelected = false;
+        });
+
+        if (!isWorkerSelected) {
+            worker.isSelected = true
+            this.selectedWorker = worker;
+        }
+    }
+
+    AddWorkerToShift(shift: any) {
+        this.RemoveWorkerFromShift(shift, this.selectedWorker._id);
+        this.selectedWorker.isSelected = false;
+        shift.workers.push(this.selectedWorker);
+        this.selectedWorker = null;
+        setTimeout(() => {
+            $("#shift-workers-container").animate({ scrollTop: $(document).height() }, 0);
+        }, 0);
+    }
+
+    RemoveWorkerFromShift(shift: any, workerId: string) {
+        shift.workers = shift.workers.filter((worker: any) => {
+            return (worker._id != workerId);
+        });
+    }
+
     UpdateEventShifts() {
         this.shiftService.UpdateEventShifts(this.event.id, this.event.shiftsData).then(result => {
             if (result) {
+                this.eventService.Emit("renderCalendar");
                 this.CloseWindow();
             }
             else {

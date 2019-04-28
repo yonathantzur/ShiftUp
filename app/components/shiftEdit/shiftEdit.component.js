@@ -37,10 +37,36 @@ var ShiftEditComponent = /** @class */ (function () {
     ShiftEditComponent.prototype.CloseWindow = function () {
         this.eventService.Emit("closeShiftEdit");
     };
+    ShiftEditComponent.prototype.SelectWorker = function (worker) {
+        var isWorkerSelected = worker.isSelected;
+        this.selectedWorker = null;
+        this.event.businessWorkers.forEach(function (worker) {
+            worker.isSelected = false;
+        });
+        if (!isWorkerSelected) {
+            worker.isSelected = true;
+            this.selectedWorker = worker;
+        }
+    };
+    ShiftEditComponent.prototype.AddWorkerToShift = function (shift) {
+        this.RemoveWorkerFromShift(shift, this.selectedWorker._id);
+        this.selectedWorker.isSelected = false;
+        shift.workers.push(this.selectedWorker);
+        this.selectedWorker = null;
+        setTimeout(function () {
+            $("#shift-workers-container").animate({ scrollTop: $(document).height() }, 0);
+        }, 0);
+    };
+    ShiftEditComponent.prototype.RemoveWorkerFromShift = function (shift, workerId) {
+        shift.workers = shift.workers.filter(function (worker) {
+            return (worker._id != workerId);
+        });
+    };
     ShiftEditComponent.prototype.UpdateEventShifts = function () {
         var _this = this;
         this.shiftService.UpdateEventShifts(this.event.id, this.event.shiftsData).then(function (result) {
             if (result) {
+                _this.eventService.Emit("renderCalendar");
                 _this.CloseWindow();
             }
             else {

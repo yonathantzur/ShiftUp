@@ -7,21 +7,43 @@
         </div>
         <div class="loader" *ngIf="isLoading"></div>
         <div class="data" *ngIf="!isLoading">
-            <div class="sector-title">משמרות</div>
-            <div class="shifts-container">
-                <div class="shift-data" *ngFor="let shift of event.shiftsData">
-                    <div class="shift-name">
-                        {{shift.name}}
-                    </div>
-                    <div *ngFor="let shiftWorker of shift.workers" class="shift-worker">
-                        {{shiftWorker.firstName + " " + shiftWorker.lastName}}
+            <div class="shifts-view">
+                <div class="sector-title">משמרות</div>
+                <div class="shifts-container">
+                    <div class="shift-data" *ngFor="let shift of event.shiftsData">
+                        <div class="shift-name-container">
+                            <i *ngIf="selectedWorker" (click)="AddWorkerToShift(shift)"
+                                class="far fa-plus-square add-icon"></i>
+                            <div class="shift-name">
+                                {{shift.name}}
+                            </div>
+                        </div>
+                        <div id="shift-workers-container" class="shift-workers-container">
+                            <span *ngFor="let shiftWorker of shift.workers" class="shift-worker">
+                                <i (click)="RemoveWorkerFromShift(shift, shiftWorker._id)"
+                                    class="far fa-minus-square remove-worker-icon"></i>
+                                {{shiftWorker.firstName + " " + shiftWorker.lastName}}
+                            </span>
+                            <span *ngIf="shift.workers.length == 0" class="no-workers">
+                                אין עובדים
+                            </span>
+                            <span class="shift-worker">
+
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="sector-title">עובדי העסק</div>
-            <div class="workers-container">
-                <div *ngFor="let worker of event.businessWorkers">{{worker.name}}</div>
+            <div class="workers-view">
+                <div class="sector-title">עובדי העסק</div>
+                <div class="workers-container">
+                    <span class="worker-name" (click)="SelectWorker(worker)"
+                        [ngClass]="{'selected-worker': worker.isSelected}" *ngFor="let worker of event.businessWorkers">
+                        {{worker.firstName + " " + worker.lastName}}
+                    </span>
+                </div>
             </div>
+            <a (click)="UpdateEventShifts()" class="btn btn-primary save-btn">עדכון</a>
         </div>
     </div>
 </div>

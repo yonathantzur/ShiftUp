@@ -66,8 +66,9 @@ let self = module.exports = {
                 businessesBL.GetWorkersForBusiness(businessId).then(workers => {
                     workers = workers.map(worker => {
                         return {
-                            "id": worker._id,
-                            "name": worker.firstName + " " + worker.lastName
+                            "_id": worker._id,
+                            "firstName": worker.firstName,
+                            "lastName": worker.lastName
                         }
                     })
 
@@ -86,7 +87,7 @@ let self = module.exports = {
                 // Remove workers name from shifts workers.
                 shiftsData = shiftsData.map(shift => {
                     return {
-                        "name": shiftsData.name,
+                        "name": shift.name,
                         "workers": shift.workers.map(worker => {
                             return DAL.GetObjectId(worker._id);
                         })
@@ -95,7 +96,7 @@ let self = module.exports = {
 
                 shift.shiftsData = shiftsData;
 
-                // TODO: save the shift.
+                DAL.Save(shiftsCollectionName, shift).then(resolve);
 
                 resolve(true);
             }).catch(reject);

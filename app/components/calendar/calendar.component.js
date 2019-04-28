@@ -15,12 +15,22 @@ var event_service_1 = require("../../services/event/event.service");
 var enums_1 = require("../../enums/enums");
 var CalendarComponent = /** @class */ (function () {
     function CalendarComponent(shiftService, eventService) {
+        var _this = this;
         this.shiftService = shiftService;
         this.eventService = eventService;
         this.eventsCache = {};
         this.viewState = enums_1.SHIFTS_FILTER.ALL;
         this.eventsIds = [];
         var self = this;
+        self.eventService.Register("openEditShiftCard", function (event) {
+            self.eventEditObject = self.createEventObjectToEdit(event);
+        });
+        self.eventService.Register("renderCalendar", function () {
+            _this.viewState = enums_1.SHIFTS_FILTER.ALL;
+            $("#filter-select").val(0);
+            self.eventsCache = {};
+            self.RenderCalendar();
+        });
         self.eventService.Register("closeShiftEdit", function () {
             self.eventEditObject = null;
         });
@@ -54,26 +64,7 @@ var CalendarComponent = /** @class */ (function () {
                 });
             },
             viewRender: function (element) {
-                self.eventService.Emit("calanderViewRender");
-                var dateRange = $('#calendar').fullCalendar('getDate')._i;
-                var year = dateRange[0];
-                var month = dateRange[1] + 1;
-                var eventsFromCache = self.eventsCache[year + "-" + month];
-                if (eventsFromCache) {
-                    self.loadShifts(eventsFromCache);
-                }
-                else {
-                    var reqQuery = void 0;
-                    if (self.viewState == enums_1.SHIFTS_FILTER.ALL) {
-                        reqQuery = self.shiftService.GetShiftsForBusiness(year, month);
-                    }
-                    else if (self.viewState == enums_1.SHIFTS_FILTER.ME) {
-                        reqQuery = self.shiftService.GetMyShiftsForBusiness(year, month);
-                    }
-                    reqQuery.then(function (shifts) {
-                        shifts && self.handleShiftsResult(shifts, year, month);
-                    });
-                }
+                self.RenderCalendar();
             },
             eventClick: function (event) {
                 // Mark selected event.
@@ -86,6 +77,29 @@ var CalendarComponent = /** @class */ (function () {
     };
     CalendarComponent.prototype.ngOnDestroy = function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    };
+    CalendarComponent.prototype.RenderCalendar = function () {
+        var _this = this;
+        this.eventService.Emit("calanderViewRender");
+        var dateRange = $('#calendar').fullCalendar('getDate')._i;
+        var year = dateRange[0];
+        var month = dateRange[1] + 1;
+        var eventsFromCache = this.eventsCache[year + "-" + month];
+        if (eventsFromCache) {
+            this.loadShifts(eventsFromCache);
+        }
+        else {
+            var reqQuery = void 0;
+            if (this.viewState == enums_1.SHIFTS_FILTER.ALL) {
+                reqQuery = this.shiftService.GetShiftsForBusiness(year, month);
+            }
+            else if (this.viewState == enums_1.SHIFTS_FILTER.ME) {
+                reqQuery = this.shiftService.GetMyShiftsForBusiness(year, month);
+            }
+            reqQuery.then(function (shifts) {
+                shifts && _this.handleShiftsResult(shifts, year, month);
+            });
+        }
     };
     CalendarComponent.prototype.handleShiftsResult = function (shifts, year, month) {
         var events = [];

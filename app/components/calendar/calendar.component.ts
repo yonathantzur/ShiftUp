@@ -27,7 +27,18 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     constructor(private shiftService: ShiftService,
         private eventService: EventService) {
-        let self = this;
+        let self = this;        
+
+        self.eventService.Register("openEditShiftCard", (event: any) => {
+            self.eventEditObject = self.createEventObjectToEdit(event);
+        });
+
+        self.eventService.Register("renderCalendar", () => {
+            this.viewState = SHIFTS_FILTER.ALL;
+            $("#filter-select").val(0);
+            self.eventsCache = {};
+            self.RenderCalendar();
+        });
 
         self.eventService.Register("closeShiftEdit", () => {
             self.eventEditObject = null;
@@ -69,30 +80,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 });
             },
             viewRender: function (element: any) {
-                self.eventService.Emit("calanderViewRender");
-                let dateRange = $('#calendar').fullCalendar('getDate')._i;
-                let year: number = dateRange[0];
-                let month: number = dateRange[1] + 1;
-
-                let eventsFromCache = self.eventsCache[year + "-" + month];
-
-                if (eventsFromCache) {
-                    self.loadShifts(eventsFromCache);
-                }
-                else {
-                    let reqQuery;
-
-                    if (self.viewState == SHIFTS_FILTER.ALL) {
-                        reqQuery = self.shiftService.GetShiftsForBusiness(year, month);
-                    }
-                    else if (self.viewState == SHIFTS_FILTER.ME) {
-                        reqQuery = self.shiftService.GetMyShiftsForBusiness(year, month);
-                    }
-
-                    reqQuery.then((shifts: Array<any>) => {
-                        shifts && self.handleShiftsResult(shifts, year, month);
-                    });
-                }
+                self.RenderCalendar();
             },
             eventClick: function (event: any) {
                 // Mark selected event.
@@ -107,6 +95,33 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    }
+
+    RenderCalendar() {
+        this.eventService.Emit("calanderViewRender");
+        let dateRange = $('#calendar').fullCalendar('getDate')._i;
+        let year: number = dateRange[0];
+        let month: number = dateRange[1] + 1;
+
+        let eventsFromCache = this.eventsCache[year + "-" + month];
+
+        if (eventsFromCache) {
+            this.loadShifts(eventsFromCache);
+        }
+        else {
+            let reqQuery;
+
+            if (this.viewState == SHIFTS_FILTER.ALL) {
+                reqQuery = this.shiftService.GetShiftsForBusiness(year, month);
+            }
+            else if (this.viewState == SHIFTS_FILTER.ME) {
+                reqQuery = this.shiftService.GetMyShiftsForBusiness(year, month);
+            }
+
+            reqQuery.then((shifts: Array<any>) => {
+                shifts && this.handleShiftsResult(shifts, year, month);
+            });
+        }
     }
 
     handleShiftsResult(shifts: Array<any>, year: number, month: number) {
