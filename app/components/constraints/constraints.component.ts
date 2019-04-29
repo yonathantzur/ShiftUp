@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ConstraintsService } from '../../services/constraints/constraints.service';
-import { UsersService } from "../../services/users/users.service";
+import {Component, OnInit} from '@angular/core';
+import {ConstraintsService} from '../../services/constraints/constraints.service';
+import {UsersService} from "../../services/users/users.service";
 import {ActivatedRoute, Router} from "@angular/router";
+
+declare let Swal: any;
 
 @Component({
     selector: 'constraints',
@@ -11,8 +13,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 
 export class ConstraintsComponent implements OnInit {
+    sourceConstraints: Array<any> = [];
     constraints: Array<any> = [];
-    usernames: any = {};
+    searchWord: string;
+    keys: Array<any> = ['userId', 'firstName', 'lastName', 'description', 'status[0].statusName'];
 
     constructor(private constraintsService: ConstraintsService,
                 private usersService: UsersService,
@@ -21,20 +25,69 @@ export class ConstraintsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.constraintsService.getAllConstraints().then((data: any) => {
-            this.constraints = data;
-        });
-        this.InitiateAllUsernames();
+        this.InitiateConstraints();
     }
-    
-    InitiateAllUsernames() {
-        if(this.constraints) {
-            for(let con in this.constraints) {
-                this.usersService.GetUserById(this.constraints[con].userId).then((data: any) => {
-                    this.usernames.firstName.push(data.firstName);
-                    this.usernames.lastName.push(data.lastName);
-                });
+
+    DeleteConstraint(conObjId: string) {
+        this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
+            if (isDeleted) {
+                this.InitiateConstraints();
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה במחיקה',
+                    text: 'אופס... משהו השתבש'
+                })
             }
+        })
+    }
+
+    ApproveConstraint(conObjId: string) {
+        this.constraintsService.ApproveConstraint(conObjId).then((isApprove: any) => {
+            if (isApprove) {
+                this.InitiateConstraints();
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה באישור אילוץ',
+                    text: 'אופס... משהו השתבש'
+                })
+            }
+        })
+    }
+
+    RefuseConstraint(conObjId: string) {
+        this.constraintsService.RefuseConstraint(conObjId).then((isCanceled: any) => {
+            if (isCanceled) {
+                this.InitiateConstraints();
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בדחיית אילוץ',
+                    text: 'אופס... משהו השתבש'
+                })
+            }
+        })
+    }
+
+    InitiateConstraints() {
+        this.constraintsService.getAllConstraints().then((data: any) => {
+            this.sourceConstraints = data;
+            this.constraints = this.sourceConstraints;
+        });
+    }
+
+    filterItem() {
+        if (this.searchWord != "") {
+            this.constraints = this.sourceConstraints.filter(item => {
+                    return (item.userId.includes(this.searchWord)) ||
+                        (`${item.user[0].firstName} ${item.user[0].lastName}`.includes(this.searchWord)) ||
+                        (item.description.includes(this.searchWord)) ||
+                        (item.status[0].statusName.includes(this.searchWord));
+                }
+            );
+        } else {
+            this.constraints = this.sourceConstraints;
         }
     }
 

@@ -11,6 +11,14 @@ router.get("/getAllUsers", (req, res) => {
 });
 
 router.get("/getUserById", (req, res) => {
+    usersBL.GetUserById(req.query.userObjId).then(user => {
+        res.send(user);
+    }).catch(err => {
+        res.status(500).end();
+    })
+});
+
+router.get("/GetUserByUserId", (req, res) => {
     usersBL.GetUserByUserId(req.query.userId).then(user => {
         res.send(user);
     }).catch(err => {

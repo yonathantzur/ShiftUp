@@ -27,8 +27,14 @@ var UsersService = /** @class */ (function (_super) {
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
     };
-    UsersService.prototype.GetUserById = function (userId) {
-        return _super.prototype.get.call(this, this.prefix + '/getUserById?userId=' + userId)
+    UsersService.prototype.GetUserById = function (userObjId) {
+        return _super.prototype.get.call(this, this.prefix + '/getUserById?userObjId=' + userObjId)
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
+    UsersService.prototype.GetUserByUserId = function (userId) {
+        return _super.prototype.get.call(this, this.prefix + '/GetUserByUserId?userId=' + userId)
             .toPromise()
             .then(function (result) { return result; })
             .catch(function (err) { return null; });

@@ -38,6 +38,36 @@ var ConstraintsService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ConstraintsService.prototype.DeleteConstraint = function (conObjId) {
+        return _super.prototype.get.call(this, this.prefix + "/DeleteConstraint?conObjId=" + conObjId)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
+    ConstraintsService.prototype.ApproveConstraint = function (conObjId) {
+        return _super.prototype.get.call(this, this.prefix + "/ApproveConstraint?conObjId=" + conObjId)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
+    ConstraintsService.prototype.RefuseConstraint = function (conObjId) {
+        return _super.prototype.get.call(this, this.prefix + "/RefuseConstraint?conObjId=" + conObjId)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     ConstraintsService = __decorate([
         core_1.Injectable({ providedIn: 'root' })
     ], ConstraintsService);

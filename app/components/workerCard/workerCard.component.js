@@ -31,7 +31,7 @@ var WorkerCardComponent = /** @class */ (function () {
     }
     WorkerCardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.usersService.GetUserById(this.worker.userId)
+        this.usersService.GetUserByUserId(this.worker.userId)
             .then(function (userData) { return _this.workerUserData = userData; });
     };
     __decorate([

@@ -1,33 +1,62 @@
 <div class="container">
-            <div class="row justify-content-center">
-                <table class="table tbConstraints">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">תעודת זהות</th>
-                        <th scope="col">שם</th>
-                        <th scope="col">תפקיד</th>
-                        <th scope="col">טווח תאריכים</th>
-                        <th scope="col">פירוט</th>
-                        <th scope="col">סטטוס בקשה</th>
-                        <th scope="col">פעולות נוספות</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let constraint of constraints; let i=index; let username of usernames">
-                        <td>{{i+1}}</td>
-                        <td>{{ constraint.userId }}</td>
-                        <td>{{username.firstName + " " + username.lastName}}</td>
-                        <td>תפקיד</td>
-                        <td>{{ constraint.startDate + ' עד ' + constraint.endDate }}</td>
-                        <td>{{ constraint.description }}</td>
-                        <td>{{ constraint.status }}</td>
-                        <td><a href=""><img class="iconConstraints" src="/public/icons/ok.png"></a>
-                            <a href=""><img class="iconConstraints" src="/public/icons/cancel.png"></a>
-                                <a href=""><img class="iconConstraints" src="/public/icons/trash.png"></a></td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div id="workers">
+        <h4 class="conTitle">
+            אילוצי עובדים
+        </h4>
+        <div class="row justify-content-center Constraints">
+            <div class="container">
+                <form class="form-inline">
+                    <div class="col-md-4">
+                            <input class="form-control w-75" type="text" placeholder="חיפוש"
+                                   aria-label="Search" [(ngModel)]="searchWord" name="filter" (input)="filterItem()"/>
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                    </div>
+                    <div class="form-inline">
+                        <label class="formInput">מ:</label>
+                        <input class="form-control dateInput" type="date"/>
+                    </div>
+                    <div class="form-inline">
+                        <label class="formInput">עד:</label>
+                        <input class="form-control dateInput" type="date"/>
+                    </div>
+                </form>
             </div>
+            <table class="table tb">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">תעודת זהות</th>
+                    <th scope="col">שם</th>
+                    <th scope="col">תפקיד</th>
+                    <th scope="col">תאריך תחילה</th>
+                    <th scope="col">תאריך סיום</th>
+                    <th scope="col">פירוט</th>
+                    <th scope="col">סטטוס בקשה</th>
+                    <th scope="col">פעולות נוספות</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let con of constraints; let i=index;">
+                    <td>{{i + 1}}</td>
+                    <td>{{ con.userId }}</td>
+                    <td>{{con.user[0].firstName + " " + con.user[0].lastName}}</td>
+                    <td>תפקיד</td>
+                    <td>{{ con.startDate | date:'shortDate'}}</td>
+                    <td>{{ con.endDate | date:'shortDate'}}</td>
+                    <td>{{ con.description }}</td>
+                    <td>{{ con.status[0].statusName }}</td>
+                    <td><a (click)="ApproveConstraint(con._id)"><img class="iconConstraints"
+                                                                     src="/public/icons/ok.png"
+                                                                     title="אישור"></a>
+                        <a (click)="RefuseConstraint(con._id)"><img class="iconConstraints"
+                                                                    src="/public/icons/cancel.png"
+                                                                    title="סירוב"></a>
+                        <a (click)="DeleteConstraint(con._id)"><img class="iconConstraints"
+                                                                    src="/public/icons/trash.png" title="מחיקה"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
+</div>
