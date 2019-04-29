@@ -1,12 +1,13 @@
 <div class="workersRequestsContainer">
-    <div class="backToWorkers" [ngClass]="{'backToWorkers-hover': btnHover==1}"
-    (mouseenter)="btnHover=1;" (mouseleave)="btnHover=null;" (click)="backToWorkersHandler()">
-        <span class="btn-text">חזרה לכל העובדים</span>
-        <i class="btn-icon fa fa-user-friends"></i>
+    <div class="backToUsersButtonContainer">
+        <button class="btn btn-lg btn-dark btn-raised" (click)="backToWorkersHandler()">
+            חזרה לכל העובדים
+            <i class="btn-icon fa fa-users"></i>
+        </button>
     </div>
     <h4 class="title">
-        <i class="fas fa-address-book"></i>
         בקשות ממתינות לעסק {{business.name}}
+        <i class="fas fa-address-book"></i>
     </h4>
     <table class="table requestsTable" *ngIf="requestUsers.length>0">
         <thead class="thead-dark">
@@ -26,13 +27,13 @@
             <td>{{requestUser.firstName + " " + requestUser.lastName}}</td>
             <td>{{calcAge(requestUser.birthDate)}}</td>
             <td>
-                <input type="number" name="salary" class="form-control formInput" min="20" max="100" 
-                    [(ngModel)]="salaries[i]" (ngModelChange)="onSalaryChange($event, i)" />
-                <span class="newWorkerError" [ngClass]="{'showErrorAnimation' : salariesErrorMessages[i] != ''}">{{salariesErrorMessages[i]}}</span>
+                <input type="number" name="salary" class="form-control formInput"
+                    [(ngModel)]="salaries[i]" min="20" max="100"
+                    (ngModelChange)="onSalaryChange($event, i)" />
             </td>
-            <td>
-                <a href=""><img class="iconRequests" src="/public/icons/ok.png"></a>
-                <a href=""><img class="iconRequests" src="/public/icons/cancel.png"></a>
+            <td class="actions">
+                <i class="far fa-thumbs-up" (click)="acceptRequestHandler(requestUser)" title="אשר"></i>
+                <i class="far fa-times-circle" (click)="denyRequestHandler(requestUser)" title="דחה"></i>
             </td>
         </tr>
         </tbody>

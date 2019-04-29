@@ -12,6 +12,15 @@ export class WorkersService extends BasicService {
             .catch((err: any) => null);
     }
 
+    DenyWorkerRequest(worker_id: string) {
+        const data = { worker_id };
+
+        return super.post(this.prefix + '/denyWorkerRequest', data)
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
+
     RemoveWorkerFromBusiness(userId: string) {
         const data = { userId };
 

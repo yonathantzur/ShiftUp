@@ -64,12 +64,32 @@ module.exports = {
                     salary: ""
                 }
             }).then(user => {
-                DAL.UpdateOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) }, {
-                    $pull: { workers: DAL.GetObjectId(user._id) }
-                }).then(business => resolve(business))
-                    .catch(reject);
+                DAL.UpdateOne(businessesCollectionName,
+                    { _id: DAL.GetObjectId(businessId) },
+                    { $pull: { workers: DAL.GetObjectId(user._id) }})
+                .then(business => resolve(business))
+                .catch(reject);
             })
                 .catch(reject);
+        })
+    },
+
+    DenyWorkerRequest(manager_id, worker_id) {
+        return new Promise((resolve, reject) => {
+            const managerObjId = DAL.GetObjectId(manager_id);
+            const workerObjId = DAL.GetObjectId(worker_id)
+
+            DAL.UpdateOne(usersCollectionName, { _id: managerObjId },
+                { $pull: { requests: workerObjId }
+            })
+            .then(manager => {
+                DAL.UpdateOne(usersCollectionName, { _id: workerObjId },
+                    { $unset: { waitBusinessId: "" }
+                })
+                .then(worker => resolve(worker))
+                .catch(reject)
+            })
+            .catch(reject);
         })
     }
 };

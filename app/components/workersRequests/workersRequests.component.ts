@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from '../../services/users/users.service';
 import { BusinessesService } from '../../services/businesses/businesses.service';
+import { WorkersService } from '../../services/workers/workers.service';
+
+declare let Swal: any;
 
 @Component({
     selector: 'workersRequests',
     templateUrl: './workersRequests.html',
-    providers: [UsersService, BusinessesService],
+    providers: [UsersService, BusinessesService, WorkersService],
     styleUrls: ['./workersRequests.css']
 })
 
@@ -14,11 +17,11 @@ export class WorkersRequestsComponent {
     requestUsers: Array<any> = [];
     business: any = {};
     salaries: Array<number> = [];
-    salariesErrorMessages: Array<string> = [];
 
     constructor(
         private usersService: UsersService,
         private businessesService: BusinessesService,
+        private workersService: WorkersService,
         private router: Router
     ) { }
 
@@ -28,7 +31,6 @@ export class WorkersRequestsComponent {
             this.requestUsers.forEach((reqUser, i) => {
                 this.requestUsers[i].salary = 20;
                 this.salaries.push(20);
-                this.salariesErrorMessages.push("");
             });
         });
 
@@ -37,20 +39,8 @@ export class WorkersRequestsComponent {
         });
     }
 
-    onSalaryChange = (newSalary: number, index: number) => {
-        this.salariesErrorMessages[index] = "";
-        if (newSalary < 20 || newSalary > 100) {
-            this.salariesErrorMessages[index] = "שכר לשעה לא בטווח המותר";
-        } else {
-            this.requestUsers[index].salary = newSalary;
-        }
-
-        // this.strSalaryErrorMessage = "";
-        // if (newSalary < 20 || newSalary > 100) {
-        //     this.strSalaryErrorMessage = "שכר לשעה לא בטווח המותר";
-        // } else {
-        //     this.newWorker.salary = newSalary;
-        // }
+    backToWorkersHandler = () => {
+        this.router.navigateByUrl('/workers');
     }
 
     calcAge = (strBirthDate: string) => {
@@ -58,7 +48,64 @@ export class WorkersRequestsComponent {
         return new Date(Date.now() - birthDate).getFullYear() - 1970;
     }
 
-    backToWorkersHandler = () => {
-        this.router.navigateByUrl('/workers');
+    onSalaryChange = (newSalary: number, index: number) => {
+        this.requestUsers[index].salary = newSalary;
+    }
+
+    acceptRequestHandler = (requestUser: any) => {
+        if (requestUser.salary < 20 || requestUser.salary > 100) {
+            Swal.fire({
+                title: "שגיאה!",
+                text: "שכר לשעה לא בטווח המותר: 20 עד 100",
+                type: "error",
+                confirmButtonText: "אישור"
+            });
+        } else {
+            this.workersService.AddWorkerToBusiness(requestUser.userId, requestUser.salary)
+            .then(() => {
+                this.removeRequest(requestUser._id);
+                Swal.fire({
+                    title: "הפעולה הצליחה",
+                    text: "העובד " + requestUser.firstName + ' ' + requestUser.lastName + " נוסף בהצלחה לעסק",
+                    type: "success",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            })
+            .catch((err: any) => {
+                Swal.fire({
+                    title: "שגיאה!",
+                    text: 'פעולת אישור העובד ' + requestUser.firstName + ' ' + requestUser.lastName + ' נכשלה',
+                    type: "error",
+                    confirmButtonText: "אישור"
+                });
+                return;
+            });
+        }
+    }
+
+    denyRequestHandler = (requestUser: any) => {
+        this.workersService.DenyWorkerRequest(requestUser._id)
+        .then((result) => {
+            this.removeRequest(requestUser._id);
+            Swal.fire({
+                title: "הפעולה הצליחה",
+                text: "בקשת העובד " + requestUser.firstName + ' ' + requestUser.lastName + " נדחתה בהצלחה",
+                type: "success",
+                showConfirmButton: false,
+                timer: 1000
+            });
+        })
+        .catch((err: any) => {
+            Swal.fire({
+                type: 'error',
+                title: 'שגיאה!',
+                text: 'דחיית הבקשה נכשלה'
+            });
+        })
+    }
+
+    removeRequest = (requestUser_id: string) => {
+        this.requestUsers = this.requestUsers.filter(request => request._id !== requestUser_id);
     }
 }

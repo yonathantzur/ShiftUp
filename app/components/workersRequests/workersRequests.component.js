@@ -13,37 +13,81 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var users_service_1 = require("../../services/users/users.service");
 var businesses_service_1 = require("../../services/businesses/businesses.service");
+var workers_service_1 = require("../../services/workers/workers.service");
 var WorkersRequestsComponent = /** @class */ (function () {
-    function WorkersRequestsComponent(usersService, businessesService, router) {
+    function WorkersRequestsComponent(usersService, businessesService, workersService, router) {
         var _this = this;
         this.usersService = usersService;
         this.businessesService = businessesService;
+        this.workersService = workersService;
         this.router = router;
         this.requestUsers = [];
         this.business = {};
         this.salaries = [];
-        this.salariesErrorMessages = [];
-        this.onSalaryChange = function (newSalary, index) {
-            _this.salariesErrorMessages[index] = "";
-            if (newSalary < 20 || newSalary > 100) {
-                _this.salariesErrorMessages[index] = "שכר לשעה לא בטווח המותר";
-            }
-            else {
-                _this.requestUsers[index].salary = newSalary;
-            }
-            // this.strSalaryErrorMessage = "";
-            // if (newSalary < 20 || newSalary > 100) {
-            //     this.strSalaryErrorMessage = "שכר לשעה לא בטווח המותר";
-            // } else {
-            //     this.newWorker.salary = newSalary;
-            // }
+        this.backToWorkersHandler = function () {
+            _this.router.navigateByUrl('/workers');
         };
         this.calcAge = function (strBirthDate) {
             var birthDate = new Date(strBirthDate).valueOf();
             return new Date(Date.now() - birthDate).getFullYear() - 1970;
         };
-        this.backToWorkersHandler = function () {
-            _this.router.navigateByUrl('/workers');
+        this.onSalaryChange = function (newSalary, index) {
+            _this.requestUsers[index].salary = newSalary;
+        };
+        this.acceptRequestHandler = function (requestUser) {
+            if (requestUser.salary < 20 || requestUser.salary > 100) {
+                Swal.fire({
+                    title: "שגיאה!",
+                    text: "שכר לשעה לא בטווח המותר: 20 עד 100",
+                    type: "error",
+                    confirmButtonText: "אישור"
+                });
+            }
+            else {
+                _this.workersService.AddWorkerToBusiness(requestUser.userId, requestUser.salary)
+                    .then(function () {
+                    _this.removeRequest(requestUser._id);
+                    Swal.fire({
+                        title: "הפעולה הצליחה",
+                        text: "העובד " + requestUser.firstName + ' ' + requestUser.lastName + " נוסף בהצלחה לעסק",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                })
+                    .catch(function (err) {
+                    Swal.fire({
+                        title: "שגיאה!",
+                        text: 'פעולת אישור העובד ' + requestUser.firstName + ' ' + requestUser.lastName + ' נכשלה',
+                        type: "error",
+                        confirmButtonText: "אישור"
+                    });
+                    return;
+                });
+            }
+        };
+        this.denyRequestHandler = function (requestUser) {
+            _this.workersService.DenyWorkerRequest(requestUser._id)
+                .then(function (result) {
+                _this.removeRequest(requestUser._id);
+                Swal.fire({
+                    title: "הפעולה הצליחה",
+                    text: "בקשת העובד " + requestUser.firstName + ' ' + requestUser.lastName + " נדחתה בהצלחה",
+                    type: "success",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            })
+                .catch(function (err) {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה!',
+                    text: 'דחיית הבקשה נכשלה'
+                });
+            });
+        };
+        this.removeRequest = function (requestUser_id) {
+            _this.requestUsers = _this.requestUsers.filter(function (request) { return request._id !== requestUser_id; });
         };
     }
     WorkersRequestsComponent.prototype.ngOnInit = function () {
@@ -53,7 +97,6 @@ var WorkersRequestsComponent = /** @class */ (function () {
             _this.requestUsers.forEach(function (reqUser, i) {
                 _this.requestUsers[i].salary = 20;
                 _this.salaries.push(20);
-                _this.salariesErrorMessages.push("");
             });
         });
         this.businessesService.GetLoggedInBusiness().then(function (business) {
@@ -64,11 +107,12 @@ var WorkersRequestsComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'workersRequests',
             templateUrl: './workersRequests.html',
-            providers: [users_service_1.UsersService, businesses_service_1.BusinessesService],
+            providers: [users_service_1.UsersService, businesses_service_1.BusinessesService, workers_service_1.WorkersService],
             styleUrls: ['./workersRequests.css']
         }),
         __metadata("design:paramtypes", [users_service_1.UsersService,
             businesses_service_1.BusinessesService,
+            workers_service_1.WorkersService,
             router_1.Router])
     ], WorkersRequestsComponent);
     return WorkersRequestsComponent;

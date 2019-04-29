@@ -3,14 +3,27 @@
         <a class="navbarItem" (click)="pageClick(pages[0])">
             <span class="logo">ShiftUp</span>
         </a>
-        <!-- <span class="navbarItem">שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span> -->
+        <span *ngIf="loggedInUser" class="navbarItem userGreeting">שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
+        <div class="notificationsIndicator">
+            <button class="btn btn-danger bmd-btn-fab bmd-btn-fab-sm dropdown-toggle" data-placement="bottom"
+                data-toggle="dropdown" id="notificationsDropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+            </button>
+            <div class="dropdown-menu notificationsDropdown" aria-labelledby="notificationsDropdown">
+                <button class="dropdown-item btn" (click)="notificationsClick()"
+                    *ngIf="loggedInUser && loggedInUser.requests && loggedInUser.requests.length > 0">
+                    בקשות הצטרפות לעסק
+                </button>
+                <!-- <div class="dropdown-divider"></div> -->
+                <button class="dropdown-item btn">בקשות אילוצים</button>
+                <!-- <div class="dropdown-divider"></div> -->
+                <span class="dropdown-item">התקבלת לעסק! אשר</span>
+            </div>
+        </div>
         <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked': page.isClicked}"
             (click)="pageClick(page)">
-            <!-- <i class="fas fa-bell requestsIndicator"
-                *ngIf="page.route=='/workers' && loggedInUser && loggedInUser.requests && loggedInUser.requests.length > 0"
-                [title]="loggedInUser.requests.length + ' בקשות ממתינות'"></i> -->
             <span class="navbarPageText">{{page.displayText}}</span>
-            <i [class]="page.icon" [ngClass]="{'requestsIndicator': page.route=='/workers/requests'&&loggedInUser&&loggedInUser.requests&&loggedInUser.requests>0}"></i>
+            <i [class]="page.icon"></i>
         </a>
     </div>
     <div class="navbarItem searchNavbarItem">

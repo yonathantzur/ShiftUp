@@ -15,7 +15,7 @@ var WorkerCardComponent = /** @class */ (function () {
     function WorkerCardComponent(usersService) {
         var _this = this;
         this.usersService = usersService;
-        this.onClose = new core_1.EventEmitter();
+        this.onDelete = new core_1.EventEmitter();
         this.workerUserData = {};
         this.calcAge = function (strBirthDate) {
             var birthDate = new Date(strBirthDate).valueOf();
@@ -30,7 +30,7 @@ var WorkerCardComponent = /** @class */ (function () {
             });
         };
         this.deleteWorker = function () {
-            _this.onClose.emit();
+            _this.onDelete.emit();
         };
     }
     WorkerCardComponent.prototype.ngOnInit = function () {
@@ -41,7 +41,7 @@ var WorkerCardComponent = /** @class */ (function () {
     __decorate([
         core_1.Output(),
         __metadata("design:type", core_1.EventEmitter)
-    ], WorkerCardComponent.prototype, "onClose", void 0);
+    ], WorkerCardComponent.prototype, "onDelete", void 0);
     WorkerCardComponent = __decorate([
         core_1.Component({
             selector: 'workerCard',

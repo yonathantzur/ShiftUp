@@ -10,7 +10,13 @@
         <span class="detail">שכר לשעה : {{worker.salary}}</span>
     </div>
     <div class="buttonsContainer">
-        <button class="btn btn-raised btn-dark" (click)="calcWorkerSalery()">חישוב שכר</button>
-        <button class="btn btn-raised btn-dark" (click)="deleteWorker()"><i class="fa fa-user-minus removeUserIcon"></i>&nbsp;מחיקה</button>
+        <button class="btn btn-secondary btn-raised btn-sm" (click)="calcWorkerSalery()">
+            חישוב שכר
+        </button>
+        <button class="btn btn-secondary btn-raised btn-sm" (click)="deleteWorker()">
+            מחיקה
+            <!-- &nbsp;
+            <i class="fas fa-trash-alt removeUserIcon"></i> -->
+        </button>
     </div>
 </div>

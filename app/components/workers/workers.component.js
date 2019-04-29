@@ -30,45 +30,34 @@ var WorkersComponent = /** @class */ (function () {
         this.showRequests = function () {
             _this.router.navigateByUrl('/workers/requests');
         };
-        this.onNewWorkerSubmit = function (newWorker) {
+        this.addNewWorkerHandler = function (newWorker) {
             if (newWorker) {
-                if (_this.workers.find(function (currWorker) { return currWorker.userId == newWorker.userId; })) {
+                _this.workersService.AddWorkerToBusiness(newWorker.userId, newWorker.salary)
+                    .then(function () {
+                    _this.workers.push(newWorker);
+                    Swal.fire({
+                        title: "הפעולה הצליחה",
+                        text: "העובד " + newWorker.firstName + ' ' + newWorker.lastName + " נוסף בהצלחה לעסק",
+                        type: "success",
+                        confirmButtonText: "אישור"
+                    });
+                })
+                    .catch(function (err) {
                     Swal.fire({
                         title: "שגיאה!",
-                        text: "קיים עובד עם מספר תעודת זהות זהה.",
+                        text: "הפעולה נכשלה",
                         type: "error",
                         confirmButtonText: "אישור"
                     });
                     return;
-                }
-                else {
-                    _this.workersService.AddWorkerToBusiness(newWorker.userId, newWorker.salary)
-                        .then(function () {
-                        _this.workers.push(newWorker);
-                        Swal.fire({
-                            title: "הפעולה הצליחה",
-                            text: "העובד " + newWorker.userId + " נוסף בהצלחה לעסק",
-                            type: "success",
-                            confirmButtonText: "אישור"
-                        });
-                    })
-                        .catch(function (err) {
-                        Swal.fire({
-                            title: "שגיאה!",
-                            text: "הפעולה נכשלה",
-                            type: "error",
-                            confirmButtonText: "אישור"
-                        });
-                        return;
-                    });
-                }
+                });
             }
             _this.isNewWorkerComponentActive = false;
         };
-        this.onDeleteWorker = function (workerUserId) {
+        this.deleteWorkerHandler = function (worker) {
             Swal.fire({
                 title: "האם אתה בטוח?",
-                text: "העובד " + workerUserId + " יימחק.",
+                text: "העובד " + worker.firstName + ' ' + worker.lastName + " יימחק",
                 type: "warning",
                 showCancelButton: true,
                 cancelButtonColor: "#d33",
@@ -76,9 +65,9 @@ var WorkersComponent = /** @class */ (function () {
                 cancelButtonText: "ביטול"
             }).then(function (result) {
                 if (result.value) {
-                    _this.workersService.RemoveWorkerFromBusiness(workerUserId)
+                    _this.workersService.RemoveWorkerFromBusiness(worker.userId)
                         .then(function () {
-                        _this.workers = _this.workers.filter(function (worker) { return worker.userId !== workerUserId; });
+                        _this.workers = _this.workers.filter(function (worker) { return worker.userId !== worker.userId; });
                         Swal.fire({
                             title: "הפעולה הצליחה!",
                             text: "העובד נמחק בהצלחה",
@@ -95,28 +84,6 @@ var WorkersComponent = /** @class */ (function () {
                             showConfirmButton: false,
                             timer: 1000
                         });
-                    });
-                }
-            });
-        };
-        this.onDeleteAllWorkers = function () {
-            Swal.fire({
-                title: "האם אתה בטוח?",
-                text: "כל העובדים יימחקו.",
-                type: "warning",
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                confirmButtonText: "אישור",
-                cancelButtonText: "ביטול"
-            }).then(function (result) {
-                if (result.value) {
-                    _this.workers = [];
-                    Swal.fire({
-                        title: "הפעולה הצליחה!",
-                        text: "כל העובדים נמחקו בהצלחה.",
-                        type: "success",
-                        showConfirmButton: false,
-                        timer: 1500
                     });
                 }
             });

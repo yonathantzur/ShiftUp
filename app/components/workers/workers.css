@@ -2,71 +2,24 @@
     padding: 20px;
 }
 
-.title {
-    text-align: center;
-    font-weight: bold;
-}
-
-.chooseBtn {
-    width: 60%;
-    margin: auto;
+.buttonsContainer {
+    position: absolute;
     display: flex;
-    justify-content: space-between;
 }
 
-.btnsContainer {
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.marker {
-    width: 200px;
-    height: 200px;
-    margin: 50px auto;
-}
-
-.newWorkerButton {
-    width: 100%;
-    height: 100%;
-    border: 0.5px solid gray;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-    position: relative;
-    font-size: 18px;
-}
-
-.newWorkerButton-hover {
-    background-color: #e7e7e7;
-}
-
-.btn-text {
-    margin-top: 15%;
+.buttonsContainer > button {
+    margin-left: 20px;
 }
 
 .btn-icon {
-    position: absolute;
-    top: 35%;
-    font-size: 24px;
-}
-
-.plusWorkerIcon {
-    margin-left: 5px;
+    font-size: 20px;
+    margin-right: 5px;
     color: #fff;
 }
 
-.deleteAllWorkersButton {
-    margin: 0px 10px;
-    color: #fff;
-    background-color: #e77;
-    border-radius: 10px;
-    padding: 10px 40px;
-    cursor: pointer;
+.title {
+    text-align: center;
+    font-weight: bold;
 }
 
 .workersWrapper {

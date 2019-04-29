@@ -7,7 +7,8 @@ class page {
     route: string;
     displayText: string;
     icon: string;
-    action?: Function
+    action?: Function;
+    isClicked?: boolean;
 }
 
 @Component({
@@ -23,7 +24,6 @@ export class NavbarComponent {
         { route: '/', displayText: "בית", icon: "fa fa-home" },
         { route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" },
         { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" },
-        { route: '/workers/requests', displayText: "בקשות ממתינות", icon: "fas fa-bell" },
         { route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" },
         { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
         { route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: this.logout.bind(this) }
@@ -56,10 +56,22 @@ export class NavbarComponent {
         });
     }
 
-    pageClick(page: any) {
+    resetPagesClick = () => {
         this.pages.forEach((page: any) => {
             page.isClicked = false;
         })
+    }
+
+    notificationsClick() {
+        this.resetPagesClick();
+        
+        const workersPage = this.pages.find(page => page.route == '/workers');
+        workersPage.isClicked = true;
+        this.routeTo(workersPage.route + '/requests')
+    }
+
+    pageClick(page: any) {
+        this.resetPagesClick();
 
         page.isClicked = true;
 

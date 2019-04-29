@@ -28,6 +28,13 @@ var WorkersService = /** @class */ (function (_super) {
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
     };
+    WorkersService.prototype.DenyWorkerRequest = function (worker_id) {
+        var data = { worker_id: worker_id };
+        return _super.prototype.post.call(this, this.prefix + '/denyWorkerRequest', data)
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
     WorkersService.prototype.RemoveWorkerFromBusiness = function (userId) {
         var data = { userId: userId };
         return _super.prototype.post.call(this, this.prefix + '/removeWorkerFromBusiness', data)

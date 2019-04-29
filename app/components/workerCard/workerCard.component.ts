@@ -14,7 +14,7 @@ declare let Swal: any;
 
 export class WorkerCardComponent {
     worker: any;
-    @Output() onClose: EventEmitter<Worker> = new EventEmitter<Worker>();
+    @Output() onDelete: EventEmitter<Worker> = new EventEmitter<Worker>();
     workerUserData: any = {};
 
     constructor(private usersService: UsersService) {
@@ -40,6 +40,6 @@ export class WorkerCardComponent {
     }
     
     deleteWorker = () => {
-        this.onClose.emit();
+        this.onDelete.emit();
     }
 }

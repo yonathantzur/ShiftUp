@@ -1,29 +1,26 @@
 <div id="workers">
-    <h4 class="title">
-        <i class="fa fa-users"></i>
-        עובדי העסק {{business.name}}
-    </h4>
-    <div class="chooseBtn">
-        <div class="marker" *ngIf="!isNewWorkerComponentActive">
-            <div class="newWorkerButton" [ngClass]="{'newWorkerButton-hover': btnHover==1}"
-                (click)="activateNewWorkerComponent()" (mouseenter)="btnHover=1;" (mouseleave)="btnHover=null;">
-                <span class="btn-text">הוספת עובד חדש</span>
-                <i class="btn-icon fas fa-user-plus"></i>
-            </div>
-        </div>
-        <div class="marker" *ngIf="!isNewWorkerComponentActive">
-            <div class="newWorkerButton" [ngClass]="{'newWorkerButton-hover': btnHover==2}"
-                (click)="showRequests()" (mouseenter)="btnHover=2;" (mouseleave)="btnHover=null;">
-                <span class="btn-text">הצג בקשות ממתינות</span>
-                <i class="btn-icon fas fa-bell"></i>
-            </div>
-        </div>      
+    <div class="buttonsContainer">
+        <button class="btn btn-lg btn-dark btn-raised" (click)="activateNewWorkerComponent()">
+            הוספת עובד חדש
+            <i class="btn-icon fas fa-user-plus"></i>
+        </button>
+        <!-- <button class="btn btn-lg btn-dark btn-raised" (click)="deleteAllWorkersHandler()">
+            מחיקת כל העובדים
+            <i class="btn-icon fas fa-trash"></i>
+        </button> -->
+        <button class="btn btn-lg btn-dark btn-raised" (click)="showRequests()">
+            הצג בקשות ממתינות
+            <i class="btn-icon fas fa-bell"></i>
+        </button>
     </div>
-    <!-- <button class="deleteAllWorkersButton" (click)="onDeleteAllWorkers()">מחיקת כל העובדים</button> -->
-    <newWorker (onSubmit)="onNewWorkerSubmit($event)" *ngIf="isNewWorkerComponentActive"></newWorker>
+    <h4 class="title">
+        עובדי העסק {{business.name}}
+        <i class="fa fa-users"></i>
+    </h4>
+    <newWorker (onSubmit)="addNewWorkerHandler($event)" *ngIf="isNewWorkerComponentActive"></newWorker>
     <div class="workersWrapper">
         <div class="workersContainer">
-            <workerCard *ngFor="let worker of workers" [worker]=worker class="workerCard" (onClose)="onDeleteWorker(worker.userId)"></workerCard>
+            <workerCard *ngFor="let worker of workers" [worker]=worker class="workerCard" (onDelete)="deleteWorkerHandler(worker)"></workerCard>
         </div>
     </div>
     <h3 *ngIf="workers.length == 0 && !isNewWorkerComponentActive" class="noWorkers">

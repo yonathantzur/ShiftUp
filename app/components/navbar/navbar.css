@@ -33,6 +33,14 @@
     background-color: #ccc;
 }
 
+.userGreeting {
+    cursor: default !important;
+}
+
+.notificationsDropdown {
+    top: 50px !important;
+}
+
 .searchNavbarItem {
     width: 20%;
     cursor: unset;
@@ -78,18 +86,18 @@
     margin: 10px;
 }
 
-/* .requestsIndicator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    width: 30px;
-    font-size: 20px;
-    border-radius: 50%;
+.notificationsIndicator > span {
     background-color: #f45;
-    color: #fff;
-} */
+}
 
-.requestsIndicator {
-    color: red !important;
+.notificationsIndicator {
+    margin: auto 10px;
+}
+
+.notificationsIndicator :hover {
+    color: #f6b800 !important;
+}
+
+.notificationsIndicator > button > i {
+    color: #fff;
 }

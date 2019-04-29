@@ -23,7 +23,7 @@
                 [(ngModel)]="newWorker.salary" (ngModelChange)="onSalaryChange($event)" />
             <h6 class="newWorkerError" [ngClass]="{'showErrorAnimation' : strSalaryErrorMessage != ''}">{{strSalaryErrorMessage}}</h6>
         </div>
-        <div class="formButton">
+        <div class="formButtons">
             <button class="btn btn-raised btn-dark" [ngClass]="{'disabledButton': !isUserIdValid}"
                 type=submit [disabled]="!isUserIdValid">הוספת העובד</button>
             <button class="btn btn-raised btn-dark" (click)="onCancel()">ביטול</button>

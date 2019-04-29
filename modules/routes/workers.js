@@ -38,11 +38,11 @@ router.post("/addWorkerToBusiness", (req, res) => {
             .then(business => {
                 res.end();
             }).catch(err => {
-                res.status(500).end();
+                res.sendStatus(500);
             }
         );
     } else {
-        res.status(500).end();
+        res.sendStatus(500);
     }
 });
 
@@ -54,12 +54,26 @@ router.post("/removeWorkerFromBusiness", (req, res) => {
             .then(business => {
                 res.end();
             }).catch(err => {
-                res.status(500).end();
+                res.sendStatus(500);
             }
         );
     } else {
-        res.status(500).end();
+        res.sendStatus(500);
     }
 });
+
+router.post("/denyWorkerRequest", (req, res) => {
+    const businessId = req.user.businessId;
+    const manager_id = req.user.id;
+    const worker_id = req.body.worker_id;
+
+    if (businessId) {
+        workersBL.DenyWorkerRequest(manager_id, worker_id)
+            .then(manager => res.end())
+            .catch(err => res.sendStatus(500));
+    } else {
+        res.sendStatus(500);
+    }
+})
 
 module.exports = router;
