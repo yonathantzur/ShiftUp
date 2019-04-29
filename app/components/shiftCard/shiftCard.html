@@ -1,5 +1,6 @@
 <div id="shiftCard">
     <div class="cardContainer" *ngIf="shiftsData">
+        <i class="far fa-edit edit-shift-icon" (click)="Edit()" title="עריכת שיבוץ"></i>
         <div class="shiftContainer" *ngFor="let shift of shiftsData">
             <div class="shiftName">{{shift.name}}</div>
             <span class="worker" *ngFor="let worker of shift.workers; let i = index">

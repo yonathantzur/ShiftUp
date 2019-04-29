@@ -22,6 +22,7 @@ import { NewUserRoleComponent } from "../components/newUserRole/newUserRole.comp
 import { NewBusinessComponent } from "../components/newUserRole/newBusiness/newBusiness.component";
 import { WorkerComponent } from "../components/newUserRole/worker/worker.component";
 import { WorkerWaitComponent } from "../components/newUserRole/workerWait/workerWait.component";
+import { ShiftEditComponent } from "../components/shiftEdit/shiftEdit.component";
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -55,7 +56,8 @@ import { Routing } from '../routes/app.routing'
         NewUserRoleComponent,
         NewBusinessComponent,
         WorkerComponent,
-        WorkerWaitComponent
+        WorkerWaitComponent,
+        ShiftEditComponent
     ],
     providers: [
         EventService

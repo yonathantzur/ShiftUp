@@ -10,7 +10,7 @@
     border-bottom: 0.5px solid #858585;
     padding-right: 15px;
     padding-left: 15px;
-    min-width: 150px;
+    min-width: 180px;    
 }
 
 .shiftContainer {
@@ -24,4 +24,14 @@
 
 .worker {
     font-size: 18px;
+}
+
+.edit-shift-icon {
+    position: absolute;
+    left: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 8px 1px grey;
 }
