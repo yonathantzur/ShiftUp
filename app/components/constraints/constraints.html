@@ -13,11 +13,11 @@
                     </div>
                     <div class="form-inline">
                         <label class="formInput">מ:</label>
-                        <input class="form-control dateInput" type="date"/>
+                        <input class="form-control dateInput" [(ngModel)]="startDateFilter" name="dateFilter1" (input)="filterItem()" type="date"/>
                     </div>
                     <div class="form-inline">
                         <label class="formInput">עד:</label>
-                        <input class="form-control dateInput" type="date"/>
+                        <input class="form-control dateInput" [(ngModel)]="endDateFilter" name="dateFilter2" (input)="filterItem()" type="date"/>
                     </div>
                 </form>
             </div>
@@ -41,8 +41,8 @@
                     <td>{{ con.userId }}</td>
                     <td>{{con.user[0].firstName + " " + con.user[0].lastName}}</td>
                     <td>תפקיד</td>
-                    <td>{{ con.startDate | date:'shortDate'}}</td>
-                    <td>{{ con.endDate | date:'shortDate'}}</td>
+                    <td>{{ con.startDate | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
                     <td>{{ con.description }}</td>
                     <td>{{ con.status[0].statusName }}</td>
                     <td><a (click)="ApproveConstraint(con._id)"><img class="iconConstraints"

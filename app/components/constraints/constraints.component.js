@@ -21,7 +21,7 @@ var ConstraintsComponent = /** @class */ (function () {
         this.router = router;
         this.sourceConstraints = [];
         this.constraints = [];
-        this.keys = ['userId', 'firstName', 'lastName', 'description', 'status[0].statusName'];
+        this.afterFreeFilter = [];
     }
     ConstraintsComponent.prototype.ngOnInit = function () {
         this.InitiateConstraints();
@@ -76,16 +76,39 @@ var ConstraintsComponent = /** @class */ (function () {
         this.constraintsService.getAllConstraints().then(function (data) {
             _this.sourceConstraints = data;
             _this.constraints = _this.sourceConstraints;
+            _this.afterFreeFilter = _this.sourceConstraints;
         });
     };
     ConstraintsComponent.prototype.filterItem = function () {
         var _this = this;
-        if (this.searchWord != "") {
+        if (this.searchWord || this.startDateFilter || this.endDateFilter) {
             this.constraints = this.sourceConstraints.filter(function (item) {
-                return (item.userId.includes(_this.searchWord)) ||
-                    ((item.user[0].firstName + " " + item.user[0].lastName).includes(_this.searchWord)) ||
-                    (item.description.includes(_this.searchWord)) ||
-                    (item.status[0].statusName.includes(_this.searchWord));
+                var bool = true;
+                if (_this.searchWord) {
+                    bool = (_this.searchWord && (item.userId.includes(_this.searchWord)) ||
+                        ((item.user[0].firstName + " " + item.user[0].lastName).includes(_this.searchWord)) ||
+                        (item.description.includes(_this.searchWord)) ||
+                        (item.status[0].statusName.includes(_this.searchWord)));
+                }
+                if (bool && _this.startDateFilter) {
+                    bool = new Date(item.startDate) >= new Date(_this.startDateFilter);
+                }
+                if (bool && _this.endDateFilter) {
+                    bool = new Date(item.endDate) <= new Date(_this.endDateFilter);
+                }
+                return bool;
+            });
+        }
+        else {
+            this.constraints = this.sourceConstraints;
+        }
+    };
+    ConstraintsComponent.prototype.filterByDate = function () {
+        var _this = this;
+        if (new Date(this.startDateFilter).getTime() > 0) {
+            this.constraints = this.sourceConstraints.filter(function (item) {
+                return (new Date(item.startDate).getTime() >= (new Date(_this.startDateFilter).getTime()) ||
+                    (new Date(item.startDate).getTime() == (new Date(_this.startDateFilter).getTime())));
             });
         }
         else {

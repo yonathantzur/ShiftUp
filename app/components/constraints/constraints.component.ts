@@ -16,7 +16,9 @@ export class ConstraintsComponent implements OnInit {
     sourceConstraints: Array<any> = [];
     constraints: Array<any> = [];
     searchWord: string;
-    keys: Array<any> = ['userId', 'firstName', 'lastName', 'description', 'status[0].statusName'];
+    startDateFilter: Date;
+    endDateFilter: Date;
+    afterFreeFilter: Array<any> = [];
 
     constructor(private constraintsService: ConstraintsService,
                 private usersService: UsersService,
@@ -74,16 +76,38 @@ export class ConstraintsComponent implements OnInit {
         this.constraintsService.getAllConstraints().then((data: any) => {
             this.sourceConstraints = data;
             this.constraints = this.sourceConstraints;
+            this.afterFreeFilter = this.sourceConstraints;
         });
     }
 
     filterItem() {
-        if (this.searchWord != "") {
+        if (this.searchWord  || this.startDateFilter || this.endDateFilter) {
             this.constraints = this.sourceConstraints.filter(item => {
-                    return (item.userId.includes(this.searchWord)) ||
+                let bool = true;
+                if (this.searchWord) {
+                    bool = (this.searchWord && (item.userId.includes(this.searchWord)) ||
                         (`${item.user[0].firstName} ${item.user[0].lastName}`.includes(this.searchWord)) ||
                         (item.description.includes(this.searchWord)) ||
-                        (item.status[0].statusName.includes(this.searchWord));
+                        (item.status[0].statusName.includes(this.searchWord)));
+                }
+                if (bool && this.startDateFilter) {
+                    bool = new Date(item.startDate) >= new Date(this.startDateFilter);
+                }
+                if (bool && this.endDateFilter) {
+                    bool = new Date(item.endDate) <= new Date(this.endDateFilter);
+                }
+                return bool;
+            });
+        } else {
+            this.constraints = this.sourceConstraints;
+        }
+    }
+
+    filterByDate() {
+        if (new Date(this.startDateFilter).getTime() > 0) {
+            this.constraints = this.sourceConstraints.filter(item => {
+                    return (new Date(item.startDate).getTime() >= (new Date(this.startDateFilter).getTime()) ||
+                        (new Date(item.startDate).getTime() == (new Date(this.startDateFilter).getTime())))
                 }
             );
         } else {
