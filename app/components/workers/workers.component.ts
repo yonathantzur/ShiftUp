@@ -16,7 +16,6 @@ export class WorkersComponent {
     business: any = {};
     workers: Array<any> = [];
     isNewWorkerComponentActive: boolean = false;
-    btnHover: number = null;
 
     constructor(
         private businessesService: BusinessesService,
@@ -34,8 +33,7 @@ export class WorkersComponent {
     }
 
     activateNewWorkerComponent = () => {
-        this.btnHover = null;
-        this.isNewWorkerComponentActive = true;
+        this.isNewWorkerComponentActive = !this.isNewWorkerComponentActive;
     }
 
     showRequests = () => {

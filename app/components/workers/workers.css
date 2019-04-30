@@ -1,9 +1,5 @@
-#workers {
-}
-
 .buttonsContainer {
-    display: flex;
-    padding-right: 25px;
+    text-align: center;
 }
 
 .buttonsContainer > button {
@@ -11,7 +7,7 @@
 }
 
 .btn-icon {
-    font-size: 20px;
+    font-size: 16px;
     margin-right: 5px;
     color: #fff;
 }

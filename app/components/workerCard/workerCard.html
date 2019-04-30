@@ -1,21 +1,27 @@
 <div class="worker">
     <span class="name">
         {{workerUserData.firstName + ' ' + workerUserData.lastName}}
-        <i class="fa fa-user title-icon"></i>
+        <i class="fa fa-user btn-icon"></i>
     </span>
     <div class="workerDetailsContaienr">
-        <span class="detail">תעודת זהות : {{worker.userId}}</span>
-        <span class="detail">גיל : {{calcAge(workerUserData.birthDate)}}</span>
-        <span class="detail">שכר לשעה : {{worker.salary}}</span>
+        <span>תעודת זהות : {{worker.userId}}</span>
+        <span>גיל : {{calcAge(workerUserData.birthDate)}}</span>
+        <span>שכר לשעה : {{worker.salary}}</span>
     </div>
     <div class="buttonsContainer">
-        <button class="btn btn-secondary btn-raised btn-sm" (click)="calcWorkerSalery()">
+        <!-- <button class="btn btn-secondary btn-raised btn-sm" (click)="calcWorkerSalery()">
             חישוב שכר
+        </button> -->
+        <button class="btn btn-info bmd-btn-fab bmd-btn-fab-sm"
+            (click)="calcWorkerSalery()" title="חישוב שכר">
+            <i class="fas fa-calculator"></i>
         </button>
-        <button class="btn btn-secondary btn-raised btn-sm" (click)="deleteWorker()">
+        <!-- <button class="btn btn-secondary btn-raised btn-sm" (click)="deleteWorker()">
             מחיקה
-            <!-- &nbsp;
-            <i class="fas fa-trash-alt removeUserIcon"></i> -->
+        </button> -->
+        <button class="btn btn-danger bmd-btn-fab bmd-btn-fab-sm"
+            (click)="deleteWorker()" title="מחיקה">
+            <i class="fas fa-trash-alt"></i>
         </button>
     </div>
 </div>

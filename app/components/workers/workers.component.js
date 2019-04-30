@@ -22,10 +22,8 @@ var WorkersComponent = /** @class */ (function () {
         this.business = {};
         this.workers = [];
         this.isNewWorkerComponentActive = false;
-        this.btnHover = null;
         this.activateNewWorkerComponent = function () {
-            _this.btnHover = null;
-            _this.isNewWorkerComponentActive = true;
+            _this.isNewWorkerComponentActive = !_this.isNewWorkerComponentActive;
         };
         this.showRequests = function () {
             _this.router.navigateByUrl('/workers/requests');
