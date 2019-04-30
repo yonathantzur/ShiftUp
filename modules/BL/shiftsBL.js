@@ -1,10 +1,11 @@
 const DAL = require('../DAL');
+const businessesBL = require('../BL/businessesBL');
 const config = require('../../config');
 
 const usersCollectionName = config.db.collections.users;
 const shiftsCollectionName = config.db.collections.shifts;
 
-module.exports = {
+let self = module.exports = {
 
     GetShiftsForBusiness(businessId, year, month, userId) {
         return new Promise((resolve, reject) => {
@@ -54,6 +55,51 @@ module.exports = {
                 resolve(shiftsData);
             }).catch(reject);
 
+        });
+    },
+
+    GetEventDetails(event, businessId) {
+        return new Promise((resolve, reject) => {
+            self.GetShiftsWorkers(event.shiftsData).then(shiftsData => {
+                event.shiftsData = shiftsData;
+
+                businessesBL.GetWorkersForBusiness(businessId).then(workers => {
+                    workers = workers.map(worker => {
+                        return {
+                            "_id": worker._id,
+                            "firstName": worker.firstName,
+                            "lastName": worker.lastName
+                        }
+                    })
+
+                    event.businessId = businessId;
+                    event.businessWorkers = workers;
+
+                    resolve(event);
+                });
+            }).catch(reject);
+        });
+    },
+
+    UpdateEventShifts(shiftId, shiftsData) {
+        return new Promise((resolve, reject) => {
+            DAL.FindOne(shiftsCollectionName, { "_id": DAL.GetObjectId(shiftId) }).then(shift => {
+                // Remove workers name from shifts workers.
+                shiftsData = shiftsData.map(shift => {
+                    return {
+                        "name": shift.name,
+                        "workers": shift.workers.map(worker => {
+                            return DAL.GetObjectId(worker._id);
+                        })
+                    }
+                });
+
+                shift.shiftsData = shiftsData;
+
+                DAL.Save(shiftsCollectionName, shift).then(resolve);
+
+                resolve(true);
+            }).catch(reject);
         });
     }
 

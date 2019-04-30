@@ -23,6 +23,7 @@ import { NewBusinessComponent } from '../components/newUserRole/newBusiness/newB
 import { WorkerComponent } from '../components/newUserRole/worker/worker.component';
 import { WorkerWaitComponent } from '../components/newUserRole/workerWait/workerWait.component';
 import { WorkersRequestsComponent } from '../components/workersRequests/workersRequests.component';
+import { ShiftEditComponent } from "../components/shiftEdit/shiftEdit.component";
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -57,7 +58,8 @@ import { Routing } from '../routes/app.routing'
         NewBusinessComponent,
         WorkerComponent,
         WorkerWaitComponent,
-        WorkersRequestsComponent
+        WorkersRequestsComponent,
+        ShiftEditComponent
     ],
     providers: [
         EventService
