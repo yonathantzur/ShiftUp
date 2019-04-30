@@ -29,7 +29,7 @@ export class WorkersComponent {
         });
 
         this.businessesService.GetWorkersForBusiness().then((workers: any) => {
-            this.workers = workers;
+            this.workers = workers.filter((worker: any) => !worker.isManager);
         });
     }
 
@@ -89,7 +89,7 @@ export class WorkersComponent {
                         timer: 1000
                     });
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     Swal.fire({
                         title: "שגיאה",
                         text: "הפעולה נכשלה!",
@@ -102,26 +102,26 @@ export class WorkersComponent {
         });
     }
 
-    // deleteAllWorkersHandler = () => {
-    //     Swal.fire({
-    //         title: "האם אתה בטוח?",
-    //         text: "כל העובדים יימחקו.",
-    //         type: "warning",
-    //         showCancelButton: true,
-    //         cancelButtonColor: "#d33",
-    //         confirmButtonText: "אישור",
-    //         cancelButtonText: "ביטול"
-    //     }).then((result: any) => {
-    //         if (result.value) {
-    //             this.workers = [];
-    //             Swal.fire({
-    //                 title: "הפעולה הצליחה!",
-    //                 text: "כל העובדים נמחקו בהצלחה.",
-    //                 type: "success",
-    //                 showConfirmButton: false,
-    //                 timer: 1500
-    //             });
-    //         }
-    //     });
-    // }
+    deleteAllWorkersHandler = () => {
+        Swal.fire({
+            title: "האם אתה בטוח?",
+            text: "כל העובדים יימחקו.",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonColor: "#d33",
+            confirmButtonText: "אישור",
+            cancelButtonText: "ביטול"
+        }).then((result: any) => {
+            if (result.value) {
+                this.workers = [];
+                Swal.fire({
+                    title: "הפעולה הצליחה!",
+                    text: "כל העובדים נמחקו בהצלחה.",
+                    type: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+    }
 }

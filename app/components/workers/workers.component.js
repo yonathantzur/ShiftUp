@@ -88,6 +88,28 @@ var WorkersComponent = /** @class */ (function () {
                 }
             });
         };
+        this.deleteAllWorkersHandler = function () {
+            Swal.fire({
+                title: "האם אתה בטוח?",
+                text: "כל העובדים יימחקו.",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                confirmButtonText: "אישור",
+                cancelButtonText: "ביטול"
+            }).then(function (result) {
+                if (result.value) {
+                    _this.workers = [];
+                    Swal.fire({
+                        title: "הפעולה הצליחה!",
+                        text: "כל העובדים נמחקו בהצלחה.",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        };
     }
     WorkersComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -95,7 +117,7 @@ var WorkersComponent = /** @class */ (function () {
             _this.business = business;
         });
         this.businessesService.GetWorkersForBusiness().then(function (workers) {
-            _this.workers = workers;
+            _this.workers = workers.filter(function (worker) { return !worker.isManager; });
         });
     };
     WorkersComponent = __decorate([

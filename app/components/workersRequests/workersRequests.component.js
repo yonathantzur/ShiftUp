@@ -27,9 +27,13 @@ var WorkersRequestsComponent = /** @class */ (function () {
         this.backToWorkersHandler = function () {
             _this.router.navigateByUrl('/workers');
         };
-        this.calcAge = function (strBirthDate) {
-            var birthDate = new Date(strBirthDate).valueOf();
-            return new Date(Date.now() - birthDate).getFullYear() - 1970;
+        this.calcAge = function (birthDate) {
+            if (birthDate) {
+                return new Date(Date.now() - new Date(birthDate).valueOf()).getFullYear() - 1970;
+            }
+            else {
+                return 0;
+            }
         };
         this.onSalaryChange = function (newSalary, index) {
             _this.requestUsers[index].salary = newSalary;

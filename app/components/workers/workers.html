@@ -1,22 +1,22 @@
 <div id="workers">
+    <h4 class="title">
+        עובדי העסק {{business.name}}
+        <i class="fa fa-users"></i>
+    </h4>
     <div class="buttonsContainer">
         <button class="btn btn-lg btn-dark btn-raised" (click)="activateNewWorkerComponent()">
             הוספת עובד חדש
             <i class="btn-icon fas fa-user-plus"></i>
         </button>
-        <!-- <button class="btn btn-lg btn-dark btn-raised" (click)="deleteAllWorkersHandler()">
+        <button class="btn btn-lg btn-dark btn-raised" (click)="deleteAllWorkersHandler()">
             מחיקת כל העובדים
             <i class="btn-icon fas fa-trash"></i>
-        </button> -->
+        </button>
         <button class="btn btn-lg btn-dark btn-raised" (click)="showRequests()">
-            הצג בקשות ממתינות
+            בקשות ממתינות
             <i class="btn-icon fas fa-bell"></i>
         </button>
     </div>
-    <h4 class="title">
-        עובדי העסק {{business.name}}
-        <i class="fa fa-users"></i>
-    </h4>
     <newWorker (onSubmit)="addNewWorkerHandler($event)" *ngIf="isNewWorkerComponentActive"></newWorker>
     <div class="workersWrapper">
         <div class="workersContainer">

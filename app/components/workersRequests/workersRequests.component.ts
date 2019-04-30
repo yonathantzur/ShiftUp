@@ -43,9 +43,12 @@ export class WorkersRequestsComponent {
         this.router.navigateByUrl('/workers');
     }
 
-    calcAge = (strBirthDate: string) => {
-        const birthDate = new Date(strBirthDate).valueOf();
-        return new Date(Date.now() - birthDate).getFullYear() - 1970;
+    calcAge = (birthDate: Date) => {
+        if (birthDate) {
+            return new Date(Date.now() - new Date(birthDate).valueOf()).getFullYear() - 1970;
+        } else {
+            return 0;
+        }
     }
 
     onSalaryChange = (newSalary: number, index: number) => {

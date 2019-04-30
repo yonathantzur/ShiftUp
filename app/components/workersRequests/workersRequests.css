@@ -1,19 +1,20 @@
 .workersRequestsContainer {
-    padding: 20px;
     text-align: center;
-}
-
-.backToUsersButtonContainer {
-    position: absolute;
 }
 
 .title {
     text-align: center;
     font-weight: bold;
+    margin: 10px;
+}
+
+.backToUsersButtonContainer {
+    padding-right: 25px;
+    text-align: right;
 }
 
 .requestsTable {
-    margin: auto;
+    margin: 10px auto;
     width: 60%;
 }
 
