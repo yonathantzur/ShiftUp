@@ -36,13 +36,13 @@
     "nodemailer": "^6.1.1",
     "popper.js": "^1.15.0",
     "python-shell": "^1.0.7",
-    "sweetalert2": "^8.8.7",
+    "sweetalert2": "^8.9.0",
     "systemjs": "^0.21.6",
     "zone.js": "^0.9.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
-    "nodemon": "^1.18.11",
+    "nodemon": "^1.19.0",
     "typescript": "~3.4.5"
   },
   "repository": {}
