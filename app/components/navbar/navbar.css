@@ -94,10 +94,17 @@
     margin: auto 10px;
 }
 
+.notificationsIndicator > .dropdown-toggle {
+    height: 30px;
+    width: 30px;
+    min-width: unset !important;
+}
+
 .notificationsIndicator :hover {
     color: #f6b800 !important;
 }
 
 .notificationsIndicator > button > i {
     color: #fff;
+    font-size: 20px;
 }

@@ -74,6 +74,33 @@ module.exports = {
         })
     },
 
+    RemoveAllWorkersFromBusiness(businessId) {
+        return new Promise((resolve, reject) => {
+
+            DAL.Update(usersCollectionName,
+                {
+                    $and: [
+                        { businessId: DAL.GetObjectId(businessId) },
+                        { isManager: false }
+                    ]
+                },
+                {
+                    $unset: {
+                        businessId: "",
+                        salary: ""
+                    }
+                }
+            ).then(() => {
+                DAL.UpdateOne(businessesCollectionName,
+                    { _id: DAL.GetObjectId(businessId) },
+                    { $set: { workers: [] } })
+                .then(business => resolve(business))
+                .catch(reject);
+            })
+                .catch(reject);
+        })
+    },
+
     DenyWorkerRequest(manager_id, worker_id) {
         return new Promise((resolve, reject) => {
             const managerObjId = DAL.GetObjectId(manager_id);

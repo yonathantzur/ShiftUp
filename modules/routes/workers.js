@@ -62,6 +62,22 @@ router.post("/removeWorkerFromBusiness", (req, res) => {
     }
 });
 
+router.post("/removeAllWorkersFromBusiness", (req, res) => {
+    const businessId = req.user.businessId;
+
+    if (businessId) {
+        workersBL.RemoveAllWorkersFromBusiness(businessId)
+            .then(business => {
+                res.end();
+            }).catch(err => {
+                res.sendStatus(500);
+            }
+        );
+    } else {
+        res.sendStatus(500);
+    }
+});
+
 router.post("/denyWorkerRequest", (req, res) => {
     const businessId = req.user.businessId;
     const manager_id = req.user.id;

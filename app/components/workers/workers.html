@@ -18,13 +18,30 @@
         </button>
     </div>
     <newWorker (onSubmit)="addNewWorkerHandler($event)" *ngIf="isNewWorkerComponentActive"></newWorker>
-    <div class="workersWrapper">
-        <div class="workersContainer">
-            <workerCard *ngFor="let worker of workers" [worker]=worker class="workerCard" (onDelete)="deleteWorkerHandler(worker)"></workerCard>
+    <div class="filterContainer input-group">
+        <input type="text" class="form-control" placeholder="חיפוש" [(ngModel)]="workerSearchText"
+            (keypress)="$event.key == 'Enter' ? SearchWorkerHandler() : null" />
+        <div class="input-group-append">
+            <span class="input-group-text">
+                <button class="btn btn-raised"
+                    (click)="SearchWorkerHandler()" title="חיפוש">
+                    <i class="fa fa-search pointer"></i>
+                </button>
+            </span>
         </div>
     </div>
-    <h3 *ngIf="workers.length == 0 && !isNewWorkerComponentActive" class="noWorkers">
-            <i class="fa fa-user-times"></i>&nbsp;
-            אין עובדים לעסק, יש להוסיף על ידי הכפתור למעלה
+    <div class="workersContainer">
+        <div>
+            <workerCard class="workerCard" *ngFor="let worker of filteredWorkers"
+                [worker]=worker (onDelete)="deleteWorkerHandler(worker)"></workerCard>
+        </div>
+    </div>
+    <h3 *ngIf="allWorkers.length > 0 && filteredWorkers == 0" class="noWorkers">
+        לא נמצאו תוצאות לחיפוש
+        <i class="fa fa-user-times"></i>
+    </h3>
+    <h3 *ngIf="allWorkers.length == 0" class="noWorkers">
+        אין עובדים לעסק, יש להוסיף על ידי הכפתור למעלה
+        <i class="fa fa-user-times"></i>
     </h3>
 </div>

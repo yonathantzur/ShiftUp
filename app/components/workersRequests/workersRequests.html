@@ -27,13 +27,24 @@
             <td>{{requestUser.firstName + " " + requestUser.lastName}}</td>
             <td>{{calcAge(requestUser.birthDate)}}</td>
             <td>
-                <input type="number" name="salary" class="form-control formInput"
-                    [(ngModel)]="salaries[i]" min="20" max="100"
-                    (ngModelChange)="onSalaryChange($event, i)" />
+                <div class="input-group">
+                    <input type="number" name="salary" class="form-control formInput"
+                        [(ngModel)]="salaries[i]" min="20" max="100"
+                        (ngModelChange)="onSalaryChange($event, i)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text">₪</span>
+                    </div>
+                </div>
             </td>
             <td class="actions">
-                <i class="far fa-thumbs-up" (click)="acceptRequestHandler(requestUser)" title="אשר"></i>
-                <i class="far fa-times-circle" (click)="denyRequestHandler(requestUser)" title="דחה"></i>
+                <button class="btn btn-info bmd-btn-fab bmd-btn-fab-sm"
+                    (click)="acceptRequestHandler(requestUser)" title="אשר">
+                    <i class="fas fa-thumbs-up"></i>
+                </button>
+                <button class="btn btn-danger bmd-btn-fab bmd-btn-fab-sm"
+                    (click)="denyRequestHandler(requestUser)" title="דחה">
+                    <i class="fas fa-times"></i>
+                </button>
             </td>
         </tr>
         </tbody>
