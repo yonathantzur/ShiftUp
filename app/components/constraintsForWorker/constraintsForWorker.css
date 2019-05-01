@@ -1,0 +1,38 @@
+.Constraints {
+    margin-top: 5%;
+}
+
+.tb {
+}
+
+.iconConstraints {
+    float: right;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.conTitle {
+    text-align: center;
+    font-weight: bold;
+}
+
+.dateInput{
+    margin-right: 15px;
+}
+
+.btn-addCon {
+    color: #ffffff;
+    background-color: #fff;
+    border-color: #777777;
+}
+
+.btn-addCon:hover, .btn-addCon:focus, .btn-addCon:active, .btn-addCon.active, .open>.dropdown-toggle.btn-addCon {
+    color: #fff; ;
+    background-color: #46B29E;
+    border-color: #46B29E;
+
+}
+
+.addDiv {
+    margin-top:10%;
+}

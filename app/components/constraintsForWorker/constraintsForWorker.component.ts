@@ -6,13 +6,13 @@ import {ActivatedRoute, Router} from "@angular/router";
 declare let Swal: any;
 
 @Component({
-    selector: 'constraints',
-    templateUrl: './constraints.html',
+    selector: 'constraintsForWorker',
+    templateUrl: './constraintsForWorker.html',
     providers: [ConstraintsService, UsersService],
-    styleUrls: ['./constraints.css']
+    styleUrls: ['./constraintsForWorker.css']
 })
 
-export class ConstraintsComponent implements OnInit {
+export class constraintsForWorkerComponent implements OnInit {
     sourceConstraints: Array<any> = [];
     constraints: Array<any> = [];
     searchWord: string;
@@ -29,49 +29,7 @@ export class ConstraintsComponent implements OnInit {
         this.InitiateConstraints();
     }
 
-    DeleteConstraint(conObjId: string) {
-        this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
-            if (isDeleted) {
-                this.InitiateConstraints();
-            } else {
-                Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה במחיקה',
-                    text: 'אופס... משהו השתבש'
-                })
-            }
-        })
-    }
-
-    ApproveConstraint(conObjId: string) {
-        this.constraintsService.ApproveConstraint(conObjId).then((isApprove: any) => {
-            if (isApprove) {
-                this.InitiateConstraints();
-            } else {
-                Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה באישור אילוץ',
-                    text: 'אופס... משהו השתבש'
-                })
-            }
-        })
-    }
-
-    RefuseConstraint(conObjId: string) {
-        this.constraintsService.RefuseConstraint(conObjId).then((isCanceled: any) => {
-            if (isCanceled) {
-                this.InitiateConstraints();
-            } else {
-                Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה בדחיית אילוץ',
-                    text: 'אופס... משהו השתבש'
-                })
-            }
-        })
-    }
-
-    InitiateConstraints() {
+       InitiateConstraints() {
         this.constraintsService.getAllConstraints().then((data: any) => {
             this.sourceConstraints = data;
             this.constraints = this.sourceConstraints;

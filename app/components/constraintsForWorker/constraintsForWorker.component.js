@@ -13,8 +13,8 @@ var core_1 = require("@angular/core");
 var constraints_service_1 = require("../../services/constraints/constraints.service");
 var users_service_1 = require("../../services/users/users.service");
 var router_1 = require("@angular/router");
-var ConstraintsComponent = /** @class */ (function () {
-    function ConstraintsComponent(constraintsService, usersService, route, router) {
+var constraintsForWorkerComponent = /** @class */ (function () {
+    function constraintsForWorkerComponent(constraintsService, usersService, route, router) {
         this.constraintsService = constraintsService;
         this.usersService = usersService;
         this.route = route;
@@ -22,62 +22,17 @@ var ConstraintsComponent = /** @class */ (function () {
         this.sourceConstraints = [];
         this.constraints = [];
     }
-    ConstraintsComponent.prototype.ngOnInit = function () {
+    constraintsForWorkerComponent.prototype.ngOnInit = function () {
         this.InitiateConstraints();
     };
-    ConstraintsComponent.prototype.DeleteConstraint = function (conObjId) {
-        var _this = this;
-        this.constraintsService.DeleteConstraint(conObjId).then(function (isDeleted) {
-            if (isDeleted) {
-                _this.InitiateConstraints();
-            }
-            else {
-                Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה במחיקה',
-                    text: 'אופס... משהו השתבש'
-                });
-            }
-        });
-    };
-    ConstraintsComponent.prototype.ApproveConstraint = function (conObjId) {
-        var _this = this;
-        this.constraintsService.ApproveConstraint(conObjId).then(function (isApprove) {
-            if (isApprove) {
-                _this.InitiateConstraints();
-            }
-            else {
-                Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה באישור אילוץ',
-                    text: 'אופס... משהו השתבש'
-                });
-            }
-        });
-    };
-    ConstraintsComponent.prototype.RefuseConstraint = function (conObjId) {
-        var _this = this;
-        this.constraintsService.RefuseConstraint(conObjId).then(function (isCanceled) {
-            if (isCanceled) {
-                _this.InitiateConstraints();
-            }
-            else {
-                Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה בדחיית אילוץ',
-                    text: 'אופס... משהו השתבש'
-                });
-            }
-        });
-    };
-    ConstraintsComponent.prototype.InitiateConstraints = function () {
+    constraintsForWorkerComponent.prototype.InitiateConstraints = function () {
         var _this = this;
         this.constraintsService.getAllConstraints().then(function (data) {
             _this.sourceConstraints = data;
             _this.constraints = _this.sourceConstraints;
         });
     };
-    ConstraintsComponent.prototype.filterItem = function () {
+    constraintsForWorkerComponent.prototype.filterItem = function () {
         var _this = this;
         if (this.searchWord || this.startDateFilter || this.endDateFilter) {
             this.constraints = this.sourceConstraints.filter(function (item) {
@@ -101,19 +56,19 @@ var ConstraintsComponent = /** @class */ (function () {
             this.constraints = this.sourceConstraints;
         }
     };
-    ConstraintsComponent = __decorate([
+    constraintsForWorkerComponent = __decorate([
         core_1.Component({
-            selector: 'constraints',
-            templateUrl: './constraints.html',
+            selector: 'constraintsForWorker',
+            templateUrl: './constraintsForWorker.html',
             providers: [constraints_service_1.ConstraintsService, users_service_1.UsersService],
-            styleUrls: ['./constraints.css']
+            styleUrls: ['./constraintsForWorker.css']
         }),
         __metadata("design:paramtypes", [constraints_service_1.ConstraintsService,
             users_service_1.UsersService,
             router_1.ActivatedRoute,
             router_1.Router])
-    ], ConstraintsComponent);
-    return ConstraintsComponent;
+    ], constraintsForWorkerComponent);
+    return constraintsForWorkerComponent;
 }());
-exports.ConstraintsComponent = ConstraintsComponent;
-//# sourceMappingURL=constraints.component.js.map
+exports.constraintsForWorkerComponent = constraintsForWorkerComponent;
+//# sourceMappingURL=constraintsForWorker.component.js.map
