@@ -3,9 +3,28 @@
         <a class="navbarItem" (click)="pageClick(pages[0])">
             <span class="logo">ShiftUp</span>
         </a>
-        <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked' : page.isClicked}"
+        <span *ngIf="loggedInUser" class="navbarItem userGreeting">שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
+        <div class="notificationsIndicator">
+            <button class="btn btn-warning bmd-btn-fab bmd-btn-fab-sm dropdown-toggle" data-placement="bottom"
+                data-toggle="dropdown" id="notificationsDropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+            </button>
+            <div class="dropdown-menu notificationsDropdown" aria-labelledby="notificationsDropdown">
+                <button class="dropdown-item btn" (click)="notificationsClick()"
+                    *ngIf="loggedInUser && loggedInUser.requests && loggedInUser.requests.length > 0">
+                    בקשות הצטרפות לעסק
+                </button>
+                <!-- <div class="dropdown-divider"></div> -->
+                <button class="dropdown-item btn">בקשות אילוצים</button>
+                <!-- <div class="dropdown-divider"></div> -->
+                <span class="dropdown-item">התקבלת לעסק!</span>
+                <span class="dropdown-item">האילוץ שלך אושר!</span>
+                <span class="dropdown-item">עוד דוגמא להתראה</span>
+            </div>
+        </div>
+        <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked': page.isClicked}"
             (click)="pageClick(page)">
-            <span class="navbarPageText">{{ page.displayText }}</span>
+            <span class="navbarPageText">{{page.displayText}}</span>
             <i [class]="page.icon"></i>
         </a>
     </div>

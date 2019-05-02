@@ -15,8 +15,16 @@ var WorkerCardComponent = /** @class */ (function () {
     function WorkerCardComponent(usersService) {
         var _this = this;
         this.usersService = usersService;
-        this.onClose = new core_1.EventEmitter();
+        this.onDelete = new core_1.EventEmitter();
         this.workerUserData = {};
+        this.calcAge = function (birthDate) {
+            if (birthDate) {
+                return new Date(Date.now() - new Date(birthDate).valueOf()).getFullYear() - 1970;
+            }
+            else {
+                return 0;
+            }
+        };
         this.calcWorkerSalery = function () {
             Swal.fire({
                 title: "עדיין בפיתוח! עובדים על זה",
@@ -26,18 +34,18 @@ var WorkerCardComponent = /** @class */ (function () {
             });
         };
         this.deleteWorker = function () {
-            _this.onClose.emit();
+            _this.onDelete.emit();
         };
     }
     WorkerCardComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.usersService.GetUserById(this.worker.userId)
+        this.usersService.GetUserByUserId(this.worker.userId)
             .then(function (userData) { return _this.workerUserData = userData; });
     };
     __decorate([
         core_1.Output(),
         __metadata("design:type", core_1.EventEmitter)
-    ], WorkerCardComponent.prototype, "onClose", void 0);
+    ], WorkerCardComponent.prototype, "onDelete", void 0);
     WorkerCardComponent = __decorate([
         core_1.Component({
             selector: 'workerCard',

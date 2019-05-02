@@ -33,7 +33,7 @@ var ConstraintsComponent = /** @class */ (function () {
         var _this = this;
         if (this.constraints) {
             for (var con in this.constraints) {
-                this.usersService.GetUserById(this.constraints[con].userId).then(function (data) {
+                this.usersService.GetUserByUserId(this.constraints[con].userId).then(function (data) {
                     _this.usernames.firstName.push(data.firstName);
                     _this.usernames.lastName.push(data.lastName);
                 });

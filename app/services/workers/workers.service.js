@@ -22,15 +22,25 @@ var WorkersService = /** @class */ (function (_super) {
         return _this;
     }
     WorkersService.prototype.AddWorkerToBusiness = function (userId, salary) {
-        var data = { userId: userId, salary: salary };
-        return _super.prototype.post.call(this, this.prefix + '/addWorkerToBusiness', data)
+        return _super.prototype.post.call(this, this.prefix + '/addWorkerToBusiness', { userId: userId, salary: salary })
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
+    WorkersService.prototype.DenyWorkerRequest = function (worker_id) {
+        return _super.prototype.post.call(this, this.prefix + '/denyWorkerRequest', { worker_id: worker_id })
             .toPromise()
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
     };
     WorkersService.prototype.RemoveWorkerFromBusiness = function (userId) {
-        var data = { userId: userId };
-        return _super.prototype.post.call(this, this.prefix + '/removeWorkerFromBusiness', data)
+        return _super.prototype.post.call(this, this.prefix + '/removeWorkerFromBusiness', { userId: userId })
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
+    WorkersService.prototype.RemoveAllWorkersFromBusiness = function () {
+        return _super.prototype.post.call(this, this.prefix + '/removeAllWorkersFromBusiness')
             .toPromise()
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
@@ -38,32 +48,20 @@ var WorkersService = /** @class */ (function (_super) {
     WorkersService.prototype.GetBusinessByCode = function (businessCode) {
         return _super.prototype.get.call(this, this.prefix + '/getBusinessByCode?businessCode=' + businessCode)
             .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
     };
     WorkersService.prototype.SendWorkerRequest = function (businessId, managerId) {
         return _super.prototype.post.call(this, this.prefix + '/sendWorkerRequest', { businessId: businessId, managerId: managerId })
             .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
     };
     WorkersService.prototype.GetWaitBusinessDetails = function () {
         return _super.prototype.get.call(this, this.prefix + '/getWaitBusinessDetails')
             .toPromise()
-            .then(function (result) {
-            return result;
-        })
-            .catch(function (e) {
-            return null;
-        });
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
     };
     return WorkersService;
 }(basic_service_1.BasicService));

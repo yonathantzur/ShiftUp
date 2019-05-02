@@ -12,16 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var login_service_1 = require("../../services/login/login.service");
+var users_service_1 = require("../../services/users/users.service");
 var page = /** @class */ (function () {
     function page() {
     }
     return page;
 }());
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent(router, loginService) {
+    function NavbarComponent(router, loginService, usersService) {
         var _this = this;
         this.router = router;
         this.loginService = loginService;
+        this.usersService = usersService;
         this.searchValue = "";
         this.pages = [
             { route: '/', displayText: "בית", icon: "fa fa-home" },
@@ -31,6 +33,11 @@ var NavbarComponent = /** @class */ (function () {
             { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
             { route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: this.logout.bind(this) }
         ];
+        this.resetPagesClick = function () {
+            _this.pages.forEach(function (page) {
+                page.isClicked = false;
+            });
+        };
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);
         };
@@ -40,17 +47,29 @@ var NavbarComponent = /** @class */ (function () {
             }
         });
     }
+    NavbarComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.loggedInUser == undefined) {
+            this.usersService.GetLoggedInUser().then(function (user) {
+                _this.loggedInUser = user;
+            });
+        }
+    };
     NavbarComponent.prototype.logout = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.loginService.logout().then(resolve).catch(reject);
         });
     };
+    NavbarComponent.prototype.notificationsClick = function () {
+        this.resetPagesClick();
+        var workersPage = this.pages.find(function (page) { return page.route == '/workers'; });
+        workersPage.isClicked = true;
+        this.routeTo(workersPage.route + '/requests');
+    };
     NavbarComponent.prototype.pageClick = function (page) {
         var _this = this;
-        this.pages.forEach(function (page) {
-            page.isClicked = false;
-        });
+        this.resetPagesClick();
         page.isClicked = true;
         if (page.action) {
             page.action().then(function () {
@@ -68,10 +87,12 @@ var NavbarComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'navbar',
             templateUrl: './navbar.html',
-            providers: [login_service_1.LoginService],
+            providers: [login_service_1.LoginService, users_service_1.UsersService],
             styleUrls: ['./navbar.css']
         }),
-        __metadata("design:paramtypes", [router_1.Router, login_service_1.LoginService])
+        __metadata("design:paramtypes", [router_1.Router,
+            login_service_1.LoginService,
+            users_service_1.UsersService])
     ], NavbarComponent);
     return NavbarComponent;
 }());

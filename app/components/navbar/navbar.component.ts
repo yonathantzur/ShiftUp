@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login/login.service'
+import { LoginService } from '../../services/login/login.service';
+import { UsersService } from '../../services/users/users.service';
 
 class page {
     route: string;
     displayText: string;
     icon: string;
-    action?: Function
+    action?: Function;
+    isClicked?: boolean;
 }
 
 @Component({
     selector: 'navbar',
     templateUrl: './navbar.html',
-    providers: [LoginService],
+    providers: [LoginService, UsersService],
     styleUrls: ['./navbar.css']
 })
 
@@ -26,13 +28,26 @@ export class NavbarComponent {
         { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
         { route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: this.logout.bind(this) }
     ];
+    loggedInUser: any;
 
-    constructor(private router: Router, private loginService: LoginService) {
+    constructor(
+        private router: Router,
+        private loginService: LoginService,
+        private usersService: UsersService
+    ) {
         this.pages.forEach((page: any) => {
             if (this.router.url == page.route) {
                 page.isClicked = true;
             }
         })
+    }
+
+    ngOnInit() {
+        if (this.loggedInUser == undefined) {
+            this.usersService.GetLoggedInUser().then((user) => {
+                this.loggedInUser = user;
+            })
+        }
     }
 
     logout() {
@@ -41,10 +56,22 @@ export class NavbarComponent {
         });
     }
 
-    pageClick(page: any) {
+    resetPagesClick = () => {
         this.pages.forEach((page: any) => {
             page.isClicked = false;
         })
+    }
+
+    notificationsClick() {
+        this.resetPagesClick();
+        
+        const workersPage = this.pages.find(page => page.route == '/workers');
+        workersPage.isClicked = true;
+        this.routeTo(workersPage.route + '/requests')
+    }
+
+    pageClick(page: any) {
+        this.resetPagesClick();
 
         page.isClicked = true;
 

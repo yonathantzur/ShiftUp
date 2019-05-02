@@ -10,8 +10,22 @@ export class UsersService extends BasicService {
             .catch((err: any) =>  null);
     }
 
-    GetUserById(userId: string) {
-        return super.get(this.prefix + '/getUserById?userId=' + userId)
+    GetUserById(_id: string) {
+        return super.get(this.prefix + '/getUserById?id=' + _id)
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
+
+    GetUserByUserId(userId: string) {
+        return super.get(this.prefix + '/getUserByUserId?userId=' + userId)
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
+
+    GetLoggedInUser() {
+        return super.get(this.prefix + '/getLoggedInUser')
             .toPromise()
             .then((result: any) => result)
             .catch((err: any) => null);
@@ -24,4 +38,10 @@ export class UsersService extends BasicService {
             .catch((err: any) => null);
     }
 
+    GetUsersRequestedToBusiness() {
+        return super.get(this.prefix + '/getUsersRequestedToBusiness')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
 }

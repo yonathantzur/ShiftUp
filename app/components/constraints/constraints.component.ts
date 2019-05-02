@@ -30,7 +30,7 @@ export class ConstraintsComponent implements OnInit {
     InitiateAllUsernames() {
         if(this.constraints) {
             for(let con in this.constraints) {
-                this.usersService.GetUserById(this.constraints[con].userId).then((data: any) => {
+                this.usersService.GetUserByUserId(this.constraints[con].userId).then((data: any) => {
                     this.usernames.firstName.push(data.firstName);
                     this.usernames.lastName.push(data.lastName);
                 });

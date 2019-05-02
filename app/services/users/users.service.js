@@ -27,14 +27,32 @@ var UsersService = /** @class */ (function (_super) {
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
     };
-    UsersService.prototype.GetUserById = function (userId) {
-        return _super.prototype.get.call(this, this.prefix + '/getUserById?userId=' + userId)
+    UsersService.prototype.GetUserById = function (_id) {
+        return _super.prototype.get.call(this, this.prefix + '/getUserById?id=' + _id)
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
+    UsersService.prototype.GetUserByUserId = function (userId) {
+        return _super.prototype.get.call(this, this.prefix + '/getUserByUserId?userId=' + userId)
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
+    UsersService.prototype.GetLoggedInUser = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getLoggedInUser')
             .toPromise()
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
     };
     UsersService.prototype.IsUserAvailableForBusiness = function (userId) {
         return _super.prototype.get.call(this, this.prefix + '/isUserAvailableForBusiness?userId=' + userId)
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
+    UsersService.prototype.GetUsersRequestedToBusiness = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getUsersRequestedToBusiness')
             .toPromise()
             .then(function (result) { return result; })
             .catch(function (err) { return null; });

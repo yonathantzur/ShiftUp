@@ -33,6 +33,14 @@
     background-color: #ccc;
 }
 
+.userGreeting {
+    cursor: default !important;
+}
+
+.notificationsDropdown {
+    top: 50px !important;
+}
+
 .searchNavbarItem {
     width: 20%;
     cursor: unset;
@@ -76,4 +84,27 @@
 
 .navbarPageText{
     margin: 10px;
+}
+
+.notificationsIndicator > span {
+    background-color: #f45;
+}
+
+.notificationsIndicator {
+    margin: auto 10px;
+}
+
+.notificationsIndicator > .dropdown-toggle {
+    height: 30px;
+    width: 30px;
+    min-width: unset !important;
+}
+
+.notificationsIndicator :hover {
+    color: #f6b800 !important;
+}
+
+.notificationsIndicator > button > i {
+    color: #fff;
+    font-size: 20px;
 }
