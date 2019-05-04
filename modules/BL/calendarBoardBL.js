@@ -10,6 +10,7 @@ const constraintsCollectionName = config.db.collections.constraints;
 module.exports = {
     GetShiftsSchedule(businessId, year, month) {
         return new Promise((resolve, reject) => {
+            // TODO: Implement auto schedule
             resolve(true);
         });
     }
