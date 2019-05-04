@@ -38,6 +38,11 @@ var ShiftCardComponent = /** @class */ (function () {
                 });
             }
         }, self.eventsIds);
+        // Remove shift data.
+        self.eventService.Register("calanderEventUnClick", function () {
+            self.event = null;
+            self.shiftsData = null;
+        }, self.eventsIds);
         // Remove shiftsData when calendar dates range is changed.
         self.eventService.Register("calanderViewRender", function () {
             self.shiftsData = null;

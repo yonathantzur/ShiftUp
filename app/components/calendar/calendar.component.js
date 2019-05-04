@@ -69,11 +69,18 @@ var CalendarComponent = /** @class */ (function () {
                 self.RenderCalendar();
             },
             eventClick: function (event) {
-                // Mark selected event.
-                self.markedEvent && $(self.markedEvent).css('border-color', '');
-                $(this).css('border-color', '#dc3545');
-                self.markedEvent = this;
-                self.eventService.Emit("calanderEventClick", event);
+                if (self.markedEvent == this) {
+                    self.eventService.Emit("calanderEventUnClick");
+                    $(self.markedEvent).css('border-color', '');
+                    self.markedEvent = null;
+                }
+                else {
+                    // Mark selected event.
+                    self.markedEvent && $(self.markedEvent).css('border-color', '');
+                    $(this).css('border-color', '#dc3545');
+                    self.markedEvent = this;
+                    self.eventService.Emit("calanderEventClick", event);
+                }
             }
         });
     };

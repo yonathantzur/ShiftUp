@@ -28,7 +28,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     constructor(private shiftService: ShiftService,
         private eventService: EventService) {
-        let self = this;        
+        let self = this;
 
         self.eventService.Register("openEditShiftCard", (event: any) => {
             self.eventEditObject = self.createEventObjectToEdit(event);
@@ -53,7 +53,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
             let year: number = dateRange[0];
             let month: number = dateRange[1] + 1;
 
-            let reqQuery;            
+            let reqQuery;
 
             if (filter == SHIFTS_FILTER.ALL) {
                 reqQuery = self.shiftService.GetShiftsForBusiness(year, month);
@@ -87,12 +87,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 self.RenderCalendar();
             },
             eventClick: function (event: any) {
-                // Mark selected event.
-                self.markedEvent && $(self.markedEvent).css('border-color', '');
-                $(this).css('border-color', '#dc3545');
-                self.markedEvent = this;
+                if (self.markedEvent == this) {
+                    self.eventService.Emit("calanderEventUnClick");
+                    $(self.markedEvent).css('border-color', '');
+                    self.markedEvent = null;
+                }
+                else {
+                    // Mark selected event.
+                    self.markedEvent && $(self.markedEvent).css('border-color', '');
+                    $(this).css('border-color', '#dc3545');
+                    self.markedEvent = this;
 
-                self.eventService.Emit("calanderEventClick", event);
+                    self.eventService.Emit("calanderEventClick", event);
+                }
             }
         });
     }
