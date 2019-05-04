@@ -10,17 +10,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var calendarBoard_service_1 = require("../../services/calendarBoard/calendarBoard.service");
 var CalendarBoardComponent = /** @class */ (function () {
-    function CalendarBoardComponent() {
+    function CalendarBoardComponent(calendarBoardService) {
+        this.calendarBoardService = calendarBoardService;
     }
+    CalendarBoardComponent.prototype.Schedule = function () {
+        var year = $('#calendar').fullCalendar('getDate')._d.getFullYear();
+        var month = $('#calendar').fullCalendar('getDate')._d.getMonth() + 1;
+        this.calendarBoardService.GetgetShiftsSchedule(year, month).then(function (shifts) {
+        });
+    };
     CalendarBoardComponent = __decorate([
         core_1.Component({
             selector: 'calendarBoard',
             templateUrl: './calendarBoard.html',
-            providers: [],
+            providers: [calendarBoard_service_1.CalendarBoardService],
             styleUrls: ['./calendarBoard.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [calendarBoard_service_1.CalendarBoardService])
     ], CalendarBoardComponent);
     return CalendarBoardComponent;
 }());
