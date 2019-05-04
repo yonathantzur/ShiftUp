@@ -19,6 +19,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     markedEvent: any;
     eventsCache: Object = {};
     viewState: SHIFTS_FILTER = SHIFTS_FILTER.ALL;
+    isLoading: boolean;
 
     // Event edit properties.
     eventEditObject: any;
@@ -52,7 +53,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
             let year: number = dateRange[0];
             let month: number = dateRange[1] + 1;
 
-            let reqQuery;
+            let reqQuery;            
 
             if (filter == SHIFTS_FILTER.ALL) {
                 reqQuery = self.shiftService.GetShiftsForBusiness(year, month);
@@ -61,7 +62,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 reqQuery = self.shiftService.GetMyShiftsForBusiness(year, month);
             }
 
+            self.isLoading = true;
+
             reqQuery.then((shifts: Array<any>) => {
+                self.isLoading = false;
                 shifts && self.handleShiftsResult(shifts, year, month);
             });
 
@@ -118,7 +122,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 reqQuery = this.shiftService.GetMyShiftsForBusiness(year, month);
             }
 
+            this.isLoading = true;
+
             reqQuery.then((shifts: Array<any>) => {
+                this.isLoading = false;
                 shifts && this.handleShiftsResult(shifts, year, month);
             });
         }

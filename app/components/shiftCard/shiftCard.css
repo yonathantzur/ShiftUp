@@ -8,30 +8,39 @@
     align-self: center;
     margin: auto;
     border-bottom: 0.5px solid #858585;
-    padding-right: 15px;
-    padding-left: 15px;
-    min-width: 180px;    
+    border-top: 0.5px solid #858585;
+    padding-right: 25px;
+    padding-left: 25px;
+    min-width: 180px;
+    margin-left: 5px;
 }
 
 .shiftContainer {
-    text-align: center;
+    text-align: right;
     margin-bottom: 20px;
 }
 
 .shiftName {
     font-size: 26px;
+    text-decoration: underline;
 }
 
 .worker {
     font-size: 18px;
+    display: inline-block;
+    width: 50%;
 }
 
 .edit-shift-icon {
     position: absolute;
-    left: 30px;
-    bottom: 30px;
+    left: 20px;
+    top: -50px;
     cursor: pointer;
-    padding: 15px;
+    padding: 12px;
     border-radius: 50%;
     box-shadow: 1px 1px 8px 1px grey;
+}
+
+.no-workers {
+    text-align: right;
 }

@@ -48,7 +48,9 @@ var CalendarComponent = /** @class */ (function () {
             else if (filter == enums_1.SHIFTS_FILTER.ME) {
                 reqQuery = self.shiftService.GetMyShiftsForBusiness(year, month);
             }
+            self.isLoading = true;
             reqQuery.then(function (shifts) {
+                self.isLoading = false;
                 shifts && self.handleShiftsResult(shifts, year, month);
             });
         }, self.eventsIds);
@@ -96,7 +98,9 @@ var CalendarComponent = /** @class */ (function () {
             else if (this.viewState == enums_1.SHIFTS_FILTER.ME) {
                 reqQuery = this.shiftService.GetMyShiftsForBusiness(year, month);
             }
+            this.isLoading = true;
             reqQuery.then(function (shifts) {
+                _this.isLoading = false;
                 shifts && _this.handleShiftsResult(shifts, year, month);
             });
         }
