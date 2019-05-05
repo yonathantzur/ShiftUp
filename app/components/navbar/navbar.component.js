@@ -49,6 +49,9 @@ var NavbarComponent = /** @class */ (function () {
     }
     NavbarComponent.prototype.ngOnInit = function () {
         var _this = this;
+        setTimeout(function () {
+            $("#notificationsDropdown").click();
+        }, 0);
         if (this.loggedInUser == undefined) {
             this.usersService.GetLoggedInUser().then(function (user) {
                 _this.loggedInUser = user;

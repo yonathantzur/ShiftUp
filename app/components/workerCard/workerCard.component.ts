@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 import { UsersService } from '../../services/users/users.service';
 
@@ -8,21 +8,14 @@ declare let Swal: any;
     selector: 'workerCard',
     templateUrl: './workerCard.html',
     providers: [UsersService],
-    styleUrls: ['./workerCard.css'],
-    inputs: ['worker: worker']
+    styleUrls: ['./workerCard.css']
 })
 
 export class WorkerCardComponent {
-    worker: any;
+    @Input() worker: any;
     @Output() onDelete: EventEmitter<Worker> = new EventEmitter<Worker>();
-    workerUserData: any = {};
 
     constructor(private usersService: UsersService) {
-    }
-
-    ngOnInit() {
-        this.usersService.GetUserByUserId(this.worker.userId)
-            .then((userData: any) => this.workerUserData = userData);
     }
 
     calcAge = (birthDate: Date) => {

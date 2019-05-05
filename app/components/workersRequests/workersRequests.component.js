@@ -21,9 +21,6 @@ var WorkersRequestsComponent = /** @class */ (function () {
         this.businessesService = businessesService;
         this.workersService = workersService;
         this.router = router;
-        this.requestUsers = [];
-        this.business = {};
-        this.salaries = [];
         this.backToWorkersHandler = function () {
             _this.router.navigateByUrl('/workers');
         };
@@ -97,11 +94,18 @@ var WorkersRequestsComponent = /** @class */ (function () {
     WorkersRequestsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.usersService.GetUsersRequestedToBusiness().then(function (usersRequests) {
-            _this.requestUsers = usersRequests;
-            _this.requestUsers.forEach(function (reqUser, i) {
-                _this.requestUsers[i].salary = 20;
-                _this.salaries.push(20);
-            });
+            if (usersRequests.length == 0) {
+                _this.router.navigateByUrl('/workers');
+            }
+            else {
+                _this.requestUsers = usersRequests;
+                _this.requestUsers.forEach(function (reqUser, i) {
+                    _this.requestUsers[i].fullName = _this.requestUsers[i].firstName + ' ' + _this.requestUsers[i].lastName;
+                    _this.requestUsers[i].age = _this.calcAge(_this.requestUsers[i].birthDate);
+                    _this.requestUsers[i].salary = 20;
+                    _this.salaries.push(20);
+                });
+            }
         });
         this.businessesService.GetLoggedInBusiness().then(function (business) {
             _this.business = business;

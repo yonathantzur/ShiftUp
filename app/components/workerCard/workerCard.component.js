@@ -16,7 +16,6 @@ var WorkerCardComponent = /** @class */ (function () {
         var _this = this;
         this.usersService = usersService;
         this.onDelete = new core_1.EventEmitter();
-        this.workerUserData = {};
         this.calcAge = function (birthDate) {
             if (birthDate) {
                 return new Date(Date.now() - new Date(birthDate).valueOf()).getFullYear() - 1970;
@@ -37,11 +36,10 @@ var WorkerCardComponent = /** @class */ (function () {
             _this.onDelete.emit();
         };
     }
-    WorkerCardComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.usersService.GetUserByUserId(this.worker.userId)
-            .then(function (userData) { return _this.workerUserData = userData; });
-    };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], WorkerCardComponent.prototype, "worker", void 0);
     __decorate([
         core_1.Output(),
         __metadata("design:type", core_1.EventEmitter)
@@ -51,8 +49,7 @@ var WorkerCardComponent = /** @class */ (function () {
             selector: 'workerCard',
             templateUrl: './workerCard.html',
             providers: [users_service_1.UsersService],
-            styleUrls: ['./workerCard.css'],
-            inputs: ['worker: worker']
+            styleUrls: ['./workerCard.css']
         }),
         __metadata("design:paramtypes", [users_service_1.UsersService])
     ], WorkerCardComponent);

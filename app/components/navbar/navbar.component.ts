@@ -43,6 +43,10 @@ export class NavbarComponent {
     }
 
     ngOnInit() {
+        setTimeout(() => {
+            $("#notificationsDropdown").click();
+        }, 0);
+
         if (this.loggedInUser == undefined) {
             this.usersService.GetLoggedInUser().then((user) => {
                 this.loggedInUser = user;

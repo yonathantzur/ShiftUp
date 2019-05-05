@@ -20,10 +20,8 @@ var WorkersComponent = /** @class */ (function () {
         this.workersService = workersService;
         this.router = router;
         this.business = {};
-        this.isNewWorkerComponentActive = false;
         this.workerSearchText = "";
-        this.allWorkers = [];
-        this.filteredWorkers = [];
+        this.isNewWorkerComponentActive = false;
         this.activateNewWorkerComponent = function () {
             _this.isNewWorkerComponentActive = !_this.isNewWorkerComponentActive;
         };
@@ -135,6 +133,10 @@ var WorkersComponent = /** @class */ (function () {
                 _this.filteredWorkers = _this.allWorkers;
             }
         };
+        this.ResetSearchWorkerHandler = function () {
+            _this.workerSearchText = "";
+            _this.filteredWorkers = _this.allWorkers;
+        };
     }
     WorkersComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -142,8 +144,9 @@ var WorkersComponent = /** @class */ (function () {
             _this.business = business;
         });
         this.businessesService.GetWorkersForBusiness().then(function (workers) {
+            _this.manager = workers.filter(function (worker) { return worker.isManager; })[0];
             _this.allWorkers = workers.filter(function (worker) { return !worker.isManager; });
-            _this.filteredWorkers = workers.filter(function (worker) { return !worker.isManager; });
+            _this.filteredWorkers = _this.allWorkers;
         });
     };
     WorkersComponent = __decorate([

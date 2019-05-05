@@ -51,3 +51,7 @@ th, td, .formInput {
     font-size: 24px;
     cursor: pointer;
 } */
+
+.loader {
+    margin: auto;
+}

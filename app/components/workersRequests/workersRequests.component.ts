@@ -14,9 +14,9 @@ declare let Swal: any;
 })
 
 export class WorkersRequestsComponent {
-    requestUsers: Array<any> = [];
-    business: any = {};
-    salaries: Array<number> = [];
+    requestUsers: Array<any>;
+    business: any;
+    salaries: Array<number>;
 
     constructor(
         private usersService: UsersService,
@@ -26,12 +26,18 @@ export class WorkersRequestsComponent {
     ) { }
 
     ngOnInit() {
-        this.usersService.GetUsersRequestedToBusiness().then((usersRequests: any) => {
-            this.requestUsers = usersRequests;
-            this.requestUsers.forEach((reqUser, i) => {
-                this.requestUsers[i].salary = 20;
-                this.salaries.push(20);
-            });
+        this.usersService.GetUsersRequestedToBusiness().then((usersRequests: Array<any>) => {
+            if (usersRequests.length == 0) {
+                this.router.navigateByUrl('/workers');
+            } else {
+                this.requestUsers = usersRequests;
+                this.requestUsers.forEach((reqUser, i) => {
+                    this.requestUsers[i].fullName = this.requestUsers[i].firstName + ' ' + this.requestUsers[i].lastName;
+                    this.requestUsers[i].age = this.calcAge(this.requestUsers[i].birthDate);
+                    this.requestUsers[i].salary = 20;
+                    this.salaries.push(20);
+                });
+            }
         });
 
         this.businessesService.GetLoggedInBusiness().then((business: any) => {
