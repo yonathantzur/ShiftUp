@@ -12,7 +12,7 @@ let self = module.exports = {
         return new Promise((resolve, reject) => {
             // TODO: Implement auto schedule
 
-            self.GetBusinessWorkers(businessId).then(workersIds => {
+            businessesBL.GetWorkersForBusiness(businessId).then(workersIds => {
 
                 self.GetWorkersConstraints(workersIds, year, month).then(constraints => {
 
@@ -53,21 +53,6 @@ let self = module.exports = {
             let aggregate = [constraintsWorkersFilter, projectObj, constraintsTimeFilter];
 
             DAL.Aggregate(constraintsCollectionName, aggregate).then(resolve).catch(reject);
-        });
-    },
-
-    GetBusinessWorkers(businessId) {
-        return new Promise((resolve, reject) => {
-            let businessFilter = { "_id": DAL.GetObjectId(businessId) };
-            let fields = {
-                "_id": 0,
-                "workers": 1
-            }
-
-            DAL.FindOneSpecific(businessesCollectionName, businessFilter, fields)
-                .then(businessWorkers => {
-                    resolve(businessWorkers.workers);
-                }).catch(reject);
         });
     }
 };

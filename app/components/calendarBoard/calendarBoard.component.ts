@@ -21,7 +21,7 @@ export class CalendarBoardComponent {
         let year = $('#calendar').fullCalendar('getDate')._d.getFullYear();
         let month = $('#calendar').fullCalendar('getDate')._d.getMonth() + 1;
 
-        this.calendarBoardService.GetgetShiftsSchedule(year, month).then(shifts => {
+        this.calendarBoardService.GetShiftsSchedule(year, month).then(shifts => {
 
         });
     }
