@@ -55,6 +55,9 @@ var WorkersRequestsComponent = /** @class */ (function () {
                         showConfirmButton: false,
                         timer: 1000
                     });
+                    if (_this.requestUsers.length == 0) {
+                        _this.router.navigateByUrl('/workers');
+                    }
                 })
                     .catch(function (err) {
                     Swal.fire({
@@ -78,6 +81,9 @@ var WorkersRequestsComponent = /** @class */ (function () {
                     showConfirmButton: false,
                     timer: 1000
                 });
+                if (_this.requestUsers.length == 0) {
+                    _this.router.navigateByUrl('/workers');
+                }
             })
                 .catch(function (err) {
                 Swal.fire({
@@ -99,11 +105,10 @@ var WorkersRequestsComponent = /** @class */ (function () {
             }
             else {
                 _this.requestUsers = usersRequests;
-                _this.requestUsers.forEach(function (reqUser, i) {
-                    _this.requestUsers[i].fullName = _this.requestUsers[i].firstName + ' ' + _this.requestUsers[i].lastName;
-                    _this.requestUsers[i].age = _this.calcAge(_this.requestUsers[i].birthDate);
-                    _this.requestUsers[i].salary = 20;
-                    _this.salaries.push(20);
+                _this.requestUsers.forEach(function (reqUser) {
+                    reqUser.fullName = reqUser.firstName + ' ' + reqUser.lastName;
+                    reqUser.age = _this.calcAge(reqUser.birthDate);
+                    reqUser.salary = 20;
                 });
             }
         });

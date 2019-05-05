@@ -15,6 +15,7 @@ module.exports = {
                         const hashed = Hash.hash(userData.password);
                         userData.password = hashed.hash;
                         userData.salt = hashed.salt;
+                        userData.isManager = false;
                         DAL.Insert(usersCollectionName, userData).then((userId) => {
                             if (userId) {
                                 userData.userId = userId;

@@ -14,7 +14,7 @@
                     *ngIf="loggedInUser && loggedInUser.requests && loggedInUser.requests.length > 0">
                     <span *ngIf="loggedInUser.requests.length == 1; then single else multi"></span>
                     <ng-template #single>בקשת הצטרפות לעסק</ng-template>
-                    <ng-template #multi>{{manager.requests.length}} בקשות הצטרפות לעסק</ng-template>
+                    <ng-template #multi>{{loggedInUser.requests.length}} בקשות הצטרפות לעסק</ng-template>
                 </button>
                 <button class="dropdown-item btn">בקשות אילוצים</button>
             </div>

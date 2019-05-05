@@ -16,7 +16,6 @@ declare let Swal: any;
 export class WorkersRequestsComponent {
     requestUsers: Array<any>;
     business: any;
-    salaries: Array<number>;
 
     constructor(
         private usersService: UsersService,
@@ -31,11 +30,10 @@ export class WorkersRequestsComponent {
                 this.router.navigateByUrl('/workers');
             } else {
                 this.requestUsers = usersRequests;
-                this.requestUsers.forEach((reqUser, i) => {
-                    this.requestUsers[i].fullName = this.requestUsers[i].firstName + ' ' + this.requestUsers[i].lastName;
-                    this.requestUsers[i].age = this.calcAge(this.requestUsers[i].birthDate);
-                    this.requestUsers[i].salary = 20;
-                    this.salaries.push(20);
+                this.requestUsers.forEach((reqUser) => {
+                    reqUser.fullName = reqUser.firstName + ' ' + reqUser.lastName;
+                    reqUser.age = this.calcAge(reqUser.birthDate);
+                    reqUser.salary = 20;
                 });
             }
         });
@@ -80,6 +78,9 @@ export class WorkersRequestsComponent {
                     showConfirmButton: false,
                     timer: 1000
                 });
+                if (this.requestUsers.length == 0) {
+                    this.router.navigateByUrl('/workers');
+                }
             })
             .catch((err: any) => {
                 Swal.fire({
@@ -104,6 +105,9 @@ export class WorkersRequestsComponent {
                 showConfirmButton: false,
                 timer: 1000
             });
+            if (this.requestUsers.length == 0) {
+                this.router.navigateByUrl('/workers');
+            }
         })
         .catch((err: any) => {
             Swal.fire({
