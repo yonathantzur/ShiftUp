@@ -34,6 +34,8 @@ let self = module.exports = {
             let projectObj = {
                 $project: {
                     userObjId: "$userObjId",
+                    startDate: "$startDate",
+                    endDate: "$endDate",
                     startYear: { $year: "$startDate" },
                     startMonth: { $month: "$startDate" },
                     endYear: { $year: "$endDate" },
@@ -41,14 +43,49 @@ let self = module.exports = {
                 }
             }
 
-            let constraintsTimeFilter = {
-                $match: {
-                    "startYear": parseInt(year),
-                    "startMonth": parseInt(month)
+            let projectRangeObj = {
+                $project: {
+                    userObjId: "$userObjId",
+                    startDate: "$startDate",
+                    endDate: "$endDate",
+                    startYear: "$startYear",
+                    startMonth: "$startMonth",
+                    endYear: "$endYear",
+                    endMonth: "$endMonth",
+                    isStartYearInRange: {
+                        $lte: ["$startYear", parseInt(year)],
+                    },
+                    isEndYearInRange: {
+                        $gte: ["$endYear", parseInt(year)]
+                    },
+                    isStartMonthInRange: {
+                        $lte: ["$startMonth", parseInt(month)]
+                    },
+                    isEndMonthInRange: {
+                        $gte: ["$endMonth", parseInt(month)]
+                    }
                 }
             }
 
-            let aggregate = [constraintsWorkersFilter, projectObj, constraintsTimeFilter];
+            let constraintsTimeFilter = {
+                $match: {
+                    "isStartYearInRange": true,
+                    "isEndYearInRange": true,
+                    "isStartMonthInRange": true,
+                    "isEndMonthInRange": true
+                }
+            }
+
+            let lastProject = {
+                $project: {
+                    userObjId: "$userObjId",
+                    startDate: "$startDate",
+                    endDate: "$endDate"
+                }
+            }
+
+            let aggregate = [constraintsWorkersFilter, projectObj,
+                projectRangeObj, constraintsTimeFilter, lastProject];
 
             DAL.Aggregate(constraintsCollectionName, aggregate).then(resolve).catch(reject);
         });
