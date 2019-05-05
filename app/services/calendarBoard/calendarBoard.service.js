@@ -21,7 +21,7 @@ var CalendarBoardService = /** @class */ (function (_super) {
         _this.prefix = "/api/calendarBoard";
         return _this;
     }
-    CalendarBoardService.prototype.GetgetShiftsSchedule = function (year, month) {
+    CalendarBoardService.prototype.GetShiftsSchedule = function (year, month) {
         return _super.prototype.get.call(this, this.prefix + '/getShiftsSchedule?year=' + year + '&month=' + month)
             .toPromise()
             .then(function (result) {

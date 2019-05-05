@@ -10,12 +10,10 @@ const constraintsCollectionName = config.db.collections.constraints;
 let self = module.exports = {
     GetShiftsSchedule(businessId, year, month) {
         return new Promise((resolve, reject) => {
-            // TODO: Implement auto schedule
-
-            businessesBL.GetWorkersForBusiness(businessId).then(workersIds => {
+            self.GetBusinessWorkersIds(businessId).then(workersIds => {
 
                 self.GetWorkersConstraints(workersIds, year, month).then(constraints => {
-
+                    // TODO: Implement auto schedule
                 });
 
             }).catch(reject);
@@ -53,6 +51,21 @@ let self = module.exports = {
             let aggregate = [constraintsWorkersFilter, projectObj, constraintsTimeFilter];
 
             DAL.Aggregate(constraintsCollectionName, aggregate).then(resolve).catch(reject);
+        });
+    },
+
+    GetBusinessWorkersIds(businessId) {
+        return new Promise((resolve, reject) => {
+            let businessFilter = { "_id": DAL.GetObjectId(businessId) };
+            let fields = {
+                "_id": 0,
+                "workers": 1
+            }
+
+            DAL.FindOneSpecific(businessesCollectionName, businessFilter, fields)
+                .then(businessWorkers => {
+                    resolve(businessWorkers.workers);
+                }).catch(reject);
         });
     }
 };

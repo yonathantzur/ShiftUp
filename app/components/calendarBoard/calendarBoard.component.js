@@ -18,7 +18,7 @@ var CalendarBoardComponent = /** @class */ (function () {
     CalendarBoardComponent.prototype.Schedule = function () {
         var year = $('#calendar').fullCalendar('getDate')._d.getFullYear();
         var month = $('#calendar').fullCalendar('getDate')._d.getMonth() + 1;
-        this.calendarBoardService.GetgetShiftsSchedule(year, month).then(function (shifts) {
+        this.calendarBoardService.GetShiftsSchedule(year, month).then(function (shifts) {
         });
     };
     CalendarBoardComponent = __decorate([
