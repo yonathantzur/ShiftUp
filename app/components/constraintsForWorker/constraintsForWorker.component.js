@@ -13,32 +13,32 @@ var core_1 = require("@angular/core");
 var constraints_service_1 = require("../../services/constraints/constraints.service");
 var users_service_1 = require("../../services/users/users.service");
 var router_1 = require("@angular/router");
-var constraintsForWorkerComponent = /** @class */ (function () {
-    function constraintsForWorkerComponent(constraintsService, usersService, route, router) {
-        this.constraintsService = constraintsService;
+var ConstraintsForWorkerComponent = /** @class */ (function () {
+    function ConstraintsForWorkerComponent(constraintsForWorkerService, usersService, route, router) {
+        this.constraintsForWorkerService = constraintsForWorkerService;
         this.usersService = usersService;
         this.route = route;
         this.router = router;
         this.sourceConstraints = [];
         this.constraints = [];
     }
-    constraintsForWorkerComponent.prototype.ngOnInit = function () {
+    ConstraintsForWorkerComponent.prototype.ngOnInit = function () {
         this.InitiateConstraints();
     };
-    constraintsForWorkerComponent.prototype.InitiateConstraints = function () {
+    ConstraintsForWorkerComponent.prototype.InitiateConstraints = function () {
         var _this = this;
-        this.constraintsService.getAllConstraints().then(function (data) {
+        this.constraintsForWorkerService.getAllConstraints().then(function (data) {
             _this.sourceConstraints = data;
             _this.constraints = _this.sourceConstraints;
         });
     };
-    constraintsForWorkerComponent.prototype.filterItem = function () {
+    ConstraintsForWorkerComponent.prototype.filterItem = function () {
         var _this = this;
         if (this.searchWord || this.startDateFilter || this.endDateFilter) {
             this.constraints = this.sourceConstraints.filter(function (item) {
                 var bool = true;
                 if (_this.searchWord) {
-                    bool = (_this.searchWord && (item.userId.includes(_this.searchWord)) ||
+                    bool = (_this.searchWord && (item.user[0].userId.includes(_this.searchWord)) ||
                         ((item.user[0].firstName + " " + item.user[0].lastName).includes(_this.searchWord)) ||
                         (item.description.includes(_this.searchWord)) ||
                         (item.status[0].statusName.includes(_this.searchWord)));
@@ -56,7 +56,7 @@ var constraintsForWorkerComponent = /** @class */ (function () {
             this.constraints = this.sourceConstraints;
         }
     };
-    constraintsForWorkerComponent = __decorate([
+    ConstraintsForWorkerComponent = __decorate([
         core_1.Component({
             selector: 'constraintsForWorker',
             templateUrl: './constraintsForWorker.html',
@@ -67,8 +67,8 @@ var constraintsForWorkerComponent = /** @class */ (function () {
             users_service_1.UsersService,
             router_1.ActivatedRoute,
             router_1.Router])
-    ], constraintsForWorkerComponent);
-    return constraintsForWorkerComponent;
+    ], ConstraintsForWorkerComponent);
+    return ConstraintsForWorkerComponent;
 }());
-exports.constraintsForWorkerComponent = constraintsForWorkerComponent;
+exports.ConstraintsForWorkerComponent = ConstraintsForWorkerComponent;
 //# sourceMappingURL=constraintsForWorker.component.js.map

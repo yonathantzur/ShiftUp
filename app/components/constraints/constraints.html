@@ -7,17 +7,19 @@
             <div class="container">
                 <form class="form-inline">
                     <div class="col-md-4">
-                            <input class="form-control w-75" type="text" placeholder="חיפוש"
-                                   aria-label="Search" [(ngModel)]="searchWord" name="filter" (input)="filterItem()"/>
-                            <i class="fas fa-search" aria-hidden="true"></i>
+                        <input class="form-control w-75" type="text" placeholder="חיפוש"
+                               aria-label="Search" [(ngModel)]="searchWord" name="filter" (input)="filterItem()"/>
+                        <i class="fas fa-search" aria-hidden="true"></i>
                     </div>
                     <div class="form-inline">
                         <label class="formInput">מ:</label>
-                        <input class="form-control dateInput" [(ngModel)]="startDateFilter" name="dateFilter1" (input)="filterItem()" type="date"/>
+                        <input class="form-control dateInput" [(ngModel)]="startDateFilter" name="dateFilter1"
+                               (input)="filterItem()" type="date"/>
                     </div>
                     <div class="form-inline">
                         <label class="formInput">עד:</label>
-                        <input class="form-control dateInput" [(ngModel)]="endDateFilter" name="dateFilter2" (input)="filterItem()" type="date"/>
+                        <input class="form-control dateInput" [(ngModel)]="endDateFilter" name="dateFilter2"
+                               (input)="filterItem()" type="date"/>
                     </div>
                 </form>
             </div>
@@ -27,9 +29,9 @@
                     <th scope="col">#</th>
                     <th scope="col">תעודת זהות</th>
                     <th scope="col">שם</th>
-                    <th scope="col">תפקיד</th>
                     <th scope="col">תאריך תחילה</th>
                     <th scope="col">תאריך סיום</th>
+                    <th scope="col">משמרות</th>
                     <th scope="col">פירוט</th>
                     <th scope="col">סטטוס בקשה</th>
                     <th scope="col">פעולות נוספות</th>
@@ -38,11 +40,18 @@
                 <tbody>
                 <tr *ngFor="let con of constraints; let i=index;">
                     <td>{{i + 1}}</td>
-                    <td>{{ con.userId }}</td>
+                    <td>{{con.user[0].userId }}</td>
                     <td>{{con.user[0].firstName + " " + con.user[0].lastName}}</td>
-                    <td>תפקיד</td>
                     <td>{{ con.startDate | date: 'dd/MM/yyyy'}}</td>
                     <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
+                    <td>
+                        <ng-container *ngFor="let shift of con.shifts; let j=index"><input *ngIf="shift.isOpen"
+                                                                                           type="checkbox"
+                                                                                           name="vehicle" checked
+                                                                                           disabled><input
+                                *ngIf="!shift.isOpen" type="checkbox" name="vehicle" disabled>{{ shift?.name }}
+                            <br></ng-container>
+                    </td>
                     <td>{{ con.description }}</td>
                     <td>{{ con.status[0].statusName }}</td>
                     <td><a (click)="ApproveConstraint(con._id)"><img class="iconConstraints"

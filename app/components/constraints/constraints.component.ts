@@ -83,7 +83,7 @@ export class ConstraintsComponent implements OnInit {
             this.constraints = this.sourceConstraints.filter(item => {
                 let bool = true;
                 if (this.searchWord) {
-                    bool = (this.searchWord && (item.userId.includes(this.searchWord)) ||
+                    bool = (this.searchWord && (item.user[0].userId.includes(this.searchWord)) ||
                         (`${item.user[0].firstName} ${item.user[0].lastName}`.includes(this.searchWord)) ||
                         (item.description.includes(this.searchWord)) ||
                         (item.status[0].statusName.includes(this.searchWord)));

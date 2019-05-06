@@ -10,17 +10,18 @@ module.exports = {
         let userToken = (token.getUserFromToken(req));
         let query;
         if (userToken.isManager) {
+            console.log("mana");
             query = [
                 {
                     $lookup:
                         {
                             from: 'Users',
-                            localField: 'userId',
-                            foreignField: 'userId',
+                            localField: 'userObjId',
+                            foreignField: '_id',
                             as: 'user',
                         }
                 },
-                {$match: {'bussinessId': userToken.bussinessid}},
+                {$match: {'bussinessId': DAL.GetObjectId(userToken.businessId)}},
                 {
                     $lookup: {
                         from: "StatusType",
@@ -29,26 +30,29 @@ module.exports = {
                         as: "status"
                     }
                 }];
+            console.log(query);
         } else {
-            query = [
-                {
-                    $lookup:
-                        {
-                            from: 'Users',
-                            localField: 'userId',
-                            foreignField: 'userId',
-                            as: 'user',
+                console.log('no mana');
+                query = [
+                    {
+                        $lookup:
+                            {
+                                from: 'Users',
+                                localField: 'userObjId',
+                                foreignField: '_id',
+                                as: 'user',
+                            }
+                    },
+                    {$match: {'userObjId':DAL.GetObjectId(userToken.id)}},
+                    {
+                        $lookup: {
+                            from: "StatusType",
+                            localField: "statusId",
+                            foreignField: "statusId",
+                            as: "status"
                         }
-                },
-                {$match: {'userId': userToken.userId}},
-                {
-                    $lookup: {
-                        from: "StatusType",
-                        localField: "statusId",
-                        foreignField: "statusId",
-                        as: "status"
-                    }
-                }];
+                    }];
+            console.log(query);
         }
         return new Promise((resolve, reject) => {
             DAL.Aggregate(constraintsCollectionName, query)

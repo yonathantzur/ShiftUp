@@ -12,14 +12,14 @@ declare let Swal: any;
     styleUrls: ['./constraintsForWorker.css']
 })
 
-export class constraintsForWorkerComponent implements OnInit {
+export class ConstraintsForWorkerComponent implements OnInit {
     sourceConstraints: Array<any> = [];
     constraints: Array<any> = [];
     searchWord: string;
     startDateFilter: Date;
     endDateFilter: Date;
 
-    constructor(private constraintsService: ConstraintsService,
+    constructor(private constraintsForWorkerService: ConstraintsService,
                 private usersService: UsersService,
                 private route: ActivatedRoute,
                 private router: Router) {
@@ -30,7 +30,7 @@ export class constraintsForWorkerComponent implements OnInit {
     }
 
        InitiateConstraints() {
-        this.constraintsService.getAllConstraints().then((data: any) => {
+        this.constraintsForWorkerService.getAllConstraints().then((data: any) => {
             this.sourceConstraints = data;
             this.constraints = this.sourceConstraints;
         });
@@ -41,7 +41,7 @@ export class constraintsForWorkerComponent implements OnInit {
             this.constraints = this.sourceConstraints.filter(item => {
                 let bool = true;
                 if (this.searchWord) {
-                    bool = (this.searchWord && (item.userId.includes(this.searchWord)) ||
+                    bool = (this.searchWord && (item.user[0].userId.includes(this.searchWord)) ||
                         (`${item.user[0].firstName} ${item.user[0].lastName}`.includes(this.searchWord)) ||
                         (item.description.includes(this.searchWord)) ||
                         (item.status[0].statusName.includes(this.searchWord)));

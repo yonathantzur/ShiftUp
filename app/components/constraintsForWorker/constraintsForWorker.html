@@ -3,7 +3,7 @@
         <h4 class="conTitle">
             האילוצים שלי
         </h4>
-        <div class="row justify-content-center Constraints">
+        <div class="row justify-content-center constraintsForWorker">
             <div class="container">
                 <form class="form-inline">
                     <div class="col-md-4">
@@ -28,10 +28,9 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">תעודת זהות</th>
-                    <th scope="col">שם</th>
-                    <th scope="col">תפקיד</th>
                     <th scope="col">תאריך תחילה</th>
                     <th scope="col">תאריך סיום</th>
+                    <th scope="col">משמרות</th>
                     <th scope="col">פירוט</th>
                     <th scope="col">סטטוס בקשה</th>
                 </tr>
@@ -39,11 +38,17 @@
                 <tbody>
                 <tr *ngFor="let con of constraints; let i=index;">
                     <td>{{i + 1}}</td>
-                    <td>{{ con.userId }}</td>
-                    <td>{{con.user[0].firstName + " " + con.user[0].lastName}}</td>
-                    <td>תפקיד</td>
+                    <td>{{ con.user[0].userId }}</td>
                     <td>{{ con.startDate | date: 'dd/MM/yyyy'}}</td>
                     <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
+                    <td>
+                        <ng-container *ngFor="let shift of con.shifts; let j=index"><input *ngIf="shift.isOpen"
+                                                                                           type="checkbox"
+                                                                                           name="vehicle" checked
+                                                                                           disabled><input
+                                *ngIf="!shift.isOpen" type="checkbox" name="vehicle" disabled>{{ shift?.name }}
+                            <br></ng-container>
+                    </td>
                     <td>{{ con.description }}</td>
                     <td>{{ con.status[0].statusName }}</td>
                 </tr>

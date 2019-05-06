@@ -83,7 +83,7 @@ var ConstraintsComponent = /** @class */ (function () {
             this.constraints = this.sourceConstraints.filter(function (item) {
                 var bool = true;
                 if (_this.searchWord) {
-                    bool = (_this.searchWord && (item.userId.includes(_this.searchWord)) ||
+                    bool = (_this.searchWord && (item.user[0].userId.includes(_this.searchWord)) ||
                         ((item.user[0].firstName + " " + item.user[0].lastName).includes(_this.searchWord)) ||
                         (item.description.includes(_this.searchWord)) ||
                         (item.status[0].statusName.includes(_this.searchWord)));
