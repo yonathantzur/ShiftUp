@@ -9,7 +9,7 @@ const constraintsCollectionName = config.db.collections.constraints;
 
 let self = module.exports = {
     GetShiftsSchedule(businessId, year, month) {
-        // Pare the year and month of the schedule to integer.
+        // Parse the year and month of the schedule to integer.
         year = parseInt(year);
         month = parseInt(month);
 
