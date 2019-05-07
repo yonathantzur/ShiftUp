@@ -2,9 +2,11 @@
     margin-top: 5%;
 }
 
-.tb {
+.tb{
+    overflow: auto;
+    height: 500px;
+    width: 100%;
 }
-
 .iconConstraints {
     float: right;
     margin: 0 10px;

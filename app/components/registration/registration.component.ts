@@ -13,7 +13,6 @@ declare let Swal: any;
 })
 
 export class RegistrationComponent {
-    registerForm: FormGroup;
     submitted = false;
     user: any = {};
 

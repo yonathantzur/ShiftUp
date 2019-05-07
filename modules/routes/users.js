@@ -31,6 +31,14 @@ router.get("/isUserAvailableForBusiness", (req, res) => {
         res.send(isAvailable);
     }).catch(err => {
         res.status(500).end();
+    });
+});
+
+router.get("/isLoginUserManager", (req, res) => {
+    usersBL.isLoginUserManager(req).then(isManager => {
+        res.send(isManager);
+    }).catch(err => {
+        res.status(500).end();
     })
 });
 

@@ -23,49 +23,49 @@
                     </div>
                 </form>
             </div>
-            <table class="table tb">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">תעודת זהות</th>
-                    <th scope="col">שם</th>
-                    <th scope="col">תאריך תחילה</th>
-                    <th scope="col">תאריך סיום</th>
-                    <th scope="col">משמרות</th>
-                    <th scope="col">פירוט</th>
-                    <th scope="col">סטטוס בקשה</th>
-                    <th scope="col">פעולות נוספות</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let con of constraints; let i=index;">
-                    <td>{{i + 1}}</td>
-                    <td>{{con.user[0].userId }}</td>
-                    <td>{{con.user[0].firstName + " " + con.user[0].lastName}}</td>
-                    <td>{{ con.startDate | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
-                    <td>
-                        <ng-container *ngFor="let shift of con.shifts; let j=index"><input *ngIf="shift.isOpen"
-                                                                                           type="checkbox"
-                                                                                           name="vehicle" checked
-                                                                                           disabled><input
-                                *ngIf="!shift.isOpen" type="checkbox" name="vehicle" disabled>{{ shift?.name }}
-                            <br></ng-container>
-                    </td>
-                    <td>{{ con.description }}</td>
-                    <td>{{ con.status[0].statusName }}</td>
-                    <td><a (click)="ApproveConstraint(con._id)"><img class="iconConstraints"
-                                                                     src="/public/icons/ok.png"
-                                                                     title="אישור"></a>
-                        <a (click)="RefuseConstraint(con._id)"><img class="iconConstraints"
-                                                                    src="/public/icons/cancel.png"
-                                                                    title="סירוב"></a>
-                        <a (click)="DeleteConstraint(con._id)"><img class="iconConstraints"
-                                                                    src="/public/icons/trash.png" title="מחיקה"></a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="tb">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">תעודת זהות</th>
+                        <th scope="col">שם</th>
+                        <th scope="col">תאריך תחילה</th>
+                        <th scope="col">תאריך סיום</th>
+                        <th scope="col">משמרות</th>
+                        <th scope="col">פירוט</th>
+                        <th scope="col">סטטוס בקשה</th>
+                        <th scope="col">פעולות נוספות</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let con of constraints; let i=index;">
+                        <td>{{i + 1}}</td>
+                        <td>{{con.user[0].userId }}</td>
+                        <td>{{con.user[0].firstName + " " + con.user[0].lastName}}</td>
+                        <td>{{ con.startDate | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
+                        <td>
+                            <ng-container *ngFor="let shift of con.shifts; let j=index"><input *ngIf="shift.isChecked"
+                                                                                               type="checkbox"
+                                                                                               name="vehicle" checked
+                                                                                               disabled><input
+                                    *ngIf="!shift.isChecked" type="checkbox" name="vehicle" disabled>{{ shift?.name }}
+                                <br></ng-container>
+                        </td>
+                        <td>{{ con.description }}</td>
+                        <td>{{ con.status[0].statusName }}</td>
+                        <td><a (click)="ApproveConstraint(con._id)"><i class="far fa-thumbs-up iconConstraints"
+                                                                       title="אישור"></i></a>
+                            <a (click)="RefuseConstraint(con._id)"><i class="far fa-thumbs-down iconConstraints"
+                                                                      title="סירוב"></i></a>
+                            <a (click)="DeleteConstraint(con._id)"><i class="far fa-trash-alt iconConstraints"
+                                                                      title="מחיקה"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -28,6 +28,28 @@ export class ConstraintsService extends BasicService {
             });
     }
 
+    AddConstraint(conData: any) {
+        return super.post(this.prefix + "/AddConstraint", conData)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
+    getAllConstraintReasons() {
+        return super.get(this.prefix + "/getAllConstraintReasons")
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
     ApproveConstraint(conObjId: string) {
         return super.get(this.prefix + "/ApproveConstraint?conObjId=" + conObjId)
             .toPromise()

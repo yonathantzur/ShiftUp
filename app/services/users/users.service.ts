@@ -1,5 +1,7 @@
-import { BasicService } from '../basic/basic.service';
+import {BasicService} from '../basic/basic.service';
+import {Injectable} from "@angular/core";
 
+@Injectable({ providedIn: 'root' })
 export class UsersService extends BasicService {
     prefix = "/api/users";
 
@@ -7,7 +9,7 @@ export class UsersService extends BasicService {
         return super.get(this.prefix + '/getAllUsers')
             .toPromise()
             .then((result: any) => result)
-            .catch((err: any) =>  null);
+            .catch((err: any) => null);
     }
 
     GetUserById(userObjId: string) {
@@ -32,4 +34,10 @@ export class UsersService extends BasicService {
             .catch((err: any) => null);
     }
 
+    isLoginUserManager() {
+        return super.get(this.prefix + '/isLoginUserManager')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
 }

@@ -48,6 +48,26 @@ var ConstraintsService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ConstraintsService.prototype.AddConstraint = function (conData) {
+        return _super.prototype.post.call(this, this.prefix + "/AddConstraint", conData)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
+    ConstraintsService.prototype.getAllConstraintReasons = function () {
+        return _super.prototype.get.call(this, this.prefix + "/getAllConstraintReasons")
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     ConstraintsService.prototype.ApproveConstraint = function (conObjId) {
         return _super.prototype.get.call(this, this.prefix + "/ApproveConstraint?conObjId=" + conObjId)
             .toPromise()

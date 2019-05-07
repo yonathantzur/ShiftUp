@@ -1,16 +1,14 @@
 const DAL = require('../DAL');
-const usersBL = require('../BL/usersBL');
 const config = require('../../config');
-const token = require('../handlers/tokenHandler');
+const enums = require('../enums');
 
 const constraintsCollectionName = config.db.collections.constraints;
+const ConstraintsReasonsCollectionName = config.db.collections.constraintsReasons;
 
 module.exports = {
-    getAllConstraints(req) {
-        let userToken = (token.getUserFromToken(req));
+    getAllConstraints(user) {
         let query;
-        if (userToken.isManager) {
-            console.log("mana");
+        if (user.isManager) {
             query = [
                 {
                     $lookup:
@@ -21,7 +19,7 @@ module.exports = {
                             as: 'user',
                         }
                 },
-                {$match: {'bussinessId': DAL.GetObjectId(userToken.businessId)}},
+                {$match: {'businessId': DAL.GetObjectId(user.businessId)}},
                 {
                     $lookup: {
                         from: "StatusType",
@@ -30,32 +28,46 @@ module.exports = {
                         as: "status"
                     }
                 }];
-            console.log(query);
         } else {
-                console.log('no mana');
-                query = [
-                    {
-                        $lookup:
-                            {
-                                from: 'Users',
-                                localField: 'userObjId',
-                                foreignField: '_id',
-                                as: 'user',
-                            }
-                    },
-                    {$match: {'userObjId':DAL.GetObjectId(userToken.id)}},
-                    {
-                        $lookup: {
-                            from: "StatusType",
-                            localField: "statusId",
-                            foreignField: "statusId",
-                            as: "status"
+            query = [
+                {
+                    $lookup:
+                        {
+                            from: 'Users',
+                            localField: 'userObjId',
+                            foreignField: '_id',
+                            as: 'user',
                         }
-                    }];
-            console.log(query);
+                },
+                {$match: {'userObjId': DAL.GetObjectId(user.id)}},
+                {
+                    $lookup: {
+                        from: "StatusType",
+                        localField: "statusId",
+                        foreignField: "statusId",
+                        as: "status"
+                    }
+                }];
         }
         return new Promise((resolve, reject) => {
             DAL.Aggregate(constraintsCollectionName, query)
+                .then(data => resolve(data))
+                .catch(reject);
+        });
+    },
+
+    AddConstraint(conData) {
+        let newConstraintDoc = {
+            "userObjId": DAL.GetObjectId(conData.userObjId),
+            "businessId": DAL.GetObjectId(conData.businessId),
+            "startDate": new Date(conData.startDate),
+            "endDate": new Date(conData.endDate),
+            "description": conData.description,
+            "shifts": conData.shifts,
+            "statusId": enums.ConstraintStatusEnum.WAITING
+        };
+        return new Promise((resolve, reject) => {
+            DAL.Insert(constraintsCollectionName, newConstraintDoc)
                 .then(data => resolve(data))
                 .catch(reject);
         });
@@ -75,7 +87,7 @@ module.exports = {
                 _id: DAL.GetObjectId(conObjId)
             }, {
                 $set: {
-                    statusId: "0"
+                    statusId: enums.ConstraintStatusEnum.CONFIRMED
                 }
             })
                 .then(data => resolve(data))
@@ -89,10 +101,18 @@ module.exports = {
                 _id: DAL.GetObjectId(conObjId)
             }, {
                 $set: {
-                    statusId: "1"
+                    statusId: enums.ConstraintStatusEnum.REFUSED
                 }
             })
                 .then(data => resolve(data))
+                .catch(reject);
+        });
+    },
+
+    getAllConstraintReasons() {
+        return new Promise((resolve, reject) => {
+            DAL.Find(ConstraintsReasonsCollectionName)
+                .then(users => resolve(users))
                 .catch(reject);
         });
     }
