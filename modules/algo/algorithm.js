@@ -1,7 +1,6 @@
 let { PythonShell } = require('python-shell');
 
 const DAL = require('../DAL');
-const businessesBL = require('../BL/businessesBL');
 const config = require('../../config');
 
 const usersCollectionName = config.db.collections.users;
