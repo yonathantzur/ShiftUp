@@ -1,13 +1,13 @@
 const algo = require('../algo/algorithm');
 const config = require('../../config');
 const DAL = require('../DAL');
-
 const businessesBL = require('../BL/businessesBL');
+
+const shiftsCollectionName = config.db.collections.shifts;
 
 let self = module.exports = {
     GetShiftsSchedule(businessId, year, month) {
         return new Promise((resolve, reject) => {
-
             Promise.all([
                 algo.GetShiftsSchedule(businessId, year, month),
                 businessesBL.GetBusinessShiftsNames(businessId)
@@ -18,9 +18,8 @@ let self = module.exports = {
                 let shiftsObjects = self.BuildShifts(businessId, year, month,
                     scheduleResult.workersIds, shiftsNames, scheduleResult.shifts);
 
-                resolve(shiftsObjects);
+                DAL.InsertMany(shiftsCollectionName, shiftsObjects).then(resolve).catch(reject);
             }).catch(reject);
-
         });
     },
 
@@ -28,32 +27,40 @@ let self = module.exports = {
     BuildShifts(businessId, year, month, workersIds, businessShiftsNames, shifts) {
         let numWorkers = shifts.length;
         let numDays = shifts[0].length;
-        let numShifts = shifts[0].length;
+        let numShifts = shifts[0][0].length;
 
         let shiftDate = new Date(year + "-" + month + "-" + 1);
-        let result = [];
+        let shiftsObjects = [];
 
-        for (let i = 0; i < numShifts; i++) {
+        for (let i = 0; i < numDays; i++) {
             let shift = {
-                "businessId": businessId,
+                "businessId": DAL.GetObjectId(businessId),
                 "date": self.FormatDateToString(shiftDate),
                 "shiftsData": []
             }
 
             for (let j = 0; j < numShifts; j++) {
-                shift.shiftsData.push({
+                let shiftData = {
                     "name": businessShiftsNames[j],
                     "workers": []
-                });
+                }
+
+                for (k = 0; k < numWorkers; k++) {
+                    if (shifts[k][i][j] == 1) {
+                        shiftData.workers.push(workersIds[k]);
+                    }
+                }
+
+                shift.shiftsData.push(shiftData);
             }
 
-            result.push(shift);
+            shiftsObjects.push(shift);
 
             // Increase date by one day.
             shiftDate.setDate(shiftDate.getDate() + 1)
         }
 
-        let x = 1;
+        return shiftsObjects;
     },
 
     FormatDateToString(date) {
