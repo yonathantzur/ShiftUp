@@ -13,10 +13,10 @@ let self = module.exports = {
     // Run algorithm with array of arguments strings.
     Run(args) {
         return new Promise((resolve, reject) => {
-            PythonShell.run('script.py',
+            PythonShell.run(__dirname + '/algo.py',
                 { args },
-                (err, result) => {
-                    err ? reject(err) : resolve(result);
+                (err, results) => {
+                    err ? reject(err) : resolve(JSON.parse(results[0]));
                 });
         });
     },
@@ -63,9 +63,14 @@ let self = module.exports = {
                     shiftsRequests =
                         self.AssignWorkersConstraints(workersIds, constraints, shiftsRequests, month);
 
-                    resolve({
-                        "workers": workersObjIds,
-                        "shifts": shiftsRequests
+                    self.Run([
+                        JSON.stringify(shiftsRequests),
+                        JSON.stringify(workersPerShift)
+                    ]).then(shifts => {
+                        resolve({
+                            "workers": workersObjIds,
+                            "shifts": shifts
+                        });
                     });
                 });
 
@@ -235,7 +240,7 @@ let self = module.exports = {
                 let constraintDay = dateInRange.getDate();
 
                 constrain.shifts.forEach((shift, index) => {
-                    if (shift.isOpen) {
+                    if (shift.isChecked) {
                         shiftsRequests[workerPosition][constraintDay - 1][index] = 0;
                     }
                 });
