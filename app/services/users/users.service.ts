@@ -1,5 +1,7 @@
-import { BasicService } from '../basic/basic.service';
+import {BasicService} from '../basic/basic.service';
+import {Injectable} from "@angular/core";
 
+@Injectable({ providedIn: 'root' })
 export class UsersService extends BasicService {
     prefix = "/api/users";
 
@@ -7,22 +9,23 @@ export class UsersService extends BasicService {
         return super.get(this.prefix + '/getAllUsers')
             .toPromise()
             .then((result: any) => result)
-            .catch((err: any) =>  null);
+            .catch((err: any) => null);
     }
 
-    GetUserById(_id: string) {
-        return super.get(this.prefix + '/getUserById?id=' + _id)
+    GetUserById(userObjId: string) {
+        return super.get(this.prefix + '/getUserById?userObjId=' + userObjId)
             .toPromise()
             .then((result: any) => result)
             .catch((err: any) => null);
     }
 
     GetUserByUserId(userId: string) {
-        return super.get(this.prefix + '/getUserByUserId?userId=' + userId)
+        return super.get(this.prefix + '/GetUserByUserId?userId=' + userId)
             .toPromise()
             .then((result: any) => result)
             .catch((err: any) => null);
     }
+
 
     GetLoggedInUser() {
         return super.get(this.prefix + '/getLoggedInUser')
@@ -33,6 +36,13 @@ export class UsersService extends BasicService {
 
     IsUserAvailableForBusiness(userId: string) {
         return super.get(this.prefix + '/isUserAvailableForBusiness?userId=' + userId)
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
+
+    isLoginUserManager() {
+        return super.get(this.prefix + '/isLoginUserManager')
             .toPromise()
             .then((result: any) => result)
             .catch((err: any) => null);

@@ -19,25 +19,86 @@ var ConstraintsComponent = /** @class */ (function () {
         this.usersService = usersService;
         this.route = route;
         this.router = router;
+        this.sourceConstraints = [];
         this.constraints = [];
-        this.usernames = {};
     }
     ConstraintsComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.constraintsService.getAllConstraints().then(function (data) {
-            _this.constraints = data;
-        });
-        this.InitiateAllUsernames();
+        this.InitiateConstraints();
     };
-    ConstraintsComponent.prototype.InitiateAllUsernames = function () {
+    ConstraintsComponent.prototype.DeleteConstraint = function (conObjId) {
         var _this = this;
-        if (this.constraints) {
-            for (var con in this.constraints) {
-                this.usersService.GetUserByUserId(this.constraints[con].userId).then(function (data) {
-                    _this.usernames.firstName.push(data.firstName);
-                    _this.usernames.lastName.push(data.lastName);
+        this.constraintsService.DeleteConstraint(conObjId).then(function (isDeleted) {
+            if (isDeleted) {
+                _this.InitiateConstraints();
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה במחיקה',
+                    text: 'אופס... משהו השתבש'
                 });
             }
+        });
+    };
+    ConstraintsComponent.prototype.ApproveConstraint = function (conObjId) {
+        var _this = this;
+        this.constraintsService.ApproveConstraint(conObjId).then(function (isApprove) {
+            if (isApprove) {
+                _this.InitiateConstraints();
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה באישור אילוץ',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
+    };
+    ConstraintsComponent.prototype.RefuseConstraint = function (conObjId) {
+        var _this = this;
+        this.constraintsService.RefuseConstraint(conObjId).then(function (isCanceled) {
+            if (isCanceled) {
+                _this.InitiateConstraints();
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בדחיית אילוץ',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
+    };
+    ConstraintsComponent.prototype.InitiateConstraints = function () {
+        var _this = this;
+        this.constraintsService.getAllConstraints().then(function (data) {
+            _this.sourceConstraints = data;
+            _this.constraints = _this.sourceConstraints;
+        });
+    };
+    ConstraintsComponent.prototype.filterItem = function () {
+        var _this = this;
+        if (this.searchWord || this.startDateFilter || this.endDateFilter) {
+            this.constraints = this.sourceConstraints.filter(function (item) {
+                var bool = true;
+                if (_this.searchWord) {
+                    bool = (_this.searchWord && (item.user[0].userId.includes(_this.searchWord)) ||
+                        ((item.user[0].firstName + " " + item.user[0].lastName).includes(_this.searchWord)) ||
+                        (item.description.includes(_this.searchWord)) ||
+                        (item.status[0].statusName.includes(_this.searchWord)));
+                }
+                if (bool && _this.startDateFilter) {
+                    bool = new Date(item.startDate) >= new Date(_this.startDateFilter);
+                }
+                if (bool && _this.endDateFilter) {
+                    bool = new Date(item.endDate) <= new Date(_this.endDateFilter);
+                }
+                return bool;
+            });
+        }
+        else {
+            this.constraints = this.sourceConstraints;
         }
     };
     ConstraintsComponent = __decorate([

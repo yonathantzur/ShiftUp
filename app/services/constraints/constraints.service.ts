@@ -16,4 +16,59 @@ export class ConstraintsService extends BasicService {
                 return null;
             });
     }
+
+    DeleteConstraint(conObjId: string) {
+        return super.get(this.prefix + "/DeleteConstraint?conObjId=" + conObjId)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
+    AddConstraint(conData: any) {
+        return super.post(this.prefix + "/AddConstraint", conData)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
+    getAllConstraintReasons() {
+        return super.get(this.prefix + "/getAllConstraintReasons")
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
+    ApproveConstraint(conObjId: string) {
+        return super.get(this.prefix + "/ApproveConstraint?conObjId=" + conObjId)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
+    RefuseConstraint(conObjId: string) {
+        return super.get(this.prefix + "/RefuseConstraint?conObjId=" + conObjId)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
 }

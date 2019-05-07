@@ -1,8 +1,23 @@
-.tbConstraints {
-    margin-top:10%;
+.Constraints {
+    margin-top: 5%;
 }
 
-.iconConstraints{
-    float:right;
-    margin:0 10px;
+.tb{
+    overflow: auto;
+    height: 500px;
+    width: 100%;
+}
+.iconConstraints {
+    float: right;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.conTitle {
+    text-align: center;
+    font-weight: bold;
+}
+
+.dateInput{
+    margin-right: 15px;
 }

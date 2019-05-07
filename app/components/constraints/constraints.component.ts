@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ConstraintsService } from '../../services/constraints/constraints.service';
-import { UsersService } from "../../services/users/users.service";
+import {Component, OnInit} from '@angular/core';
+import {ConstraintsService} from '../../services/constraints/constraints.service';
+import {UsersService} from "../../services/users/users.service";
 import {ActivatedRoute, Router} from "@angular/router";
+
+declare let Swal: any;
 
 @Component({
     selector: 'constraints',
@@ -11,8 +13,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 
 export class ConstraintsComponent implements OnInit {
+    sourceConstraints: Array<any> = [];
     constraints: Array<any> = [];
-    usernames: any = {};
+    searchWord: string;
+    startDateFilter: Date;
+    endDateFilter: Date;
 
     constructor(private constraintsService: ConstraintsService,
                 private usersService: UsersService,
@@ -21,21 +26,78 @@ export class ConstraintsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.constraintsService.getAllConstraints().then((data: any) => {
-            this.constraints = data;
-        });
-        this.InitiateAllUsernames();
-    }
-    
-    InitiateAllUsernames() {
-        if(this.constraints) {
-            for(let con in this.constraints) {
-                this.usersService.GetUserByUserId(this.constraints[con].userId).then((data: any) => {
-                    this.usernames.firstName.push(data.firstName);
-                    this.usernames.lastName.push(data.lastName);
-                });
-            }
-        }
+        this.InitiateConstraints();
     }
 
+    DeleteConstraint(conObjId: string) {
+        this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
+            if (isDeleted) {
+                this.InitiateConstraints();
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה במחיקה',
+                    text: 'אופס... משהו השתבש'
+                })
+            }
+        })
+    }
+
+    ApproveConstraint(conObjId: string) {
+        this.constraintsService.ApproveConstraint(conObjId).then((isApprove: any) => {
+            if (isApprove) {
+                this.InitiateConstraints();
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה באישור אילוץ',
+                    text: 'אופס... משהו השתבש'
+                })
+            }
+        })
+    }
+
+    RefuseConstraint(conObjId: string) {
+        this.constraintsService.RefuseConstraint(conObjId).then((isCanceled: any) => {
+            if (isCanceled) {
+                this.InitiateConstraints();
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בדחיית אילוץ',
+                    text: 'אופס... משהו השתבש'
+                })
+            }
+        })
+    }
+
+    InitiateConstraints() {
+        this.constraintsService.getAllConstraints().then((data: any) => {
+            this.sourceConstraints = data;
+            this.constraints = this.sourceConstraints;
+        });
+    }
+
+    filterItem() {
+        if (this.searchWord  || this.startDateFilter || this.endDateFilter) {
+            this.constraints = this.sourceConstraints.filter(item => {
+                let bool = true;
+                if (this.searchWord) {
+                    bool = (this.searchWord && (item.user[0].userId.includes(this.searchWord)) ||
+                        (`${item.user[0].firstName} ${item.user[0].lastName}`.includes(this.searchWord)) ||
+                        (item.description.includes(this.searchWord)) ||
+                        (item.status[0].statusName.includes(this.searchWord)));
+                }
+                if (bool && this.startDateFilter) {
+                    bool = new Date(item.startDate) >= new Date(this.startDateFilter);
+                }
+                if (bool && this.endDateFilter) {
+                    bool = new Date(item.endDate) <= new Date(this.endDateFilter);
+                }
+                return bool;
+            });
+        } else {
+            this.constraints = this.sourceConstraints;
+        }
+    }
 }

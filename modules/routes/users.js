@@ -11,14 +11,14 @@ router.get("/getAllUsers", (req, res) => {
 });
 
 router.get("/getUserById", (req, res) => {
-    usersBL.GetUserById(req.query.id).then(user => {
+    usersBL.GetUserById(req.query.userObjId).then(user => {
         res.send(user);
     }).catch(err => {
         res.status(500).end();
     })
 });
 
-router.get("/getUserByUserId", (req, res) => {
+router.get("/GetUserByUserId", (req, res) => {
     usersBL.GetUserByUserId(req.query.userId).then(user => {
         res.send(user);
     }).catch(err => {
@@ -39,6 +39,14 @@ router.get("/isUserAvailableForBusiness", (req, res) => {
         res.send(isAvailable);
     }).catch(err => {
         res.status(500).end();
+    });
+});
+
+router.get("/isLoginUserManager", (req, res) => {
+    usersBL.isLoginUserManager(req.user).then(isManager => {
+        res.send(isManager);
+    }).catch(err => {
+        res.status(500).end();
     })
 });
 
@@ -46,6 +54,6 @@ router.get("/getUsersRequestedToBusiness", (req, res) => {
     usersBL.GetUsersRequestedToBusiness(req.user.userId)
         .then(usersRequests => res.send(usersRequests))
         .catch(err => res.status(500).end())
-})
+});
 
 module.exports = router;
