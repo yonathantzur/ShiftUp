@@ -109,6 +109,18 @@ module.exports = {
         });
     },
 
+    // Insert new many document.
+    Insert(collectionName, documents) {
+        return new Promise((resolve, reject) => {
+            GetDB().then(db => {
+                let collection = db.collection(collectionName);
+                collection.insertMany(documents).then(result => {
+                    resolve(result);
+                }).catch(reject);
+            }).catch(reject);
+        });
+    },
+
     // Update one document.
     UpdateOne(collectionName, findObj, updateObj, isInsertIfNotExists) {
         return new Promise((resolve, reject) => {

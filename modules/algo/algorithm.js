@@ -68,7 +68,7 @@ let self = module.exports = {
                         JSON.stringify(workersPerShift)
                     ]).then(shifts => {
                         resolve({
-                            "workers": workersObjIds,
+                            "workersIds": workersObjIds,
                             "shifts": shifts
                         });
                     });
