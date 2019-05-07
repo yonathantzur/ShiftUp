@@ -41,3 +41,12 @@
 .scheduler-btn:hover {
     background-color: #eaeaea;
 }
+
+.loading-text {
+    margin: auto;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;    
+    user-select: none;
+}

@@ -27,6 +27,22 @@ let self = module.exports = {
         });
     },
 
+    RemoveShiftsForBusiness(businessId, year, month) {
+        return new Promise((resolve, reject) => {
+
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            let findFilter = {
+                "businessId": DAL.GetObjectId(businessId),
+                "date": new RegExp(year + "-" + month + "-.*")
+            };
+
+            DAL.Delete(shiftsCollectionName, findFilter).then(resolve).catch(reject);
+        });
+    },
+
     GetShiftsWorkers(shiftsData) {
         return new Promise((resolve, reject) => {
             let ids = [];

@@ -15,14 +15,19 @@ declare let $: any;
 export class CalendarBoardComponent {
     monthName: string;
 
-    constructor(private calendarBoardService: CalendarBoardService) { }
+    constructor(private calendarBoardService: CalendarBoardService,
+        private eventService: EventService) { }
 
     Schedule() {
         let year = $('#calendar').fullCalendar('getDate')._d.getFullYear();
         let month = $('#calendar').fullCalendar('getDate')._d.getMonth() + 1;
 
-        this.calendarBoardService.GetShiftsSchedule(year, month).then(shifts => {
+        this.eventService.Emit("startLoader");
 
+        this.calendarBoardService.GetShiftsSchedule(year, month).then(shifts => {
+            if (shifts) {
+                this.eventService.Emit("renderCalendar");
+            }
         });
     }
 }

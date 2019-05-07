@@ -2,6 +2,7 @@ const algo = require('../algo/algorithm');
 const config = require('../../config');
 const DAL = require('../DAL');
 const businessesBL = require('../BL/businessesBL');
+const shiftsBL = require('../BL/shiftsBL');
 
 const shiftsCollectionName = config.db.collections.shifts;
 
@@ -18,7 +19,12 @@ let self = module.exports = {
                 let shiftsObjects = self.BuildShifts(businessId, year, month,
                     scheduleResult.workersIds, shiftsNames, scheduleResult.shifts);
 
-                DAL.InsertMany(shiftsCollectionName, shiftsObjects).then(resolve).catch(reject);
+                Promise.all([
+                    shiftsBL.RemoveShiftsForBusiness(businessId, year, month),
+                    DAL.InsertMany(shiftsCollectionName, shiftsObjects)
+                ]).then(results => {
+                    resolve(true);
+                });
             }).catch(reject);
         });
     },

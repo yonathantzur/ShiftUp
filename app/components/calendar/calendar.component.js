@@ -22,6 +22,9 @@ var CalendarComponent = /** @class */ (function () {
         this.viewState = enums_1.SHIFTS_FILTER.ALL;
         this.eventsIds = [];
         var self = this;
+        self.eventService.Register("startLoader", function (event) {
+            self.isLoading = true;
+        });
         self.eventService.Register("openEditShiftCard", function (event) {
             self.eventEditObject = self.createEventObjectToEdit(event);
         });

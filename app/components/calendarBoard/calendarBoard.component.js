@@ -10,15 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var event_service_1 = require("../../services/event/event.service");
 var calendarBoard_service_1 = require("../../services/calendarBoard/calendarBoard.service");
 var CalendarBoardComponent = /** @class */ (function () {
-    function CalendarBoardComponent(calendarBoardService) {
+    function CalendarBoardComponent(calendarBoardService, eventService) {
         this.calendarBoardService = calendarBoardService;
+        this.eventService = eventService;
     }
     CalendarBoardComponent.prototype.Schedule = function () {
+        var _this = this;
         var year = $('#calendar').fullCalendar('getDate')._d.getFullYear();
         var month = $('#calendar').fullCalendar('getDate')._d.getMonth() + 1;
+        this.eventService.Emit("startLoader");
         this.calendarBoardService.GetShiftsSchedule(year, month).then(function (shifts) {
+            if (shifts) {
+                _this.eventService.Emit("renderCalendar");
+            }
         });
     };
     CalendarBoardComponent = __decorate([
@@ -28,7 +35,8 @@ var CalendarBoardComponent = /** @class */ (function () {
             providers: [calendarBoard_service_1.CalendarBoardService],
             styleUrls: ['./calendarBoard.css']
         }),
-        __metadata("design:paramtypes", [calendarBoard_service_1.CalendarBoardService])
+        __metadata("design:paramtypes", [calendarBoard_service_1.CalendarBoardService,
+            event_service_1.EventService])
     ], CalendarBoardComponent);
     return CalendarBoardComponent;
 }());
