@@ -31,7 +31,7 @@ export class BasicService {
     }
 
     getRequestOptions(): any {
-        var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return { headers };
     }
 
