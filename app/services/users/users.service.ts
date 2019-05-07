@@ -27,6 +27,13 @@ export class UsersService extends BasicService {
     }
 
 
+    GetLoggedInUser() {
+        return super.get(this.prefix + '/getLoggedInUser')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
+
     IsUserAvailableForBusiness(userId: string) {
         return super.get(this.prefix + '/isUserAvailableForBusiness?userId=' + userId)
             .toPromise()
@@ -36,6 +43,13 @@ export class UsersService extends BasicService {
 
     isLoginUserManager() {
         return super.get(this.prefix + '/isLoginUserManager')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
+
+    GetUsersRequestedToBusiness() {
+        return super.get(this.prefix + '/getUsersRequestedToBusiness')
             .toPromise()
             .then((result: any) => result)
             .catch((err: any) => null);

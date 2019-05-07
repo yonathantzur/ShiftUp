@@ -18,11 +18,13 @@ import { WorkerCardComponent } from '../components/workerCard/workerCard.compone
 import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoard.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { NewWorkerComponent } from '../components/newWorker/newWorker.component';
-import { RegistrationComponent } from "../components/registration/registration.component";
-import { NewUserRoleComponent } from "../components/newUserRole/newUserRole.component";
-import { NewBusinessComponent } from "../components/newUserRole/newBusiness/newBusiness.component";
-import { WorkerComponent } from "../components/newUserRole/worker/worker.component";
-import { WorkerWaitComponent } from "../components/newUserRole/workerWait/workerWait.component";
+import { RegistrationComponent } from '../components/registration/registration.component';
+import { NewUserRoleComponent } from '../components/newUserRole/newUserRole.component';
+import { NewBusinessComponent } from '../components/newUserRole/newBusiness/newBusiness.component';
+import { WorkerComponent } from '../components/newUserRole/worker/worker.component';
+import { WorkerWaitComponent } from '../components/newUserRole/workerWait/workerWait.component';
+import { WorkersRequestsComponent } from '../components/workersRequests/workersRequests.component';
+import { ShiftEditComponent } from "../components/shiftEdit/shiftEdit.component";
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -57,7 +59,9 @@ import { Routing } from '../routes/app.routing'
         NewUserRoleComponent,
         NewBusinessComponent,
         WorkerComponent,
-        WorkerWaitComponent
+        WorkerWaitComponent,
+        WorkersRequestsComponent,
+        ShiftEditComponent
     ],
     providers: [
         EventService

@@ -1,6 +1,5 @@
 const DAL = require('../DAL');
 const config = require('../../config');
-const token = require('../handlers/tokenHandler');
 
 const usersCollectionName = config.db.collections.users;
 const businessCollectionName = config.db.collections.businesses;
@@ -39,13 +38,24 @@ module.exports = {
         });
     },
 
-    isLoginUserManager(req){
-        let userToken = token.getUserFromToken(req);
+    isLoginUserManager(user){
         return new Promise((resolve, reject) => {
-           if(userToken.isManager){
+           if(user.isManager){
                resolve(true);
            }
            resolve(false);
+        });
+    },
+
+    GetUsersRequestedToBusiness(managerUserId) {
+        return new Promise((resolve, reject) => {
+            DAL.FindOne(usersCollectionName, {userId: managerUserId})
+                .then(user => {
+                    DAL.FindSpecific(usersCollectionName, {_id: { $in: user.requests }})
+                        .then(usersRequests => resolve(usersRequests))
+                        .catch(reject);
+                })
+                .catch(reject);
         });
     }
 

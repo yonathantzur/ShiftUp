@@ -26,6 +26,14 @@ router.get("/GetUserByUserId", (req, res) => {
     })
 });
 
+router.get("/getLoggedInUser", (req, res) => {
+    usersBL.GetUserByUserId(req.user.userId).then(user => {
+        res.send(user);
+    }).catch(err => {
+        res.status(500).end();
+    })
+});
+
 router.get("/isUserAvailableForBusiness", (req, res) => {
     usersBL.IsUserAvailableForBusiness(req.query.userId, req.user.businessId).then(isAvailable => {
         res.send(isAvailable);
@@ -35,11 +43,17 @@ router.get("/isUserAvailableForBusiness", (req, res) => {
 });
 
 router.get("/isLoginUserManager", (req, res) => {
-    usersBL.isLoginUserManager(req).then(isManager => {
+    usersBL.isLoginUserManager(req.user).then(isManager => {
         res.send(isManager);
     }).catch(err => {
         res.status(500).end();
     })
+});
+
+router.get("/getUsersRequestedToBusiness", (req, res) => {
+    usersBL.GetUsersRequestedToBusiness(req.user.userId)
+        .then(usersRequests => res.send(usersRequests))
+        .catch(err => res.status(500).end())
 });
 
 module.exports = router;

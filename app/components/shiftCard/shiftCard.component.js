@@ -19,8 +19,12 @@ var ShiftCardComponent = /** @class */ (function () {
         this.shiftsDataCache = {};
         this.eventsIds = [];
         var self = this;
+        self.eventService.Register("renderCalendar", function () {
+            self.shiftsDataCache = {};
+        });
         // Load shift data to show on card when event is clicked.
         self.eventService.Register("calanderEventClick", function (event) {
+            self.event = event;
             var shiftsDataFromCache = self.shiftsDataCache[event.id];
             // In case the shift data is in cache.
             if (shiftsDataFromCache) {
@@ -34,6 +38,11 @@ var ShiftCardComponent = /** @class */ (function () {
                 });
             }
         }, self.eventsIds);
+        // Remove shift data.
+        self.eventService.Register("calanderEventUnClick", function () {
+            self.event = null;
+            self.shiftsData = null;
+        }, self.eventsIds);
         // Remove shiftsData when calendar dates range is changed.
         self.eventService.Register("calanderViewRender", function () {
             self.shiftsData = null;
@@ -41,6 +50,9 @@ var ShiftCardComponent = /** @class */ (function () {
     }
     ShiftCardComponent.prototype.ngOnDestroy = function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    };
+    ShiftCardComponent.prototype.Edit = function () {
+        this.eventService.Emit("openEditShiftCard", this.event);
     };
     ShiftCardComponent = __decorate([
         core_1.Component({

@@ -19,14 +19,18 @@ var page = /** @class */ (function () {
     return page;
 }());
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent(router, loginService, userService) {
-        //TODO: check if isManager:false -> add 'my constraint' to array, remove constraint
+    function NavbarComponent(router, loginService, usersService) {
         var _this = this;
         this.router = router;
         this.loginService = loginService;
-        this.userService = userService;
+        this.usersService = usersService;
         this.searchValue = "";
         this.pages = [];
+        this.resetPagesClick = function () {
+            _this.pages.forEach(function (page) {
+                page.isClicked = false;
+            });
+        };
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);
         };
@@ -38,20 +42,36 @@ var NavbarComponent = /** @class */ (function () {
     }
     NavbarComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userService.isLoginUserManager().then(function (isManager) {
+        if (this.loggedInUser == undefined) {
+            this.usersService.GetLoggedInUser().then(function (user) {
+                _this.loggedInUser = user;
+            });
+        }
+        this.usersService.isLoginUserManager().then(function (isManager) {
+            _this.pages.push({ route: '/', displayText: "בית", icon: "fa fa-home" });
             if (!isManager) {
-                _this.pages.push({ route: '/', displayText: "בית", icon: "fa fa-home" });
-                _this.pages.push({ route: '/workerPages/constraintsForWorker', displayText: "האילוצים שלי", icon: "fa fa-file-alt" });
-                _this.pages.push({ route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
+                _this.pages.push({
+                    route: '/workerPages/constraintsForWorker',
+                    displayText: "האילוצים שלי",
+                    icon: "fa fa-file-alt"
+                });
             }
             else {
-                _this.pages.push({ route: '/', displayText: "בית", icon: "fa fa-home" });
-                _this.pages.push({ route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
-                _this.pages.push({ route: '/managerPages/constraints', displayText: "אילוצי עובדים", icon: "fa fa-file-alt" });
-                _this.pages.push({ route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
-                _this.pages.push({ route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
+                _this.pages.push({ route: '/managerPages/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
+                _this.pages.push({
+                    route: '/managerPages/constraints',
+                    displayText: "אילוצי עובדים",
+                    icon: "fa fa-file-alt"
+                });
+                _this.pages.push({ route: '/managerPages/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
+                _this.pages.push({ route: '/managerPages/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
             }
-            _this.pages.push({ route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: _this.logout.bind(_this) });
+            _this.pages.push({
+                route: '/login',
+                displayText: "התנתקות",
+                icon: "fas fa-sign-out-alt",
+                action: _this.logout.bind(_this)
+            });
         });
     };
     NavbarComponent.prototype.logout = function () {
@@ -60,11 +80,15 @@ var NavbarComponent = /** @class */ (function () {
             _this.loginService.logout().then(resolve).catch(reject);
         });
     };
+    NavbarComponent.prototype.notificationsClick = function () {
+        this.resetPagesClick();
+        var workersPage = this.pages.find(function (page) { return page.route == '/workers'; });
+        workersPage.isClicked = true;
+        this.routeTo(workersPage.route + '/requests');
+    };
     NavbarComponent.prototype.pageClick = function (page) {
         var _this = this;
-        this.pages.forEach(function (page) {
-            page.isClicked = false;
-        });
+        this.resetPagesClick();
         page.isClicked = true;
         if (page.action) {
             page.action().then(function () {
@@ -85,7 +109,9 @@ var NavbarComponent = /** @class */ (function () {
             providers: [login_service_1.LoginService, users_service_1.UsersService],
             styleUrls: ['./navbar.css']
         }),
-        __metadata("design:paramtypes", [router_1.Router, login_service_1.LoginService, users_service_1.UsersService])
+        __metadata("design:paramtypes", [router_1.Router,
+            login_service_1.LoginService,
+            users_service_1.UsersService])
     ], NavbarComponent);
     return NavbarComponent;
 }());

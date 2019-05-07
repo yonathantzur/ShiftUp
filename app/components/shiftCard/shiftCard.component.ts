@@ -13,6 +13,7 @@ import { EventService } from '../../services/event/event.service';
 export class ShiftCardComponent implements OnDestroy {
     shiftsData: Array<any>;
     shiftsDataCache: Object = {};
+    event: any;
 
     eventsIds: Array<string> = [];
 
@@ -20,8 +21,13 @@ export class ShiftCardComponent implements OnDestroy {
         private eventService: EventService) {
         let self = this;
 
+        self.eventService.Register("renderCalendar", () => {
+            self.shiftsDataCache = {};
+        });
+
         // Load shift data to show on card when event is clicked.
         self.eventService.Register("calanderEventClick", (event: any) => {
+            self.event = event;
             let shiftsDataFromCache = self.shiftsDataCache[event.id];
 
             // In case the shift data is in cache.
@@ -37,6 +43,12 @@ export class ShiftCardComponent implements OnDestroy {
             }
         }, self.eventsIds);
 
+        // Remove shift data.
+        self.eventService.Register("calanderEventUnClick", () => {
+            self.event = null;
+            self.shiftsData = null;
+        }, self.eventsIds);
+
         // Remove shiftsData when calendar dates range is changed.
         self.eventService.Register("calanderViewRender", () => {
             self.shiftsData = null;
@@ -45,6 +57,10 @@ export class ShiftCardComponent implements OnDestroy {
 
     ngOnDestroy() {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    }
+
+    Edit() {
+        this.eventService.Emit("openEditShiftCard", this.event);
     }
 
 }

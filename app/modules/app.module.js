@@ -30,6 +30,8 @@ var newUserRole_component_1 = require("../components/newUserRole/newUserRole.com
 var newBusiness_component_1 = require("../components/newUserRole/newBusiness/newBusiness.component");
 var worker_component_1 = require("../components/newUserRole/worker/worker.component");
 var workerWait_component_1 = require("../components/newUserRole/workerWait/workerWait.component");
+var workersRequests_component_1 = require("../components/workersRequests/workersRequests.component");
+var shiftEdit_component_1 = require("../components/shiftEdit/shiftEdit.component");
 // Services
 var event_service_1 = require("../services/event/event.service");
 // Routing
@@ -65,7 +67,9 @@ var AppModule = /** @class */ (function () {
                 newUserRole_component_1.NewUserRoleComponent,
                 newBusiness_component_1.NewBusinessComponent,
                 worker_component_1.WorkerComponent,
-                workerWait_component_1.WorkerWaitComponent
+                workerWait_component_1.WorkerWaitComponent,
+                workersRequests_component_1.WorkersRequestsComponent,
+                shiftEdit_component_1.ShiftEditComponent
             ],
             providers: [
                 event_service_1.EventService

@@ -22,7 +22,7 @@
         <div class="form-group">
             <label class="formInput">תעודת זהות</label>
             <input class="form-control formInput" type="text"
-                   name="userId" ngModel #userId="ngModel" required title="נא הכנס תעודת זהות"  minlength="9" maxlength="9" />
+                   name="userId" ngModel #userId="ngModel" required title="נא הכנס תעודת זהות" minlength="9" maxlength="9" />
             <div class="warning" *ngIf="userId.errors?.required && userId.touched">נא להכניס תעודת זהות</div>
             <div class="warning" *ngIf="(userId.errors?.minlength || userId.errors?.maxlength) &&  userId.touched">תעודת הזהות לא תקינה</div>
 

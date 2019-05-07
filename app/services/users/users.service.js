@@ -46,6 +46,12 @@ var UsersService = /** @class */ (function (_super) {
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
     };
+    UsersService.prototype.GetLoggedInUser = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getLoggedInUser')
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
     UsersService.prototype.IsUserAvailableForBusiness = function (userId) {
         return _super.prototype.get.call(this, this.prefix + '/isUserAvailableForBusiness?userId=' + userId)
             .toPromise()
@@ -54,6 +60,12 @@ var UsersService = /** @class */ (function (_super) {
     };
     UsersService.prototype.isLoginUserManager = function () {
         return _super.prototype.get.call(this, this.prefix + '/isLoginUserManager')
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
+    UsersService.prototype.GetUsersRequestedToBusiness = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getUsersRequestedToBusiness')
             .toPromise()
             .then(function (result) { return result; })
             .catch(function (err) { return null; });

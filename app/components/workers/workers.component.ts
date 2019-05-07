@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { BusinessesService } from '../../services/businesses/businesses.service';
 import { WorkersService } from '../../services/workers/workers.service';
 
@@ -14,12 +14,15 @@ declare let Swal: any;
 
 export class WorkersComponent {
     business: any = {};
-    workers: Array<any> = [];
-    isNewWorkerDialogOpen: boolean = false;
+    isNewWorkerComponentActive: boolean = false;
+    workerSearchText: string = "";
+    allWorkers: Array<any> = [];
+    filteredWorkers: Array<any> = [];
 
     constructor(
         private businessesService: BusinessesService,
-        private workersService: WorkersService) { }
+        private workersService: WorkersService,
+        private router: Router) { }
 
     ngOnInit() {
         this.businessesService.GetLoggedInBusiness().then((business: any) => {
@@ -27,53 +30,49 @@ export class WorkersComponent {
         });
 
         this.businessesService.GetWorkersForBusiness().then((workers: any) => {
-            this.workers = workers;
+            this.allWorkers = workers.filter((worker: any) => !worker.isManager);
+            this.filteredWorkers = workers.filter((worker: any) => !worker.isManager);
         });
     }
 
-    openNewWorkerDialog = () => {
-        this.isNewWorkerDialogOpen = true;
+    activateNewWorkerComponent = () => {
+        this.isNewWorkerComponentActive = !this.isNewWorkerComponentActive;
     }
 
-    onNewWorkerClose = (newWorker: any) => {
+    showRequests = () => {
+        this.router.navigateByUrl('/workers/requests');
+    }
+
+    addNewWorkerHandler = (newWorker: any) => {
         if (newWorker) {
-            if (this.workers.find(currWorker => currWorker.userId == newWorker.userId)) {
+            this.workersService.AddWorkerToBusiness(newWorker.userId, newWorker.salary)
+            .then(() => {
+                this.allWorkers.push(newWorker);
+                this.SearchWorkerHandler();
+                Swal.fire({
+                    title: "הפעולה הצליחה",
+                    text: "העובד " + newWorker.firstName + ' ' + newWorker.lastName + " נוסף בהצלחה לעסק",
+                    type: "success",
+                    confirmButtonText: "אישור"
+                });
+            })
+            .catch((err: any) => {
                 Swal.fire({
                     title: "שגיאה!",
-                    text: "קיים עובד עם מספר תעודת זהות זהה.",
+                    text: "הפעולה נכשלה",
                     type: "error",
                     confirmButtonText: "אישור"
                 });
                 return;
-            } else {
-                this.workersService.AddWorkerToBusiness(newWorker.userId, newWorker.salary)
-                    .then(() => {
-                        this.workers.push(newWorker);
-                        Swal.fire({
-                            title: "הפעולה הצליחה",
-                            text: "העובד " + newWorker.userId + " נוסף בהצלחה לעסק",
-                            type: "success",
-                            confirmButtonText: "אישור"
-                        });
-                    })
-                    .catch((err: any) => {
-                        Swal.fire({
-                            title: "שגיאה!",
-                            text: "הפעולה נכשלה",
-                            type: "error",
-                            confirmButtonText: "אישור"
-                        });
-                        return;
-                    });
-            }
+            });
         }
-        this.isNewWorkerDialogOpen = false;
+        this.isNewWorkerComponentActive = false;
     }
 
-    onDeleteWorker = (workerUserId: string) => {
+    deleteWorkerHandler = (workerToDelete: any) => {
         Swal.fire({
             title: "האם אתה בטוח?",
-            text: "העובד " + workerUserId + " יימחק.",
+            text: "העובד " + workerToDelete.firstName + ' ' + workerToDelete.lastName + " יימחק",
             type: "warning",
             showCancelButton: true,
             cancelButtonColor: "#d33",
@@ -81,32 +80,31 @@ export class WorkersComponent {
             cancelButtonText: "ביטול"
         }).then((result: any) => {
             if (result.value) {
-                this.workersService.RemoveWorkerFromBusiness(workerUserId)
-                    .then(() => {
-                        this.workers = this.workers.filter(worker => worker.userId !== workerUserId);
-                        Swal.fire({
-                            title: "הפעולה הצליחה!",
-                            text: "העובד נמחק בהצלחה",
-                            type: "success",
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
-                    })
-                    .catch(err => {
-                        Swal.fire({
-                            title: "שגיאה",
-                            text: "הפעולה נכשלה!",
-                            type: "error",
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
-                    })
-
+                this.workersService.RemoveWorkerFromBusiness(workerToDelete.userId)
+                .then(() => {
+                    this.allWorkers = this.allWorkers.filter(worker => worker.userId !== workerToDelete.userId);
+                    this.SearchWorkerHandler();
+                    Swal.fire({
+                        title: "הפעולה הצליחה!",
+                        text: "העובד " + workerToDelete.firstName + " " + workerToDelete.lastName + " נמחק בהצלחה",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                })
+                .catch((err: any) => {
+                    Swal.fire({
+                        title: "שגיאה",
+                        text: "הפעולה נכשלה!",
+                        type: "error",
+                        confirmButtonText: "אישור"
+                    });
+                })
             }
         });
     }
 
-    onDeleteAllWorkers = () => {
+    deleteAllWorkersHandler = () => {
         Swal.fire({
             title: "האם אתה בטוח?",
             text: "כל העובדים יימחקו.",
@@ -117,15 +115,39 @@ export class WorkersComponent {
             cancelButtonText: "ביטול"
         }).then((result: any) => {
             if (result.value) {
-                this.workers = [];
-                Swal.fire({
-                    title: "הפעולה הצליחה!",
-                    text: "כל העובדים נמחקו בהצלחה.",
-                    type: "success",
-                    showConfirmButton: false,
-                    timer: 1500
+                this.workersService.RemoveAllWorkersFromBusiness()
+                .then(() => {
+                    this.allWorkers = [];
+                    this.filteredWorkers = [];
+                    Swal.fire({
+                        title: "הפעולה הצליחה!",
+                        text: "כל העובדים נמחקו בהצלחה.",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                })
+                .catch((err: any) => {
+                    Swal.fire({
+                        title: "שגיאה",
+                        text: "הפעולה נכשלה!",
+                        type: "error",
+                        confirmButtonText: "אישור"
+                    });
                 });
             }
         });
+    }
+
+    SearchWorkerHandler = () => {
+        if (this.workerSearchText != "") {
+            this.filteredWorkers = this.allWorkers.filter((worker: any) => {
+                const currWorkerFullName = worker.firstName + ' ' + worker.lastName;
+                return currWorkerFullName.includes(this.workerSearchText) ||
+                    worker.userId.includes(this.workerSearchText)
+            })
+        } else {
+            this.filteredWorkers = this.allWorkers;
+        }
     }
 }

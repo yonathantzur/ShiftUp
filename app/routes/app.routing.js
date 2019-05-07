@@ -14,6 +14,7 @@ var login_component_1 = require("../components/login/login.component");
 var constraints_component_1 = require("../components/constraints/constraints.component");
 var constraintsForWorker_component_1 = require("../components/constraintsForWorker/constraintsForWorker.component");
 var workers_component_1 = require("../components/workers/workers.component");
+var workersRequests_component_1 = require("../components/workersRequests/workersRequests.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 var registration_component_1 = require("../components/registration/registration.component");
@@ -28,9 +29,6 @@ var routes = [
         path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard, userRole_guard_1.StateUserGuard],
         children: [
             { path: '', component: home_component_1.HomeComponent },
-            { path: 'workers', component: workers_component_1.WorkersComponent },
-            { path: 'calendarBoard', component: calendarBoard_component_1.CalendarBoardComponent },
-            { path: 'statistics', component: statistics_component_1.StatisticsComponent },
         ],
     },
     { path: 'login', component: login_component_1.LoginComponent, canActivate: [auth_guard_1.LoginGuard] },
@@ -53,7 +51,16 @@ var routes = [
     {
         path: 'managerPages', component: main_component_1.MainComponent, canActivate: [auth_guard_1.ManagerGuard],
         children: [
-            { path: 'constraints', component: constraints_component_1.ConstraintsComponent }
+            { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
+            { path: 'statistics', component: statistics_component_1.StatisticsComponent },
+            {
+                path: 'workers',
+                children: [
+                    { path: '', component: workers_component_1.WorkersComponent },
+                    { path: 'requests', component: workersRequests_component_1.WorkersRequestsComponent }
+                ]
+            },
+            { path: 'calendarBoard', component: calendarBoard_component_1.CalendarBoardComponent },
         ]
     },
     { path: '**', redirectTo: '' }

@@ -7,7 +7,8 @@ class page {
     route: string;
     displayText: string;
     icon: string;
-    action?: Function
+    action?: Function;
+    isClicked?: boolean;
 }
 
 @Component({
@@ -20,10 +21,13 @@ class page {
 export class NavbarComponent implements OnInit {
     searchValue: string = "";
     pages: Array<page> = [];
+    loggedInUser: any;
 
-    constructor(private router: Router, private loginService: LoginService, private userService: UsersService) {
-        //TODO: check if isManager:false -> add 'my constraint' to array, remove constraint
-
+    constructor(
+        private router: Router,
+        private loginService: LoginService,
+        private usersService: UsersService
+    ) {
         this.pages.forEach((page: any) => {
             if (this.router.url == page.route) {
                 page.isClicked = true;
@@ -32,23 +36,37 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.isLoginUserManager().then(isManager => {
+        if (this.loggedInUser == undefined) {
+            this.usersService.GetLoggedInUser().then((user: any) => {
+                this.loggedInUser = user;
+            })
+        }
+        this.usersService.isLoginUserManager().then(isManager => {
+            this.pages.push({route: '/', displayText: "בית", icon: "fa fa-home"});
             if (!isManager) {
-                this.pages.push({route: '/', displayText: "בית", icon: "fa fa-home"});
-                this.pages.push({route: '/workerPages/constraintsForWorker', displayText: "האילוצים שלי", icon: "fa fa-file-alt"});
-                this.pages.push({route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt"});
+                this.pages.push({
+                    route: '/workerPages/constraintsForWorker',
+                    displayText: "האילוצים שלי",
+                    icon: "fa fa-file-alt"
+                });
+            } else {
+                this.pages.push({route: '/managerPages/workers', displayText: "עובדים", icon: "fa fa-user-friends"});
+                this.pages.push({
+                    route: '/managerPages/constraints',
+                    displayText: "אילוצי עובדים",
+                    icon: "fa fa-file-alt"
+                });
+                this.pages.push({route: '/managerPages/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line"});
+                this.pages.push({route: '/managerPages/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt"});
             }
-            else {
-                this.pages.push({route: '/', displayText: "בית", icon: "fa fa-home"});
-                this.pages.push({route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends"});
-                this.pages.push({route: '/managerPages/constraints', displayText: "אילוצי עובדים", icon: "fa fa-file-alt"});
-                this.pages.push({route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt"});
-                this.pages.push({route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line"});
-            }
-            this.pages.push({route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: this.logout.bind(this)});
+            this.pages.push({
+                route: '/login',
+                displayText: "התנתקות",
+                icon: "fas fa-sign-out-alt",
+                action: this.logout.bind(this)
+            });
         });
     }
-
 
     logout() {
         return new Promise((resolve, reject) => {
@@ -56,10 +74,22 @@ export class NavbarComponent implements OnInit {
         });
     }
 
-    pageClick(page: any) {
+    resetPagesClick = () => {
         this.pages.forEach((page: any) => {
             page.isClicked = false;
         })
+    }
+
+    notificationsClick() {
+        this.resetPagesClick();
+
+        const workersPage = this.pages.find(page => page.route == '/workers');
+        workersPage.isClicked = true;
+        this.routeTo(workersPage.route + '/requests')
+    }
+
+    pageClick(page: any) {
+        this.resetPagesClick();
 
         page.isClicked = true;
 

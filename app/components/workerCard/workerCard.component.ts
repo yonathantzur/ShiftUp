@@ -14,7 +14,7 @@ declare let Swal: any;
 
 export class WorkerCardComponent {
     worker: any;
-    @Output() onClose: EventEmitter<Worker> = new EventEmitter<Worker>();
+    @Output() onDelete: EventEmitter<Worker> = new EventEmitter<Worker>();
     workerUserData: any = {};
 
     constructor(private usersService: UsersService) {
@@ -23,6 +23,14 @@ export class WorkerCardComponent {
     ngOnInit() {
         this.usersService.GetUserByUserId(this.worker.userId)
             .then((userData: any) => this.workerUserData = userData);
+    }
+
+    calcAge = (birthDate: Date) => {
+        if (birthDate) {
+            return new Date(Date.now() - new Date(birthDate).valueOf()).getFullYear() - 1970;
+        } else {
+            return 0;
+        }
     }
 
     calcWorkerSalery = () => {
@@ -35,6 +43,6 @@ export class WorkerCardComponent {
     }
     
     deleteWorker = () => {
-        this.onClose.emit();
+        this.onDelete.emit();
     }
 }

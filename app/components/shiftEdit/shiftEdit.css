@@ -1,0 +1,191 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.30);
+}
+
+.container {
+    position: fixed;
+    width: 90%;
+    height: 90%;
+    background-color: #f3f3f3;
+    box-shadow: 4px 4px 30px 5px #5d5d5d;
+    border-radius: 3px;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1001;
+    margin: auto;
+    min-height: 250px;
+    max-width: 1100px;
+    user-select: none;
+}
+
+.title {
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: calc(100% - 25px);
+}
+
+.icon {
+    font-size: 24px;
+    cursor: pointer;    
+}
+
+.top-icon {
+    position: absolute;
+    top: 15px;
+}
+
+.close-icon {
+    left: 15px;
+    color: #7d7d7d;
+}
+
+.close-icon:hover {
+    color: #696969;
+}
+
+label {
+    margin: 0;
+    margin-bottom: 3px;
+    line-height: 0;
+    font-size: 14px;
+}
+
+.bottom-icon {
+    position: absolute;
+    bottom: 14px;    
+}
+
+.loader {
+    position: absolute;
+    top: calc(50% - 25px);
+    right: calc(50% - 30px);
+}
+
+.data {
+    overflow: auto;
+    height: calc(90% - 30px);
+}
+
+.sector-title {
+    font-size: 22px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    text-decoration: underline;
+}
+
+.shifts-container {
+    display: flex;
+    height: calc(100% - 55px);
+}
+
+.shift-name-container {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.shift-data {
+    width: 100%;    
+    border: 0.5px solid #9f9f9f;
+}
+
+.shift-name {
+    font-size: 20px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.shift-workers-container {
+    overflow: auto;
+    height: calc(100% - 32px);
+    padding-top: 3px;
+}
+
+.shift-worker {
+    width: 50%;
+    display: inline-block;
+    text-align: right;
+}
+
+.workers-container {
+    width: 100%;
+}
+
+.worker-name {
+    width: calc(25% - 5px);
+    display: inline-block;
+    height: 35px;
+    align-items: center;
+    justify-content: center;
+    border: 0.5px solid gray;
+    margin-left: 5px;
+    margin-top: 8px;
+    cursor: pointer;
+    border-radius: 3px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 4px 5px 4px 5px;
+    text-align: center;    
+}
+
+.worker-name:hover {
+    background-color: #f6faff;
+}
+
+.selected-worker {
+    box-shadow: 1px 1px 5px 1px #c5c5c5;
+    background-color: white !important;
+}
+
+.add-icon {
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+    position: absolute;
+    margin-top: 8px;
+}
+
+.shifts-view {    
+    height: 50%;
+    position: relative;
+}
+
+.workers-view {
+    height: 40%;
+    overflow: auto;
+    position: relative;
+}
+
+.remove-worker-icon {
+    margin-right: 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.no-workers {
+    width: 100%;
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.save-btn {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+    box-shadow: 1px 1px 5px 1px #a7a7a7;
+    padding: 6px 15px;
+    width: 80px;
+}
