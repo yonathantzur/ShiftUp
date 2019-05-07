@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { LoginService } from '../../services/login/login.service';
-import { UsersService } from '../../services/users/users.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {LoginService} from '../../services/login/login.service'
+import {UsersService} from '../../services/users/users.service'
 
 class page {
     route: string;
@@ -18,16 +18,9 @@ class page {
     styleUrls: ['./navbar.css']
 })
 
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
     searchValue: string = "";
-    pages: Array<page> = [
-        { route: '/', displayText: "בית", icon: "fa fa-home" },
-        { route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" },
-        { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" },
-        { route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" },
-        { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
-        { route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: this.logout.bind(this) }
-    ];
+    pages: Array<page> = [];
     loggedInUser: any;
 
     constructor(
@@ -44,10 +37,35 @@ export class NavbarComponent {
 
     ngOnInit() {
         if (this.loggedInUser == undefined) {
-            this.usersService.GetLoggedInUser().then((user) => {
+            this.usersService.GetLoggedInUser().then((user: any) => {
                 this.loggedInUser = user;
             })
         }
+        this.usersService.isLoginUserManager().then(isManager => {
+            this.pages.push({route: '/', displayText: "בית", icon: "fa fa-home"});
+            if (!isManager) {
+                this.pages.push({
+                    route: '/workerPages/constraintsForWorker',
+                    displayText: "האילוצים שלי",
+                    icon: "fa fa-file-alt"
+                });
+            } else {
+                this.pages.push({route: '/managerPages/workers', displayText: "עובדים", icon: "fa fa-user-friends"});
+                this.pages.push({
+                    route: '/managerPages/constraints',
+                    displayText: "אילוצי עובדים",
+                    icon: "fa fa-file-alt"
+                });
+                this.pages.push({route: '/managerPages/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line"});
+                this.pages.push({route: '/managerPages/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt"});
+            }
+            this.pages.push({
+                route: '/login',
+                displayText: "התנתקות",
+                icon: "fas fa-sign-out-alt",
+                action: this.logout.bind(this)
+            });
+        });
     }
 
     logout() {
@@ -64,7 +82,7 @@ export class NavbarComponent {
 
     notificationsClick() {
         this.resetPagesClick();
-        
+
         const workersPage = this.pages.find(page => page.route == '/workers');
         workersPage.isClicked = true;
         this.routeTo(workersPage.route + '/requests')
@@ -79,8 +97,7 @@ export class NavbarComponent {
             page.action().then(() => {
                 this.routeTo(page.route);
             });
-        }
-        else {
+        } else {
             this.routeTo(page.route);
         }
     }

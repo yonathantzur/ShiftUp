@@ -12,6 +12,7 @@ var main_component_1 = require("../components/main/main.component");
 var home_component_1 = require("../components/home/home.component");
 var login_component_1 = require("../components/login/login.component");
 var constraints_component_1 = require("../components/constraints/constraints.component");
+var constraintsForWorker_component_1 = require("../components/constraintsForWorker/constraintsForWorker.component");
 var workers_component_1 = require("../components/workers/workers.component");
 var workersRequests_component_1 = require("../components/workersRequests/workersRequests.component");
 var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
@@ -22,28 +23,16 @@ var newBusiness_component_1 = require("../components/newUserRole/newBusiness/new
 var worker_component_1 = require("../components/newUserRole/worker/worker.component");
 var workerWait_component_1 = require("../components/newUserRole/workerWait/workerWait.component");
 var auth_guard_1 = require("../guards/auth/auth.guard");
-var auth_guard_2 = require("../guards/auth/auth.guard");
 var userRole_guard_1 = require("../guards/userRole/userRole.guard");
-var userRole_guard_2 = require("../guards/userRole/userRole.guard");
 var routes = [
     {
-        path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard, userRole_guard_2.StateUserGuard],
+        path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard, userRole_guard_1.StateUserGuard],
         children: [
             { path: '', component: home_component_1.HomeComponent },
-            { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
-            {
-                path: 'workers',
-                children: [
-                    { path: '', component: workers_component_1.WorkersComponent },
-                    { path: 'requests', component: workersRequests_component_1.WorkersRequestsComponent }
-                ]
-            },
-            { path: 'calendarBoard', component: calendarBoard_component_1.CalendarBoardComponent },
-            { path: 'statistics', component: statistics_component_1.StatisticsComponent },
         ],
     },
-    { path: 'login', component: login_component_1.LoginComponent, canActivate: [auth_guard_2.LoginGuard] },
-    { path: 'register', component: registration_component_1.RegistrationComponent, canActivate: [auth_guard_2.LoginGuard] },
+    { path: 'login', component: login_component_1.LoginComponent, canActivate: [auth_guard_1.LoginGuard] },
+    { path: 'register', component: registration_component_1.RegistrationComponent, canActivate: [auth_guard_1.LoginGuard] },
     {
         path: 'role', canActivate: [userRole_guard_1.StatelessUserGuard],
         children: [
@@ -53,6 +42,27 @@ var routes = [
         ]
     },
     { path: 'workerWait', component: workerWait_component_1.WorkerWaitComponent, canActivate: [userRole_guard_1.WaitUserGuard] },
+    {
+        path: 'workerPages', component: main_component_1.MainComponent, canActivate: [auth_guard_1.WorkerGuard],
+        children: [
+            { path: 'constraintsForWorker', component: constraintsForWorker_component_1.ConstraintsForWorkerComponent }
+        ]
+    },
+    {
+        path: 'managerPages', component: main_component_1.MainComponent, canActivate: [auth_guard_1.ManagerGuard],
+        children: [
+            { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
+            { path: 'statistics', component: statistics_component_1.StatisticsComponent },
+            {
+                path: 'workers',
+                children: [
+                    { path: '', component: workers_component_1.WorkersComponent },
+                    { path: 'requests', component: workersRequests_component_1.WorkersRequestsComponent }
+                ]
+            },
+            { path: 'calendarBoard', component: calendarBoard_component_1.CalendarBoardComponent },
+        ]
+    },
     { path: '**', redirectTo: '' }
 ];
 var Routing = /** @class */ (function () {
