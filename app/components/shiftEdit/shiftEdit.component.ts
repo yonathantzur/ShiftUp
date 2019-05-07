@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, HostListener } from '@angular/core';
 
 import { ShiftService } from '../../services/shifts/shifts.service';
 import { EventService } from '../../services/event/event.service';
@@ -42,6 +42,14 @@ export class ShiftEditComponent implements OnInit {
 
     CloseWindow() {
         this.eventService.Emit("closeShiftEdit");
+    }
+
+    @HostListener('document:keyup', ['$event'])
+    KeyPress(event: any) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
     }
 
     SelectWorker(worker: any) {

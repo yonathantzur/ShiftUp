@@ -1,2 +1,5 @@
 <div id="calendar"></div>
+<div class="loader-overlay" *ngIf="isLoading">
+    <div class="loader"></div>
+</div>
 <shiftEdit *ngIf="eventEditObject" [event]="eventEditObject"></shiftEdit>

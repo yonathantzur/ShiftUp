@@ -1,0 +1,43 @@
+.calendar {
+    width: 60%;
+    height: calc(100% - 80px);
+    margin-top: 15px;
+    margin-right: 15px;
+    position: absolute;
+    right: 0;
+}
+
+.scheduler-container {
+    width: calc(40% - 20px);
+    height: calc(100% - 50px);
+    position: absolute;
+    left: 0;
+    display: flex;
+    min-height: 300px;
+}
+
+.scheduler-title {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.scheduler-btn {
+    margin: auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 1px 1px 8px 1px grey;
+    user-select: none;
+}
+
+.scheduler-btn:hover {
+    background-color: #eaeaea;
+}

@@ -37,6 +37,12 @@ var ShiftEditComponent = /** @class */ (function () {
     ShiftEditComponent.prototype.CloseWindow = function () {
         this.eventService.Emit("closeShiftEdit");
     };
+    ShiftEditComponent.prototype.KeyPress = function (event) {
+        // In case of pressing escape.
+        if (event.code == "Escape") {
+            this.CloseWindow();
+        }
+    };
     ShiftEditComponent.prototype.SelectWorker = function (worker) {
         var isWorkerSelected = worker.isSelected;
         this.selectedWorker = null;
@@ -82,6 +88,12 @@ var ShiftEditComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", Object)
     ], ShiftEditComponent.prototype, "event", void 0);
+    __decorate([
+        core_1.HostListener('document:keyup', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], ShiftEditComponent.prototype, "KeyPress", null);
     ShiftEditComponent = __decorate([
         core_1.Component({
             selector: 'shiftEdit',
