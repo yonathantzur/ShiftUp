@@ -52,7 +52,7 @@ var NavbarComponent = /** @class */ (function () {
             if (!isManager) {
                 _this.pages.push({
                     route: '/workerPages/constraintsForWorker',
-                    displayText: "האילוצים שלי",
+                    displayText: "אילוצים",
                     icon: "fa fa-file-alt"
                 });
             }
@@ -60,7 +60,7 @@ var NavbarComponent = /** @class */ (function () {
                 _this.pages.push({ route: '/managerPages/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
                 _this.pages.push({
                     route: '/managerPages/constraints',
-                    displayText: "אילוצי עובדים",
+                    displayText: "אילוצים",
                     icon: "fa fa-file-alt"
                 });
                 _this.pages.push({ route: '/managerPages/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });

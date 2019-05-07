@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {LoginService} from '../../services/login/login.service'
-import {UsersService} from '../../services/users/users.service'
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/login/login.service'
+import { UsersService } from '../../services/users/users.service'
 
 class page {
     route: string;
@@ -42,22 +42,22 @@ export class NavbarComponent implements OnInit {
             })
         }
         this.usersService.isLoginUserManager().then(isManager => {
-            this.pages.push({route: '/', displayText: "בית", icon: "fa fa-home"});
+            this.pages.push({ route: '/', displayText: "בית", icon: "fa fa-home" });
             if (!isManager) {
                 this.pages.push({
                     route: '/workerPages/constraintsForWorker',
-                    displayText: "האילוצים שלי",
+                    displayText: "אילוצים",
                     icon: "fa fa-file-alt"
                 });
             } else {
-                this.pages.push({route: '/managerPages/workers', displayText: "עובדים", icon: "fa fa-user-friends"});
+                this.pages.push({ route: '/managerPages/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
                 this.pages.push({
                     route: '/managerPages/constraints',
-                    displayText: "אילוצי עובדים",
+                    displayText: "אילוצים",
                     icon: "fa fa-file-alt"
                 });
-                this.pages.push({route: '/managerPages/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line"});
-                this.pages.push({route: '/managerPages/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt"});
+                this.pages.push({ route: '/managerPages/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
+                this.pages.push({ route: '/managerPages/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
             }
             this.pages.push({
                 route: '/login',

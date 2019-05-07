@@ -22,9 +22,18 @@ var CalendarBoardComponent = /** @class */ (function () {
         var year = $('#calendar').fullCalendar('getDate')._d.getFullYear();
         var month = $('#calendar').fullCalendar('getDate')._d.getMonth() + 1;
         this.eventService.Emit("startLoader");
+        this.isLoading = true;
         this.calendarBoardService.GetShiftsSchedule(year, month).then(function (shifts) {
+            _this.isLoading = false;
             if (shifts) {
                 _this.eventService.Emit("renderCalendar");
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בשיבוץ',
+                    text: 'אופס... משהו השתבש'
+                });
             }
         });
     };
