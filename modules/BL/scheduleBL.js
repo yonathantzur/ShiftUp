@@ -19,11 +19,10 @@ let self = module.exports = {
                 let shiftsObjects = self.BuildShifts(businessId, year, month,
                     scheduleResult.workersIds, shiftsNames, scheduleResult.shifts);
 
-                Promise.all([
-                    shiftsBL.RemoveShiftsForBusiness(businessId, year, month),
-                    DAL.InsertMany(shiftsCollectionName, shiftsObjects)
-                ]).then(results => {
-                    resolve(true);
+                shiftsBL.RemoveShiftsForBusiness(businessId, year, month).then(removeResult => {
+                    DAL.InsertMany(shiftsCollectionName, shiftsObjects).then(insertResult => {
+                        resolve(true)
+                    });
                 });
             }).catch(reject);
         });
