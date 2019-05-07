@@ -11,19 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var event_service_1 = require("../../services/event/event.service");
-var calendarBoard_service_1 = require("../../services/calendarBoard/calendarBoard.service");
-var CalendarBoardComponent = /** @class */ (function () {
-    function CalendarBoardComponent(calendarBoardService, eventService) {
-        this.calendarBoardService = calendarBoardService;
+var schedule_service_1 = require("../../services/schedule/schedule.service");
+var ScheduleComponent = /** @class */ (function () {
+    function ScheduleComponent(scheduleService, eventService) {
+        this.scheduleService = scheduleService;
         this.eventService = eventService;
     }
-    CalendarBoardComponent.prototype.Schedule = function () {
+    ScheduleComponent.prototype.Schedule = function () {
         var _this = this;
         var year = $('#calendar').fullCalendar('getDate')._d.getFullYear();
         var month = $('#calendar').fullCalendar('getDate')._d.getMonth() + 1;
         this.eventService.Emit("startLoader");
         this.isLoading = true;
-        this.calendarBoardService.GetShiftsSchedule(year, month).then(function (shifts) {
+        this.scheduleService.GetShiftsSchedule(year, month).then(function (shifts) {
             _this.isLoading = false;
             if (shifts) {
                 _this.eventService.Emit("renderCalendar");
@@ -37,17 +37,17 @@ var CalendarBoardComponent = /** @class */ (function () {
             }
         });
     };
-    CalendarBoardComponent = __decorate([
+    ScheduleComponent = __decorate([
         core_1.Component({
-            selector: 'calendarBoard',
-            templateUrl: './calendarBoard.html',
-            providers: [calendarBoard_service_1.CalendarBoardService],
-            styleUrls: ['./calendarBoard.css']
+            selector: 'schedule',
+            templateUrl: './schedule.html',
+            providers: [schedule_service_1.ScheduleService],
+            styleUrls: ['./schedule.css']
         }),
-        __metadata("design:paramtypes", [calendarBoard_service_1.CalendarBoardService,
+        __metadata("design:paramtypes", [schedule_service_1.ScheduleService,
             event_service_1.EventService])
-    ], CalendarBoardComponent);
-    return CalendarBoardComponent;
+    ], ScheduleComponent);
+    return ScheduleComponent;
 }());
-exports.CalendarBoardComponent = CalendarBoardComponent;
-//# sourceMappingURL=calendarBoard.component.js.map
+exports.ScheduleComponent = ScheduleComponent;
+//# sourceMappingURL=schedule.component.js.map

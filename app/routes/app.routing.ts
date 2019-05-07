@@ -8,14 +8,14 @@ import { ConstraintsComponent } from '../components/constraints/constraints.comp
 import { ConstraintsForWorkerComponent } from '../components/constraintsForWorker/constraintsForWorker.component'
 import { WorkersComponent } from '../components/workers/workers.component';
 import { WorkersRequestsComponent } from '../components/workersRequests/workersRequests.component';
-import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoard.component';
+import { ScheduleComponent } from '../components/schedule/schedule.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { RegistrationComponent } from '../components/registration/registration.component';
 import { NewUserRoleComponent } from '../components/newUserRole/newUserRole.component';
 import { NewBusinessComponent } from '../components/newUserRole/newBusiness/newBusiness.component';
 import { WorkerComponent } from '../components/newUserRole/worker/worker.component';
 import { WorkerWaitComponent } from '../components/newUserRole/workerWait/workerWait.component';
-import {AuthGuard,LoginGuard, WorkerGuard, ManagerGuard} from '../guards/auth/auth.guard';
+import { AuthGuard, LoginGuard, WorkerGuard, ManagerGuard } from '../guards/auth/auth.guard';
 import { StatelessUserGuard, WaitUserGuard, StateUserGuard } from '../guards/userRole/userRole.guard';
 
 const routes: Routes = [
@@ -23,6 +23,17 @@ const routes: Routes = [
         path: '', component: MainComponent, canActivate: [AuthGuard, StateUserGuard],
         children: [
             { path: '', component: HomeComponent },
+            { path: 'constraintsForWorker', component: ConstraintsForWorkerComponent, canActivate: [WorkerGuard] },
+            { path: 'constraints', component: ConstraintsComponent, canActivate: [ManagerGuard] },
+            { path: 'statistics', component: StatisticsComponent, canActivate: [ManagerGuard] },
+            {
+                path: 'workers', canActivate: [ManagerGuard],
+                children: [
+                    { path: '', component: WorkersComponent },
+                    { path: 'requests', component: WorkersRequestsComponent }
+                ]
+            },
+            { path: 'schedule', component: ScheduleComponent, canActivate: [ManagerGuard] }
         ],
     },
     { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -36,27 +47,6 @@ const routes: Routes = [
         ]
     },
     { path: 'workerWait', component: WorkerWaitComponent, canActivate: [WaitUserGuard] },
-    {
-        path: 'workerPages', component: MainComponent, canActivate: [WorkerGuard],
-        children: [
-            { path: 'constraintsForWorker', component: ConstraintsForWorkerComponent }
-        ]
-    },
-    {
-        path: 'managerPages', component: MainComponent, canActivate: [ManagerGuard],
-        children: [
-            { path: 'constraints', component: ConstraintsComponent },
-            { path: 'statistics', component: StatisticsComponent },
-            {
-                path: 'workers',
-                children: [
-                    { path: '', component: WorkersComponent },
-                    { path: 'requests', component: WorkersRequestsComponent }
-                        ]
-            },
-            { path: 'calendarBoard', component: CalendarBoardComponent },
-        ]
-    },
     { path: '**', redirectTo: '' }
 ];
 

@@ -15,7 +15,7 @@ var constraints_component_1 = require("../components/constraints/constraints.com
 var constraintsForWorker_component_1 = require("../components/constraintsForWorker/constraintsForWorker.component");
 var workers_component_1 = require("../components/workers/workers.component");
 var workersRequests_component_1 = require("../components/workersRequests/workersRequests.component");
-var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
+var schedule_component_1 = require("../components/schedule/schedule.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 var registration_component_1 = require("../components/registration/registration.component");
 var newUserRole_component_1 = require("../components/newUserRole/newUserRole.component");
@@ -29,6 +29,17 @@ var routes = [
         path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard, userRole_guard_1.StateUserGuard],
         children: [
             { path: '', component: home_component_1.HomeComponent },
+            { path: 'constraintsForWorker', component: constraintsForWorker_component_1.ConstraintsForWorkerComponent, canActivate: [auth_guard_1.WorkerGuard] },
+            { path: 'constraints', component: constraints_component_1.ConstraintsComponent, canActivate: [auth_guard_1.ManagerGuard] },
+            { path: 'statistics', component: statistics_component_1.StatisticsComponent, canActivate: [auth_guard_1.ManagerGuard] },
+            {
+                path: 'workers', canActivate: [auth_guard_1.ManagerGuard],
+                children: [
+                    { path: '', component: workers_component_1.WorkersComponent },
+                    { path: 'requests', component: workersRequests_component_1.WorkersRequestsComponent }
+                ]
+            },
+            { path: 'schedule', component: schedule_component_1.ScheduleComponent, canActivate: [auth_guard_1.ManagerGuard] }
         ],
     },
     { path: 'login', component: login_component_1.LoginComponent, canActivate: [auth_guard_1.LoginGuard] },
@@ -42,27 +53,6 @@ var routes = [
         ]
     },
     { path: 'workerWait', component: workerWait_component_1.WorkerWaitComponent, canActivate: [userRole_guard_1.WaitUserGuard] },
-    {
-        path: 'workerPages', component: main_component_1.MainComponent, canActivate: [auth_guard_1.WorkerGuard],
-        children: [
-            { path: 'constraintsForWorker', component: constraintsForWorker_component_1.ConstraintsForWorkerComponent }
-        ]
-    },
-    {
-        path: 'managerPages', component: main_component_1.MainComponent, canActivate: [auth_guard_1.ManagerGuard],
-        children: [
-            { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
-            { path: 'statistics', component: statistics_component_1.StatisticsComponent },
-            {
-                path: 'workers',
-                children: [
-                    { path: '', component: workers_component_1.WorkersComponent },
-                    { path: 'requests', component: workersRequests_component_1.WorkersRequestsComponent }
-                ]
-            },
-            { path: 'calendarBoard', component: calendarBoard_component_1.CalendarBoardComponent },
-        ]
-    },
     { path: '**', redirectTo: '' }
 ];
 var Routing = /** @class */ (function () {

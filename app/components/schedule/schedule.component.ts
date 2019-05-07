@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
 
 import { EventService } from '../../services/event/event.service';
-import { CalendarBoardService } from '../../services/calendarBoard/calendarBoard.service';
+import { ScheduleService } from '../../services/schedule/schedule.service';
 
 declare let $: any;
 declare let Swal: any;
 
 @Component({
-    selector: 'calendarBoard',
-    templateUrl: './calendarBoard.html',
-    providers: [CalendarBoardService],
-    styleUrls: ['./calendarBoard.css']
+    selector: 'schedule',
+    templateUrl: './schedule.html',
+    providers: [ScheduleService],
+    styleUrls: ['./schedule.css']
 })
 
-export class CalendarBoardComponent {
+export class ScheduleComponent {
     monthName: string;
     isLoading: boolean;
 
-    constructor(private calendarBoardService: CalendarBoardService,
+    constructor(private scheduleService: ScheduleService,
         private eventService: EventService) {
     }
 
@@ -28,7 +28,7 @@ export class CalendarBoardComponent {
         this.eventService.Emit("startLoader");
         this.isLoading = true;
 
-        this.calendarBoardService.GetShiftsSchedule(year, month).then(shifts => {
+        this.scheduleService.GetShiftsSchedule(year, month).then(shifts => {
             this.isLoading = false;
 
             if (shifts) {

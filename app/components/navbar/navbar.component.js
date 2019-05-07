@@ -51,20 +51,20 @@ var NavbarComponent = /** @class */ (function () {
             _this.pages.push({ route: '/', displayText: "בית", icon: "fa fa-home" });
             if (!isManager) {
                 _this.pages.push({
-                    route: '/workerPages/constraintsForWorker',
+                    route: '/constraintsForWorker',
                     displayText: "אילוצים",
                     icon: "fa fa-file-alt"
                 });
             }
             else {
-                _this.pages.push({ route: '/managerPages/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
+                _this.pages.push({ route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
                 _this.pages.push({
-                    route: '/managerPages/constraints',
+                    route: '/constraints',
                     displayText: "אילוצים",
                     icon: "fa fa-file-alt"
                 });
-                _this.pages.push({ route: '/managerPages/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
-                _this.pages.push({ route: '/managerPages/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
+                _this.pages.push({ route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
+                _this.pages.push({ route: '/schedule', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
             }
             _this.pages.push({
                 route: '/login',
