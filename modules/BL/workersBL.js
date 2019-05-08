@@ -37,7 +37,7 @@ module.exports = {
                     salary: salary
                 },
                 $unset: {
-                    waitBusinessId: "",
+                    waitBusinessId: 1,
                 }
             })
             .then(user => {
@@ -60,8 +60,8 @@ module.exports = {
 
             DAL.UpdateOne(usersCollectionName, { userId: userId }, {
                 $unset: {
-                    businessId: "",
-                    salary: ""
+                    businessId: 1,
+                    salary: 1
                 }
             }).then(user => {
                 DAL.UpdateOne(businessesCollectionName,
@@ -86,8 +86,8 @@ module.exports = {
                 },
                 {
                     $unset: {
-                        businessId: "",
-                        salary: ""
+                        businessId: 1,
+                        salary: 1
                     }
                 }
             ).then(() => {
@@ -111,9 +111,12 @@ module.exports = {
             })
             .then(manager => {
                 DAL.UpdateOne(usersCollectionName, { _id: workerObjId },
-                    { $unset: { waitBusinessId: "" }
-                })
-                .then(worker => resolve(worker))
+                    {
+                        $unset: {
+                            waitBusinessId: 1
+                        }
+                    }
+                ).then(worker => resolve(worker))
                 .catch(reject)
             })
             .catch(reject);
