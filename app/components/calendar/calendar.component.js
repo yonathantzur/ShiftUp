@@ -22,6 +22,9 @@ var CalendarComponent = /** @class */ (function () {
         this.viewState = enums_1.SHIFTS_FILTER.ALL;
         this.eventsIds = [];
         var self = this;
+        self.eventService.Register("startLoader", function (event) {
+            self.isLoading = true;
+        });
         self.eventService.Register("openEditShiftCard", function (event) {
             self.eventEditObject = self.createEventObjectToEdit(event);
         });
@@ -48,7 +51,9 @@ var CalendarComponent = /** @class */ (function () {
             else if (filter == enums_1.SHIFTS_FILTER.ME) {
                 reqQuery = self.shiftService.GetMyShiftsForBusiness(year, month);
             }
+            self.isLoading = true;
             reqQuery.then(function (shifts) {
+                self.isLoading = false;
                 shifts && self.handleShiftsResult(shifts, year, month);
             });
         }, self.eventsIds);
@@ -67,11 +72,18 @@ var CalendarComponent = /** @class */ (function () {
                 self.RenderCalendar();
             },
             eventClick: function (event) {
-                // Mark selected event.
-                self.markedEvent && $(self.markedEvent).css('border-color', '');
-                $(this).css('border-color', '#dc3545');
-                self.markedEvent = this;
-                self.eventService.Emit("calanderEventClick", event);
+                if (self.markedEvent == this) {
+                    self.eventService.Emit("calanderEventUnClick");
+                    $(self.markedEvent).css('border-color', '');
+                    self.markedEvent = null;
+                }
+                else {
+                    // Mark selected event.
+                    self.markedEvent && $(self.markedEvent).css('border-color', '');
+                    $(this).css('border-color', '#dc3545');
+                    self.markedEvent = this;
+                    self.eventService.Emit("calanderEventClick", event);
+                }
             }
         });
     };
@@ -96,7 +108,9 @@ var CalendarComponent = /** @class */ (function () {
             else if (this.viewState == enums_1.SHIFTS_FILTER.ME) {
                 reqQuery = this.shiftService.GetMyShiftsForBusiness(year, month);
             }
+            this.isLoading = true;
             reqQuery.then(function (shifts) {
+                _this.isLoading = false;
                 shifts && _this.handleShiftsResult(shifts, year, month);
             });
         }

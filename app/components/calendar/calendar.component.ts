@@ -19,6 +19,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     markedEvent: any;
     eventsCache: Object = {};
     viewState: SHIFTS_FILTER = SHIFTS_FILTER.ALL;
+    isLoading: boolean;
 
     // Event edit properties.
     eventEditObject: any;
@@ -27,7 +28,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     constructor(private shiftService: ShiftService,
         private eventService: EventService) {
-        let self = this;        
+        let self = this;
+
+        self.eventService.Register("startLoader", (event: any) => {
+            self.isLoading = true;
+        });
 
         self.eventService.Register("openEditShiftCard", (event: any) => {
             self.eventEditObject = self.createEventObjectToEdit(event);
@@ -61,7 +66,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 reqQuery = self.shiftService.GetMyShiftsForBusiness(year, month);
             }
 
+            self.isLoading = true;
+
             reqQuery.then((shifts: Array<any>) => {
+                self.isLoading = false;
                 shifts && self.handleShiftsResult(shifts, year, month);
             });
 
@@ -83,12 +91,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 self.RenderCalendar();
             },
             eventClick: function (event: any) {
-                // Mark selected event.
-                self.markedEvent && $(self.markedEvent).css('border-color', '');
-                $(this).css('border-color', '#dc3545');
-                self.markedEvent = this;
+                if (self.markedEvent == this) {
+                    self.eventService.Emit("calanderEventUnClick");
+                    $(self.markedEvent).css('border-color', '');
+                    self.markedEvent = null;
+                }
+                else {
+                    // Mark selected event.
+                    self.markedEvent && $(self.markedEvent).css('border-color', '');
+                    $(this).css('border-color', '#dc3545');
+                    self.markedEvent = this;
 
-                self.eventService.Emit("calanderEventClick", event);
+                    self.eventService.Emit("calanderEventClick", event);
+                }
             }
         });
     }
@@ -118,7 +133,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 reqQuery = this.shiftService.GetMyShiftsForBusiness(year, month);
             }
 
+            this.isLoading = true;
+
             reqQuery.then((shifts: Array<any>) => {
+                this.isLoading = false;
                 shifts && this.handleShiftsResult(shifts, year, month);
             });
         }

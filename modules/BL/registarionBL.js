@@ -9,13 +9,14 @@ const usersCollectionName = config.db.collections.users;
 module.exports = {
     register: (userData) => {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(usersCollectionName, { email: userData.email })
+            DAL.FindOne(usersCollectionName, { $or: [ {email: userData.email}, {userId: userData.userId} ]})
                 .then((user) => {
                     if (!user) {
                         const hashed = Hash.hash(userData.password);
                         userData.password = hashed.hash;
                         userData.salt = hashed.salt;
                         userData.isManager = false;
+                        userData.birthDate = new Date(userData.birthDate);
                         DAL.Insert(usersCollectionName, userData).then((userId) => {
                             if (userId) {
                                 userData.userId = userId;

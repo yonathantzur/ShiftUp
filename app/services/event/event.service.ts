@@ -21,8 +21,8 @@ export class EventService {
     }
 
     Register(name: string, func: Function, eventsIds?: Array<string>) {
-        var id: string = this.GenerateId();
-        var event: Event = new Event(id, func);
+        let id: string = this.GenerateId();
+        let event: Event = new Event(id, func);
 
         if (!this.events[name]) {
             this.events[name] = [event];
@@ -35,11 +35,11 @@ export class EventService {
     }
 
     Emit(name: string, data?: any) {
-        var self = this;
+        let self = this;
 
         // Emit the event after view rendering.
         setTimeout(() => {
-            var events: Array<Event> = self.events[name];
+            let events: Array<Event> = self.events[name];
 
             events && events.forEach((event: Event) => {
                 event.func(data);
@@ -48,7 +48,7 @@ export class EventService {
     }
 
     UnsubscribeEvents(eventsIds: Array<string>) {
-        var self = this;
+        let self = this;
 
         Object.keys(self.events).forEach((name: string) => {
             self.events[name] = self.events[name].filter((event: Event) => {
@@ -62,7 +62,7 @@ export class EventService {
     }
 
     private GenerateId() {
-        var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+        let timestamp = (new Date().getTime() / 1000 | 0).toString(16);
         return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function () {
             return (Math.random() * 16 | 0).toString(16);
         }).toLowerCase();

@@ -25,14 +25,7 @@ var NavbarComponent = /** @class */ (function () {
         this.loginService = loginService;
         this.usersService = usersService;
         this.searchValue = "";
-        this.pages = [
-            { route: '/', displayText: "בית", icon: "fa fa-home" },
-            { route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" },
-            { route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" },
-            { route: '/calendarBoard', displayText: "שיבוץ", icon: "fa fa-calendar-alt" },
-            { route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" },
-            { route: '/login', displayText: "התנתקות", icon: "fas fa-sign-out-alt", action: this.logout.bind(this) }
-        ];
+        this.pages = [];
         this.resetPagesClick = function () {
             _this.pages.forEach(function (page) {
                 page.isClicked = false;
@@ -57,6 +50,32 @@ var NavbarComponent = /** @class */ (function () {
                 _this.loggedInUser = user;
             });
         }
+        this.usersService.isLoginUserManager().then(function (isManager) {
+            _this.pages.push({ route: '/', displayText: "בית", icon: "fa fa-home" });
+            if (!isManager) {
+                _this.pages.push({
+                    route: '/constraintsForWorker',
+                    displayText: "אילוצים",
+                    icon: "fa fa-file-alt"
+                });
+            }
+            else {
+                _this.pages.push({ route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
+                _this.pages.push({
+                    route: '/constraints',
+                    displayText: "אילוצים",
+                    icon: "fa fa-file-alt"
+                });
+                _this.pages.push({ route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
+                _this.pages.push({ route: '/schedule', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
+            }
+            _this.pages.push({
+                route: '/login',
+                displayText: "התנתקות",
+                icon: "fas fa-sign-out-alt",
+                action: _this.logout.bind(_this)
+            });
+        });
     };
     NavbarComponent.prototype.logout = function () {
         var _this = this;

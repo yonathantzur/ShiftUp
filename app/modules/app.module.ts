@@ -10,11 +10,12 @@ import { LoginComponent } from '../components/login/login.component';
 import { HomeComponent } from '../components/home/home.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { ConstraintsComponent } from '../components/constraints/constraints.component';
+import { ConstraintsForWorkerComponent } from '../components/constraintsForWorker/constraintsForWorker.component';
 import { WorkersComponent } from '../components/workers/workers.component';
 import { CalendarComponent } from '../components/calendar/calendar.component';
 import { ShiftCardComponent } from '../components/shiftCard/shiftCard.component';
 import { WorkerCardComponent } from '../components/workerCard/workerCard.component';
-import { CalendarBoardComponent } from '../components/calendarBoard/calendarBoard.component';
+import { ScheduleComponent } from '../components/schedule/schedule.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
 import { NewWorkerComponent } from '../components/newWorker/newWorker.component';
 import { RegistrationComponent } from '../components/registration/registration.component';
@@ -45,11 +46,12 @@ import { Routing } from '../routes/app.routing'
         LoginComponent,
         HomeComponent,
         ConstraintsComponent,
+        ConstraintsForWorkerComponent,
         NavbarComponent,
         WorkersComponent,
         CalendarComponent,
         ShiftCardComponent,
-        CalendarBoardComponent,
+        ScheduleComponent,
         StatisticsComponent,
         WorkerCardComponent,
         NewWorkerComponent,

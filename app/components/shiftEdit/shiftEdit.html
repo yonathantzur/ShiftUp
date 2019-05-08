@@ -12,11 +12,11 @@
                 <div class="shifts-container">
                     <div class="shift-data" *ngFor="let shift of event.shiftsData">
                         <div class="shift-name-container">
-                            <i *ngIf="selectedWorker" (click)="AddWorkerToShift(shift)"
-                                class="far fa-plus-square add-icon"></i>
                             <div class="shift-name">
                                 {{shift.name}}
                             </div>
+                            <i *ngIf="selectedWorker" (click)="AddWorkerToShift(shift)"
+                                class="far fa-plus-square add-icon"></i>
                         </div>
                         <div id="shift-workers-container" class="shift-workers-container">
                             <span *ngFor="let shiftWorker of shift.workers" class="shift-worker">

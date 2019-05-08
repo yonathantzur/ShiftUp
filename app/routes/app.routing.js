@@ -12,9 +12,10 @@ var main_component_1 = require("../components/main/main.component");
 var home_component_1 = require("../components/home/home.component");
 var login_component_1 = require("../components/login/login.component");
 var constraints_component_1 = require("../components/constraints/constraints.component");
+var constraintsForWorker_component_1 = require("../components/constraintsForWorker/constraintsForWorker.component");
 var workers_component_1 = require("../components/workers/workers.component");
 var workersRequests_component_1 = require("../components/workersRequests/workersRequests.component");
-var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
+var schedule_component_1 = require("../components/schedule/schedule.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 var registration_component_1 = require("../components/registration/registration.component");
 var newUserRole_component_1 = require("../components/newUserRole/newUserRole.component");
@@ -22,28 +23,27 @@ var newBusiness_component_1 = require("../components/newUserRole/newBusiness/new
 var worker_component_1 = require("../components/newUserRole/worker/worker.component");
 var workerWait_component_1 = require("../components/newUserRole/workerWait/workerWait.component");
 var auth_guard_1 = require("../guards/auth/auth.guard");
-var auth_guard_2 = require("../guards/auth/auth.guard");
 var userRole_guard_1 = require("../guards/userRole/userRole.guard");
-var userRole_guard_2 = require("../guards/userRole/userRole.guard");
 var routes = [
     {
-        path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard, userRole_guard_2.StateUserGuard],
+        path: '', component: main_component_1.MainComponent, canActivate: [auth_guard_1.AuthGuard, userRole_guard_1.StateUserGuard],
         children: [
             { path: '', component: home_component_1.HomeComponent },
-            { path: 'constraints', component: constraints_component_1.ConstraintsComponent },
+            { path: 'constraintsForWorker', component: constraintsForWorker_component_1.ConstraintsForWorkerComponent, canActivate: [auth_guard_1.WorkerGuard] },
+            { path: 'constraints', component: constraints_component_1.ConstraintsComponent, canActivate: [auth_guard_1.ManagerGuard] },
+            { path: 'statistics', component: statistics_component_1.StatisticsComponent, canActivate: [auth_guard_1.ManagerGuard] },
             {
-                path: 'workers',
+                path: 'workers', canActivate: [auth_guard_1.ManagerGuard],
                 children: [
                     { path: '', component: workers_component_1.WorkersComponent },
                     { path: 'requests', component: workersRequests_component_1.WorkersRequestsComponent }
                 ]
             },
-            { path: 'calendarBoard', component: calendarBoard_component_1.CalendarBoardComponent },
-            { path: 'statistics', component: statistics_component_1.StatisticsComponent },
+            { path: 'schedule', component: schedule_component_1.ScheduleComponent, canActivate: [auth_guard_1.ManagerGuard] }
         ],
     },
-    { path: 'login', component: login_component_1.LoginComponent, canActivate: [auth_guard_2.LoginGuard] },
-    { path: 'register', component: registration_component_1.RegistrationComponent, canActivate: [auth_guard_2.LoginGuard] },
+    { path: 'login', component: login_component_1.LoginComponent, canActivate: [auth_guard_1.LoginGuard] },
+    { path: 'register', component: registration_component_1.RegistrationComponent, canActivate: [auth_guard_1.LoginGuard] },
     {
         path: 'role', canActivate: [userRole_guard_1.StatelessUserGuard],
         children: [

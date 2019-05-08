@@ -43,6 +43,12 @@ export class ShiftCardComponent implements OnDestroy {
             }
         }, self.eventsIds);
 
+        // Remove shift data.
+        self.eventService.Register("calanderEventUnClick", () => {
+            self.event = null;
+            self.shiftsData = null;
+        }, self.eventsIds);
+
         // Remove shiftsData when calendar dates range is changed.
         self.eventService.Register("calanderViewRender", () => {
             self.shiftsData = null;

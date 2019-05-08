@@ -21,7 +21,8 @@ module.exports = {
             "birthDate": user.birthDate,
             "userId": user.userId,
             "businessId": user.businessId,
-            "waitBusinessId": user.waitBusinessId
+            "waitBusinessId": user.waitBusinessId,
+            "isManager": user.isManager
         }
     },
 
@@ -39,10 +40,10 @@ module.exports = {
     removeTokenFromCookie(response) {
         response.clearCookie("tk");
     }
-}
+};
 
 function parseCookies(request) {
-    let list = {}
+    let list = {};
     let rc = request.headers.cookie;
 
     rc && rc.split(';').forEach(function (cookie) {
