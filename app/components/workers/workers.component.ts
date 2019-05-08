@@ -18,7 +18,6 @@ export class WorkersComponent {
     allWorkers: Array<any>;
     filteredWorkers: Array<any>;
     workerSearchText: string = "";
-    isNewWorkerComponentActive: boolean = false;
 
     constructor(
         private businessesService: BusinessesService,
@@ -37,38 +36,8 @@ export class WorkersComponent {
         });
     }
 
-    activateNewWorkerComponent = () => {
-        this.isNewWorkerComponentActive = !this.isNewWorkerComponentActive;
-    }
-
     showRequests = () => {
         this.router.navigateByUrl('/workers/requests');
-    }
-
-    addNewWorkerHandler = (newWorker: any) => {
-        if (newWorker) {
-            this.workersService.AddWorkerToBusiness(newWorker.userId, newWorker.salary)
-            .then(() => {
-                this.allWorkers.push(newWorker);
-                this.SearchWorkerHandler();
-                Swal.fire({
-                    title: "הפעולה הצליחה",
-                    text: "העובד " + newWorker.firstName + ' ' + newWorker.lastName + " נוסף בהצלחה לעסק",
-                    type: "success",
-                    confirmButtonText: "אישור"
-                });
-            })
-            .catch((err: any) => {
-                Swal.fire({
-                    title: "שגיאה!",
-                    text: "הפעולה נכשלה",
-                    type: "error",
-                    confirmButtonText: "אישור"
-                });
-                return;
-            });
-        }
-        this.isNewWorkerComponentActive = false;
     }
 
     deleteWorkerHandler = (workerToDelete: any) => {

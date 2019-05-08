@@ -17,7 +17,6 @@ import { ShiftCardComponent } from '../components/shiftCard/shiftCard.component'
 import { WorkerCardComponent } from '../components/workerCard/workerCard.component';
 import { ScheduleComponent } from '../components/schedule/schedule.component';
 import { StatisticsComponent } from '../components/statistics/statistics.component';
-import { NewWorkerComponent } from '../components/newWorker/newWorker.component';
 import { RegistrationComponent } from '../components/registration/registration.component';
 import { NewUserRoleComponent } from '../components/newUserRole/newUserRole.component';
 import { NewBusinessComponent } from '../components/newUserRole/newBusiness/newBusiness.component';
@@ -54,7 +53,6 @@ import { Routing } from '../routes/app.routing'
         ScheduleComponent,
         StatisticsComponent,
         WorkerCardComponent,
-        NewWorkerComponent,
         RegistrationComponent,
         NewUserRoleComponent,
         NewBusinessComponent,

@@ -21,37 +21,8 @@ var WorkersComponent = /** @class */ (function () {
         this.router = router;
         this.business = {};
         this.workerSearchText = "";
-        this.isNewWorkerComponentActive = false;
-        this.activateNewWorkerComponent = function () {
-            _this.isNewWorkerComponentActive = !_this.isNewWorkerComponentActive;
-        };
         this.showRequests = function () {
             _this.router.navigateByUrl('/workers/requests');
-        };
-        this.addNewWorkerHandler = function (newWorker) {
-            if (newWorker) {
-                _this.workersService.AddWorkerToBusiness(newWorker.userId, newWorker.salary)
-                    .then(function () {
-                    _this.allWorkers.push(newWorker);
-                    _this.SearchWorkerHandler();
-                    Swal.fire({
-                        title: "הפעולה הצליחה",
-                        text: "העובד " + newWorker.firstName + ' ' + newWorker.lastName + " נוסף בהצלחה לעסק",
-                        type: "success",
-                        confirmButtonText: "אישור"
-                    });
-                })
-                    .catch(function (err) {
-                    Swal.fire({
-                        title: "שגיאה!",
-                        text: "הפעולה נכשלה",
-                        type: "error",
-                        confirmButtonText: "אישור"
-                    });
-                    return;
-                });
-            }
-            _this.isNewWorkerComponentActive = false;
         };
         this.deleteWorkerHandler = function (workerToDelete) {
             Swal.fire({

@@ -1,11 +1,8 @@
-.Constraints {
-    margin-top: 5%;
-}
-
 .tb {
     overflow: auto;    
     width: 100%;
 }
+
 .iconConstraints {
     float: right;
     margin: 0 10px;
@@ -15,6 +12,7 @@
 .conTitle {
     text-align: center;
     font-weight: bold;
+    margin: 10px;
 }
 
 .dateInput {

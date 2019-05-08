@@ -24,7 +24,6 @@ var shiftCard_component_1 = require("../components/shiftCard/shiftCard.component
 var workerCard_component_1 = require("../components/workerCard/workerCard.component");
 var schedule_component_1 = require("../components/schedule/schedule.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
-var newWorker_component_1 = require("../components/newWorker/newWorker.component");
 var registration_component_1 = require("../components/registration/registration.component");
 var newUserRole_component_1 = require("../components/newUserRole/newUserRole.component");
 var newBusiness_component_1 = require("../components/newUserRole/newBusiness/newBusiness.component");
@@ -62,7 +61,6 @@ var AppModule = /** @class */ (function () {
                 schedule_component_1.ScheduleComponent,
                 statistics_component_1.StatisticsComponent,
                 workerCard_component_1.WorkerCardComponent,
-                newWorker_component_1.NewWorkerComponent,
                 registration_component_1.RegistrationComponent,
                 newUserRole_component_1.NewUserRoleComponent,
                 newBusiness_component_1.NewBusinessComponent,

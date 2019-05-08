@@ -4,10 +4,6 @@
         <i class="fa fa-users"></i>
     </h4>
     <div class="buttonsContainer" *ngIf="manager && allWorkers">
-        <!-- <button class="btn btn-dark btn-raised" (click)="activateNewWorkerComponent()">
-            הוספת עובד חדש
-            <i class="btn-icon fas fa-user-plus"></i>
-        </button> -->
         <button class="btn btn-dark btn-raised" (click)="showRequests()" *ngIf="manager.requests.length > 0">
             <span *ngIf="manager.requests.length == 1; then single else multi"></span>
             <ng-template #single>בקשת הצטרפות ממתינה</ng-template>
@@ -19,7 +15,6 @@
             <i class="btn-icon fas fa-trash"></i>
         </button>
     </div>
-    <newWorker (onSubmit)="addNewWorkerHandler($event)" *ngIf="isNewWorkerComponentActive"></newWorker>
     <div class="filterContainer input-group" *ngIf="allWorkers && allWorkers.length > 0">
         <input type="text" class="form-control" placeholder="חיפוש" [(ngModel)]="workerSearchText"
             (keydown.enter)="SearchWorkerHandler()" (keydown.esc)="ResetSearchWorkerHandler()" />
