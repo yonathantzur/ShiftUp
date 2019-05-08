@@ -68,7 +68,7 @@ let self = module.exports = {
                             "workersIds": workersObjIds,
                             "shifts": shifts
                         });
-                    });
+                    }).catch(reject);
                 });
 
             }).catch(reject);
