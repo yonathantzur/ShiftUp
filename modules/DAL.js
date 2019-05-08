@@ -97,13 +97,25 @@ module.exports = {
         });
     },
 
-    // Insert new document.
+    // Insert document.
     Insert(collectionName, doc) {
         return new Promise((resolve, reject) => {
             GetDB().then(db => {
                 let collection = db.collection(collectionName);
                 collection.insertOne(doc).then(result => {
                     resolve(result.insertedId);
+                }).catch(reject);
+            }).catch(reject);
+        });
+    },
+
+    // Insert many document.
+    InsertMany(collectionName, documents) {
+        return new Promise((resolve, reject) => {
+            GetDB().then(db => {
+                let collection = db.collection(collectionName);
+                collection.insertMany(documents).then(result => {
+                    resolve(result.insertedIds);
                 }).catch(reject);
             }).catch(reject);
         });

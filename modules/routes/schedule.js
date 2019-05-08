@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const calendarBoardBL = require('../BL/calendarBoardBL');
+const scheduleBL = require('../BL/scheduleBL');
 
 router.get("/getShiftsSchedule", (req, res) => {
-    calendarBoardBL.GetShiftsSchedule(req.user.businessId, req.query.year, req.query.month).then(shifts => {
+    scheduleBL.GetShiftsSchedule(req.user.businessId, req.query.year, req.query.month).then(shifts => {
         res.send(shifts);
     }).catch(err => {
         res.status(500).end();

@@ -22,7 +22,7 @@ var workers_component_1 = require("../components/workers/workers.component");
 var calendar_component_1 = require("../components/calendar/calendar.component");
 var shiftCard_component_1 = require("../components/shiftCard/shiftCard.component");
 var workerCard_component_1 = require("../components/workerCard/workerCard.component");
-var calendarBoard_component_1 = require("../components/calendarBoard/calendarBoard.component");
+var schedule_component_1 = require("../components/schedule/schedule.component");
 var statistics_component_1 = require("../components/statistics/statistics.component");
 var newWorker_component_1 = require("../components/newWorker/newWorker.component");
 var registration_component_1 = require("../components/registration/registration.component");
@@ -59,7 +59,7 @@ var AppModule = /** @class */ (function () {
                 workers_component_1.WorkersComponent,
                 calendar_component_1.CalendarComponent,
                 shiftCard_component_1.ShiftCardComponent,
-                calendarBoard_component_1.CalendarBoardComponent,
+                schedule_component_1.ScheduleComponent,
                 statistics_component_1.StatisticsComponent,
                 workerCard_component_1.WorkerCardComponent,
                 newWorker_component_1.NewWorkerComponent,

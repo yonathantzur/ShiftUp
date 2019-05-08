@@ -1,0 +1,8 @@
+<div id="schedule">
+    <calendar class="calendar"></calendar>
+    <div class="scheduler-container">
+        <h4 class="scheduler-title">שיבוץ משמרות עובדים</h4>
+        <div class="scheduler-btn" *ngIf="!isLoading" (click)="Schedule()">שיבוץ אוטומטי</div>
+        <div class="loading-text" *ngIf="isLoading">טוען שיבוץ משמרות לעובדים...</div>
+    </div>
+</div>

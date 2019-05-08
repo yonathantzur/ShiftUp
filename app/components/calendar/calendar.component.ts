@@ -30,6 +30,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
         private eventService: EventService) {
         let self = this;
 
+        self.eventService.Register("startLoader", (event: any) => {
+            self.isLoading = true;
+        });
+
         self.eventService.Register("openEditShiftCard", (event: any) => {
             self.eventEditObject = self.createEventObjectToEdit(event);
         });

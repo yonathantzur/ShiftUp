@@ -14,14 +14,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var basic_service_1 = require("../basic/basic.service");
-var CalendarBoardService = /** @class */ (function (_super) {
-    __extends(CalendarBoardService, _super);
-    function CalendarBoardService() {
+var ScheduleService = /** @class */ (function (_super) {
+    __extends(ScheduleService, _super);
+    function ScheduleService() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.prefix = "/api/calendarBoard";
+        _this.prefix = "/api/schedule";
         return _this;
     }
-    CalendarBoardService.prototype.GetShiftsSchedule = function (year, month) {
+    ScheduleService.prototype.GetShiftsSchedule = function (year, month) {
         return _super.prototype.get.call(this, this.prefix + '/getShiftsSchedule?year=' + year + '&month=' + month)
             .toPromise()
             .then(function (result) {
@@ -31,7 +31,7 @@ var CalendarBoardService = /** @class */ (function (_super) {
             return null;
         });
     };
-    return CalendarBoardService;
+    return ScheduleService;
 }(basic_service_1.BasicService));
-exports.CalendarBoardService = CalendarBoardService;
-//# sourceMappingURL=calendarBoard.service.js.map
+exports.ScheduleService = ScheduleService;
+//# sourceMappingURL=schedule.service.js.map

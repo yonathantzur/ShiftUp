@@ -1,11 +1,8 @@
 let { PythonShell } = require('python-shell');
 
 const DAL = require('../DAL');
-const businessesBL = require('../BL/businessesBL');
 const config = require('../../config');
 
-const usersCollectionName = config.db.collections.users;
-const shiftsCollectionName = config.db.collections.shifts;
 const businessesCollectionName = config.db.collections.businesses;
 const constraintsCollectionName = config.db.collections.constraints;
 
@@ -13,10 +10,10 @@ let self = module.exports = {
     // Run algorithm with array of arguments strings.
     Run(args) {
         return new Promise((resolve, reject) => {
-            PythonShell.run('script.py',
+            PythonShell.run(__dirname + '/algo.py',
                 { args },
-                (err, result) => {
-                    err ? reject(err) : resolve(result);
+                (err, results) => {
+                    err ? reject(err) : resolve(JSON.parse(results[0]));
                 });
         });
     },
@@ -63,10 +60,15 @@ let self = module.exports = {
                     shiftsRequests =
                         self.AssignWorkersConstraints(workersIds, constraints, shiftsRequests, month);
 
-                    resolve({
-                        "workers": workersObjIds,
-                        "shifts": shiftsRequests
-                    });
+                    self.Run([
+                        JSON.stringify(shiftsRequests),
+                        JSON.stringify(workersPerShift)
+                    ]).then(shifts => {
+                        resolve({
+                            "workersIds": workersObjIds,
+                            "shifts": shifts
+                        });
+                    }).catch(reject);
                 });
 
             }).catch(reject);
@@ -156,9 +158,28 @@ let self = module.exports = {
 
             DAL.FindOneSpecific(businessesCollectionName, businessFilter, fields)
                 .then(businessWorkers => {
-                    resolve(businessWorkers.workers);
+                    resolve(self.ShuffleArray(businessWorkers.workers));
                 }).catch(reject);
         });
+    },
+
+    ShuffleArray(array) {
+        let currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
     },
 
     GetBusinessWorkersPerShift(businessId) {
@@ -235,7 +256,7 @@ let self = module.exports = {
                 let constraintDay = dateInRange.getDate();
 
                 constrain.shifts.forEach((shift, index) => {
-                    if (shift.isOpen) {
+                    if (shift.isChecked) {
                         shiftsRequests[workerPosition][constraintDay - 1][index] = 0;
                     }
                 });
