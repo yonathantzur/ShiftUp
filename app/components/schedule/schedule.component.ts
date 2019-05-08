@@ -16,9 +16,29 @@ declare let Swal: any;
 export class ScheduleComponent {
     monthName: string;
     isLoading: boolean;
+    isScheduleAllow: boolean = true;
+    calendarTitle: string;
 
     constructor(private scheduleService: ScheduleService,
         private eventService: EventService) {
+        this.eventService.Register("calanderViewRender", () => {
+            let calendarDate = $('#calendar').fullCalendar('getDate')._d;
+            let currDate = new Date();
+            let calendarYear = calendarDate.getFullYear();
+            let calendarMonth = calendarDate.getMonth();
+            let currYear = currDate.getFullYear();
+            let currMonth = currDate.getMonth();
+            this.calendarTitle = $('#calendar').fullCalendar('getView').title;
+
+            if (calendarYear < currYear ||
+                (calendarMonth < currMonth && calendarYear == currYear)) {
+                this.isScheduleAllow = false;
+            }
+            else {
+                this.isScheduleAllow = true;
+            }
+
+        });
     }
 
     Schedule() {

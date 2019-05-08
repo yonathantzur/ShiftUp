@@ -160,7 +160,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     loadShifts(shifts: Array<any>) {
         this.calendar.fullCalendar('removeEvents');
-        this.calendar.fullCalendar('renderEvents', shifts);
+        this.calendar.fullCalendar('renderEvents', shifts);        
     }
 
     createEventObjectToEdit(event: any) {
