@@ -31,6 +31,15 @@ var NavbarComponent = /** @class */ (function () {
                 page.isClicked = false;
             });
         };
+        this.notificationsWorkersRequestsClick = function () {
+            _this.resetPagesClick();
+            var workersPage = _this.pages.find(function (page) { return page.route == '/workers'; });
+            workersPage.isClicked = true;
+            _this.routeTo(workersPage.route + '/requests');
+        };
+        this.notificationsConstraintsClick = function () {
+            _this.pageClick(_this.pages.find(function (page) { return page.route == '/constraints'; }));
+        };
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);
         };
@@ -61,11 +70,7 @@ var NavbarComponent = /** @class */ (function () {
             }
             else {
                 _this.pages.push({ route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
-                _this.pages.push({
-                    route: '/constraints',
-                    displayText: "אילוצים",
-                    icon: "fa fa-file-alt"
-                });
+                _this.pages.push({ route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" });
                 _this.pages.push({ route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
                 _this.pages.push({ route: '/schedule', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
             }
@@ -82,12 +87,6 @@ var NavbarComponent = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             _this.loginService.logout().then(resolve).catch(reject);
         });
-    };
-    NavbarComponent.prototype.notificationsClick = function () {
-        this.resetPagesClick();
-        var workersPage = this.pages.find(function (page) { return page.route == '/workers'; });
-        workersPage.isClicked = true;
-        this.routeTo(workersPage.route + '/requests');
     };
     NavbarComponent.prototype.pageClick = function (page) {
         var _this = this;

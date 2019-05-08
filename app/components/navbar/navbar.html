@@ -4,19 +4,19 @@
             <span class="logo">ShiftUp</span>
         </a>
         <span *ngIf="loggedInUser" class="navbarItem userGreeting">שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
-        <div class="notificationsIndicator">
+        <div class="notificationsIndicator" *ngIf="loggedInUser && loggedInUser.isManager && ( (loggedInUser.requests && loggedInUser.requests > 0) || ( true ) )"><!-- TODO: true -> Constraints.length > 0 -->
             <button class="btn btn-warning bmd-btn-fab bmd-btn-fab-sm dropdown-toggle" data-placement="bottom"
                 data-toggle="dropdown" id="notificationsDropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell"></i>
             </button>
             <div class="dropdown-menu notificationsDropdown" aria-labelledby="notificationsDropdown">
-                <button class="dropdown-item btn" (click)="notificationsClick()"
+                <button class="dropdown-item btn" (click)="notificationsWorkersRequestsClick()"
                     *ngIf="loggedInUser && loggedInUser.requests && loggedInUser.requests.length > 0">
                     <span *ngIf="loggedInUser.requests.length == 1; then single else multi"></span>
                     <ng-template #single>בקשת הצטרפות לעסק</ng-template>
                     <ng-template #multi>{{loggedInUser.requests.length}} בקשות הצטרפות לעסק</ng-template>
                 </button>
-                <button class="dropdown-item btn">בקשות אילוצים</button>
+                <button class="dropdown-item btn" (click)="notificationsConstraintsClick()">בקשות אילוצים</button><!-- TODO: *ngIf="Constraints.length > 0" -->
             </div>
         </div>
         <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked': page.isClicked}"

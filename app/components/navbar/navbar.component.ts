@@ -55,11 +55,7 @@ export class NavbarComponent implements OnInit {
                 });
             } else {
                 this.pages.push({ route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
-                this.pages.push({
-                    route: '/constraints',
-                    displayText: "אילוצים",
-                    icon: "fa fa-file-alt"
-                });
+                this.pages.push({ route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" });
                 this.pages.push({ route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
                 this.pages.push({ route: '/schedule', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
             }
@@ -84,12 +80,16 @@ export class NavbarComponent implements OnInit {
         })
     }
 
-    notificationsClick() {
+    notificationsWorkersRequestsClick = () => {
         this.resetPagesClick();
 
         const workersPage = this.pages.find(page => page.route == '/workers');
         workersPage.isClicked = true;
-        this.routeTo(workersPage.route + '/requests')
+        this.routeTo(workersPage.route + '/requests');
+    }
+
+    notificationsConstraintsClick = () => {
+        this.pageClick(this.pages.find(page => page.route == '/constraints'));
     }
 
     pageClick(page: any) {
