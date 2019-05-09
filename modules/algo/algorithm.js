@@ -1,11 +1,7 @@
 let { PythonShell } = require('python-shell');
 
-const DAL = require('../DAL');
-const config = require('../../config');
-const enums = require('../enums');
-
-const businessesCollectionName = config.db.collections.businesses;
-const constraintsCollectionName = config.db.collections.constraints;
+const constraintsBL = require('../BL/constraintsBL');
+const businessesBL = require('../BL/businessesBL');
 
 let self = module.exports = {
     // Run algorithm with array of arguments strings.
@@ -26,11 +22,11 @@ let self = module.exports = {
 
         return new Promise((resolve, reject) => {
             // Get all workers ids of the business workers.
-            self.GetBusinessWorkersIds(businessId).then(workersObjIds => {
+            businessesBL.GetBusinessWorkersIds(businessId).then(workersObjIds => {
                 // Build data queries array.
                 let dataQueries = [
-                    self.GetWorkersConstraints(workersObjIds, year, month),
-                    self.GetBusinessWorkersPerShift(businessId)
+                    constraintsBL.GetWorkersConstraints(workersObjIds, year, month),
+                    businessesBL.GetBusinessWorkersAmountPerShift(businessId)
                 ];
 
                 // Run the queries.
@@ -48,7 +44,7 @@ let self = module.exports = {
                     let workersPerShift = results[1];
 
                     // Get days amount for month.
-                    let daysInMonth = self.DaysInMonth(year, month);
+                    let daysInMonthAmount = self.DaysInMonthAmount(year, month);
 
                     // Convert each workerId to string.
                     let workersIds = workersObjIds.map(objId => {
@@ -56,7 +52,7 @@ let self = module.exports = {
                     });
 
                     let shiftsRequests =
-                        self.BuildShiftsRequestsObj(workersIds, daysInMonth, workersPerShift.length);
+                        self.BuildShiftsRequestsObj(workersIds, daysInMonthAmount, workersPerShift.length);
 
                     shiftsRequests =
                         self.AssignWorkersConstraints(workersIds, constraints, shiftsRequests, month);
@@ -76,145 +72,21 @@ let self = module.exports = {
         });
     },
 
-    // Get business workers constraints that begin from the asked year and month.
-    GetWorkersConstraints(workersIds, year, month) {
-        return new Promise((resolve, reject) => {
-            let constraintsWorkersFilter = {
-                $match: {
-                    "userObjId": { $in: workersIds },
-                    "statusId": enums.ConstraintStatusEnum.CONFIRMED
-                }
-            }
-
-            let projectObj = {
-                $project: {
-                    userObjId: "$userObjId",
-                    startDate: "$startDate",
-                    endDate: "$endDate",
-                    shifts: "$shifts",
-                    startYear: { $year: "$startDate" },
-                    startMonth: { $month: "$startDate" },
-                    endYear: { $year: "$endDate" },
-                    endMonth: { $month: "$endDate" }
-                }
-            }
-
-            let projectRangeObj = {
-                $project: {
-                    userObjId: "$userObjId",
-                    startDate: "$startDate",
-                    endDate: "$endDate",
-                    shifts: "$shifts",
-                    startYear: "$startYear",
-                    startMonth: "$startMonth",
-                    endYear: "$endYear",
-                    endMonth: "$endMonth",
-                    isStartYearInRange: {
-                        $lte: ["$startYear", year],
-                    },
-                    isEndYearInRange: {
-                        $gte: ["$endYear", year]
-                    },
-                    isStartMonthInRange: {
-                        $lte: ["$startMonth", month]
-                    },
-                    isEndMonthInRange: {
-                        $gte: ["$endMonth", month]
-                    }
-                }
-            }
-
-            let constraintsTimeFilter = {
-                $match: {
-                    "isStartYearInRange": true,
-                    "isEndYearInRange": true,
-                    "isStartMonthInRange": true,
-                    "isEndMonthInRange": true
-                }
-            }
-
-            let lastProject = {
-                $project: {
-                    userObjId: "$userObjId",
-                    startDate: "$startDate",
-                    endDate: "$endDate",
-                    shifts: "$shifts",
-                }
-            }
-
-            let aggregate = [constraintsWorkersFilter, projectObj,
-                projectRangeObj, constraintsTimeFilter, lastProject];
-
-            DAL.Aggregate(constraintsCollectionName, aggregate).then(resolve).catch(reject);
-        });
-    },
-
-    GetBusinessWorkersIds(businessId) {
-        return new Promise((resolve, reject) => {
-            let businessFilter = { "_id": DAL.GetObjectId(businessId) };
-            let fields = {
-                "_id": 0,
-                "workers": 1
-            }
-
-            DAL.FindOneSpecific(businessesCollectionName, businessFilter, fields)
-                .then(businessWorkers => {
-                    resolve(self.ShuffleArray(businessWorkers.workers));
-                }).catch(reject);
-        });
-    },
-
-    ShuffleArray(array) {
-        let currentIndex = array.length, temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-    },
-
-    GetBusinessWorkersPerShift(businessId) {
-        return new Promise((resolve, reject) => {
-            let businessFilter = { "_id": DAL.GetObjectId(businessId) };
-            let fields = {
-                "_id": 0,
-                "shifts.workersAmount": 1
-            }
-
-            DAL.FindOneSpecific(businessesCollectionName, businessFilter, fields)
-                .then(shiftsWorkersAmount => {
-                    resolve(shiftsWorkersAmount.shifts.map(shift => {
-                        return shift.workersAmount;
-                    }));
-                }).catch(reject);
-        });
-    },
-
     // Get days amount in month.
-    DaysInMonth(year, month) {
+    DaysInMonthAmount(year, month) {
         return new Date(year, month, 0).getDate();
     },
 
     // Create the workers shift requests object.
     // This function returns object (3D matrix) with no workers constraints.
-    BuildShiftsRequestsObj(workersIds, daysInMonth, dayShiftsAmount) {
+    BuildShiftsRequestsObj(workersIds, daysInMonthAmount, dayShiftsAmount) {
         let shiftsRequests = [];
         let days;
         let shiftsReq;
 
         for (let i = 0; i < workersIds.length; i++) {
             days = [];
-            for (let j = 0; j < daysInMonth; j++) {
+            for (let j = 0; j < daysInMonthAmount; j++) {
                 shiftsReq = [];
 
                 for (let k = 0; k < dayShiftsAmount; k++) {

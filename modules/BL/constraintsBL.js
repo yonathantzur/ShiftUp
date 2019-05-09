@@ -3,10 +3,10 @@ const config = require('../../config');
 const enums = require('../enums');
 
 const constraintsCollectionName = config.db.collections.constraints;
-const ConstraintsReasonsCollectionName = config.db.collections.constraintsReasons;
+const constraintsReasonsCollectionName = config.db.collections.constraintsReasons;
 const statusTypeCollectionName = config.db.collections.statusType;
 
-module.exports = {
+let self = module.exports = {
     getAllConstraints(user) {
         let query;
         if (user.isManager) {
@@ -128,7 +128,7 @@ module.exports = {
 
     GetAllConstraintReasons() {
         return new Promise((resolve, reject) => {
-            DAL.Find(ConstraintsReasonsCollectionName)
+            DAL.Find(constraintsReasonsCollectionName)
                 .then(users => resolve(users))
                 .catch(reject);
         });
@@ -145,13 +145,80 @@ module.exports = {
         });
     },
 
-    GetUserConstraints(userId) {
+    GetUserConstraints(userId, year, month) {
+        return self.GetWorkersConstraints([DAL.GetObjectId(userId)], year, month);
+    },
+
+    // Get business workers constraints that begin from the asked year and month.
+    GetWorkersConstraints(workersIds, year, month) {
         return new Promise((resolve, reject) => {
-            let filter = {
-                "userObjId": DAL.GetObjectId(userId)
+            let constraintsWorkersFilter = {
+                $match: {
+                    "userObjId": { $in: workersIds },
+                    "statusId": enums.ConstraintStatusEnum.CONFIRMED
+                }
             }
 
-            DAL.Find(constraintsCollectionName, filter).then(resolve).catch(reject);
+            let projectObj = {
+                $project: {
+                    userObjId: "$userObjId",
+                    startDate: "$startDate",
+                    endDate: "$endDate",
+                    shifts: "$shifts",
+                    startYear: { $year: "$startDate" },
+                    startMonth: { $month: "$startDate" },
+                    endYear: { $year: "$endDate" },
+                    endMonth: { $month: "$endDate" }
+                }
+            }
+
+            let projectRangeObj = {
+                $project: {
+                    userObjId: "$userObjId",
+                    startDate: "$startDate",
+                    endDate: "$endDate",
+                    shifts: "$shifts",
+                    startYear: "$startYear",
+                    startMonth: "$startMonth",
+                    endYear: "$endYear",
+                    endMonth: "$endMonth",
+                    isStartYearInRange: {
+                        $lte: ["$startYear", year],
+                    },
+                    isEndYearInRange: {
+                        $gte: ["$endYear", year]
+                    },
+                    isStartMonthInRange: {
+                        $lte: ["$startMonth", month]
+                    },
+                    isEndMonthInRange: {
+                        $gte: ["$endMonth", month]
+                    }
+                }
+            }
+
+            let constraintsTimeFilter = {
+                $match: {
+                    "isStartYearInRange": true,
+                    "isEndYearInRange": true,
+                    "isStartMonthInRange": true,
+                    "isEndMonthInRange": true
+                }
+            }
+
+            let lastProject = {
+                $project: {
+                    userObjId: "$userObjId",
+                    startDate: "$startDate",
+                    endDate: "$endDate",
+                    shifts: "$shifts",
+                }
+            }
+
+            let aggregate = [constraintsWorkersFilter, projectObj,
+                projectRangeObj, constraintsTimeFilter, lastProject];
+
+            DAL.Aggregate(constraintsCollectionName, aggregate).then(resolve).catch(reject);
         });
-    }
+    },
 };

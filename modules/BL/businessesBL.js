@@ -4,7 +4,7 @@ const config = require('../../config');
 const businessesCollectionName = config.db.collections.businesses;
 const usersCollectionName = config.db.collections.users;
 
-module.exports = {
+let self = module.exports = {
     AddBusiness: (userId, business) => {
         return new Promise((resolve, reject) => {
             business.manager = DAL.GetObjectId(userId);
@@ -58,6 +58,57 @@ module.exports = {
                     DAL.FindSpecific(usersCollectionName, { _id: { $in: workers } })
                         .then(resolve)
                         .catch(reject);
+                }).catch(reject);
+        });
+    },
+
+    GetBusinessWorkersIds(businessId) {
+        return new Promise((resolve, reject) => {
+            let businessFilter = { "_id": DAL.GetObjectId(businessId) };
+            let fields = {
+                "_id": 0,
+                "workers": 1
+            }
+
+            DAL.FindOneSpecific(businessesCollectionName, businessFilter, fields)
+                .then(businessWorkers => {
+                    resolve(self.ShuffleArray(businessWorkers.workers));
+                }).catch(reject);
+        });
+    },
+
+    ShuffleArray(array) {
+        let currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    },
+
+    GetBusinessWorkersAmountPerShift(businessId) {
+        return new Promise((resolve, reject) => {
+            let businessFilter = { "_id": DAL.GetObjectId(businessId) };
+            let fields = {
+                "_id": 0,
+                "shifts.workersAmount": 1
+            }
+
+            DAL.FindOneSpecific(businessesCollectionName, businessFilter, fields)
+                .then(shiftsWorkersAmount => {
+                    resolve(shiftsWorkersAmount.shifts.map(shift => {
+                        return shift.workersAmount;
+                    }));
                 }).catch(reject);
         });
     },
