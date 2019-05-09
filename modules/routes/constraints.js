@@ -47,7 +47,7 @@ router.get("/RefuseConstraint", (req, res) => {
 });
 
 router.get("/getAllConstraintReasons", (req, res) => {
-    constraintsBL.getAllConstraintReasons().then(data => {
+    constraintsBL.GetAllConstraintReasons().then(data => {
         res.send(data);
     }).catch(err => {
         res.status(500).end();

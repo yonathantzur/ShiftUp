@@ -2,6 +2,7 @@ let { PythonShell } = require('python-shell');
 
 const DAL = require('../DAL');
 const config = require('../../config');
+const enums = require('../enums');
 
 const businessesCollectionName = config.db.collections.businesses;
 const constraintsCollectionName = config.db.collections.constraints;
@@ -81,7 +82,7 @@ let self = module.exports = {
             let constraintsWorkersFilter = {
                 $match: {
                     "userObjId": { $in: workersIds },
-                    "statusId": "0"
+                    "statusId": enums.ConstraintStatusEnum.CONFIRMED
                 }
             }
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const usersBL = require('../BL/usersBL');
+const constraintsBL = require('../BL/constraintsBL');
 
 router.get("/getAllUsers", (req, res) => {
     usersBL.GetAllUsers().then(users => {
@@ -27,10 +28,11 @@ router.get("/GetUserByUserId", (req, res) => {
 });
 
 router.get("/getLoggedInUser", (req, res) => {
-    usersBL.GetUserByUserId(req.user.userId).then(user => {
+    let user = req.user;
+
+    constraintsBL.GetBusinessConstraintsWaitAmount(user.businessId).then(waitingConstraints => {
+        user.waitingConstraints = waitingConstraints;
         res.send(user);
-    }).catch(err => {
-        res.status(500).end();
     })
 });
 

@@ -5,11 +5,10 @@
 }
 
 .cardContainer {        
-    align-self: center;    
+    align-self: center;
     border-bottom: 0.5px solid #858585;
     border-top: 0.5px solid #858585;
-    padding-right: 25px;
-    padding-left: 25px;
+    padding: 10px 20px;
     width: 100%;
     margin-left: 5px;
 }

@@ -9,7 +9,7 @@
 }
 
 .navbarPages {
-    width: 80%;
+    width: 100%;
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
@@ -33,49 +33,36 @@
     background-color: #ccc;
 }
 
-.userGreeting {
-    cursor: default !important;
+.userGreeting {    
+    position: relative;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 0 15px;
+    font-size: 15px;
 }
 
 .notificationsDropdown {
     top: 50px !important;
 }
 
-.searchNavbarItem {
-    width: 20%;
-    cursor: unset;
-    justify-content: unset;
-    padding: 0;
-    padding-left: 10px;
-}
-
 .navbarItemClicked {
     background-color: #ccc !important;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    width: 150px;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .logo {
     font-family: 'Lobster';
     font-size: 30px;
-}
-
-.searchContainer {
-    background-color: #fff;
-    height: 30px;
-    width: 100%;
-    float: right;
-    border-radius: 5px;
-    padding: 0 10px 0 10px;
-    border: 1px solid #6f6f6f;
-    display: flex;
-    align-items: center;
-}
-
-.search {
-    background-color: transparent;
-    border-color: transparent;
-    width: 100%;
-    font-size: 14px;
-    outline: unset;
 }
 
 .pointer {
@@ -91,7 +78,7 @@
 }
 
 .notificationsIndicator {
-    margin: auto 10px;
+    margin-right: 10px;
 }
 
 .notificationsIndicator > .dropdown-toggle {
@@ -107,4 +94,11 @@
 .notificationsIndicator > button > i {
     color: #fff;
     font-size: 20px;
+}
+
+.dropdown-item {
+    padding: 0;
+    min-height: 0;
+    height: 20px;
+    margin: 0 10px;
 }

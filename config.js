@@ -18,7 +18,8 @@ module.exports = {
             businesses: "Businesses",
             shifts: "Shifts",
             constraints: "Constraints",
-            constraintsReasons: "ConstraintsReasons"
+            constraintsReasons: "ConstraintsReasons",
+            statusType: "StatusType"
         }
     },
     mailer: {

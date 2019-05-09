@@ -43,34 +43,25 @@ var NavbarComponent = /** @class */ (function () {
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);
         };
-        this.pages.forEach(function (page) {
-            if (_this.router.url == page.route) {
-                page.isClicked = true;
-            }
-        });
     }
     NavbarComponent.prototype.ngOnInit = function () {
         var _this = this;
         setTimeout(function () {
             $("#notificationsDropdown").click();
         }, 0);
-        if (this.loggedInUser == undefined) {
-            this.usersService.GetLoggedInUser().then(function (user) {
-                _this.loggedInUser = user;
-            });
-        }
-        this.usersService.isLoginUserManager().then(function (isManager) {
+        this.usersService.GetLoggedInUser().then(function (user) {
+            _this.loggedInUser = user;
             _this.pages.push({ route: '/', displayText: "בית", icon: "fa fa-home" });
-            if (!isManager) {
+            if (!_this.loggedInUser.isManager) {
                 _this.pages.push({
                     route: '/constraintsForWorker',
-                    displayText: "אילוצים",
+                    displayText: "האילוצים שלי",
                     icon: "fa fa-file-alt"
                 });
             }
             else {
                 _this.pages.push({ route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
-                _this.pages.push({ route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" });
+                _this.pages.push({ route: '/constraints', displayText: "האילוצים", icon: "fa fa-file-alt" });
                 _this.pages.push({ route: '/schedule', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
                 _this.pages.push({ route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
             }
@@ -79,6 +70,11 @@ var NavbarComponent = /** @class */ (function () {
                 displayText: "התנתקות",
                 icon: "fas fa-sign-out-alt",
                 action: _this.logout.bind(_this)
+            });
+            _this.pages.forEach(function (page) {
+                if (_this.router.url == page.route) {
+                    page.isClicked = true;
+                }
             });
         });
     };

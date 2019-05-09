@@ -52,7 +52,7 @@ export class ScheduleComponent {
             this.isLoading = false;
 
             if (shifts) {
-                this.eventService.Emit("renderCalendar");
+                this.eventService.Emit("renderCalendar", shifts);
             }
             else {
                 Swal.fire({

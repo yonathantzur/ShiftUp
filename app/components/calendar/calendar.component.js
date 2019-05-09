@@ -28,11 +28,11 @@ var CalendarComponent = /** @class */ (function () {
         self.eventService.Register("openEditShiftCard", function (event) {
             self.eventEditObject = self.createEventObjectToEdit(event);
         });
-        self.eventService.Register("renderCalendar", function () {
+        self.eventService.Register("renderCalendar", function (shifts) {
             _this.viewState = enums_1.SHIFTS_FILTER.ALL;
             $("#filter-select").val(0);
             self.eventsCache = {};
-            self.RenderCalendar();
+            self.RenderCalendar(shifts);
         });
         self.eventService.Register("closeShiftEdit", function () {
             self.eventEditObject = null;
@@ -90,14 +90,18 @@ var CalendarComponent = /** @class */ (function () {
     CalendarComponent.prototype.ngOnDestroy = function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     };
-    CalendarComponent.prototype.RenderCalendar = function () {
+    CalendarComponent.prototype.RenderCalendar = function (shifts) {
         var _this = this;
         this.eventService.Emit("calanderViewRender");
         var dateRange = $('#calendar').fullCalendar('getDate')._i;
         var year = dateRange[0];
         var month = dateRange[1] + 1;
         var eventsFromCache = this.eventsCache[year + "-" + month];
-        if (eventsFromCache) {
+        if (shifts) {
+            this.isLoading = false;
+            this.handleShiftsResult(shifts, year, month);
+        }
+        else if (eventsFromCache) {
             this.loadShifts(eventsFromCache);
         }
         else {
@@ -109,9 +113,9 @@ var CalendarComponent = /** @class */ (function () {
                 reqQuery = this.shiftService.GetMyShiftsForBusiness(year, month);
             }
             this.isLoading = true;
-            reqQuery.then(function (shifts) {
+            reqQuery.then(function (shiftsResult) {
                 _this.isLoading = false;
-                shifts && _this.handleShiftsResult(shifts, year, month);
+                shiftsResult && _this.handleShiftsResult(shiftsResult, year, month);
             });
         }
     };

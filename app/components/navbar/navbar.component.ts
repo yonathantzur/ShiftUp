@@ -23,39 +23,30 @@ export class NavbarComponent implements OnInit {
     pages: Array<page> = [];
     loggedInUser: any;
 
-    constructor(
-        private router: Router,
+    constructor(private router: Router,
         private loginService: LoginService,
-        private usersService: UsersService
-    ) {
-        this.pages.forEach((page: any) => {
-            if (this.router.url == page.route) {
-                page.isClicked = true;
-            }
-        })
-    }
+        private usersService: UsersService) { }
 
     ngOnInit() {
         setTimeout(() => {
             $("#notificationsDropdown").click();
         }, 0);
 
-        if (this.loggedInUser == undefined) {
-            this.usersService.GetLoggedInUser().then((user: any) => {
-                this.loggedInUser = user;
-            })
-        }
-        this.usersService.isLoginUserManager().then(isManager => {
+        this.usersService.GetLoggedInUser().then((user: any) => {
+            this.loggedInUser = user;
+
             this.pages.push({ route: '/', displayText: "בית", icon: "fa fa-home" });
-            if (!isManager) {
+
+            if (!this.loggedInUser.isManager) {
                 this.pages.push({
                     route: '/constraintsForWorker',
-                    displayText: "אילוצים",
+                    displayText: "האילוצים שלי",
                     icon: "fa fa-file-alt"
                 });
-            } else {
+            }
+            else {
                 this.pages.push({ route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
-                this.pages.push({ route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" });
+                this.pages.push({ route: '/constraints', displayText: "האילוצים", icon: "fa fa-file-alt" });
                 this.pages.push({ route: '/schedule', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
                 this.pages.push({ route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
             }
@@ -64,6 +55,12 @@ export class NavbarComponent implements OnInit {
                 displayText: "התנתקות",
                 icon: "fas fa-sign-out-alt",
                 action: this.logout.bind(this)
+            });
+
+            this.pages.forEach((page: any) => {
+                if (this.router.url == page.route) {
+                    page.isClicked = true;
+                }
             });
         });
     }

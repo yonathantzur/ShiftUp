@@ -21,7 +21,7 @@ let self = module.exports = {
 
                 shiftsBL.RemoveShiftsForBusiness(businessId, year, month).then(removeResult => {
                     DAL.InsertMany(shiftsCollectionName, shiftsObjects).then(insertResult => {
-                        resolve(true)
+                        resolve(shiftsObjects)
                     });
                 });
             }).catch(reject);

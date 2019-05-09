@@ -38,11 +38,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
             self.eventEditObject = self.createEventObjectToEdit(event);
         });
 
-        self.eventService.Register("renderCalendar", () => {
+        self.eventService.Register("renderCalendar", (shifts: Array<any>) => {
             this.viewState = SHIFTS_FILTER.ALL;
             $("#filter-select").val(0);
             self.eventsCache = {};
-            self.RenderCalendar();
+            self.RenderCalendar(shifts);
         });
 
         self.eventService.Register("closeShiftEdit", () => {
@@ -112,7 +112,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    RenderCalendar() {
+    RenderCalendar(shifts?: Array<any>) {
         this.eventService.Emit("calanderViewRender");
         let dateRange = $('#calendar').fullCalendar('getDate')._i;
         let year: number = dateRange[0];
@@ -120,7 +120,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
         let eventsFromCache = this.eventsCache[year + "-" + month];
 
-        if (eventsFromCache) {
+        if (shifts) {
+            this.isLoading = false;
+            this.handleShiftsResult(shifts, year, month);
+        }
+        else if (eventsFromCache) {
             this.loadShifts(eventsFromCache);
         }
         else {
@@ -135,9 +139,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
             this.isLoading = true;
 
-            reqQuery.then((shifts: Array<any>) => {
+            reqQuery.then((shiftsResult: Array<any>) => {
                 this.isLoading = false;
-                shifts && this.handleShiftsResult(shifts, year, month);
+                shiftsResult && this.handleShiftsResult(shiftsResult, year, month);
             });
         }
     }
@@ -160,7 +164,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     loadShifts(shifts: Array<any>) {
         this.calendar.fullCalendar('removeEvents');
-        this.calendar.fullCalendar('renderEvents', shifts);        
+        this.calendar.fullCalendar('renderEvents', shifts);
     }
 
     createEventObjectToEdit(event: any) {

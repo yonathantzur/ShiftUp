@@ -4,6 +4,7 @@ const enums = require('../enums');
 
 const constraintsCollectionName = config.db.collections.constraints;
 const ConstraintsReasonsCollectionName = config.db.collections.constraintsReasons;
+const statusTypeCollectionName = config.db.collections.statusType;
 
 module.exports = {
     getAllConstraints(user) {
@@ -12,17 +13,17 @@ module.exports = {
             query = [
                 {
                     $lookup:
-                        {
-                            from: 'Users',
-                            localField: 'userObjId',
-                            foreignField: '_id',
-                            as: 'user',
-                        }
+                    {
+                        from: 'Users',
+                        localField: 'userObjId',
+                        foreignField: '_id',
+                        as: 'user',
+                    }
                 },
-                {$match: {'businessId': DAL.GetObjectId(user.businessId)}},
+                { $match: { 'businessId': DAL.GetObjectId(user.businessId) } },
                 {
                     $lookup: {
-                        from: "StatusType",
+                        from: statusTypeCollectionName,
                         localField: "statusId",
                         foreignField: "statusId",
                         as: "status"
@@ -32,17 +33,17 @@ module.exports = {
             query = [
                 {
                     $lookup:
-                        {
-                            from: 'Users',
-                            localField: 'userObjId',
-                            foreignField: '_id',
-                            as: 'user',
-                        }
+                    {
+                        from: 'Users',
+                        localField: 'userObjId',
+                        foreignField: '_id',
+                        as: 'user',
+                    }
                 },
-                {$match: {'userObjId': DAL.GetObjectId(user.id)}},
+                { $match: { 'userObjId': DAL.GetObjectId(user.id) } },
                 {
                     $lookup: {
-                        from: "StatusType",
+                        from: statusTypeCollectionName,
                         localField: "statusId",
                         foreignField: "statusId",
                         as: "status"
@@ -75,7 +76,7 @@ module.exports = {
 
     DeleteConstraint(conObjId) {
         return new Promise((resolve, reject) => {
-            DAL.DeleteOne(constraintsCollectionName, {_id: DAL.GetObjectId(conObjId)})
+            DAL.DeleteOne(constraintsCollectionName, { _id: DAL.GetObjectId(conObjId) })
                 .then(data => resolve(data))
                 .catch(reject);
         });
@@ -83,7 +84,7 @@ module.exports = {
 
     DeleteConstraintsByUserId(userObjId) {
         return new Promise((resolve, reject) => {
-            DAL.Delete(constraintsCollectionName, {userObjId: DAL.GetObjectId(userObjId)})
+            DAL.Delete(constraintsCollectionName, { userObjId: DAL.GetObjectId(userObjId) })
                 .then(data => resolve(data))
                 .catch(reject);
         });
@@ -91,7 +92,7 @@ module.exports = {
 
     DeleteConstraintsByBusinessId(businessId) {
         return new Promise((resolve, reject) => {
-            DAL.Delete(constraintsCollectionName, {businessId: DAL.GetObjectId(businessId)})
+            DAL.Delete(constraintsCollectionName, { businessId: DAL.GetObjectId(businessId) })
                 .then(data => resolve(data))
                 .catch(reject);
         });
@@ -102,10 +103,10 @@ module.exports = {
             DAL.UpdateOne(constraintsCollectionName, {
                 _id: DAL.GetObjectId(conObjId)
             }, {
-                $set: {
-                    statusId: enums.ConstraintStatusEnum.CONFIRMED
-                }
-            })
+                    $set: {
+                        statusId: enums.ConstraintStatusEnum.CONFIRMED
+                    }
+                })
                 .then(data => resolve(data))
                 .catch(reject);
         });
@@ -116,20 +117,41 @@ module.exports = {
             DAL.UpdateOne(constraintsCollectionName, {
                 _id: DAL.GetObjectId(conObjId)
             }, {
-                $set: {
-                    statusId: enums.ConstraintStatusEnum.REFUSED
-                }
-            })
+                    $set: {
+                        statusId: enums.ConstraintStatusEnum.REFUSED
+                    }
+                })
                 .then(data => resolve(data))
                 .catch(reject);
         });
     },
 
-    getAllConstraintReasons() {
+    GetAllConstraintReasons() {
         return new Promise((resolve, reject) => {
             DAL.Find(ConstraintsReasonsCollectionName)
                 .then(users => resolve(users))
                 .catch(reject);
+        });
+    },
+
+    GetBusinessConstraintsWaitAmount(businessId) {
+        return new Promise((resolve, reject) => {
+            let filter = {
+                "businessId": DAL.GetObjectId(businessId),
+                "statusId": enums.ConstraintStatusEnum.WAITING
+            }
+
+            DAL.Count(constraintsCollectionName, filter).then(resolve).catch(reject);
+        });
+    },
+
+    GetUserConstraints(userId) {
+        return new Promise((resolve, reject) => {
+            let filter = {
+                "userObjId": DAL.GetObjectId(userId)
+            }
+
+            DAL.Find(constraintsCollectionName, filter).then(resolve).catch(reject);
         });
     }
 };
