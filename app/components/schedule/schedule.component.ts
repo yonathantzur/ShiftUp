@@ -55,6 +55,7 @@ export class ScheduleComponent {
                 this.eventService.Emit("renderCalendar", shifts);
             }
             else {
+                this.eventService.Emit("stopLoader");
                 Swal.fire({
                     type: 'error',
                     title: 'שגיאה בשיבוץ',

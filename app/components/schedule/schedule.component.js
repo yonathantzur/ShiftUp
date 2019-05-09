@@ -47,6 +47,7 @@ var ScheduleComponent = /** @class */ (function () {
                 _this.eventService.Emit("renderCalendar", shifts);
             }
             else {
+                _this.eventService.Emit("stopLoader");
                 Swal.fire({
                     type: 'error',
                     title: 'שגיאה בשיבוץ',

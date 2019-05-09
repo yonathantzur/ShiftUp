@@ -43,6 +43,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
             self.isLoading = true;
         });
 
+        self.eventService.Register("stopLoader", (event: any) => {
+            self.isLoading = false;
+        });
+
         self.eventService.Register("openEditShiftCard", (event: any) => {
             self.eventEditObject = self.createEventObjectToEdit(event);
         });

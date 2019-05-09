@@ -32,6 +32,9 @@ var CalendarComponent = /** @class */ (function () {
         self.eventService.Register("startLoader", function (event) {
             self.isLoading = true;
         });
+        self.eventService.Register("stopLoader", function (event) {
+            self.isLoading = false;
+        });
         self.eventService.Register("openEditShiftCard", function (event) {
             self.eventEditObject = self.createEventObjectToEdit(event);
         });
