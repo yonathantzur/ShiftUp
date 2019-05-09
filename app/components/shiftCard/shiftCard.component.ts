@@ -13,7 +13,7 @@ import { EventService } from '../../services/event/event.service';
 export class ShiftCardComponent implements OnDestroy {
     shiftsData: Array<any>;
     shiftsDataCache: Object = {};
-    event: any;
+    event: any;    
 
     eventsIds: Array<string> = [];
 

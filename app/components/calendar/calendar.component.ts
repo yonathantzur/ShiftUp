@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ShiftService } from '../../services/shifts/shifts.service';
+import { ConstraintsService } from '../../services/constraints/constraints.service';
 import { EventService } from '../../services/event/event.service';
 
 import { SHIFTS_FILTER } from '../../enums/enums'
@@ -10,7 +11,7 @@ declare let $: any;
 @Component({
     selector: 'calendar',
     templateUrl: './calendar.html',
-    providers: [ShiftService],
+    providers: [ShiftService, ConstraintsService],
     styleUrls: ['./calendar.css']
 })
 
@@ -27,6 +28,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     eventsIds: Array<string> = [];
 
     constructor(private shiftService: ShiftService,
+        private constraintsService: ConstraintsService,
         private eventService: EventService) {
         let self = this;
 
@@ -41,8 +43,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
         self.eventService.Register("renderCalendar", (shifts: Array<any>) => {
             this.viewState = SHIFTS_FILTER.ALL;
             $("#filter-select").val(0);
-            self.eventsCache = {};
-            self.RenderCalendar(shifts);
+            this.removeShiftsFromAllCahce();
+            self.renderCalendar(shifts);
         });
 
         self.eventService.Register("closeShiftEdit", () => {
@@ -52,10 +54,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
         self.eventService.Register("changeFilter", (filter: SHIFTS_FILTER) => {
             self.eventService.Emit("calanderViewRender");
             self.viewState = filter;
-            self.eventsCache = {};
+
             let dateRange = $('#calendar').fullCalendar('getDate')._i;
             let year: number = dateRange[0];
             let month: number = dateRange[1] + 1;
+
+            this.removeShiftsFromAllCahce();
 
             let reqQuery;
 
@@ -70,7 +74,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
             reqQuery.then((shifts: Array<any>) => {
                 self.isLoading = false;
-                shifts && self.handleShiftsResult(shifts, year, month);
+                let shiftsResult = self.handleShiftsResult(shifts);
+                let constraints = this.eventsCache[year + "-" + month].constraints;
+                this.loadEvents(shiftsResult, constraints, year, month);
             });
 
         }, self.eventsIds);
@@ -83,12 +89,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
             height: "parent",
             editable: true,
             eventRender: function (event: any, element: any) {
-                element.bind('dblclick', () => {
-                    self.eventEditObject = self.createEventObjectToEdit(event);
-                });
+                if (event.shiftsData != null) {
+                    element.bind('dblclick', () => {
+                        self.eventEditObject = self.createEventObjectToEdit(event);
+                    });
+                }
             },
             viewRender: function (element: any) {
-                self.RenderCalendar();
+                self.renderCalendar();
             },
             eventClick: function (event: any) {
                 if (self.markedEvent == this) {
@@ -96,7 +104,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
                     $(self.markedEvent).css('border-color', '');
                     self.markedEvent = null;
                 }
-                else {
+                else if (event.shiftsData != null) {
                     // Mark selected event.
                     self.markedEvent && $(self.markedEvent).css('border-color', '');
                     $(this).css('border-color', '#dc3545');
@@ -112,7 +120,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    RenderCalendar(shifts?: Array<any>) {
+    renderCalendar(shifts?: Array<any>) {
         this.eventService.Emit("calanderViewRender");
         let dateRange = $('#calendar').fullCalendar('getDate')._i;
         let year: number = dateRange[0];
@@ -122,10 +130,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
         if (shifts) {
             this.isLoading = false;
-            this.handleShiftsResult(shifts, year, month);
+            let newShifts = this.handleShiftsResult(shifts);
+            this.loadEvents(newShifts, eventsFromCache.constraints, year, month);
         }
         else if (eventsFromCache) {
-            this.loadShifts(eventsFromCache);
+            this.loadEvents(eventsFromCache.shifts, eventsFromCache.constraints, year, month);
         }
         else {
             let reqQuery;
@@ -139,14 +148,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
             this.isLoading = true;
 
-            reqQuery.then((shiftsResult: Array<any>) => {
+            Promise.all([reqQuery, this.constraintsService.GetUserConstraints(year, month)]).then(results => {
+                let shiftsResult = this.handleShiftsResult(results[0]);
+                let constraintsResult = this.handleConstraintsResult(results[1]);
                 this.isLoading = false;
-                shiftsResult && this.handleShiftsResult(shiftsResult, year, month);
+                this.loadEvents(shiftsResult, constraintsResult, year, month);
             });
         }
     }
 
-    handleShiftsResult(shifts: Array<any>, year: number, month: number) {
+    handleShiftsResult(shifts: Array<any>) {
         let events: Array<any> = [];
 
         shifts.forEach((shift: any) => {
@@ -158,12 +169,30 @@ export class CalendarComponent implements OnInit, OnDestroy {
             });
         });
 
-        this.eventsCache[year + "-" + month] = events;
-        this.loadShifts(events);
+        return events;
     }
 
-    loadShifts(shifts: Array<any>) {
+    handleConstraintsResult(constraints: Array<any>) {
+        let events: Array<any> = [];
+
+        constraints.forEach((constraint: any) => {
+            events.push({
+                id: constraint._id,
+                title: "אילוץ",
+                start: this.formatToEventDate(constraint.startDate),
+                end: this.formatToEventDate(constraint.endDate, true),
+                color: '#378006',
+                allDay: true
+            });
+        });
+
+        return events;
+    }
+
+    loadEvents(shifts: Array<any>, constraints: Array<any>, year: number, month: number) {
+        this.insetToCache(shifts, constraints, year, month);
         this.calendar.fullCalendar('removeEvents');
+        this.calendar.fullCalendar('renderEvents', constraints);
         this.calendar.fullCalendar('renderEvents', shifts);
     }
 
@@ -193,6 +222,43 @@ export class CalendarComponent implements OnInit, OnDestroy {
         }
 
         return (day + "/" + month + "/" + year);
+    }
 
+    formatToEventDate(dateStr: string, isCheckEnd?: boolean) {
+        let date = new Date(dateStr);
+
+        if (isCheckEnd) {
+            date.setDate(date.getDate() + 1);
+        }
+
+        let day: any = date.getDate();
+        let month: any = date.getMonth() + 1;
+        let year: any = date.getFullYear();
+
+        if (day < 10) {
+            day = "0" + day;
+        }
+
+        if (month < 10) {
+            month = "0" + month;
+        }
+
+        return (year + "-" + month + "-" + day);
+    }
+
+    insetToCache(shifts: Array<any>, constraints: Array<any>, year: number, month: number) {
+        this.eventsCache[year + "-" + month] = {
+            shifts,
+            constraints
+        };
+    }
+
+    removeShiftsFromAllCahce() {
+        let cacheObj = this.eventsCache;
+
+        // Remove all shifts from cache.
+        Object.keys(cacheObj).forEach(key => {
+            delete cacheObj["shifts"];
+        });
     }
 }

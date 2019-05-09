@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login/login.service'
-import { UsersService } from '../../services/users/users.service'
+import { LoginService } from '../../services/login/login.service';
+import { UsersService } from '../../services/users/users.service';
 
 class page {
     route: string;

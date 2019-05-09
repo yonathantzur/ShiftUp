@@ -54,4 +54,12 @@ router.get("/getAllConstraintReasons", (req, res) => {
     });
 });
 
+router.get("/getUserConstraints", (req, res) => {
+    constraintsBL.GetUserConstraints(req.user.id, req.query.year, req.query.month).then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
+
 module.exports = router;

@@ -146,6 +146,9 @@ let self = module.exports = {
     },
 
     GetUserConstraints(userId, year, month) {
+        year = parseInt(year);
+        month = parseInt(month);
+
         return self.GetWorkersConstraints([DAL.GetObjectId(userId)], year, month);
     },
 
