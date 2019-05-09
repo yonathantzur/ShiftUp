@@ -14,9 +14,8 @@ declare let Swal: any;
 })
 
 export class WorkersRequestsComponent {
-    requestUsers: Array<any> = [];
-    business: any = {};
-    salaries: Array<number> = [];
+    requestUsers: Array<any>;
+    business: any;
 
     constructor(
         private usersService: UsersService,
@@ -26,12 +25,17 @@ export class WorkersRequestsComponent {
     ) { }
 
     ngOnInit() {
-        this.usersService.GetUsersRequestedToBusiness().then((usersRequests: any) => {
-            this.requestUsers = usersRequests;
-            this.requestUsers.forEach((reqUser, i) => {
-                this.requestUsers[i].salary = 20;
-                this.salaries.push(20);
-            });
+        this.usersService.GetUsersRequestedToBusiness().then((usersRequests: Array<any>) => {
+            if (usersRequests.length == 0) {
+                this.router.navigateByUrl('/workers');
+            } else {
+                this.requestUsers = usersRequests;
+                this.requestUsers.forEach((reqUser) => {
+                    reqUser.fullName = reqUser.firstName + ' ' + reqUser.lastName;
+                    reqUser.age = this.calcAge(reqUser.birthDate);
+                    reqUser.salary = 20;
+                });
+            }
         });
 
         this.businessesService.GetLoggedInBusiness().then((business: any) => {
@@ -74,6 +78,9 @@ export class WorkersRequestsComponent {
                     showConfirmButton: false,
                     timer: 1000
                 });
+                if (this.requestUsers.length == 0) {
+                    this.router.navigateByUrl('/workers');
+                }
             })
             .catch((err: any) => {
                 Swal.fire({
@@ -98,6 +105,9 @@ export class WorkersRequestsComponent {
                 showConfirmButton: false,
                 timer: 1000
             });
+            if (this.requestUsers.length == 0) {
+                this.router.navigateByUrl('/workers');
+            }
         })
         .catch((err: any) => {
             Swal.fire({

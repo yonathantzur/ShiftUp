@@ -46,6 +46,10 @@
 }
 
 .filterContainer {
-    margin-right: 30px;
+    margin: auto;
     width: 400px;
+}
+
+.loader {
+    margin: auto;
 }

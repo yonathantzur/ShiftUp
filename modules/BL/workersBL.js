@@ -1,6 +1,8 @@
 const DAL = require('../DAL');
 const config = require('../../config');
 
+const contsrainstsBL = require('./constraintsBL');
+
 const businessesCollectionName = config.db.collections.businesses;
 const usersCollectionName = config.db.collections.users;
 
@@ -37,7 +39,7 @@ module.exports = {
                     salary: salary
                 },
                 $unset: {
-                    waitBusinessId: "",
+                    waitBusinessId: 1,
                 }
             })
             .then(user => {
@@ -60,17 +62,21 @@ module.exports = {
 
             DAL.UpdateOne(usersCollectionName, { userId: userId }, {
                 $unset: {
-                    businessId: "",
-                    salary: ""
+                    businessId: 1,
+                    salary: 1
                 }
             }).then(user => {
                 DAL.UpdateOne(businessesCollectionName,
                     { _id: DAL.GetObjectId(businessId) },
                     { $pull: { workers: DAL.GetObjectId(user._id) }})
-                .then(business => resolve(business))
+                .then(business => {
+                    contsrainstsBL.DeleteConstraintsByUserId(user._id)
+                        .then(data => resolve(data))                    
+                        .catch(reject);
+                })
                 .catch(reject);
             })
-                .catch(reject);
+            .catch(reject);
         })
     },
 
@@ -86,18 +92,22 @@ module.exports = {
                 },
                 {
                     $unset: {
-                        businessId: "",
-                        salary: ""
+                        businessId: 1,
+                        salary: 1
                     }
                 }
             ).then(() => {
                 DAL.UpdateOne(businessesCollectionName,
                     { _id: DAL.GetObjectId(businessId) },
                     { $set: { workers: [] } })
-                .then(business => resolve(business))
+                .then(business => {
+                    contsrainstsBL.DeleteConstraintsByBusinessId(businessId)
+                        .then((data) => resolve(data))
+                        .catch(reject);
+                })
                 .catch(reject);
             })
-                .catch(reject);
+            .catch(reject);
         })
     },
 
@@ -111,9 +121,12 @@ module.exports = {
             })
             .then(manager => {
                 DAL.UpdateOne(usersCollectionName, { _id: workerObjId },
-                    { $unset: { waitBusinessId: "" }
-                })
-                .then(worker => resolve(worker))
+                    {
+                        $unset: {
+                            waitBusinessId: 1
+                        }
+                    }
+                ).then(worker => resolve(worker))
                 .catch(reject)
             })
             .catch(reject);

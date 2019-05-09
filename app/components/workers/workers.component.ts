@@ -14,10 +14,10 @@ declare let Swal: any;
 
 export class WorkersComponent {
     business: any = {};
-    isNewWorkerComponentActive: boolean = false;
+    manager: any;
+    allWorkers: Array<any>;
+    filteredWorkers: Array<any>;
     workerSearchText: string = "";
-    allWorkers: Array<any> = [];
-    filteredWorkers: Array<any> = [];
 
     constructor(
         private businessesService: BusinessesService,
@@ -30,43 +30,14 @@ export class WorkersComponent {
         });
 
         this.businessesService.GetWorkersForBusiness().then((workers: any) => {
+            this.manager = workers.filter((worker: any) => worker.isManager)[0];
             this.allWorkers = workers.filter((worker: any) => !worker.isManager);
-            this.filteredWorkers = workers.filter((worker: any) => !worker.isManager);
+            this.filteredWorkers = this.allWorkers;
         });
-    }
-
-    activateNewWorkerComponent = () => {
-        this.isNewWorkerComponentActive = !this.isNewWorkerComponentActive;
     }
 
     showRequests = () => {
         this.router.navigateByUrl('/workers/requests');
-    }
-
-    addNewWorkerHandler = (newWorker: any) => {
-        if (newWorker) {
-            this.workersService.AddWorkerToBusiness(newWorker.userId, newWorker.salary)
-            .then(() => {
-                this.allWorkers.push(newWorker);
-                this.SearchWorkerHandler();
-                Swal.fire({
-                    title: "הפעולה הצליחה",
-                    text: "העובד " + newWorker.firstName + ' ' + newWorker.lastName + " נוסף בהצלחה לעסק",
-                    type: "success",
-                    confirmButtonText: "אישור"
-                });
-            })
-            .catch((err: any) => {
-                Swal.fire({
-                    title: "שגיאה!",
-                    text: "הפעולה נכשלה",
-                    type: "error",
-                    confirmButtonText: "אישור"
-                });
-                return;
-            });
-        }
-        this.isNewWorkerComponentActive = false;
     }
 
     deleteWorkerHandler = (workerToDelete: any) => {
@@ -138,7 +109,7 @@ export class WorkersComponent {
             }
         });
     }
-
+    
     SearchWorkerHandler = () => {
         if (this.workerSearchText != "") {
             this.filteredWorkers = this.allWorkers.filter((worker: any) => {
@@ -149,5 +120,10 @@ export class WorkersComponent {
         } else {
             this.filteredWorkers = this.allWorkers;
         }
+    }
+
+    ResetSearchWorkerHandler = () => {
+        this.workerSearchText = "";
+        this.filteredWorkers = this.allWorkers;
     }
 }

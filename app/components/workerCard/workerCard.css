@@ -43,7 +43,7 @@
     height: 25%;
     display: flex;
     justify-content: space-between;
-    padding: 2px;
+    padding: 0px 10px;
 }
 
 .buttonsContainer > button {

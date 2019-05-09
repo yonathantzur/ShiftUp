@@ -81,6 +81,22 @@ module.exports = {
         });
     },
 
+    DeleteConstraintsByUserId(userObjId) {
+        return new Promise((resolve, reject) => {
+            DAL.Delete(constraintsCollectionName, {userObjId: DAL.GetObjectId(userObjId)})
+                .then(data => resolve(data))
+                .catch(reject);
+        });
+    },
+
+    DeleteConstraintsByBusinessId(businessId) {
+        return new Promise((resolve, reject) => {
+            DAL.Delete(constraintsCollectionName, {businessId: DAL.GetObjectId(businessId)})
+                .then(data => resolve(data))
+                .catch(reject);
+        });
+    },
+
     ApproveConstraint(conObjId) {
         return new Promise((resolve, reject) => {
             DAL.UpdateOne(constraintsCollectionName, {
