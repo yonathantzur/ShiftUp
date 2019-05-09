@@ -1,25 +1,32 @@
 import { Component, OnDestroy } from '@angular/core';
 
 import { ShiftService } from '../../services/shifts/shifts.service';
+import { UsersService } from '../../services/users/users.service';
 import { EventService } from '../../services/event/event.service';
 
 @Component({
     selector: 'shiftCard',
     templateUrl: './shiftCard.html',
-    providers: [ShiftService],
+    providers: [ShiftService, UsersService],
     styleUrls: ['./shiftCard.css']
 })
 
 export class ShiftCardComponent implements OnDestroy {
     shiftsData: Array<any>;
     shiftsDataCache: Object = {};
-    event: any;    
+    event: any;
+    isUserManager: boolean;
 
     eventsIds: Array<string> = [];
 
     constructor(private shiftService: ShiftService,
+        private usersService: UsersService,
         private eventService: EventService) {
         let self = this;
+
+        self.usersService.isLoginUserManager().then(result => {
+            self.isUserManager = result;
+        });
 
         self.eventService.Register("renderCalendar", () => {
             self.shiftsDataCache = {};
@@ -59,8 +66,7 @@ export class ShiftCardComponent implements OnDestroy {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     }
 
-    Edit() {
+    edit() {
         this.eventService.Emit("openEditShiftCard", this.event);
     }
-
 }

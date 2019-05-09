@@ -12,18 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var shifts_service_1 = require("../../services/shifts/shifts.service");
 var constraints_service_1 = require("../../services/constraints/constraints.service");
+var users_service_1 = require("../../services/users/users.service");
 var event_service_1 = require("../../services/event/event.service");
 var enums_1 = require("../../enums/enums");
 var CalendarComponent = /** @class */ (function () {
-    function CalendarComponent(shiftService, constraintsService, eventService) {
+    function CalendarComponent(shiftService, constraintsService, usersService, eventService) {
         var _this = this;
         this.shiftService = shiftService;
         this.constraintsService = constraintsService;
+        this.usersService = usersService;
         this.eventService = eventService;
         this.eventsCache = {};
         this.viewState = enums_1.SHIFTS_FILTER.ALL;
         this.eventsIds = [];
         var self = this;
+        self.usersService.isLoginUserManager().then(function (result) {
+            self.isUserManager = result;
+        });
         self.eventService.Register("startLoader", function (event) {
             self.isLoading = true;
         });
@@ -68,7 +73,7 @@ var CalendarComponent = /** @class */ (function () {
             height: "parent",
             editable: true,
             eventRender: function (event, element) {
-                if (event.shiftsData != null) {
+                if (self.isUserManager && event.shiftsData != null) {
                     element.bind('dblclick', function () {
                         self.eventEditObject = self.createEventObjectToEdit(event);
                     });
@@ -220,6 +225,7 @@ var CalendarComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [shifts_service_1.ShiftService,
             constraints_service_1.ConstraintsService,
+            users_service_1.UsersService,
             event_service_1.EventService])
     ], CalendarComponent);
     return CalendarComponent;

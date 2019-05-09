@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ShiftService } from '../../services/shifts/shifts.service';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
+import { UsersService } from '../../services/users/users.service';
 import { EventService } from '../../services/event/event.service';
 
 import { SHIFTS_FILTER } from '../../enums/enums'
@@ -21,6 +22,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     eventsCache: Object = {};
     viewState: SHIFTS_FILTER = SHIFTS_FILTER.ALL;
     isLoading: boolean;
+    isUserManager: boolean;
 
     // Event edit properties.
     eventEditObject: any;
@@ -29,8 +31,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     constructor(private shiftService: ShiftService,
         private constraintsService: ConstraintsService,
+        private usersService: UsersService,
         private eventService: EventService) {
         let self = this;
+
+        self.usersService.isLoginUserManager().then(result => {
+            self.isUserManager = result;
+        });
 
         self.eventService.Register("startLoader", (event: any) => {
             self.isLoading = true;
@@ -89,7 +96,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
             height: "parent",
             editable: true,
             eventRender: function (event: any, element: any) {
-                if (event.shiftsData != null) {
+                if (self.isUserManager && event.shiftsData != null) {
                     element.bind('dblclick', () => {
                         self.eventEditObject = self.createEventObjectToEdit(event);
                     });
