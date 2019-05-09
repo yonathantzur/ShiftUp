@@ -46,9 +46,6 @@ var NavbarComponent = /** @class */ (function () {
     }
     NavbarComponent.prototype.ngOnInit = function () {
         var _this = this;
-        setTimeout(function () {
-            $("#notificationsDropdown").click();
-        }, 0);
         this.usersService.GetLoggedInUser().then(function (user) {
             _this.loggedInUser = user;
             _this.pages.push({ route: '/', displayText: "בית", icon: "fa fa-home" });
@@ -61,7 +58,7 @@ var NavbarComponent = /** @class */ (function () {
             }
             else {
                 _this.pages.push({ route: '/workers', displayText: "עובדים", icon: "fa fa-user-friends" });
-                _this.pages.push({ route: '/constraints', displayText: "האילוצים", icon: "fa fa-file-alt" });
+                _this.pages.push({ route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" });
                 _this.pages.push({ route: '/schedule', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
                 _this.pages.push({ route: '/statistics', displayText: "סטטיסטיקה", icon: "fa fa-chart-line" });
             }
