@@ -14,8 +14,26 @@ var event_service_1 = require("../../services/event/event.service");
 var schedule_service_1 = require("../../services/schedule/schedule.service");
 var ScheduleComponent = /** @class */ (function () {
     function ScheduleComponent(scheduleService, eventService) {
+        var _this = this;
         this.scheduleService = scheduleService;
         this.eventService = eventService;
+        this.isScheduleAllow = true;
+        this.eventService.Register("calanderViewRender", function () {
+            var calendarDate = $('#calendar').fullCalendar('getDate')._d;
+            var currDate = new Date();
+            var calendarYear = calendarDate.getFullYear();
+            var calendarMonth = calendarDate.getMonth();
+            var currYear = currDate.getFullYear();
+            var currMonth = currDate.getMonth();
+            _this.calendarTitle = $('#calendar').fullCalendar('getView').title;
+            if (calendarYear < currYear ||
+                (calendarMonth < currMonth && calendarYear == currYear)) {
+                _this.isScheduleAllow = false;
+            }
+            else {
+                _this.isScheduleAllow = true;
+            }
+        });
     }
     ScheduleComponent.prototype.Schedule = function () {
         var _this = this;
