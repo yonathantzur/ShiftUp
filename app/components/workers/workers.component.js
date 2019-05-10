@@ -120,6 +120,15 @@ var WorkersComponent = /** @class */ (function () {
             _this.filteredWorkers = _this.allWorkers;
         });
     };
+    // Calculate padding to center the cards.
+    WorkersComponent.prototype.calcCardsContainerPadding = function () {
+        var containerWidth = $("#cards-container").innerWidth();
+        var cardWidth = $(".workerCard").innerWidth();
+        var cardsInLine = Math.min(5, Math.floor(containerWidth / cardWidth));
+        var cardsMargin = 30 * cardsInLine;
+        var finalWidth = containerWidth - (cardsInLine * cardWidth) - cardsMargin;
+        return "0 " + Math.min((finalWidth / 2), cardWidth) + "px";
+    };
     WorkersComponent = __decorate([
         core_1.Component({
             selector: 'workers',

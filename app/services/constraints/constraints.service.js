@@ -88,6 +88,16 @@ var ConstraintsService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ConstraintsService.prototype.GetUserConstraints = function (year, month) {
+        return _super.prototype.get.call(this, this.prefix + "/getUserConstraints?year=" + year + "&month=" + month)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     ConstraintsService = __decorate([
         core_1.Injectable({ providedIn: 'root' })
     ], ConstraintsService);

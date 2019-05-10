@@ -52,9 +52,10 @@ export class ScheduleComponent {
             this.isLoading = false;
 
             if (shifts) {
-                this.eventService.Emit("renderCalendar");
+                this.eventService.Emit("renderCalendar", shifts);
             }
             else {
+                this.eventService.Emit("stopLoader");
                 Swal.fire({
                     type: 'error',
                     title: 'שגיאה בשיבוץ',

@@ -55,3 +55,7 @@ th, td, .formInput {
 .loader {
     margin: auto;
 }
+
+.title-icon {
+    margin-right: 5px;
+}

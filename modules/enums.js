@@ -1,3 +1,3 @@
 module.exports = {
-    ConstraintStatusEnum: Object.freeze({ CONFIRMED: "0", REFUSED: "1", WAITING: "2" })
+    ConstraintStatusEnum: Object.freeze({ WAITING: 0, REFUSED: 1, CONFIRMED: 2 })
 };

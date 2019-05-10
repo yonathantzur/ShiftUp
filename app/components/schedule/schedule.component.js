@@ -44,9 +44,10 @@ var ScheduleComponent = /** @class */ (function () {
         this.scheduleService.GetShiftsSchedule(year, month).then(function (shifts) {
             _this.isLoading = false;
             if (shifts) {
-                _this.eventService.Emit("renderCalendar");
+                _this.eventService.Emit("renderCalendar", shifts);
             }
             else {
+                _this.eventService.Emit("stopLoader");
                 Swal.fire({
                     type: 'error',
                     title: 'שגיאה בשיבוץ',

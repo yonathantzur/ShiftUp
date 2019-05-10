@@ -11,28 +11,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var shifts_service_1 = require("../../services/shifts/shifts.service");
+var constraints_service_1 = require("../../services/constraints/constraints.service");
+var users_service_1 = require("../../services/users/users.service");
 var event_service_1 = require("../../services/event/event.service");
 var enums_1 = require("../../enums/enums");
 var CalendarComponent = /** @class */ (function () {
-    function CalendarComponent(shiftService, eventService) {
+    function CalendarComponent(shiftService, constraintsService, usersService, eventService) {
         var _this = this;
         this.shiftService = shiftService;
+        this.constraintsService = constraintsService;
+        this.usersService = usersService;
         this.eventService = eventService;
         this.eventsCache = {};
         this.viewState = enums_1.SHIFTS_FILTER.ALL;
         this.eventsIds = [];
         var self = this;
+        self.usersService.isLoginUserManager().then(function (result) {
+            self.isUserManager = result;
+        });
         self.eventService.Register("startLoader", function (event) {
             self.isLoading = true;
+        });
+        self.eventService.Register("stopLoader", function (event) {
+            self.isLoading = false;
         });
         self.eventService.Register("openEditShiftCard", function (event) {
             self.eventEditObject = self.createEventObjectToEdit(event);
         });
-        self.eventService.Register("renderCalendar", function () {
+        self.eventService.Register("renderCalendar", function (shifts) {
             _this.viewState = enums_1.SHIFTS_FILTER.ALL;
             $("#filter-select").val(0);
-            self.eventsCache = {};
-            self.RenderCalendar();
+            _this.removeShiftsFromAllCahce();
+            self.renderCalendar(shifts);
         });
         self.eventService.Register("closeShiftEdit", function () {
             self.eventEditObject = null;
@@ -40,10 +50,10 @@ var CalendarComponent = /** @class */ (function () {
         self.eventService.Register("changeFilter", function (filter) {
             self.eventService.Emit("calanderViewRender");
             self.viewState = filter;
-            self.eventsCache = {};
             var dateRange = $('#calendar').fullCalendar('getDate')._i;
             var year = dateRange[0];
             var month = dateRange[1] + 1;
+            _this.removeShiftsFromAllCahce();
             var reqQuery;
             if (filter == enums_1.SHIFTS_FILTER.ALL) {
                 reqQuery = self.shiftService.GetShiftsForBusiness(year, month);
@@ -54,7 +64,9 @@ var CalendarComponent = /** @class */ (function () {
             self.isLoading = true;
             reqQuery.then(function (shifts) {
                 self.isLoading = false;
-                shifts && self.handleShiftsResult(shifts, year, month);
+                var shiftsResult = self.handleShiftsResult(shifts);
+                var constraints = _this.eventsCache[year + "-" + month].constraints;
+                _this.loadEvents(shiftsResult, constraints, year, month);
             });
         }, self.eventsIds);
     }
@@ -62,14 +74,16 @@ var CalendarComponent = /** @class */ (function () {
         var self = this;
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
-            editable: true,
+            editable: false,
             eventRender: function (event, element) {
-                element.bind('dblclick', function () {
-                    self.eventEditObject = self.createEventObjectToEdit(event);
-                });
+                if (self.isUserManager && event.shiftsData != null) {
+                    element.bind('dblclick', function () {
+                        self.eventEditObject = self.createEventObjectToEdit(event);
+                    });
+                }
             },
             viewRender: function (element) {
-                self.RenderCalendar();
+                self.renderCalendar();
             },
             eventClick: function (event) {
                 if (self.markedEvent == this) {
@@ -77,7 +91,7 @@ var CalendarComponent = /** @class */ (function () {
                     $(self.markedEvent).css('border-color', '');
                     self.markedEvent = null;
                 }
-                else {
+                else if (event.shiftsData != null) {
                     // Mark selected event.
                     self.markedEvent && $(self.markedEvent).css('border-color', '');
                     $(this).css('border-color', '#dc3545');
@@ -90,15 +104,20 @@ var CalendarComponent = /** @class */ (function () {
     CalendarComponent.prototype.ngOnDestroy = function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     };
-    CalendarComponent.prototype.RenderCalendar = function () {
+    CalendarComponent.prototype.renderCalendar = function (shifts) {
         var _this = this;
         this.eventService.Emit("calanderViewRender");
         var dateRange = $('#calendar').fullCalendar('getDate')._i;
         var year = dateRange[0];
         var month = dateRange[1] + 1;
         var eventsFromCache = this.eventsCache[year + "-" + month];
-        if (eventsFromCache) {
-            this.loadShifts(eventsFromCache);
+        if (shifts) {
+            this.isLoading = false;
+            var newShifts = this.handleShiftsResult(shifts);
+            this.loadEvents(newShifts, eventsFromCache.constraints, year, month);
+        }
+        else if (eventsFromCache) {
+            this.loadEvents(eventsFromCache.shifts, eventsFromCache.constraints, year, month);
         }
         else {
             var reqQuery = void 0;
@@ -109,27 +128,47 @@ var CalendarComponent = /** @class */ (function () {
                 reqQuery = this.shiftService.GetMyShiftsForBusiness(year, month);
             }
             this.isLoading = true;
-            reqQuery.then(function (shifts) {
+            Promise.all([reqQuery, this.constraintsService.GetUserConstraints(year, month)]).then(function (results) {
+                var shiftsResult = _this.handleShiftsResult(results[0]);
+                var constraintsResult = _this.handleConstraintsResult(results[1]);
                 _this.isLoading = false;
-                shifts && _this.handleShiftsResult(shifts, year, month);
+                _this.loadEvents(shiftsResult, constraintsResult, year, month);
             });
         }
     };
-    CalendarComponent.prototype.handleShiftsResult = function (shifts, year, month) {
+    CalendarComponent.prototype.handleShiftsResult = function (shifts) {
         var events = [];
         shifts.forEach(function (shift) {
             events.push({
                 id: shift._id,
                 title: "שיבוץ",
                 start: shift.date,
+                color: "#3788d8",
+                allDay: true,
                 shiftsData: shift.shiftsData
             });
         });
-        this.eventsCache[year + "-" + month] = events;
-        this.loadShifts(events);
+        return events;
     };
-    CalendarComponent.prototype.loadShifts = function (shifts) {
+    CalendarComponent.prototype.handleConstraintsResult = function (constraints) {
+        var _this = this;
+        var events = [];
+        constraints.forEach(function (constraint) {
+            events.push({
+                id: constraint._id,
+                title: "אילוץ",
+                start: _this.formatToEventDate(constraint.startDate),
+                end: _this.formatToEventDate(constraint.endDate, true),
+                color: '#28a745',
+                allDay: true
+            });
+        });
+        return events;
+    };
+    CalendarComponent.prototype.loadEvents = function (shifts, constraints, year, month) {
+        this.insetToCache(shifts, constraints, year, month);
         this.calendar.fullCalendar('removeEvents');
+        this.calendar.fullCalendar('renderEvents', constraints);
         this.calendar.fullCalendar('renderEvents', shifts);
     };
     CalendarComponent.prototype.createEventObjectToEdit = function (event) {
@@ -153,14 +192,45 @@ var CalendarComponent = /** @class */ (function () {
         }
         return (day + "/" + month + "/" + year);
     };
+    CalendarComponent.prototype.formatToEventDate = function (dateStr, isCheckEnd) {
+        var date = new Date(dateStr);
+        if (isCheckEnd) {
+            date.setDate(date.getDate() + 1);
+        }
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        return (year + "-" + month + "-" + day);
+    };
+    CalendarComponent.prototype.insetToCache = function (shifts, constraints, year, month) {
+        this.eventsCache[year + "-" + month] = {
+            shifts: shifts,
+            constraints: constraints
+        };
+    };
+    CalendarComponent.prototype.removeShiftsFromAllCahce = function () {
+        var cacheObj = this.eventsCache;
+        // Remove all shifts from cache.
+        Object.keys(cacheObj).forEach(function (key) {
+            delete cacheObj["shifts"];
+        });
+    };
     CalendarComponent = __decorate([
         core_1.Component({
             selector: 'calendar',
             templateUrl: './calendar.html',
-            providers: [shifts_service_1.ShiftService],
+            providers: [shifts_service_1.ShiftService, constraints_service_1.ConstraintsService, users_service_1.UsersService],
             styleUrls: ['./calendar.css']
         }),
         __metadata("design:paramtypes", [shifts_service_1.ShiftService,
+            constraints_service_1.ConstraintsService,
+            users_service_1.UsersService,
             event_service_1.EventService])
     ], CalendarComponent);
     return CalendarComponent;

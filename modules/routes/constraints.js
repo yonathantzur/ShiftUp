@@ -47,7 +47,15 @@ router.get("/RefuseConstraint", (req, res) => {
 });
 
 router.get("/getAllConstraintReasons", (req, res) => {
-    constraintsBL.getAllConstraintReasons().then(data => {
+    constraintsBL.GetAllConstraintReasons().then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
+
+router.get("/getUserConstraints", (req, res) => {
+    constraintsBL.GetUserConstraints(req.user.id, req.query.year, req.query.month).then(data => {
         res.send(data);
     }).catch(err => {
         res.status(500).end();

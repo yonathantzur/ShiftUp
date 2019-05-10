@@ -1,35 +1,36 @@
 <div class="navbarContainer">
-    <div class="navbarPages">
-        <a class="navbarItem" (click)="pageClick(pages[0])">
-            <span class="logo">ShiftUp</span>
-        </a>
-        <span *ngIf="loggedInUser" class="navbarItem userGreeting">שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
-        <div class="notificationsIndicator" *ngIf="loggedInUser && loggedInUser.isManager && ( (loggedInUser.requests && loggedInUser.requests > 0) || ( true ) )"><!-- TODO: true -> Constraints.length > 0 -->
+    <a class="logoContainer" (click)="pageClick(pages[0])">
+        <span class="logo">ShiftUp</span>
+    </a>
+    <span *ngIf="loggedInUser" class="userGreeting">
+        <div>שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</div>
+        <div class="notificationsIndicator"
+            *ngIf="loggedInUser && loggedInUser.isManager && ( (loggedInUser.requests && loggedInUser.requests.length > 0) || (loggedInUser.waitingConstraints > 0) )">
             <button class="btn btn-warning bmd-btn-fab bmd-btn-fab-sm dropdown-toggle" data-placement="bottom"
                 data-toggle="dropdown" id="notificationsDropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell"></i>
             </button>
             <div class="dropdown-menu notificationsDropdown" aria-labelledby="notificationsDropdown">
                 <button class="dropdown-item btn" (click)="notificationsWorkersRequestsClick()"
-                    *ngIf="loggedInUser && loggedInUser.requests && loggedInUser.requests.length > 0">
+                    *ngIf="loggedInUser.requests && loggedInUser.requests.length > 0">
                     <span *ngIf="loggedInUser.requests.length == 1; then single else multi"></span>
                     <ng-template #single>בקשת הצטרפות לעסק</ng-template>
-                    <ng-template #multi>{{loggedInUser.requests.length}} בקשות הצטרפות לעסק</ng-template>
+                    <ng-template #multi>בקשות הצטרפות לעסק ({{loggedInUser.requests.length}})</ng-template>
                 </button>
-                <button class="dropdown-item btn" (click)="notificationsConstraintsClick()">בקשות אילוצים</button><!-- TODO: *ngIf="Constraints.length > 0" -->
+                <button class="dropdown-item btn" (click)="notificationsConstraintsClick()"
+                    *ngIf="loggedInUser.waitingConstraints > 0">
+                    <span *ngIf="loggedInUser.waitingConstraints == 1; then single else multi"></span>
+                    <ng-template #single>בקשת אילוץ</ng-template>
+                    <ng-template #multi>בקשות אילוצים ({{loggedInUser.waitingConstraints}})</ng-template>                    
+                </button>
             </div>
         </div>
+    </span>
+    <div class="navbarPages">
         <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked': page.isClicked}"
             (click)="pageClick(page)">
             <span class="navbarPageText">{{page.displayText}}</span>
             <i [class]="page.icon"></i>
         </a>
-    </div>
-    <div class="navbarItem searchNavbarItem">
-        <div class="searchContainer">
-            <input type="text" id="navbarSearch" class="search" placeholder="חיפוש" [(ngModel)]="searchValue"
-                (keypress)="$event.key == 'Enter' ? searchHandler($event) : null" />
-            <span (click)="searchHandler($event)"><i class="fa fa-search pointer"></i></span>
-        </div>
     </div>
 </div>
