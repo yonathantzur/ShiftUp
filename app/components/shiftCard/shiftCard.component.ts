@@ -16,6 +16,7 @@ export class ShiftCardComponent implements OnDestroy {
     shiftsDataCache: Object = {};
     event: any;
     isUserManager: boolean;
+    eventDate: string;
 
     eventsIds: Array<string> = [];
 
@@ -35,6 +36,9 @@ export class ShiftCardComponent implements OnDestroy {
         // Load shift data to show on card when event is clicked.
         self.eventService.Register("calanderEventClick", (event: any) => {
             self.event = event;
+
+            self.eventDate = self.formatEventDate(event.start._d);
+
             let shiftsDataFromCache = self.shiftsDataCache[event.id];
 
             // In case the shift data is in cache.
@@ -68,5 +72,21 @@ export class ShiftCardComponent implements OnDestroy {
 
     edit() {
         this.eventService.Emit("openEditShiftCard", this.event);
+    }
+
+    formatEventDate(date: Date) {
+        let day: any = date.getDate();
+        let month: any = date.getMonth() + 1;
+        let year: any = date.getFullYear();
+
+        if (day < 10) {
+            day = "0" + day;
+        }
+
+        if (month < 10) {
+            month = "0" + month;
+        }
+
+        return (day + "/" + month + "/" + year);
     }
 }

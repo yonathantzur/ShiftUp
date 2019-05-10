@@ -1,6 +1,7 @@
 <div id="shiftCard">
     <div class="cardContainer" *ngIf="shiftsData">
         <i class="far fa-edit edit-shift-icon" *ngIf="isUserManager" (click)="edit()" title="עריכת שיבוץ"></i>
+        <div class="title">שיבוץ - {{eventDate}}</div>
         <div class="shiftContainer" *ngFor="let shift of shiftsData">
             <div class="shiftName">{{shift.name}}</div>
             <div>

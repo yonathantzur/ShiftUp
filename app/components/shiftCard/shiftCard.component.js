@@ -30,6 +30,7 @@ var ShiftCardComponent = /** @class */ (function () {
         // Load shift data to show on card when event is clicked.
         self.eventService.Register("calanderEventClick", function (event) {
             self.event = event;
+            self.eventDate = self.formatEventDate(event.start._d);
             var shiftsDataFromCache = self.shiftsDataCache[event.id];
             // In case the shift data is in cache.
             if (shiftsDataFromCache) {
@@ -58,6 +59,18 @@ var ShiftCardComponent = /** @class */ (function () {
     };
     ShiftCardComponent.prototype.edit = function () {
         this.eventService.Emit("openEditShiftCard", this.event);
+    };
+    ShiftCardComponent.prototype.formatEventDate = function (date) {
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        return (day + "/" + month + "/" + year);
     };
     ShiftCardComponent = __decorate([
         core_1.Component({
