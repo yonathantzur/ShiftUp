@@ -1,7 +1,7 @@
 <div id="workers">
     <h4 class="title">
-        עובדי העסק {{business.name}}
-        <i class="fa fa-users"></i>
+        עובדי העסק - {{business.name}}
+        <i class="fa fa-users title-icon"></i>
     </h4>
     <div class="buttonsContainer" *ngIf="manager && allWorkers">
         <button class="btn btn-dark btn-raised" (click)="showRequests()" *ngIf="manager.requests.length > 0">

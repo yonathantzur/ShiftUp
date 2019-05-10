@@ -98,7 +98,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
-            editable: true,
+            editable: false,
             eventRender: function (event: any, element: any) {
                 if (self.isUserManager && event.shiftsData != null) {
                     element.bind('dblclick', () => {
@@ -176,6 +176,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 id: shift._id,
                 title: "שיבוץ",
                 start: shift.date,
+                color: "#3788d8",
+                allDay: true,
                 shiftsData: shift.shiftsData
             });
         });
@@ -192,7 +194,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 title: "אילוץ",
                 start: this.formatToEventDate(constraint.startDate),
                 end: this.formatToEventDate(constraint.endDate, true),
-                color: '#378006',
+                color: '#28a745',
                 allDay: true
             });
         });

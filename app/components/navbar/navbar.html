@@ -5,7 +5,7 @@
     <span *ngIf="loggedInUser" class="userGreeting">
         <div>שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</div>
         <div class="notificationsIndicator"
-            *ngIf="loggedInUser && loggedInUser.isManager && ( (loggedInUser.requests && loggedInUser.requests > 0) || (loggedInUser.waitingConstraints > 0) )">
+            *ngIf="loggedInUser && loggedInUser.isManager && ( (loggedInUser.requests && loggedInUser.requests.length > 0) || (loggedInUser.waitingConstraints > 0) )">
             <button class="btn btn-warning bmd-btn-fab bmd-btn-fab-sm dropdown-toggle" data-placement="bottom"
                 data-toggle="dropdown" id="notificationsDropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell"></i>

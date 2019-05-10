@@ -74,7 +74,7 @@ var CalendarComponent = /** @class */ (function () {
         var self = this;
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
-            editable: true,
+            editable: false,
             eventRender: function (event, element) {
                 if (self.isUserManager && event.shiftsData != null) {
                     element.bind('dblclick', function () {
@@ -143,6 +143,8 @@ var CalendarComponent = /** @class */ (function () {
                 id: shift._id,
                 title: "שיבוץ",
                 start: shift.date,
+                color: "#3788d8",
+                allDay: true,
                 shiftsData: shift.shiftsData
             });
         });
@@ -157,7 +159,7 @@ var CalendarComponent = /** @class */ (function () {
                 title: "אילוץ",
                 start: _this.formatToEventDate(constraint.startDate),
                 end: _this.formatToEventDate(constraint.endDate, true),
-                color: '#378006',
+                color: '#28a745',
                 allDay: true
             });
         });
