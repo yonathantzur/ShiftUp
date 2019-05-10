@@ -132,11 +132,12 @@ export class WorkersComponent {
         let containerWidth = $("#cards-container").innerWidth();
         let cardWidth = $(".workerCard").innerWidth();
 
-        let cardsInContainer = Math.min(5, Math.floor(containerWidth / cardWidth));
-        let cardsMargin = 30 * cardsInContainer;
+        let cardsInLine = Math.min(5, Math.floor(containerWidth / cardWidth));        
 
-        let finalWidth = containerWidth - (cardsInContainer * cardWidth) - cardsMargin;
+        let cardsMargin = 30 * cardsInLine;
 
-        return "0 " + (finalWidth / 2)  + "px";
+        let finalWidth = containerWidth - (cardsInLine * cardWidth) - cardsMargin;
+
+        return "0 " + Math.min((finalWidth / 2), cardWidth)  + "px";
     }
 }
