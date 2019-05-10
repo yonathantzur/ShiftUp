@@ -223,7 +223,7 @@ var CalendarComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'calendar',
             templateUrl: './calendar.html',
-            providers: [shifts_service_1.ShiftService, constraints_service_1.ConstraintsService],
+            providers: [shifts_service_1.ShiftService, constraints_service_1.ConstraintsService, users_service_1.UsersService],
             styleUrls: ['./calendar.css']
         }),
         __metadata("design:paramtypes", [shifts_service_1.ShiftService,

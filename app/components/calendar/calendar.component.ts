@@ -12,7 +12,7 @@ declare let $: any;
 @Component({
     selector: 'calendar',
     templateUrl: './calendar.html',
-    providers: [ShiftService, ConstraintsService],
+    providers: [ShiftService, ConstraintsService, UsersService],
     styleUrls: ['./calendar.css']
 })
 
