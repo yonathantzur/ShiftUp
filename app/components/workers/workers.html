@@ -33,7 +33,7 @@
     <div *ngIf="allWorkers && filteredWorkers; then workers else workersLoader"></div>
     <ng-template #workers>
         <div class="workersContainer">
-            <div>
+            <div id="cards-container" [ngStyle]="{'padding': calcCardsContainerPadding()}">
                 <workerCard class="workerCard" *ngFor="let worker of filteredWorkers"
                     [worker]=worker (onDelete)="deleteWorkerHandler(worker)"></workerCard>
             </div>

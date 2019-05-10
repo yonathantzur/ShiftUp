@@ -15,10 +15,14 @@
                     *ngIf="loggedInUser.requests && loggedInUser.requests.length > 0">
                     <span *ngIf="loggedInUser.requests.length == 1; then single else multi"></span>
                     <ng-template #single>בקשת הצטרפות לעסק</ng-template>
-                    <ng-template #multi>{{loggedInUser.requests.length}} בקשות הצטרפות לעסק</ng-template>
+                    <ng-template #multi>בקשות הצטרפות לעסק ({{loggedInUser.requests.length}})</ng-template>
                 </button>
                 <button class="dropdown-item btn" (click)="notificationsConstraintsClick()"
-                    *ngIf="loggedInUser.waitingConstraints > 0">בקשות אילוצים</button>
+                    *ngIf="loggedInUser.waitingConstraints > 0">
+                    <span *ngIf="loggedInUser.waitingConstraints == 1; then single else multi"></span>
+                    <ng-template #single>בקשת אילוץ</ng-template>
+                    <ng-template #multi>בקשות אילוצים ({{loggedInUser.waitingConstraints}})</ng-template>                    
+                </button>
             </div>
         </div>
     </span>

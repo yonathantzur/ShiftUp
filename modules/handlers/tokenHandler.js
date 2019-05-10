@@ -22,7 +22,8 @@ module.exports = {
             "userId": user.userId,
             "businessId": user.businessId,
             "waitBusinessId": user.waitBusinessId,
-            "isManager": user.isManager
+            "isManager": user.isManager,
+            "requests": user.requests
         }
     },
 

@@ -126,4 +126,17 @@ export class WorkersComponent {
         this.workerSearchText = "";
         this.filteredWorkers = this.allWorkers;
     }
+
+    // Calculate padding to center the cards.
+    calcCardsContainerPadding() {
+        let containerWidth = $("#cards-container").innerWidth();
+        let cardWidth = $(".workerCard").innerWidth();
+
+        let cardsInContainer = Math.min(5, Math.floor(containerWidth / cardWidth));
+        let cardsMargin = 30 * cardsInContainer;
+
+        let finalWidth = containerWidth - (cardsInContainer * cardWidth) - cardsMargin;
+
+        return "0 " + (finalWidth / 2)  + "px";
+    }
 }
