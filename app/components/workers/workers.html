@@ -17,17 +17,9 @@
     </div>
     <div class="filterContainer input-group" *ngIf="allWorkers && allWorkers.length > 0">
         <input type="text" class="form-control" placeholder="חיפוש" [(ngModel)]="workerSearchText"
-            (keydown.enter)="SearchWorkerHandler()" (keydown.esc)="ResetSearchWorkerHandler()" />
-        <div class="input-group-append">
-            <span class="input-group-text">
-                <button class="btn btn-raised" *ngIf="workerSearchText.length > 0"
-                    (click)="ResetSearchWorkerHandler()" title="איפוס">
-                    <i class="fas fa-times pointer"></i>
-                </button>
-                <button class="btn btn-raised" (click)="SearchWorkerHandler()" title="חיפוש">
-                    <i class="fa fa-search pointer"></i>
-                </button>
-            </span>
+            (keyup)="SearchWorkerHandler()" (keydown.esc)="ResetSearchWorkerHandler()" />
+        <div class="search-icon-container">
+            <i class="fas fa-search"></i>
         </div>
     </div>
     <div *ngIf="allWorkers && filteredWorkers; then workers else workersLoader"></div>

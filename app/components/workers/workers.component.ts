@@ -52,25 +52,25 @@ export class WorkersComponent {
         }).then((result: any) => {
             if (result.value) {
                 this.workersService.RemoveWorkerFromBusiness(workerToDelete.userId)
-                .then(() => {
-                    this.allWorkers = this.allWorkers.filter(worker => worker.userId !== workerToDelete.userId);
-                    this.SearchWorkerHandler();
-                    Swal.fire({
-                        title: "הפעולה הצליחה!",
-                        text: "העובד " + workerToDelete.firstName + " " + workerToDelete.lastName + " נמחק בהצלחה",
-                        type: "success",
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                })
-                .catch((err: any) => {
-                    Swal.fire({
-                        title: "שגיאה",
-                        text: "הפעולה נכשלה!",
-                        type: "error",
-                        confirmButtonText: "אישור"
-                    });
-                })
+                    .then(() => {
+                        this.allWorkers = this.allWorkers.filter(worker => worker.userId !== workerToDelete.userId);
+                        this.SearchWorkerHandler();
+                        Swal.fire({
+                            title: "הפעולה הצליחה!",
+                            text: "העובד " + workerToDelete.firstName + " " + workerToDelete.lastName + " נמחק בהצלחה",
+                            type: "success",
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    })
+                    .catch((err: any) => {
+                        Swal.fire({
+                            title: "שגיאה",
+                            text: "הפעולה נכשלה!",
+                            type: "error",
+                            confirmButtonText: "אישור"
+                        });
+                    })
             }
         });
     }
@@ -87,37 +87,41 @@ export class WorkersComponent {
         }).then((result: any) => {
             if (result.value) {
                 this.workersService.RemoveAllWorkersFromBusiness()
-                .then(() => {
-                    this.allWorkers = [];
-                    this.filteredWorkers = [];
-                    Swal.fire({
-                        title: "הפעולה הצליחה!",
-                        text: "כל העובדים נמחקו בהצלחה.",
-                        type: "success",
-                        showConfirmButton: false,
-                        timer: 1500
+                    .then(() => {
+                        this.allWorkers = [];
+                        this.filteredWorkers = [];
+                        Swal.fire({
+                            title: "הפעולה הצליחה!",
+                            text: "כל העובדים נמחקו בהצלחה.",
+                            type: "success",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    })
+                    .catch((err: any) => {
+                        Swal.fire({
+                            title: "שגיאה",
+                            text: "הפעולה נכשלה!",
+                            type: "error",
+                            confirmButtonText: "אישור"
+                        });
                     });
-                })
-                .catch((err: any) => {
-                    Swal.fire({
-                        title: "שגיאה",
-                        text: "הפעולה נכשלה!",
-                        type: "error",
-                        confirmButtonText: "אישור"
-                    });
-                });
             }
         });
     }
-    
+
     SearchWorkerHandler = () => {
-        if (this.workerSearchText != "") {
+        if (this.workerSearchText) {
             this.filteredWorkers = this.allWorkers.filter((worker: any) => {
                 const currWorkerFullName = worker.firstName + ' ' + worker.lastName;
-                return currWorkerFullName.includes(this.workerSearchText) ||
-                    worker.userId.includes(this.workerSearchText)
-            })
-        } else {
+                const currWorkerFullNameReversed = worker.lastName + ' ' + worker.firstName;
+
+                return currWorkerFullName.indexOf(this.workerSearchText) == 0 ||
+                    currWorkerFullNameReversed.indexOf(this.workerSearchText) == 0 ||
+                    worker.userId.indexOf(this.workerSearchText) == 0
+            });
+        }
+        else {
             this.filteredWorkers = this.allWorkers;
         }
     }
@@ -132,12 +136,12 @@ export class WorkersComponent {
         let containerWidth = $("#cards-container").innerWidth();
         let cardWidth = $(".workerCard").innerWidth();
 
-        let cardsInLine = Math.min(5, Math.floor(containerWidth / cardWidth));        
+        let cardsInLine = Math.min(5, Math.floor(containerWidth / cardWidth));
 
         let cardsMargin = 30 * cardsInLine;
 
         let finalWidth = containerWidth - (cardsInLine * cardWidth) - cardsMargin;
 
-        return "0 " + Math.min((finalWidth / 2), cardWidth)  + "px";
+        return "0 " + Math.min((finalWidth / 2), cardWidth) + "px";
     }
 }
