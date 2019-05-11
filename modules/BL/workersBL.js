@@ -6,9 +6,9 @@ const contsrainstsBL = require('./constraintsBL');
 const businessesCollectionName = config.db.collections.businesses;
 const usersCollectionName = config.db.collections.users;
 
-module.exports = {
+let self = module.exports = {
     GetBusinessByCode(businessCode) {
-        return GetBusinessDetails({ "businessCode": parseInt(businessCode) });
+        return self.GetBusinessDetails({ "businessCode": parseInt(businessCode) });
     },
 
     SendWorkerRequest(worker, managerId, businessId) {
@@ -28,7 +28,7 @@ module.exports = {
     },
 
     GetWaitBusinessDetails(businessId) {
-        return GetBusinessDetails({ "_id": DAL.GetObjectId(businessId) });
+        return self.GetBusinessDetails({ "_id": DAL.GetObjectId(businessId) });
     },
 
     AddWorkerToBusiness(businessId, userId, salary) {
@@ -42,17 +42,17 @@ module.exports = {
                     waitBusinessId: 1,
                 }
             })
-            .then(user => {
-                DAL.Update(usersCollectionName, {}, {
-                    $pull: { requests: DAL.GetObjectId(user._id) }
-                }).then(() => {
-                    DAL.UpdateOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) }, {
-                        $addToSet: { workers: user._id }
-                    }).then(business => resolve(business))
+                .then(user => {
+                    DAL.Update(usersCollectionName, {}, {
+                        $pull: { requests: DAL.GetObjectId(user._id) }
+                    }).then(() => {
+                        DAL.UpdateOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) }, {
+                            $addToSet: { workers: user._id }
+                        }).then(business => resolve(business))
+                            .catch(reject);
+                    })
                         .catch(reject);
                 })
-                    .catch(reject);
-            })
                 .catch(reject);
         })
     },
@@ -68,15 +68,15 @@ module.exports = {
             }).then(user => {
                 DAL.UpdateOne(businessesCollectionName,
                     { _id: DAL.GetObjectId(businessId) },
-                    { $pull: { workers: DAL.GetObjectId(user._id) }})
-                .then(business => {
-                    contsrainstsBL.DeleteConstraintsByUserId(user._id)
-                        .then(data => resolve(data))                    
-                        .catch(reject);
-                })
-                .catch(reject);
+                    { $pull: { workers: DAL.GetObjectId(user._id) } })
+                    .then(business => {
+                        contsrainstsBL.DeleteConstraintsByUserId(user._id)
+                            .then(data => resolve(data))
+                            .catch(reject);
+                    })
+                    .catch(reject);
             })
-            .catch(reject);
+                .catch(reject);
         })
     },
 
@@ -100,14 +100,14 @@ module.exports = {
                 DAL.UpdateOne(businessesCollectionName,
                     { _id: DAL.GetObjectId(businessId) },
                     { $set: { workers: [] } })
-                .then(business => {
-                    contsrainstsBL.DeleteConstraintsByBusinessId(businessId)
-                        .then((data) => resolve(data))
-                        .catch(reject);
-                })
-                .catch(reject);
+                    .then(business => {
+                        contsrainstsBL.DeleteConstraintsByBusinessId(businessId)
+                            .then((data) => resolve(data))
+                            .catch(reject);
+                    })
+                    .catch(reject);
             })
-            .catch(reject);
+                .catch(reject);
         })
     },
 
@@ -117,44 +117,62 @@ module.exports = {
             const workerObjId = DAL.GetObjectId(worker_id)
 
             DAL.UpdateOne(usersCollectionName, { _id: managerObjId },
-                { $pull: { requests: workerObjId }
-            })
-            .then(manager => {
-                DAL.UpdateOne(usersCollectionName, { _id: workerObjId },
-                    {
-                        $unset: {
-                            waitBusinessId: 1
+                {
+                    $pull: { requests: workerObjId }
+                })
+                .then(manager => {
+                    DAL.UpdateOne(usersCollectionName, { _id: workerObjId },
+                        {
+                            $unset: {
+                                waitBusinessId: 1
+                            }
                         }
-                    }
-                ).then(worker => resolve(worker))
-                .catch(reject)
-            })
-            .catch(reject);
+                    ).then(worker => resolve(worker))
+                        .catch(reject)
+                })
+                .catch(reject);
         })
+    },
+
+    GetBusinessDetails(queryObj) {
+        return new Promise((resolve, reject) => {
+            let fieldsName = {
+                "name": 1,
+                "address": 1,
+                "manager": 1
+            }
+
+            DAL.FindOneSpecific(businessesCollectionName, queryObj, fieldsName).then(business => {
+                if (business) {
+                    let managerId = DAL.GetObjectId(business.manager);
+                    let managerQueryObj = { _id: managerId };
+                    let managerQueryFields = { "firstName": 1, "lastName": 1 };
+                    DAL.FindOneSpecific(usersCollectionName, managerQueryObj, managerQueryFields).then(manager => {
+                        business.manager = manager;
+                        resolve(business);
+                    })
+                }
+                else {
+                    resolve(false)
+                }
+            }).catch(reject);
+        });
+    },
+
+    CancelBusinessRequest(userId) {
+        return new Promise((resolve, reject) => {
+            userObjId = DAL.GetObjectId(userId);
+            userFilter = { "_id": userObjId };
+            userUpdateQuery = { $unset: { "waitBusinessId": 1 } }
+            managerRequestUpdateQuery = { $pull: { "requests": userObjId } };
+
+            let userUpdate = DAL.UpdateOne(usersCollectionName, userFilter, userUpdateQuery);
+            let managerUpdate = DAL.UpdateOne(usersCollectionName, {}, managerRequestUpdateQuery);
+
+            Promise.all([userUpdate, managerUpdate]).then(results => {
+                // Resulove the updated user object.
+                resolve(results[0]);
+            }).catch(reject);
+        });
     }
 };
-
-function GetBusinessDetails(queryObj) {
-    return new Promise((resolve, reject) => {
-        let fieldsName = {
-            "name": 1,
-            "address": 1,
-            "manager": 1
-        }
-
-        DAL.FindOneSpecific(businessesCollectionName, queryObj, fieldsName).then(business => {
-            if (business) {
-                let managerId = DAL.GetObjectId(business.manager);
-                let managerQueryObj = { _id: managerId };
-                let managerQueryFields = { "firstName": 1, "lastName": 1 };
-                DAL.FindOneSpecific(usersCollectionName, managerQueryObj, managerQueryFields).then(manager => {
-                    business.manager = manager;
-                    resolve(business);
-                })
-            }
-            else {
-                resolve(false)
-            }
-        }).catch(reject);
-    });
-}
