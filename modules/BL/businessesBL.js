@@ -57,7 +57,7 @@ let self = module.exports = {
                     from: usersCollectionName,
                     localField: 'workers',
                     foreignField: '_id',
-                    as: 'workers',
+                    as: 'workers'
                 }
             }
 
@@ -67,20 +67,53 @@ let self = module.exports = {
                     from: usersCollectionName,
                     localField: 'manager',
                     foreignField: '_id',
-                    as: 'manager',
+                    as: 'manager'
+                }
+            }
+
+            let projectFilter = {
+                $project: {
+                    "workers": 1,
+                    "manager": 1
                 }
             }
 
             let aggregatePipline = [
                 businessFilter,
                 joinWorkersQuery,
-                joinManagerQuery
+                joinManagerQuery,
+                projectFilter
             ]
 
             DAL.Aggregate(businessesCollectionName, aggregatePipline).then(result => {
                 let business = result[0];
+                let allWorkers = business.workers.concat(business.manager);
 
-                resolve(business.workers.concat(business.manager));
+                allWorkers = allWorkers.map(worker => {
+                    return {
+                        "_id": worker._id,
+                        "firstName": worker.firstName,
+                        "lastName": worker.lastName,
+                        "fullName": worker.firstName + " " + worker.lastName,
+                        "birthDate": worker.birthDate,
+                        "userId": worker.userId,
+                        "salary": worker.salary,
+                        "isManager": worker.isManager,
+                        "requests": worker.requests
+                    };
+                });
+
+                allWorkers = allWorkers.sort((a, b) => {
+                    if (a.fullName > b.fullName) {
+                        return 1;
+                    }
+                    else {
+                        return -1;
+                    }
+                });
+
+
+                resolve(allWorkers);
             }).catch(reject)
         });
     },
