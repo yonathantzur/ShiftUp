@@ -50,15 +50,38 @@ let self = module.exports = {
 
     GetWorkersForBusiness(businessId) {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) })
-                .then(business => {
-                    let workers = business.workers;
-                    workers.push(business.manager);
+            let businessFilter = { $match: { "_id": DAL.GetObjectId(businessId) } };
+            let joinWorkersQuery = {
+                $lookup:
+                {
+                    from: usersCollectionName,
+                    localField: 'workers',
+                    foreignField: '_id',
+                    as: 'workers',
+                }
+            }
 
-                    DAL.FindSpecific(usersCollectionName, { _id: { $in: workers } })
-                        .then(resolve)
-                        .catch(reject);
-                }).catch(reject);
+            let joinManagerQuery = {
+                $lookup:
+                {
+                    from: usersCollectionName,
+                    localField: 'manager',
+                    foreignField: '_id',
+                    as: 'manager',
+                }
+            }
+
+            let aggregatePipline = [
+                businessFilter,
+                joinWorkersQuery,
+                joinManagerQuery
+            ]
+
+            DAL.Aggregate(businessesCollectionName, aggregatePipline).then(result => {
+                let business = result[0];
+
+                resolve(business.workers.concat(business.manager));
+            }).catch(reject)
         });
     },
 

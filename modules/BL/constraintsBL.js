@@ -2,6 +2,7 @@ const DAL = require('../DAL');
 const config = require('../../config');
 const enums = require('../enums');
 
+const usersCollectionName = config.db.collections.users;
 const constraintsCollectionName = config.db.collections.constraints;
 const constraintsReasonsCollectionName = config.db.collections.constraintsReasons;
 const statusTypeCollectionName = config.db.collections.statusType;
@@ -14,7 +15,7 @@ let self = module.exports = {
                 {
                     $lookup:
                     {
-                        from: 'Users',
+                        from: usersCollectionName,
                         localField: 'userObjId',
                         foreignField: '_id',
                         as: 'user',
@@ -34,7 +35,7 @@ let self = module.exports = {
                 {
                     $lookup:
                     {
-                        from: 'Users',
+                        from: usersCollectionName,
                         localField: 'userObjId',
                         foreignField: '_id',
                         as: 'user',
