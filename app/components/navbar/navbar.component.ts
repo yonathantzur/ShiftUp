@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EventService } from '../../services/event/event.service'
 import { LoginService } from '../../services/login/login.service';
 import { UsersService } from '../../services/users/users.service';
 
@@ -24,8 +25,15 @@ export class NavbarComponent implements OnInit {
     loggedInUser: any;
 
     constructor(private router: Router,
+        private eventService: EventService,
         private loginService: LoginService,
-        private usersService: UsersService) { }
+        private usersService: UsersService) {
+        this.eventService.Register("removeBusinessRequest", (userId: string) => {
+            this.loggedInUser.requests = this.loggedInUser.requests.filter((reqId: string) => {
+                return (reqId != userId);
+            });
+        });
+    }
 
     ngOnInit() {
         this.usersService.GetLoggedInUser().then((user: any) => {

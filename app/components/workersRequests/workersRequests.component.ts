@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { EventService } from '../../services/event/event.service'
 import { UsersService } from '../../services/users/users.service';
 import { BusinessesService } from '../../services/businesses/businesses.service';
 import { WorkersService } from '../../services/workers/workers.service';
@@ -18,11 +19,11 @@ export class WorkersRequestsComponent {
     business: any;
 
     constructor(
+        private eventService: EventService,
         private usersService: UsersService,
         private businessesService: BusinessesService,
         private workersService: WorkersService,
-        private router: Router
-    ) { }
+        private router: Router) { }
 
     ngOnInit() {
         this.usersService.GetUsersRequestedToBusiness().then((usersRequests: Array<any>) => {
@@ -67,13 +68,41 @@ export class WorkersRequestsComponent {
                 type: "error",
                 confirmButtonText: "אישור"
             });
-        } else {
+        }
+        else {
             this.workersService.AddWorkerToBusiness(requestUser.userId, requestUser.salary)
-            .then(() => {
+                .then(() => {
+                    this.removeRequest(requestUser._id);
+                    Swal.fire({
+                        title: "הפעולה הצליחה",
+                        text: "העובד " + requestUser.firstName + ' ' + requestUser.lastName + " נוסף בהצלחה לעסק",
+                        type: "success",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                    if (this.requestUsers.length == 0) {
+                        this.router.navigateByUrl('/workers');
+                    }
+                })
+                .catch((err: any) => {
+                    Swal.fire({
+                        title: "שגיאה!",
+                        text: 'פעולת אישור העובד ' + requestUser.firstName + ' ' + requestUser.lastName + ' נכשלה',
+                        type: "error",
+                        confirmButtonText: "אישור"
+                    });
+                    return;
+                });
+        }
+    }
+
+    denyRequestHandler = (requestUser: any) => {
+        this.workersService.DenyWorkerRequest(requestUser._id)
+            .then((result) => {
                 this.removeRequest(requestUser._id);
                 Swal.fire({
                     title: "הפעולה הצליחה",
-                    text: "העובד " + requestUser.firstName + ' ' + requestUser.lastName + " נוסף בהצלחה לעסק",
+                    text: "בקשת העובד " + requestUser.firstName + ' ' + requestUser.lastName + " נדחתה בהצלחה",
                     type: "success",
                     showConfirmButton: false,
                     timer: 1000
@@ -84,41 +113,15 @@ export class WorkersRequestsComponent {
             })
             .catch((err: any) => {
                 Swal.fire({
-                    title: "שגיאה!",
-                    text: 'פעולת אישור העובד ' + requestUser.firstName + ' ' + requestUser.lastName + ' נכשלה',
-                    type: "error",
-                    confirmButtonText: "אישור"
+                    type: 'error',
+                    title: 'שגיאה!',
+                    text: 'דחיית הבקשה נכשלה'
                 });
-                return;
-            });
-        }
-    }
-
-    denyRequestHandler = (requestUser: any) => {
-        this.workersService.DenyWorkerRequest(requestUser._id)
-        .then((result) => {
-            this.removeRequest(requestUser._id);
-            Swal.fire({
-                title: "הפעולה הצליחה",
-                text: "בקשת העובד " + requestUser.firstName + ' ' + requestUser.lastName + " נדחתה בהצלחה",
-                type: "success",
-                showConfirmButton: false,
-                timer: 1000
-            });
-            if (this.requestUsers.length == 0) {
-                this.router.navigateByUrl('/workers');
-            }
-        })
-        .catch((err: any) => {
-            Swal.fire({
-                type: 'error',
-                title: 'שגיאה!',
-                text: 'דחיית הבקשה נכשלה'
-            });
-        })
+            })
     }
 
     removeRequest = (requestUser_id: string) => {
         this.requestUsers = this.requestUsers.filter(request => request._id !== requestUser_id);
+        this.eventService.Emit("removeBusinessRequest", requestUser_id);
     }
 }

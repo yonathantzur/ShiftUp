@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var event_service_1 = require("../../services/event/event.service");
 var login_service_1 = require("../../services/login/login.service");
 var users_service_1 = require("../../services/users/users.service");
 var page = /** @class */ (function () {
@@ -19,9 +20,10 @@ var page = /** @class */ (function () {
     return page;
 }());
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent(router, loginService, usersService) {
+    function NavbarComponent(router, eventService, loginService, usersService) {
         var _this = this;
         this.router = router;
+        this.eventService = eventService;
         this.loginService = loginService;
         this.usersService = usersService;
         this.searchValue = "";
@@ -43,6 +45,11 @@ var NavbarComponent = /** @class */ (function () {
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);
         };
+        this.eventService.Register("removeBusinessRequest", function (userId) {
+            _this.loggedInUser.requests = _this.loggedInUser.requests.filter(function (reqId) {
+                return (reqId != userId);
+            });
+        });
     }
     NavbarComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -105,6 +112,7 @@ var NavbarComponent = /** @class */ (function () {
             styleUrls: ['./navbar.css']
         }),
         __metadata("design:paramtypes", [router_1.Router,
+            event_service_1.EventService,
             login_service_1.LoginService,
             users_service_1.UsersService])
     ], NavbarComponent);
