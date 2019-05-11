@@ -116,7 +116,9 @@ var CalendarComponent = /** @class */ (function () {
             var newShifts = this.handleShiftsResult(shifts);
             this.loadEvents(newShifts, eventsFromCache.constraints, year, month);
         }
-        else if (eventsFromCache) {
+        else if (eventsFromCache &&
+            eventsFromCache.shifts &&
+            eventsFromCache.constraints) {
             this.loadEvents(eventsFromCache.shifts, eventsFromCache.constraints, year, month);
         }
         else {
@@ -218,7 +220,7 @@ var CalendarComponent = /** @class */ (function () {
         var cacheObj = this.eventsCache;
         // Remove all shifts from cache.
         Object.keys(cacheObj).forEach(function (key) {
-            delete cacheObj["shifts"];
+            delete cacheObj[key]["shifts"];
         });
     };
     CalendarComponent = __decorate([

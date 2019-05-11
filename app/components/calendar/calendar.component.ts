@@ -144,7 +144,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
             let newShifts = this.handleShiftsResult(shifts);
             this.loadEvents(newShifts, eventsFromCache.constraints, year, month);
         }
-        else if (eventsFromCache) {
+        else if (eventsFromCache &&
+            eventsFromCache.shifts &&
+            eventsFromCache.constraints) {
             this.loadEvents(eventsFromCache.shifts, eventsFromCache.constraints, year, month);
         }
         else {
@@ -271,7 +273,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
         // Remove all shifts from cache.
         Object.keys(cacheObj).forEach(key => {
-            delete cacheObj["shifts"];
+            delete cacheObj[key]["shifts"];
         });
     }
 }
