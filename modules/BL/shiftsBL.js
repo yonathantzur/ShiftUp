@@ -118,7 +118,7 @@ let self = module.exports = {
 
             DAL.UpdateOne(shiftsCollectionName, shiftFilter, updateShiftDataQuery).then(() => {
                 resolve(true);
-            }).catch(reject)
+            }).catch(reject);
         });
     }
 

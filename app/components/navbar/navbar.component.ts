@@ -28,9 +28,9 @@ export class NavbarComponent implements OnInit {
         private eventService: EventService,
         private loginService: LoginService,
         private usersService: UsersService) {
-        this.eventService.Register("removeBusinessRequest", (userId: string) => {
-            this.loggedInUser.requests = this.loggedInUser.requests.filter((reqId: string) => {
-                return (reqId != userId);
+        this.eventService.Register("removeBusinessRequest", (userObjId: string) => {
+            this.loggedInUser.requests = this.loggedInUser.requests.filter((reqObjId: string) => {
+                return (reqObjId != userObjId);
             });
         });
     }

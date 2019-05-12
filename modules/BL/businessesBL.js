@@ -103,15 +103,7 @@ let self = module.exports = {
                     };
                 });
 
-                allWorkers = allWorkers.sort((a, b) => {
-                    if (a.fullName > b.fullName) {
-                        return 1;
-                    }
-                    else {
-                        return -1;
-                    }
-                });
-
+                allWorkers = allWorkers.sort((a, b) => a.fullName > b.fullName ? 1 : -1);
 
                 resolve(allWorkers);
             }).catch(reject)
