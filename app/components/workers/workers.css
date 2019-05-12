@@ -57,3 +57,8 @@
 .title-icon {
     margin-right: 5px;
 }
+
+.search-icon-container {
+    display: flex;
+    align-items: center;
+}

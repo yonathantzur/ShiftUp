@@ -11,12 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var event_service_1 = require("../../services/event/event.service");
 var users_service_1 = require("../../services/users/users.service");
 var businesses_service_1 = require("../../services/businesses/businesses.service");
 var workers_service_1 = require("../../services/workers/workers.service");
 var WorkersRequestsComponent = /** @class */ (function () {
-    function WorkersRequestsComponent(usersService, businessesService, workersService, router) {
+    function WorkersRequestsComponent(eventService, usersService, businessesService, workersService, router) {
         var _this = this;
+        this.eventService = eventService;
         this.usersService = usersService;
         this.businessesService = businessesService;
         this.workersService = workersService;
@@ -95,6 +97,7 @@ var WorkersRequestsComponent = /** @class */ (function () {
         };
         this.removeRequest = function (requestUser_id) {
             _this.requestUsers = _this.requestUsers.filter(function (request) { return request._id !== requestUser_id; });
+            _this.eventService.Emit("removeBusinessRequest", requestUser_id);
         };
     }
     WorkersRequestsComponent.prototype.ngOnInit = function () {
@@ -123,7 +126,8 @@ var WorkersRequestsComponent = /** @class */ (function () {
             providers: [users_service_1.UsersService, businesses_service_1.BusinessesService, workers_service_1.WorkersService],
             styleUrls: ['./workersRequests.css']
         }),
-        __metadata("design:paramtypes", [users_service_1.UsersService,
+        __metadata("design:paramtypes", [event_service_1.EventService,
+            users_service_1.UsersService,
             businesses_service_1.BusinessesService,
             workers_service_1.WorkersService,
             router_1.Router])

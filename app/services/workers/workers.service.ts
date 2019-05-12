@@ -52,4 +52,11 @@ export class WorkersService extends BasicService {
             .catch((err: any) => null);
     }
 
+    CancelBusinessRequest() {
+        return super.delete(this.prefix + '/cancelBusinessRequest')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
+
 }

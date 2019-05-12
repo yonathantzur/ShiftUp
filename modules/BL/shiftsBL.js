@@ -99,21 +99,24 @@ let self = module.exports = {
 
     UpdateEventShifts(shiftId, shiftsData) {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(shiftsCollectionName, { "_id": DAL.GetObjectId(shiftId) }).then(shift => {
-                // Remove workers name from shifts workers.
-                shiftsData = shiftsData.map(shift => {
-                    return {
-                        "name": shift.name,
-                        "workers": shift.workers.map(worker => {
-                            return DAL.GetObjectId(worker._id);
-                        })
-                    }
-                });
+            // Remove workers name from shifts workers.
+            shiftsData = shiftsData.map(shift => {
+                return {
+                    "name": shift.name,
+                    "workers": shift.workers.map(worker => {
+                        return DAL.GetObjectId(worker._id);
+                    })
+                }
+            });
 
-                shift.shiftsData = shiftsData;
+            let shiftFilter = { "_id": DAL.GetObjectId(shiftId) };
+            let updateShiftDataQuery = {
+                $set: {
+                    "shiftsData": shiftsData
+                }
+            }
 
-                DAL.Save(shiftsCollectionName, shift).then(resolve);
-
+            DAL.UpdateOne(shiftsCollectionName, shiftFilter, updateShiftDataQuery).then(() => {
                 resolve(true);
             }).catch(reject);
         });

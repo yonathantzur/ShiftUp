@@ -4,8 +4,8 @@
         <i class="title-icon fas fa-user"></i>
     </div>
     <div class="body row col-md-4 col-10">
-        <form>
-            <div class="form-group" *ngIf="business">
+        <form *ngIf="business">
+            <div class="form-group">
                 <p>
                     שלום {{business.workerName}},
                     <br>

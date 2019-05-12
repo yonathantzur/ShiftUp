@@ -93,11 +93,13 @@ var WorkersComponent = /** @class */ (function () {
             });
         };
         this.SearchWorkerHandler = function () {
-            if (_this.workerSearchText != "") {
+            if (_this.workerSearchText) {
                 _this.filteredWorkers = _this.allWorkers.filter(function (worker) {
                     var currWorkerFullName = worker.firstName + ' ' + worker.lastName;
-                    return currWorkerFullName.includes(_this.workerSearchText) ||
-                        worker.userId.includes(_this.workerSearchText);
+                    var currWorkerFullNameReversed = worker.lastName + ' ' + worker.firstName;
+                    return currWorkerFullName.indexOf(_this.workerSearchText) == 0 ||
+                        currWorkerFullNameReversed.indexOf(_this.workerSearchText) == 0 ||
+                        worker.userId.indexOf(_this.workerSearchText) == 0;
                 });
             }
             else {

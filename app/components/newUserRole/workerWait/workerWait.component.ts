@@ -21,7 +21,16 @@ export class WorkerWaitComponent implements OnInit {
 
     ngOnInit() {
         this.workerService.GetWaitBusinessDetails().then(result => {
-            this.business = result;
+            if (result) {
+                this.business = result;
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בטעינת הנתונים',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
         });
     }
 
@@ -32,6 +41,17 @@ export class WorkerWaitComponent implements OnInit {
     }
 
     cancelRequest() {
-
+        this.workerService.CancelBusinessRequest().then(result => {
+            if (result) {
+                this.router.navigateByUrl('/role/worker');
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
     }
 }

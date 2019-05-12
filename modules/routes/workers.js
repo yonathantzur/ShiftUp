@@ -40,7 +40,7 @@ router.post("/addWorkerToBusiness", (req, res) => {
             }).catch(err => {
                 res.sendStatus(500);
             }
-        );
+            );
     } else {
         res.sendStatus(500);
     }
@@ -56,7 +56,7 @@ router.post("/removeWorkerFromBusiness", (req, res) => {
             }).catch(err => {
                 res.sendStatus(500);
             }
-        );
+            );
     } else {
         res.sendStatus(500);
     }
@@ -72,7 +72,7 @@ router.post("/removeAllWorkersFromBusiness", (req, res) => {
             }).catch(err => {
                 res.sendStatus(500);
             }
-        );
+            );
     } else {
         res.sendStatus(500);
     }
@@ -91,5 +91,16 @@ router.post("/denyWorkerRequest", (req, res) => {
         res.sendStatus(500);
     }
 })
+
+router.delete("/cancelBusinessRequest", (req, res) => {
+    workersBL.CancelBusinessRequest(req.user.id).then(result => {
+        let newToken = tokenHandler.getToken(result);
+        tokenHandler.setTokenOnCookie(newToken, res);
+        
+        res.send(true);
+    }).catch(err => {
+        res.sendStatus(500);
+    });
+});
 
 module.exports = router;
