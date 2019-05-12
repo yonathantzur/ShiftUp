@@ -122,7 +122,7 @@ label {
 }
 
 .worker-name {
-    width: calc(25% - 5px);
+    width: calc(20% - 5px);
     display: inline-block;
     height: 35px;
     align-items: center;

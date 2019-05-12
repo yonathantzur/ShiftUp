@@ -10,7 +10,7 @@
     border-top: 0.5px dashed #858585;
     padding: 10px 20px;
     width: 100%;
-    margin-left: 5px;
+    margin: 0 5px;
 }
 
 .shiftContainer {
@@ -30,9 +30,9 @@
 }
 
 .edit-shift-icon {
-    position: absolute;
+    position: fixed;
     left: 20px;
-    top: -50px;
+    top: 70px;
     cursor: pointer;
     padding: 12px;
     border-radius: 50%;
