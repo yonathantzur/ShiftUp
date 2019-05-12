@@ -45,9 +45,9 @@ var NavbarComponent = /** @class */ (function () {
         this.searchHandler = function (event) {
             console.log("handle search: " + _this.searchValue);
         };
-        this.eventService.Register("removeBusinessRequest", function (userId) {
-            _this.loggedInUser.requests = _this.loggedInUser.requests.filter(function (reqId) {
-                return (reqId != userId);
+        this.eventService.Register("removeBusinessRequest", function (userObjId) {
+            _this.loggedInUser.requests = _this.loggedInUser.requests.filter(function (reqObjId) {
+                return (reqObjId != userObjId);
             });
         });
     }
