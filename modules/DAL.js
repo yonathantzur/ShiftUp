@@ -180,18 +180,6 @@ module.exports = {
         });
     },
 
-    // Save or update document.
-    Save(collectionName, object) {
-        return new Promise((resolve, reject) => {
-            GetDB().then(db => {
-                let collection = db.collection(collectionName);
-                collection.save(object).then(result => {
-                    resolve(result.n);
-                }).catch(reject);
-            }).catch(reject);
-        });
-    },
-
     // Getting documents amount by filter.
     Count(collectionName, filter) {
         return new Promise((resolve, reject) => {

@@ -63,6 +63,12 @@ var WorkersService = /** @class */ (function (_super) {
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
     };
+    WorkersService.prototype.CancelBusinessRequest = function () {
+        return _super.prototype.delete.call(this, this.prefix + '/cancelBusinessRequest')
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
     return WorkersService;
 }(basic_service_1.BasicService));
 exports.WorkersService = WorkersService;

@@ -22,7 +22,16 @@ var WorkerWaitComponent = /** @class */ (function () {
     WorkerWaitComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.workerService.GetWaitBusinessDetails().then(function (result) {
-            _this.business = result;
+            if (result) {
+                _this.business = result;
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בטעינת הנתונים',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
         });
     };
     WorkerWaitComponent.prototype.logout = function () {
@@ -32,6 +41,19 @@ var WorkerWaitComponent = /** @class */ (function () {
         });
     };
     WorkerWaitComponent.prototype.cancelRequest = function () {
+        var _this = this;
+        this.workerService.CancelBusinessRequest().then(function (result) {
+            if (result) {
+                _this.router.navigateByUrl('/role/worker');
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
     };
     WorkerWaitComponent = __decorate([
         core_1.Component({

@@ -50,15 +50,63 @@ let self = module.exports = {
 
     GetWorkersForBusiness(businessId) {
         return new Promise((resolve, reject) => {
-            DAL.FindOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) })
-                .then(business => {
-                    let workers = business.workers;
-                    workers.push(business.manager);
+            let businessFilter = { $match: { "_id": DAL.GetObjectId(businessId) } };
+            let joinWorkersQuery = {
+                $lookup:
+                {
+                    from: usersCollectionName,
+                    localField: 'workers',
+                    foreignField: '_id',
+                    as: 'workers'
+                }
+            }
 
-                    DAL.FindSpecific(usersCollectionName, { _id: { $in: workers } })
-                        .then(resolve)
-                        .catch(reject);
-                }).catch(reject);
+            let joinManagerQuery = {
+                $lookup:
+                {
+                    from: usersCollectionName,
+                    localField: 'manager',
+                    foreignField: '_id',
+                    as: 'manager'
+                }
+            }
+
+            let projectFilter = {
+                $project: {
+                    "workers": 1,
+                    "manager": 1
+                }
+            }
+
+            let aggregatePipline = [
+                businessFilter,
+                joinWorkersQuery,
+                joinManagerQuery,
+                projectFilter
+            ]
+
+            DAL.Aggregate(businessesCollectionName, aggregatePipline).then(result => {
+                let business = result[0];
+                let allWorkers = business.workers.concat(business.manager);
+
+                allWorkers = allWorkers.map(worker => {
+                    return {
+                        "_id": worker._id,
+                        "firstName": worker.firstName,
+                        "lastName": worker.lastName,
+                        "fullName": worker.firstName + " " + worker.lastName,
+                        "birthDate": worker.birthDate,
+                        "userId": worker.userId,
+                        "salary": worker.salary,
+                        "isManager": worker.isManager,
+                        "requests": worker.requests
+                    };
+                });
+
+                allWorkers = allWorkers.sort((a, b) => a.fullName > b.fullName ? 1 : -1);
+
+                resolve(allWorkers);
+            }).catch(reject)
         });
     },
 
