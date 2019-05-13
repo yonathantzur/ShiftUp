@@ -11,11 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var event_service_1 = require("../../services/event/event.service");
+var users_service_1 = require("../../services/users/users.service");
 var enums_1 = require("../../enums/enums");
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(eventService) {
+    function HomeComponent(eventService, usersService) {
+        var _this = this;
         this.eventService = eventService;
+        this.usersService = usersService;
         this.shiftsFilter = enums_1.SHIFTS_FILTER;
+        this.usersService.isLoginUserManager().then(function (result) {
+            _this.isUserManager = result;
+        });
     }
     HomeComponent.prototype.Filter = function (value) {
         this.eventService.Emit('changeFilter', value);
@@ -24,10 +30,11 @@ var HomeComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'home',
             templateUrl: './home.html',
-            providers: [],
+            providers: [users_service_1.UsersService],
             styleUrls: ['./home.css']
         }),
-        __metadata("design:paramtypes", [event_service_1.EventService])
+        __metadata("design:paramtypes", [event_service_1.EventService,
+            users_service_1.UsersService])
     ], HomeComponent);
     return HomeComponent;
 }());
