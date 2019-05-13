@@ -186,12 +186,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
 
     handleConstraintsResult(constraints: Array<any>) {
+        let self = this;
         let events: Array<any> = [];
 
         constraints.forEach((constraint: any) => {
             events.push({
                 id: constraint._id,
-                title: "אילוץ",
+                title: self.calcConstraintName(constraint),
                 start: this.formatToEventDate(constraint.startDate),
                 end: this.formatToEventDate(constraint.endDate, true),
                 color: '#28a745',
@@ -200,6 +201,27 @@ export class CalendarComponent implements OnInit, OnDestroy {
         });
 
         return events;
+    }
+
+    calcConstraintName(constraint: any) {
+        let constraintName = "אילוץ";
+
+        let checkedShifts = constraint.shifts.filter((shift: any) => {
+            return shift.isChecked;
+        }).map((shift: any) => {
+            return shift.name;
+        });
+
+        if (checkedShifts.length == constraint.shifts.length) {
+            return constraintName;
+        }
+
+        for (let i = 0; i < checkedShifts.length; i++) {
+            constraintName += ((i == 0) ? " - " : "/") + checkedShifts[i];
+        }
+
+        return constraintName
+
     }
 
     loadEvents(shifts: Array<any>, constraints: Array<any>, year: number, month: number) {

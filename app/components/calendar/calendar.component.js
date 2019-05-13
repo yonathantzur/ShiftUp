@@ -152,11 +152,12 @@ var CalendarComponent = /** @class */ (function () {
     };
     CalendarComponent.prototype.handleConstraintsResult = function (constraints) {
         var _this = this;
+        var self = this;
         var events = [];
         constraints.forEach(function (constraint) {
             events.push({
                 id: constraint._id,
-                title: "אילוץ",
+                title: self.calcConstraintName(constraint),
                 start: _this.formatToEventDate(constraint.startDate),
                 end: _this.formatToEventDate(constraint.endDate, true),
                 color: '#28a745',
@@ -164,6 +165,21 @@ var CalendarComponent = /** @class */ (function () {
             });
         });
         return events;
+    };
+    CalendarComponent.prototype.calcConstraintName = function (constraint) {
+        var constraintName = "אילוץ";
+        var checkedShifts = constraint.shifts.filter(function (shift) {
+            return shift.isChecked;
+        }).map(function (shift) {
+            return shift.name;
+        });
+        if (checkedShifts.length == constraint.shifts.length) {
+            return constraintName;
+        }
+        for (var i = 0; i < checkedShifts.length; i++) {
+            constraintName += ((i == 0) ? " - " : "/") + checkedShifts[i];
+        }
+        return constraintName;
     };
     CalendarComponent.prototype.loadEvents = function (shifts, constraints, year, month) {
         this.insetToCache(shifts, constraints, year, month);
