@@ -1,0 +1,25 @@
+.title {
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.loader {
+    margin: auto;
+}
+
+.statisticsChartsContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.charts {
+    margin: auto;
+    display: block;
+    text-align: center;
+}
+
+.chartTitle {
+    margin: auto;
+    width: 500px;
+}

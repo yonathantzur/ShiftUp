@@ -1,3 +1,35 @@
 <div id="statistics">
-    סטטיסטיקות
+    <div *ngIf="loadingRequests > 0; then loader else statistics"></div>
+    <ng-template #loader>
+        <div class="loader"></div>
+    </ng-template>
+    <ng-template #statistics>
+        <h3 class="title">סטטיסטיקות</h3>
+        <div class="statisticsChartsContainer">
+            <div class="charts">
+                <h4 class="chartTitle">חתך גילאי עובדים</h4>
+                <canvas id="workersAgesChart" width="400" height="400"></canvas>
+            </div>
+            <div class="charts">
+                <h4 class="chartTitle">חתך אחר כלשהו</h4>
+                <canvas id="anotherChart" width="400" height="400"></canvas>
+            </div>
+            <div class="charts">
+                <h4 class="chartTitle">חתך אחר כלשהו</h4>
+                <canvas id="anotherChart2" width="400" height="400"></canvas>
+            </div>
+            <div class="charts">
+                <h4 class="chartTitle">חתך אחר כלשהו</h4>
+                <canvas id="anotherChart3" width="400" height="400"></canvas>
+            </div>
+            <div class="charts">
+                <h4 class="chartTitle">חתך אחר כלשהו</h4>
+                <canvas id="anotherChart4" width="400" height="400"></canvas>
+            </div>
+            <div class="charts">
+                <h4 class="chartTitle">חתך אחר כלשהו</h4>
+                <canvas id="anotherChart5" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </ng-template>
 </div>

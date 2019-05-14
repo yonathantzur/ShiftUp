@@ -20,11 +20,13 @@
     "@angular/platform-browser-dynamic": "^7.2.15",
     "@angular/router": "^7.2.15",
     "@fortawesome/fontawesome-free": "^5.8.2",
+    "@types/angular": "^1.6.54",
     "@types/jquery": "^3.3.29",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
     "bootstrap-material-design": "^4.1.1",
     "core-js-bundle": "^3.0.1",
+    "d3": "^5.9.2",
     "express": "^4.16.4",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^3.10.0",
@@ -41,6 +43,7 @@
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
+    "@types/d3": "^5.7.2",
     "concurrently": "^4.1.0",
     "nodemon": "^1.19.0",
     "typescript": "~3.4.5"
