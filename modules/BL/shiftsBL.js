@@ -120,7 +120,14 @@ let self = module.exports = {
                 resolve(true);
             }).catch(reject);
         });
-    }
+    },
+
+    DeleteEvent(eventId) {
+        return new Promise((resolve, reject) => {
+            DAL.DeleteOne(shiftsCollectionName, { "_id": DAL.GetObjectId(eventId) })
+                .then(resolve).catch(reject);
+        });
+    },
 
 };
 

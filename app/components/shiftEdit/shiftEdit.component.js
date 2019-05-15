@@ -84,6 +84,34 @@ var ShiftEditComponent = /** @class */ (function () {
             }
         });
     };
+    ShiftEditComponent.prototype.DeleteEvent = function () {
+        var _this = this;
+        Swal.fire({
+            title: "מחיקת משמרת",
+            text: "למחוק את המשמרת?",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonColor: "#d33",
+            confirmButtonText: "אישור",
+            cancelButtonText: "ביטול"
+        }).then(function (result) {
+            if (result.value) {
+                _this.shiftService.DeleteEvent(_this.event.id).then(function (result) {
+                    if (result) {
+                        _this.eventService.Emit("renderCalendar");
+                        _this.CloseWindow();
+                    }
+                    else {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'שגיאה במחיקת השיבוץ',
+                            text: 'אופס... משהו השתבש'
+                        });
+                    }
+                });
+            }
+        });
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Object)
