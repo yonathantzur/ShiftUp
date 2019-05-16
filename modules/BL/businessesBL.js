@@ -41,6 +41,14 @@ module.exports = {
         });
     },
 
+    SetUserManager(userId) {
+        return new Promise((resolve, reject) => {
+            let userFilter = { _id: DAL.GetObjectId(userId) }
+            let setObj = { $set: { "isManager": true } };
+            DAL.UpdateOne(usersCollectionName, userFilter, setObj).then(resolve).catch(reject);
+        });
+    },
+
     GetBusinessById(businessId) {
         return new Promise((resolve, reject) => {
             DAL.FindOne(businessesCollectionName, { _id: DAL.GetObjectId(businessId) })
