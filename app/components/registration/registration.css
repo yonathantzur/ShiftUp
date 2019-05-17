@@ -1,33 +1,36 @@
 .regForm {
-    margin: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 500px;
-    border:#4f4f4f;
-    border-radius: 90px;
+    width: 400px;
     padding: 30px;
-    transform: translate(-50%,-50%);
 }
 
 .title {
     text-align: center;
-    padding: 10px;
-    font-size: 50px;
 }
 
 .regButton {
-    font-size: large
+    font-size: large;
+}
+
+.lineDiv{
+    position: absolute;
+    right: 385px;
+    border-color: #bfbcb18a;
+    border-width: thin;
+    border-radius: 40px;
+    height: 600px;
+    top: -1px;
+    border-style: solid;
 }
 
 .formInput {
     direction: rtl;
-    font-size: 15px;
-    margin: 0;
+    font-size: 18px;
+    margin: -3px;
+    font-style: inherit;
 }
 
 .warning {
-    font-size: 12px;
+    font-size: 14px;
     color: maroon;
 }
 
@@ -37,17 +40,46 @@
 
 .formButton > button {
     font-size: large;
-    width: 40%;
-    margin: 0 15px 0;
+    width: 100%;
 }
 
-.shadow {
-    box-shadow: 1px 1px 6px 1px #afafaf !important;
+.box{
+    position: absolute;
+    top: 55px;
+    right: 300px;
+    width: 900px;
+    height: 600px;
 }
 
 .form-group {
     padding-bottom: 10px;
-    margin: 0;
     position: relative;
-    height: 80px;
+    height: 70px;
+}
+
+.back-btn{
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #ffc300;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px 1px grey;
+}
+
+.logo{
+    position: absolute;
+    top: 10px;
+    left: 34px;
+    width: 50%;
+}
+
+.btn-send{
+    background-color: #46B29E;
+    color: white;
 }
