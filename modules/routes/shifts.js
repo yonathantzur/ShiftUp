@@ -47,4 +47,12 @@ router.post("/updateEventShifts", (req, res) => {
     });
 });
 
+router.delete("/deleteEvent", (req, res) => {
+    shiftsBL.DeleteEvent(req.query.eventId).then(result => {
+        res.send(result ? true : false);
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
+
 module.exports = router;

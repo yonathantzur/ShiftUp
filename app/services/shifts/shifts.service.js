@@ -73,6 +73,16 @@ var ShiftService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ShiftService.prototype.DeleteEvent = function (shiftId) {
+        return _super.prototype.delete.call(this, this.prefix + '/DeleteEvent?eventId=' + shiftId)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return ShiftService;
 }(basic_service_1.BasicService));
 exports.ShiftService = ShiftService;

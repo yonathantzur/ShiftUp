@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="sector-title">עובדי העסק</div>
-            <div class="workers-view">                
+            <div class="workers-view">
                 <div class="workers-container">
                     <span class="worker-name" (click)="SelectWorker(worker)"
                         [ngClass]="{'selected-worker': worker.isSelected}" *ngFor="let worker of event.businessWorkers">
@@ -43,7 +43,10 @@
                     </span>
                 </div>
             </div>
-            <a (click)="UpdateEventShifts()" class="btn btn-primary save-btn">עדכון</a>
+        </div>
+        <div class="fotter" *ngIf="!isLoading">
+            <a (click)="DeleteEvent()" class="btn btn-danger action-btn">מחיקה</a>
+            <a (click)="UpdateEventShifts()" class="btn btn-primary action-btn">עדכון</a>
         </div>
     </div>
 </div>
