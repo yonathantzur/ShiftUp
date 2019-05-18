@@ -11,19 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var shifts_service_1 = require("../../services/shifts/shifts.service");
-var users_service_1 = require("../../services/users/users.service");
 var event_service_1 = require("../../services/event/event.service");
 var ShiftCardComponent = /** @class */ (function () {
-    function ShiftCardComponent(shiftService, usersService, eventService) {
+    function ShiftCardComponent(shiftService, eventService) {
         this.shiftService = shiftService;
-        this.usersService = usersService;
         this.eventService = eventService;
         this.shiftsDataCache = {};
         this.eventsIds = [];
         var self = this;
-        self.usersService.isLoginUserManager().then(function (result) {
-            self.isUserManager = result;
-        });
         self.eventService.Register("renderCalendar", function () {
             self.shiftsDataCache = {};
         });
@@ -72,15 +67,18 @@ var ShiftCardComponent = /** @class */ (function () {
         }
         return (day + "/" + month + "/" + year);
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], ShiftCardComponent.prototype, "isUserManager", void 0);
     ShiftCardComponent = __decorate([
         core_1.Component({
             selector: 'shiftCard',
             templateUrl: './shiftCard.html',
-            providers: [shifts_service_1.ShiftService, users_service_1.UsersService],
+            providers: [shifts_service_1.ShiftService],
             styleUrls: ['./shiftCard.css']
         }),
         __metadata("design:paramtypes", [shifts_service_1.ShiftService,
-            users_service_1.UsersService,
             event_service_1.EventService])
     ], ShiftCardComponent);
     return ShiftCardComponent;

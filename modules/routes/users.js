@@ -45,11 +45,7 @@ router.get("/isUserAvailableForBusiness", (req, res) => {
 });
 
 router.get("/isLoginUserManager", (req, res) => {
-    usersBL.isLoginUserManager(req.user).then(isManager => {
-        res.send(isManager);
-    }).catch(err => {
-        res.status(500).end();
-    })
+    res.send(req.user.isManager == true);
 });
 
 router.get("/getUsersRequestedToBusiness", (req, res) => {

@@ -37,12 +37,6 @@ module.exports = {
         });
     },
 
-    isLoginUserManager(user) {
-        return new Promise((resolve, reject) => {
-            resolve(user.isManager == true);
-        });
-    },
-
     GetUsersRequestedToBusiness(managerUserId) {
         return new Promise((resolve, reject) => {
             DAL.FindOne(usersCollectionName, { userId: managerUserId })

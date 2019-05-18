@@ -1,33 +1,28 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Input } from '@angular/core';
 
 import { ShiftService } from '../../services/shifts/shifts.service';
-import { UsersService } from '../../services/users/users.service';
 import { EventService } from '../../services/event/event.service';
 
 @Component({
     selector: 'shiftCard',
     templateUrl: './shiftCard.html',
-    providers: [ShiftService, UsersService],
+    providers: [ShiftService],
     styleUrls: ['./shiftCard.css']
 })
 
 export class ShiftCardComponent implements OnDestroy {
+    @Input()
+    isUserManager: boolean;
     shiftsData: Array<any>;
     shiftsDataCache: Object = {};
     event: any;
-    isUserManager: boolean;
     eventDate: string;
 
     eventsIds: Array<string> = [];
 
-    constructor(private shiftService: ShiftService,
-        private usersService: UsersService,
+    constructor(private shiftService: ShiftService,        
         private eventService: EventService) {
         let self = this;
-
-        self.usersService.isLoginUserManager().then(result => {
-            self.isUserManager = result;
-        });
 
         self.eventService.Register("renderCalendar", () => {
             self.shiftsDataCache = {};

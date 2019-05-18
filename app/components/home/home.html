@@ -1,32 +1,20 @@
-<div id="home">
-    <!-- <calendar class="calendar"></calendar>
-    <div class="data-filter-container">
-        <div class="form-group shifts-filter">
-            <label class="filter-label">תצוגת משמרות</label>            
-            <select id="filter-select" class="form-control filter-select" (change)="Filter($event.target.value)">
-                <option [value]="shiftsFilter.ALL">הכל</option>
-                <option [value]="shiftsFilter.ME">אני</option>
-            </select>
-            <i class="fas fa-sort-down select-icon"></i>
-        </div>
-    </div>
-    <shiftCard class="shiftCard"></shiftCard> -->
+<div id="home" *ngIf="isUserManager != null">
     <div class="right-container">
-        <calendar class="calendar"></calendar>
+        <calendar class="calendar" [isUserManager]="isUserManager"></calendar>
     </div>
     <div class="left-container">
         <div class="data-filter-container">
             <div class="form-group shifts-filter">
                 <label class="filter-label">תצוגת משמרות</label>
                 <select id="filter-select" class="form-control filter-select" (change)="Filter($event.target.value)">
-                    <option [value]="shiftsFilter.ALL">הכל</option>
-                    <option [value]="shiftsFilter.ME">אני</option>
+                    <option [attr.selected]="isUserManager || null" [value]="shiftsFilter.ALL">הכל</option>
+                    <option [attr.selected]="!isUserManager || null" [value]="shiftsFilter.ME">אני</option>
                 </select>
                 <i class="fas fa-sort-down select-icon"></i>
             </div>
         </div>
         <div class="shift-card-container">
-            <shiftCard class="shiftCard"></shiftCard>
+            <shiftCard class="shiftCard" [isUserManager]="isUserManager"></shiftCard>
         </div>
     </div>
 </div>

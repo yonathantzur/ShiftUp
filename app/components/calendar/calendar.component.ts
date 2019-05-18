@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { ShiftService } from '../../services/shifts/shifts.service';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
-import { UsersService } from '../../services/users/users.service';
 import { EventService } from '../../services/event/event.service';
 
 import { SHIFTS_FILTER } from '../../enums/enums'
@@ -12,17 +11,18 @@ declare let $: any;
 @Component({
     selector: 'calendar',
     templateUrl: './calendar.html',
-    providers: [ShiftService, ConstraintsService, UsersService],
+    providers: [ShiftService, ConstraintsService],
     styleUrls: ['./calendar.css']
 })
 
 export class CalendarComponent implements OnInit, OnDestroy {
+    @Input()
+    isUserManager: boolean;
     calendar: any;
     markedEvent: any;
     eventsCache: Object = {};
-    viewState: SHIFTS_FILTER = SHIFTS_FILTER.ALL;
+    viewState: SHIFTS_FILTER;
     isLoading: boolean;
-    isUserManager: boolean;
 
     // Event edit properties.
     eventEditObject: any;
@@ -31,13 +31,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     constructor(private shiftService: ShiftService,
         private constraintsService: ConstraintsService,
-        private usersService: UsersService,
         private eventService: EventService) {
         let self = this;
-
-        self.usersService.isLoginUserManager().then(result => {
-            self.isUserManager = result;
-        });
 
         self.eventService.Register("startLoader", (event: any) => {
             self.isLoading = true;
@@ -94,6 +89,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.viewState = this.isUserManager ? SHIFTS_FILTER.ALL : SHIFTS_FILTER.ME;
+
         let self = this;
 
         self.calendar = $('#calendar').fullCalendar({
@@ -188,12 +185,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
 
     handleConstraintsResult(constraints: Array<any>) {
+        let self = this;
         let events: Array<any> = [];
 
         constraints.forEach((constraint: any) => {
             events.push({
                 id: constraint._id,
-                title: "אילוץ",
+                title: self.calcConstraintName(constraint),
                 start: this.formatToEventDate(constraint.startDate),
                 end: this.formatToEventDate(constraint.endDate, true),
                 color: '#28a745',
@@ -202,6 +200,27 @@ export class CalendarComponent implements OnInit, OnDestroy {
         });
 
         return events;
+    }
+
+    calcConstraintName(constraint: any) {
+        let constraintName = "אילוץ";
+
+        let checkedShifts = constraint.shifts.filter((shift: any) => {
+            return shift.isChecked;
+        }).map((shift: any) => {
+            return shift.name;
+        });
+
+        if (checkedShifts.length == constraint.shifts.length) {
+            return constraintName;
+        }
+
+        for (let i = 0; i < checkedShifts.length; i++) {
+            constraintName += ((i == 0) ? " - " : "/") + checkedShifts[i];
+        }
+
+        return constraintName
+
     }
 
     loadEvents(shifts: Array<any>, constraints: Array<any>, year: number, month: number) {

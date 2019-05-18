@@ -52,6 +52,7 @@ a, a:hover, a:focus, i {
 .fc-event, .fc-event:hover {
     color: white !important;
     text-align: right;
+    cursor: pointer;
 }
 
 /* END OVERRIDE BOOTSTRAP MATERIAL CSS */
