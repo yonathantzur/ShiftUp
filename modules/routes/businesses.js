@@ -6,7 +6,10 @@ const tokenHandler = require('../handlers/tokenHandler');
 router.post("/addBusiness", (req, res) => {
     let userId = req.user.id;
     businessesBL.AddBusiness(userId, req.body).then((result) => {
-        businessesBL.AddBusinessToUser(userId, result.businessId).then(user => {
+        let addBusinessToUser = businessesBL.AddBusinessToUser(userId, result.businessId);
+        let addUserManager = businessesBL.SetUserManager(userId);
+        Promise.all([addBusinessToUser, addUserManager]).then(results => {
+            let user = results[0];
             let token = tokenHandler.getToken(user);
             tokenHandler.setTokenOnCookie(token, res);
             res.send(result);
