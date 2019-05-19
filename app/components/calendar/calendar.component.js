@@ -135,7 +135,7 @@ var CalendarComponent = /** @class */ (function () {
     };
     CalendarComponent.prototype.handleShiftsResult = function (shifts) {
         var events = [];
-        shifts.forEach(function (shift) {
+        shifts && shifts.forEach(function (shift) {
             events.push({
                 id: shift._id,
                 title: "שיבוץ",
