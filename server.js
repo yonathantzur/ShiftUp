@@ -32,7 +32,7 @@ app.use('/api/users/', require('./modules/routes/users'));
 app.use('/api/login/', require('./modules/routes/login'));
 app.use('/api/registration/', require('./modules/routes/registration'));
 app.use('/api/businesses/', require('./modules/routes/businesses'));
-app.use('/api/workers/', middlewares.CheckManager, require('./modules/routes/workers'));
+app.use('/api/workers/', require('./modules/routes/workers'));
 app.use('/api/constraints/', require('./modules/routes/constraints'));
 app.use('/api/schedule/', middlewares.CheckManager, require('./modules/routes/schedule'));
 
