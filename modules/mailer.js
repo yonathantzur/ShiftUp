@@ -69,8 +69,10 @@ module.exports = {
             return (shiftA.date > shiftB.date) ? 1 : -1;
         });
 
+        let dateHebStr = months[parseInt(month) - 1] + " " + year;
+
         let scheduleStr = "\n<div style={{titleContainer}}>" +
-            "אלו המשמרות שלך לחודש " + months[parseInt(month) - 1] + " " + year +
+            "אלו המשמרות שלך לחודש " + dateHebStr +
             "</div>\n\n";
 
         workerShiftsArray.forEach(shift => {
@@ -86,7 +88,7 @@ module.exports = {
         }
 
         this.SendMail(email,
-            "ShiftUp",
+            "שיבוץ - " + dateHebStr,
             GetTimeBlessing() + name + ",\n" + scheduleStr, css);
     }
 };
