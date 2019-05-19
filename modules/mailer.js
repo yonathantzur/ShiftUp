@@ -76,7 +76,7 @@ module.exports = {
         workerShiftsArray.forEach(shift => {
             scheduleStr += "<div style={{shiftContainer}}>" +
                 formatDate(new Date(shift.date)) +
-                " - " + shift.shiftsNames[0] +
+                " - " + formatShiftsNamesArrayToString(shift.shiftsNames) +
                 "</div>"
         });
 
@@ -90,6 +90,16 @@ module.exports = {
             GetTimeBlessing() + name + ",\n" + scheduleStr, css);
     }
 };
+
+function formatShiftsNamesArrayToString(shiftsNames) {
+    let result = "";
+
+    shiftsNames.forEach((name, index) => {
+        result += name + ((index != shiftsNames.length - 1) ? ", " : "");
+    })
+
+    return result;
+}
 
 function formatDate(date) {
     let day = date.getDate();
