@@ -63,7 +63,7 @@ export class ShiftService extends BasicService {
     }
 
     DeleteEvent(shiftId: string) {
-        return super.delete(this.prefix + '/DeleteEvent?eventId=' + shiftId)
+        return super.delete(this.prefix + '/deleteEvent?eventId=' + shiftId)
             .toPromise()
             .then((result: any) => {
                 return result;

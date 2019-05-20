@@ -4,6 +4,7 @@ const DAL = require('../DAL');
 const mailer = require('../mailer');
 const businessesBL = require('../BL/businessesBL');
 const shiftsBL = require('../BL/shiftsBL');
+const AlertScheduleType = require('../enums').AlertScheduleType;
 
 const shiftsCollectionName = config.db.collections.shifts;
 const usersCollectionName = config.db.collections.users;
@@ -24,14 +25,18 @@ let self = module.exports = {
                 shiftsBL.RemoveShiftsForBusiness(businessId, year, month).then(removeResult => {
                     DAL.InsertMany(shiftsCollectionName, shiftsObjects).then(insertResult => {
                         resolve(shiftsObjects);
-                        self.AlertWorkersWithSchedule(shiftsObjects, scheduleResult.workersIds, month, year);
+                        self.AlertWorkersWithSchedule(shiftsObjects,
+                            scheduleResult.workersIds,
+                            month,
+                            year,
+                            AlertScheduleType.NEW);
                     });
                 });
             }).catch(reject);
         });
     },
 
-    AlertWorkersWithSchedule(shiftsObjects, workersIds, month, year) {
+    AlertWorkersWithSchedule(shiftsObjects, workersIds, month, year, type) {
         let workersFilter = { "_id": { $in: workersIds } };
         let workersFields = { "firstName": 1, "email": 1 };
 
@@ -55,6 +60,7 @@ let self = module.exports = {
                     });
                 });
             });
+
             Object.keys(workersObj).forEach(id => {
                 let worker = workersObj[id];
 
@@ -62,8 +68,7 @@ let self = module.exports = {
                 let workerName = worker.firstName;
                 let workerShifts = worker.shifts;
 
-                mailer.AlertWorkerWithSchedule(workerEmail, workerName, workerShifts, month, year);
-
+                mailer.AlertWorkerWithSchedule(workerEmail, workerName, workerShifts, month, year, type);
             });
         });
 

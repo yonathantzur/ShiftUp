@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const config = require('../config');
+const enums = require('./enums');
 
 const months = [
     "ינואר",
@@ -54,7 +55,7 @@ module.exports = {
             GetTimeBlessing() + name + ", אנחנו שמחים לברך אותך על הצטרפותך לאתר ShiftUp!");
     },
 
-    AlertWorkerWithSchedule(email, name, shifts, month, year) {
+    AlertWorkerWithSchedule(email, name, shifts, month, year, type) {
         let workerShiftsArray = [];
 
         Object.keys(shifts).forEach(shiftDate => {
@@ -71,11 +72,24 @@ module.exports = {
 
         let dateHebStr = months[parseInt(month) - 1] + " " + year;
 
-        let scheduleStr = "\n<div style={{titleContainer}}>" +
-            "אלו המשמרות שלך לחודש " + dateHebStr +
-            "</div>\n\n";
+        let subjectStr;
 
-        workerShiftsArray.forEach(shift => {
+        if (type == enums.AlertScheduleType.NEW) {
+            subjectStr = "אלו המשמרות שלך לחודש " + dateHebStr;
+        }
+        else if (type == enums.AlertScheduleType.UPDATE) {
+            subjectStr = "<div>" + "לתשומת ליבך, חל שינוי במשמרת של החודש " + dateHebStr +
+                "</div>" + "להלן שיבוצך בחודש זה:";
+        }
+        else {
+            subjectStr = "המשמרת של חודש " + dateHebStr + " בוטלה!";
+        }
+
+        let scheduleStr = "\n<div style={{titleContainer}}>" +
+            subjectStr +
+            "</div>";
+
+        (type != enums.AlertScheduleType.DELETE) && workerShiftsArray.forEach(shift => {
             scheduleStr += "<div style={{shiftContainer}}>" +
                 formatDate(new Date(shift.date)) +
                 " - " + formatShiftsNamesArrayToString(shift.shiftsNames) +
