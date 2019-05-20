@@ -170,7 +170,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     handleShiftsResult(shifts: Array<any>) {
         let events: Array<any> = [];
 
-        shifts.forEach((shift: any) => {
+        shifts && shifts.forEach((shift: any) => {
             events.push({
                 id: shift._id,
                 title: "שיבוץ",

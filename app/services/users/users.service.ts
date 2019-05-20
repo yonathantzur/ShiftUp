@@ -5,28 +5,6 @@ import {Injectable} from "@angular/core";
 export class UsersService extends BasicService {
     prefix = "/api/users";
 
-    GetAllUsers() {
-        return super.get(this.prefix + '/getAllUsers')
-            .toPromise()
-            .then((result: any) => result)
-            .catch((err: any) => null);
-    }
-
-    GetUserById(userObjId: string) {
-        return super.get(this.prefix + '/getUserById?userObjId=' + userObjId)
-            .toPromise()
-            .then((result: any) => result)
-            .catch((err: any) => null);
-    }
-
-    GetUserByUserId(userId: string) {
-        return super.get(this.prefix + '/GetUserByUserId?userId=' + userId)
-            .toPromise()
-            .then((result: any) => result)
-            .catch((err: any) => null);
-    }
-
-
     GetLoggedInUser() {
         return super.get(this.prefix + '/getLoggedInUser')
             .toPromise()
