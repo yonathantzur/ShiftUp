@@ -138,6 +138,7 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
         newConstraint['shifts'] = this.shiftNames;
         this.ConstraintsService.AddConstraint(newConstraint).then(function (result) {
             if (result) {
+                $('#AddConstraintModal').modal('hide');
                 Swal.fire({
                     type: 'success',
                     title: 'האילוץ נשמר בהצלחה',

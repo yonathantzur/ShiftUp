@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ConstraintsService} from '../../services/constraints/constraints.service';
-import {BusinessesService} from "../../services/businesses/businesses.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {NgForm} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ConstraintsService } from '../../services/constraints/constraints.service';
+import { BusinessesService } from "../../services/businesses/businesses.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NgForm } from "@angular/forms";
 
 declare let Swal: any;
+declare let $: any
 
 @Component({
     selector: 'constraintsForWorker',
@@ -25,9 +26,9 @@ export class ConstraintsForWorkerComponent implements OnInit {
     endDateFilter: Date;
 
     constructor(private ConstraintsService: ConstraintsService,
-                private businessService: BusinessesService,
-                private route: ActivatedRoute,
-                private router: Router) {
+        private businessService: BusinessesService,
+        private route: ActivatedRoute,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -47,7 +48,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
     InitiateShiftNames() {
         this.businessService.GetLoggedInBusiness().then((data: any) => {
             this.shiftNames = data.shifts;
-            for(let shift of this.shiftNames) {
+            for (let shift of this.shiftNames) {
                 delete shift.workersAmount;
             }
         });
@@ -137,22 +138,23 @@ export class ConstraintsForWorkerComponent implements OnInit {
     AddConstraint(newConstraint: any) {
         newConstraint['shifts'] = this.shiftNames;
         this.ConstraintsService.AddConstraint(newConstraint).then((result: any) => {
-                if (result) {
-                    Swal.fire({
-                        type: 'success',
-                        title: 'האילוץ נשמר בהצלחה',
-                    });
-                    this.InitiateConstraints();
-                    this.InitiateShiftNames();
-                } else {
-                    Swal.fire({
-                        type: 'error',
-                        title: 'שגיאה בהוספת אילוץ',
-                        text: 'אופס... משהו השתבש'
-                    })
+            if (result) {
+                $('#AddConstraintModal').modal('hide');
+                Swal.fire({
+                    type: 'success',
+                    title: 'האילוץ נשמר בהצלחה',
+                });
+                this.InitiateConstraints();
+                this.InitiateShiftNames();
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בהוספת אילוץ',
+                    text: 'אופס... משהו השתבש'
+                })
 
-                }
             }
+        }
         );
     }
 }
