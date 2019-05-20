@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const workersBL = require('../BL/workersBL');
+const middlewares = require('../middlewares');
 const tokenHandler = require('../handlers/tokenHandler');
 
 router.get("/getBusinessByCode", (req, res) => {
@@ -30,7 +31,7 @@ router.get("/getWaitBusinessDetails", (req, res) => {
     });
 });
 
-router.post("/addWorkerToBusiness", (req, res) => {
+router.post("/addWorkerToBusiness", middlewares.CheckManager, (req, res) => {
     const businessId = req.user.businessId;
 
     if (businessId) {
@@ -46,7 +47,7 @@ router.post("/addWorkerToBusiness", (req, res) => {
     }
 });
 
-router.post("/removeWorkerFromBusiness", (req, res) => {
+router.post("/removeWorkerFromBusiness", middlewares.CheckManager, (req, res) => {
     const businessId = req.user.businessId;
 
     if (businessId) {
@@ -62,7 +63,7 @@ router.post("/removeWorkerFromBusiness", (req, res) => {
     }
 });
 
-router.post("/removeAllWorkersFromBusiness", (req, res) => {
+router.post("/removeAllWorkersFromBusiness", middlewares.CheckManager, (req, res) => {
     const businessId = req.user.businessId;
 
     if (businessId) {
@@ -78,7 +79,7 @@ router.post("/removeAllWorkersFromBusiness", (req, res) => {
     }
 });
 
-router.post("/denyWorkerRequest", (req, res) => {
+router.post("/denyWorkerRequest", middlewares.CheckManager, (req, res) => {
     const businessId = req.user.businessId;
     const manager_id = req.user.id;
     const worker_id = req.body.worker_id;
@@ -96,7 +97,7 @@ router.delete("/cancelBusinessRequest", (req, res) => {
     workersBL.CancelBusinessRequest(req.user.id).then(result => {
         let newToken = tokenHandler.getToken(result);
         tokenHandler.setTokenOnCookie(newToken, res);
-        
+
         res.send(true);
     }).catch(err => {
         res.sendStatus(500);
