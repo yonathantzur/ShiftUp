@@ -40,10 +40,10 @@ var StatisticsComponent = /** @class */ (function () {
                     });
                 }
             }
-            var canvas = document.getElementById("workersAgesChart");
-            var context = canvas.getContext("2d");
-            var width = canvas.width;
-            var height = canvas.height;
+            var workersAgesCanvas = document.getElementById("workersAgesChart");
+            var workersAgesContext = workersAgesCanvas.getContext("2d");
+            var width = workersAgesCanvas.width;
+            var height = workersAgesCanvas.height;
             var radius = Math.min(width, height) / 2;
             var colors = [
                 "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
@@ -53,33 +53,33 @@ var StatisticsComponent = /** @class */ (function () {
                 .outerRadius(radius - 10)
                 .innerRadius(50)
                 .padAngle(0.03)
-                .context(context);
+                .context(workersAgesContext);
             var labelArc = d3.arc()
                 .outerRadius(radius - 40)
                 .innerRadius(radius - 40)
-                .context(context);
+                .context(workersAgesContext);
             var pie = d3.pie();
             var arcs = pie(data.map(function (d) { return d.value; }));
-            context.translate(width / 2, height / 2);
-            context.globalAlpha = 0.5;
+            workersAgesContext.translate(width / 2, height / 2);
+            workersAgesContext.globalAlpha = 0.5;
             arcs.forEach(function (d, i) {
-                context.beginPath();
+                workersAgesContext.beginPath();
                 arc(d);
-                context.fillStyle = colors[i];
-                context.fill();
+                workersAgesContext.fillStyle = colors[i];
+                workersAgesContext.fill();
             });
-            context.globalAlpha = 1;
-            context.beginPath();
+            workersAgesContext.globalAlpha = 1;
+            workersAgesContext.beginPath();
             arcs.forEach(arc);
-            context.lineWidth = 1.5;
-            context.stroke();
-            context.textAlign = "center";
-            context.textBaseline = "middle";
-            context.fillStyle = "#000";
-            context.font = "normal bold 12px sans-serif";
+            workersAgesContext.lineWidth = 1.5;
+            workersAgesContext.stroke();
+            workersAgesContext.textAlign = "center";
+            workersAgesContext.textBaseline = "middle";
+            workersAgesContext.fillStyle = "#000";
+            workersAgesContext.font = "normal bold 12px sans-serif";
             arcs.forEach(function (d) {
                 var c = labelArc.centroid(d);
-                context.fillText(data[d.index].name, c[0], c[1]);
+                workersAgesContext.fillText(data[d.index].name, c[0], c[1]);
             });
         };
         this.loadingRequets = 3;

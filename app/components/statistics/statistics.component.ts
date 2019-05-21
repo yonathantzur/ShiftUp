@@ -5,7 +5,8 @@ import { WorkersService } from '../../services/workers/workers.service';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
 import { ShiftService } from '../../services/shifts/shifts.service';
 
-declare function d3(string: any): any;
+// declare function d3(string: any): any;
+declare var d3: any;
 
 @Component({
     selector: 'statistics',
@@ -55,7 +56,7 @@ export class StatisticsComponent {
     }
 
     buildWorkersAgesChart = (workers: Array<any>) => {
-        var groupAges: Array<any> = workers.map((worker: any) => {
+        var groupAges = workers.map((worker: any) => {
             const age = calcAge(worker.birthDate);
             return age - age % 10 + 10;
         }).reduce(function(groups, item) {
@@ -75,11 +76,11 @@ export class StatisticsComponent {
             }
         }
 
-        var canvas = document.getElementById("workersAgesChart");
-        var context = canvas.getContext("2d");
+        var workersAgesCanvas: any = document.getElementById("workersAgesChart");
+        var workersAgesContext = workersAgesCanvas.getContext("2d");
 
-        var width = canvas.width;
-        var height = canvas.height;
+        var width = workersAgesCanvas.width;
+        var height = workersAgesCanvas.height;
         var radius = Math.min(width, height) / 2;
 
         var colors = [
@@ -91,40 +92,40 @@ export class StatisticsComponent {
             .outerRadius(radius - 10)
             .innerRadius(50)
             .padAngle(0.03)
-            .context(context);
+            .context(workersAgesContext);
 
         var labelArc = d3.arc()
             .outerRadius(radius - 40)
             .innerRadius(radius - 40)
-            .context(context);
+            .context(workersAgesContext);
 
         var pie = d3.pie();
 
         var arcs = pie(data.map((d: any) => d.value));
 
-        context.translate(width / 2, height / 2);
+        workersAgesContext.translate(width / 2, height / 2);
 
-        context.globalAlpha = 0.5;
+        workersAgesContext.globalAlpha = 0.5;
         arcs.forEach(function(d: any, i: any) {
-            context.beginPath();
+            workersAgesContext.beginPath();
             arc(d);
-            context.fillStyle = colors[i];
-            context.fill();
+            workersAgesContext.fillStyle = colors[i];
+            workersAgesContext.fill();
         });
 
-        context.globalAlpha = 1;
-        context.beginPath();
+        workersAgesContext.globalAlpha = 1;
+        workersAgesContext.beginPath();
         arcs.forEach(arc);
-        context.lineWidth = 1.5;
-        context.stroke();
+        workersAgesContext.lineWidth = 1.5;
+        workersAgesContext.stroke();
 
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.fillStyle = "#000";
-        context.font = "normal bold 12px sans-serif";
+        workersAgesContext.textAlign = "center";
+        workersAgesContext.textBaseline = "middle";
+        workersAgesContext.fillStyle = "#000";
+        workersAgesContext.font = "normal bold 12px sans-serif";
         arcs.forEach(function(d: any) {
             var c = labelArc.centroid(d);
-            context.fillText(data[d.index].name, c[0], c[1]);
+            workersAgesContext.fillText(data[d.index].name, c[0], c[1]);
         });
     }
 }
