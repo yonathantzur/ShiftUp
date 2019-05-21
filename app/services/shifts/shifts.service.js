@@ -74,7 +74,7 @@ var ShiftService = /** @class */ (function (_super) {
         });
     };
     ShiftService.prototype.DeleteEvent = function (shiftId) {
-        return _super.prototype.delete.call(this, this.prefix + '/DeleteEvent?eventId=' + shiftId)
+        return _super.prototype.delete.call(this, this.prefix + '/deleteEvent?eventId=' + shiftId)
             .toPromise()
             .then(function (result) {
             return result;

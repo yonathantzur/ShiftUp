@@ -1,6 +1,7 @@
 const DAL = require('../DAL');
 const businessesBL = require('../BL/businessesBL');
 const config = require('../../config');
+const AlertScheduleType = require('../enums').AlertScheduleType;
 
 const usersCollectionName = config.db.collections.users;
 const shiftsCollectionName = config.db.collections.shifts;
@@ -99,13 +100,19 @@ let self = module.exports = {
 
     UpdateEventShifts(shiftId, shiftsData) {
         return new Promise((resolve, reject) => {
+            let eventWorkers = [];
+
             // Remove workers name from shifts workers.
             shiftsData = shiftsData.map(shift => {
+                let shiftWorkers = shift.workers.map(worker => {
+                    return DAL.GetObjectId(worker._id);
+                });
+
+                eventWorkers = eventWorkers.concat(shiftWorkers);
+
                 return {
                     "name": shift.name,
-                    "workers": shift.workers.map(worker => {
-                        return DAL.GetObjectId(worker._id);
-                    })
+                    "workers": shiftWorkers
                 }
             });
 
@@ -116,16 +123,44 @@ let self = module.exports = {
                 }
             }
 
-            DAL.UpdateOne(shiftsCollectionName, shiftFilter, updateShiftDataQuery).then(() => {
+            DAL.UpdateOne(shiftsCollectionName, shiftFilter, updateShiftDataQuery).then((event) => {
                 resolve(true);
+                let eventDate = new Date(event.date);
+                const scheduleBL = require("../BL/scheduleBL");
+                scheduleBL.AlertWorkersWithSchedule([event],
+                    eventWorkers,
+                    eventDate.getMonth() + 1,
+                    eventDate.getFullYear(),
+                    AlertScheduleType.UPDATE);
             }).catch(reject);
         });
     },
 
     DeleteEvent(eventId) {
         return new Promise((resolve, reject) => {
-            DAL.DeleteOne(shiftsCollectionName, { "_id": DAL.GetObjectId(eventId) })
-                .then(resolve).catch(reject);
+            let workersIds = [];
+
+            let filter = { "_id": DAL.GetObjectId(eventId) };
+
+            DAL.FindOne(shiftsCollectionName, filter).then(event => {
+                event.shiftsData.forEach(shift => {
+                    shift.workers.forEach(workerId => {
+                        workersIds.push(DAL.GetObjectId(workerId));
+                    });
+                });
+
+                let eventDate = new Date(event.date);
+
+                DAL.DeleteOne(shiftsCollectionName, filter)
+                    .then(resolve).catch(reject);
+
+                const scheduleBL = require("../BL/scheduleBL");
+                scheduleBL.AlertWorkersWithSchedule([event],
+                    workersIds,
+                    eventDate.getMonth() + 1,
+                    eventDate.getFullYear(),
+                    AlertScheduleType.DELETE);
+            }).catch(reject);
         });
     },
 
