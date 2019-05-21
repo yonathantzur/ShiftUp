@@ -97,4 +97,33 @@ export class ShiftEditComponent implements OnInit {
             }
         });
     }
+
+    DeleteEvent() {
+
+        Swal.fire({
+            title: "מחיקת משמרת",
+            text: "למחוק את המשמרת?",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonColor: "#d33",
+            confirmButtonText: "אישור",
+            cancelButtonText: "ביטול"
+        }).then((result: any) => {
+            if (result.value) {
+                this.shiftService.DeleteEvent(this.event.id).then(result => {
+                    if (result) {
+                        this.eventService.Emit("renderCalendar");
+                        this.CloseWindow();
+                    }
+                    else {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'שגיאה במחיקת השיבוץ',
+                            text: 'אופס... משהו השתבש'
+                        })
+                    }
+                });
+            }
+        });
+    }
 }

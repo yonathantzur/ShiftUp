@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const shiftsBL = require('../BL/shiftsBL');
+const middlewares = require('../middlewares');
 
 router.get("/getShiftsForBusiness", (req, res) => {
     shiftsBL.GetShiftsForBusiness(req.user.businessId,
@@ -39,9 +40,17 @@ router.post("/getEventDetails", (req, res) => {
     });
 });
 
-router.post("/updateEventShifts", (req, res) => {
+router.post("/updateEventShifts", middlewares.CheckManager, (req, res) => {
     shiftsBL.UpdateEventShifts(req.body.shiftId, req.body.shiftsData).then(result => {
         res.send(result);
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
+
+router.delete("/deleteEvent", middlewares.CheckManager, (req, res) => {
+    shiftsBL.DeleteEvent(req.query.eventId).then(result => {
+        res.send(result ? true : false);
     }).catch(err => {
         res.status(500).end();
     });

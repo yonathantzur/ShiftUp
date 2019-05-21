@@ -1,5 +1,5 @@
 <div id="schedule">
-    <calendar class="calendar"></calendar>
+    <calendar class="calendar" [isUserManager]="true"></calendar>
     <div class="scheduler-container">
         <h4 class="scheduler-title">שיבוץ משמרות עובדים</h4>
         <div class="subtext-title" *ngIf="!isLoading && isScheduleAllow">שיבוץ אוטומטי של עובדים במשמרות לחודש {{calendarTitle}}</div>

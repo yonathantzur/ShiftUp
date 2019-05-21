@@ -1,7 +1,7 @@
 const express = require('express');
 const constraintsBL = require('../BL/constraintsBL');
+const middlewares = require('../middlewares');
 const router = express.Router();
-
 
 router.get("/getAllConstraints", (req, res) => {
     constraintsBL.getAllConstraints(req.user).then(data => {
@@ -30,7 +30,7 @@ router.post("/AddConstraint", (req, res) => {
     });
 });
 
-router.get("/ApproveConstraint", (req, res) => {
+router.get("/ApproveConstraint", middlewares.CheckManager, (req, res) => {
     constraintsBL.ApproveConstraint(req.query.conObjId).then(data => {
         res.send(data);
     }).catch(err => {
@@ -38,7 +38,7 @@ router.get("/ApproveConstraint", (req, res) => {
     });
 });
 
-router.get("/RefuseConstraint", (req, res) => {
+router.get("/RefuseConstraint", middlewares.CheckManager, (req, res) => {
     constraintsBL.RefuseConstraint(req.query.conObjId).then(data => {
         res.send(data);
     }).catch(err => {

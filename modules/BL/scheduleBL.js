@@ -1,10 +1,13 @@
 const algo = require('../algo/algorithm');
 const config = require('../../config');
 const DAL = require('../DAL');
+const mailer = require('../mailer');
 const businessesBL = require('../BL/businessesBL');
 const shiftsBL = require('../BL/shiftsBL');
+const AlertScheduleType = require('../enums').AlertScheduleType;
 
 const shiftsCollectionName = config.db.collections.shifts;
+const usersCollectionName = config.db.collections.users;
 
 let self = module.exports = {
     GetShiftsSchedule(businessId, year, month) {
@@ -21,13 +24,55 @@ let self = module.exports = {
 
                 shiftsBL.RemoveShiftsForBusiness(businessId, year, month).then(removeResult => {
                     DAL.InsertMany(shiftsCollectionName, shiftsObjects).then(insertResult => {
-                        resolve(shiftsObjects)
+                        resolve(shiftsObjects);
+                        self.AlertWorkersWithSchedule(shiftsObjects,
+                            scheduleResult.workersIds,
+                            month,
+                            year,
+                            AlertScheduleType.NEW);
                     });
                 });
             }).catch(reject);
         });
     },
 
+    AlertWorkersWithSchedule(shiftsObjects, workersIds, month, year, type) {
+        let workersFilter = { "_id": { $in: workersIds } };
+        let workersFields = { "firstName": 1, "email": 1 };
+
+        let workersObj = {};
+
+        DAL.FindSpecific(usersCollectionName, workersFilter, workersFields).then(workers => {
+            workers.forEach(worker => {
+                worker.shifts = {};
+                workersObj[worker._id.toString()] = worker;
+            });
+
+            shiftsObjects.forEach(shiftObj => {
+                let shiftsData = shiftObj.shiftsData;
+
+                shiftsData.forEach(shiftData => {
+                    shiftData.workers.forEach(workerId => {
+                        let workerShifts = workersObj[workerId.toString()]["shifts"];
+                        workerShifts[shiftObj.date] = workerShifts[shiftObj.date] || [];
+
+                        workerShifts[shiftObj.date].push(shiftData.name);
+                    });
+                });
+            });
+
+            Object.keys(workersObj).forEach(id => {
+                let worker = workersObj[id];
+
+                let workerEmail = worker.email;
+                let workerName = worker.firstName;
+                let workerShifts = worker.shifts;
+
+                mailer.AlertWorkerWithSchedule(workerEmail, workerName, workerShifts, month, year, type);
+            });
+        });
+
+    },
 
     BuildShifts(businessId, year, month, workersIds, businessShiftsNames, shifts) {
         let numWorkers = shifts.length;

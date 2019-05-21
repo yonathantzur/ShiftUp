@@ -45,13 +45,10 @@ a, a:hover, a:focus, i {
     border-color: #7882b6;
 }
 
-.form-group.is-focused label, .form-group.is-focused label.control-label {
-    color: #6e7288;
-}
-
 .fc-event, .fc-event:hover {
     color: white !important;
     text-align: right;
+    cursor: pointer;
 }
 
 /* END OVERRIDE BOOTSTRAP MATERIAL CSS */
@@ -100,3 +97,53 @@ input {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+      
+.rings {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 50%;
+    margin-left: -400px;
+    top: 0;
+    right: 0;
+}
+	
+.ring__ringlet {
+    width: 200px;
+    height: 200px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid #979797;
+    border-radius: 50%;
+    margin-left: 50%;
+    left: -100px;
+    position: absolute;
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+    animation: ring-1 3000ms ease-out infinite;
+    bottom: -115px;
+}
+    
+.ring__ringlet:nth-of-type(2) {
+    animation-delay: 600ms;
+}
+
+.ring__ringlet:nth-of-type(3) {
+    animation-delay: 1200ms;
+}
+	
+
+@keyframes ring-1 {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+  }
+}

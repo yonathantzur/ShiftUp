@@ -12,23 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var shifts_service_1 = require("../../services/shifts/shifts.service");
 var constraints_service_1 = require("../../services/constraints/constraints.service");
-var users_service_1 = require("../../services/users/users.service");
 var event_service_1 = require("../../services/event/event.service");
 var enums_1 = require("../../enums/enums");
 var CalendarComponent = /** @class */ (function () {
-    function CalendarComponent(shiftService, constraintsService, usersService, eventService) {
+    function CalendarComponent(shiftService, constraintsService, eventService) {
         var _this = this;
         this.shiftService = shiftService;
         this.constraintsService = constraintsService;
-        this.usersService = usersService;
         this.eventService = eventService;
         this.eventsCache = {};
-        this.viewState = enums_1.SHIFTS_FILTER.ALL;
         this.eventsIds = [];
         var self = this;
-        self.usersService.isLoginUserManager().then(function (result) {
-            self.isUserManager = result;
-        });
         self.eventService.Register("startLoader", function (event) {
             self.isLoading = true;
         });
@@ -71,6 +65,7 @@ var CalendarComponent = /** @class */ (function () {
         }, self.eventsIds);
     }
     CalendarComponent.prototype.ngOnInit = function () {
+        this.viewState = this.isUserManager ? enums_1.SHIFTS_FILTER.ALL : enums_1.SHIFTS_FILTER.ME;
         var self = this;
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
@@ -140,7 +135,7 @@ var CalendarComponent = /** @class */ (function () {
     };
     CalendarComponent.prototype.handleShiftsResult = function (shifts) {
         var events = [];
-        shifts.forEach(function (shift) {
+        shifts && shifts.forEach(function (shift) {
             events.push({
                 id: shift._id,
                 title: "שיבוץ",
@@ -154,11 +149,12 @@ var CalendarComponent = /** @class */ (function () {
     };
     CalendarComponent.prototype.handleConstraintsResult = function (constraints) {
         var _this = this;
+        var self = this;
         var events = [];
         constraints.forEach(function (constraint) {
             events.push({
                 id: constraint._id,
-                title: "אילוץ",
+                title: self.calcConstraintName(constraint),
                 start: _this.formatToEventDate(constraint.startDate),
                 end: _this.formatToEventDate(constraint.endDate, true),
                 color: '#28a745',
@@ -166,6 +162,21 @@ var CalendarComponent = /** @class */ (function () {
             });
         });
         return events;
+    };
+    CalendarComponent.prototype.calcConstraintName = function (constraint) {
+        var constraintName = "אילוץ";
+        var checkedShifts = constraint.shifts.filter(function (shift) {
+            return shift.isChecked;
+        }).map(function (shift) {
+            return shift.name;
+        });
+        if (checkedShifts.length == constraint.shifts.length) {
+            return constraintName;
+        }
+        for (var i = 0; i < checkedShifts.length; i++) {
+            constraintName += ((i == 0) ? " - " : "/") + checkedShifts[i];
+        }
+        return constraintName;
     };
     CalendarComponent.prototype.loadEvents = function (shifts, constraints, year, month) {
         this.insetToCache(shifts, constraints, year, month);
@@ -223,16 +234,19 @@ var CalendarComponent = /** @class */ (function () {
             delete cacheObj[key]["shifts"];
         });
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], CalendarComponent.prototype, "isUserManager", void 0);
     CalendarComponent = __decorate([
         core_1.Component({
             selector: 'calendar',
             templateUrl: './calendar.html',
-            providers: [shifts_service_1.ShiftService, constraints_service_1.ConstraintsService, users_service_1.UsersService],
+            providers: [shifts_service_1.ShiftService, constraints_service_1.ConstraintsService],
             styleUrls: ['./calendar.css']
         }),
         __metadata("design:paramtypes", [shifts_service_1.ShiftService,
             constraints_service_1.ConstraintsService,
-            users_service_1.UsersService,
             event_service_1.EventService])
     ], CalendarComponent);
     return CalendarComponent;
