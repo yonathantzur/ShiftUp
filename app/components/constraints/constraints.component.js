@@ -13,10 +13,12 @@ var core_1 = require("@angular/core");
 var constraints_service_1 = require("../../services/constraints/constraints.service");
 var users_service_1 = require("../../services/users/users.service");
 var router_1 = require("@angular/router");
+var event_service_1 = require("../../services/event/event.service");
 var ConstraintsComponent = /** @class */ (function () {
-    function ConstraintsComponent(constraintsService, usersService, route, router) {
+    function ConstraintsComponent(constraintsService, usersService, EventService, route, router) {
         this.constraintsService = constraintsService;
         this.usersService = usersService;
+        this.EventService = EventService;
         this.route = route;
         this.router = router;
         this.sourceConstraints = [];
@@ -75,6 +77,11 @@ var ConstraintsComponent = /** @class */ (function () {
         this.constraintsService.getAllConstraints().then(function (data) {
             _this.sourceConstraints = data;
             _this.constraints = _this.sourceConstraints;
+            // Calculate waiting constraints requests.
+            var waitingConstraintsAmount = data.filter(function (constraint) {
+                return (constraint.statusId == 0);
+            }).length;
+            _this.EventService.Emit("setConstraintRequestAmount", waitingConstraintsAmount);
         });
     };
     ConstraintsComponent.prototype.filterItem = function () {
@@ -110,6 +117,7 @@ var ConstraintsComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [constraints_service_1.ConstraintsService,
             users_service_1.UsersService,
+            event_service_1.EventService,
             router_1.ActivatedRoute,
             router_1.Router])
     ], ConstraintsComponent);
