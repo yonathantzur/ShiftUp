@@ -33,6 +33,10 @@ export class NavbarComponent implements OnInit {
                 return (reqObjId != userObjId);
             });
         });
+
+        this.eventService.Register("setConstraintRequestAmount", (amount: number) => {
+            this.loggedInUser.waitingConstraints = amount;
+        });
     }
 
     ngOnInit() {

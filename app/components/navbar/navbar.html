@@ -20,7 +20,7 @@
                 <button class="dropdown-item btn" (click)="notificationsConstraintsClick()"
                     *ngIf="loggedInUser.waitingConstraints > 0">
                     <span *ngIf="loggedInUser.waitingConstraints == 1; then single else multi"></span>
-                    <ng-template #single>בקשת אילוץ</ng-template>
+                    <ng-template #single>בקשת אילוץ ממתינה</ng-template>
                     <ng-template #multi>בקשות אילוצים ({{loggedInUser.waitingConstraints}})</ng-template>                    
                 </button>
             </div>
