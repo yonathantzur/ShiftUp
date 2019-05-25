@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { EventService } from '../../services/event/event.service'
 
 @Component({
     selector: 'excel',
@@ -6,6 +7,35 @@ import { Component } from '@angular/core';
 })
 
 export class ExcelComponent {
+    constructor(private eventService: EventService) {
+        this.eventService.Register("excel", (data: any) => {
+            // let dataSource = {
+            //     data: [
+            //         {
+            //             name: "יונתן צור",
+            //             age: 49
+            //         },
+            //         {
+            //             name: "נופר ישראלי",
+            //             age: 56
+            //         }
+            //     ],
+            //     columns: [
+            //         {
+            //             dataField: "name",
+            //             displayName: "שם"
+            //         },
+            //         {
+            //             dataField: "age",
+            //             displayName: "גיל"
+            //         }
+            //     ]
+            // };
+
+            this.excelExport(data)
+        });
+    }
+
     createExportHeader(dataSource: any, separator: any) {
         var headerRow = "",
             columns = dataSource.columns,
@@ -34,35 +64,13 @@ export class ExcelComponent {
         return content;
     }
 
-    excelExport() {
-        var separator = ',',
-            dataSource = {
-                data: [
-                    {
-                        name: "יונתן צור",
-                        age: 49
-                    },
-                    {
-                        name: "נופר ישראלי",
-                        age: 56
-                    }
-                ],
-                columns: [
-                    {
-                        dataField: "name",
-                        displayName: "שם"
-                    },
-                    {
-                        dataField: "age",
-                        displayName: "גיל"
-                    }
-                ]
-            };
+    excelExport(dataSource: any) {
+        var separator = ',';
         var content = this.createExportHeader(dataSource, separator);
         content += this.createExportRows(dataSource, separator);
 
-        //an anchor html element on the page (or create dynamically one)
-        //to use its download attribute to set filename
+        // An anchor html element on the page (or create dynamically one)
+        // to use its download attribute to set filename
         let a: any = document.getElementById('csv');
         a.textContent = 'download';
         a.download = "MyFile.csv";

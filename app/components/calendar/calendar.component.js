@@ -70,6 +70,16 @@ var CalendarComponent = /** @class */ (function () {
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
             editable: false,
+            customButtons: {
+                export: {
+                    click: function () {
+                    }
+                }
+            },
+            header: {
+                left: 'next,prev today export',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay, title'
+            },
             eventRender: function (event, element) {
                 if (self.isUserManager && event.shiftsData != null) {
                     element.bind('dblclick', function () {
@@ -78,6 +88,7 @@ var CalendarComponent = /** @class */ (function () {
                 }
             },
             viewRender: function (element) {
+                $(".fc-export-button").html('<i class="far fa-file-excel"></i>');
                 self.renderCalendar();
             },
             eventClick: function (event) {
@@ -98,6 +109,8 @@ var CalendarComponent = /** @class */ (function () {
     };
     CalendarComponent.prototype.ngOnDestroy = function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    };
+    CalendarComponent.prototype.exportData = function () {
     };
     CalendarComponent.prototype.renderCalendar = function (shifts) {
         var _this = this;

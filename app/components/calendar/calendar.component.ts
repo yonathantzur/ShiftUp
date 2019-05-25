@@ -96,6 +96,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
             editable: false,
+            customButtons: {
+                export: {
+                    click: function () {
+
+                    }
+                }
+            },
+            header: {
+                left: 'next,prev today export',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay, title'
+            },
             eventRender: function (event: any, element: any) {
                 if (self.isUserManager && event.shiftsData != null) {
                     element.bind('dblclick', () => {
@@ -104,6 +115,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 }
             },
             viewRender: function (element: any) {
+                $(".fc-export-button").html('<i class="far fa-file-excel"></i>');
                 self.renderCalendar();
             },
             eventClick: function (event: any) {
@@ -126,6 +138,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    }
+
+    exportData() {
+
     }
 
     renderCalendar(shifts?: Array<any>) {
