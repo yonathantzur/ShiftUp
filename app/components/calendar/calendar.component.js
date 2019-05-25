@@ -73,6 +73,7 @@ var CalendarComponent = /** @class */ (function () {
             customButtons: {
                 export: {
                     click: function () {
+                        self.exportData();
                     }
                 }
             },
@@ -111,6 +112,20 @@ var CalendarComponent = /** @class */ (function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
     };
     CalendarComponent.prototype.exportData = function () {
+        var _this = this;
+        if (this.isLoading) {
+            return;
+        }
+        else {
+            this.isLoading = true;
+        }
+        var dateRange = $('#calendar').fullCalendar('getDate')._i;
+        var year = dateRange[0];
+        var month = dateRange[1] + 1;
+        this.shiftService.GetMonthlyShiftsForExport(year, month).then(function (dataSource) {
+            _this.isLoading = false;
+            _this.eventService.Emit("excel", dataSource);
+        });
     };
     CalendarComponent.prototype.renderCalendar = function (shifts) {
         var _this = this;

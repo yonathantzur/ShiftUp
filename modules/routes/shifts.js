@@ -56,4 +56,14 @@ router.delete("/deleteEvent", middlewares.CheckManager, (req, res) => {
     });
 });
 
+router.get("/getMonthlyShiftsForExport", (req, res) => {
+    shiftsBL.GetMonthlyShiftsForExport(req.user.businessId,
+        req.query.year,
+        req.query.month).then(excelData => {
+            res.send(excelData);
+        }).catch(err => {
+            res.status(500).end();
+        });
+});
+
 module.exports = router;

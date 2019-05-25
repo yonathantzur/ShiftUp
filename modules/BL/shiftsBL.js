@@ -164,6 +164,48 @@ let self = module.exports = {
         });
     },
 
+    GetMonthlyShiftsForExport(businessId, year, month) {
+        return new Promise((resolve, reject) => {
+
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            let shiftsFindFilter = {
+                "businessId": DAL.GetObjectId(businessId),
+                "date": new RegExp(year + "-" + month + "-.*")
+            };
+
+            let workersFindFilter = {
+                "businessId": DAL.GetObjectId(businessId)
+            };
+
+            let workersFields = {
+                "firstName": 1,
+                "lastName": 1
+            };
+
+
+            Promise.all([
+                DAL.FindSpecific(usersCollectionName, workersFindFilter, workersFields),
+                DAL.Find(shiftsCollectionName, shiftsFindFilter)
+            ]).then(results => {
+                let workers = results[0];
+                let shifts = results[1];
+
+                let dataSource = {
+                    data: [],
+                    columns: []
+                }
+
+                // TODO: build dataSource
+
+                resolve(dataSource);
+                
+            }).catch(reject);
+        });
+    }
+
 };
 
 function getWorkerById(workerId, workers) {

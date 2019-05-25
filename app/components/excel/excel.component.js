@@ -15,7 +15,7 @@ var ExcelComponent = /** @class */ (function () {
     function ExcelComponent(eventService) {
         var _this = this;
         this.eventService = eventService;
-        this.eventService.Register("excel", function (data) {
+        this.eventService.Register("excel", function (dataSource) {
             // let dataSource = {
             //     data: [
             //         {
@@ -38,7 +38,7 @@ var ExcelComponent = /** @class */ (function () {
             //         }
             //     ]
             // };
-            _this.excelExport(data);
+            _this.excelExport(dataSource);
         });
     }
     ExcelComponent.prototype.createExportHeader = function (dataSource, separator) {

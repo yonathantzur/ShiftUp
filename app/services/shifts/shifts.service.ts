@@ -73,4 +73,15 @@ export class ShiftService extends BasicService {
             });
     }
 
+    GetMonthlyShiftsForExport(year: number, month: number) {
+        return super.get(this.prefix + '/getMonthlyShiftsForExport?year=' + year + '&month=' + month)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
 }

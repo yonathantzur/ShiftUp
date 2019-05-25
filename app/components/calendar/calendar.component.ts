@@ -99,7 +99,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
             customButtons: {
                 export: {
                     click: function () {
-
+                        self.exportData();
                     }
                 }
             },
@@ -141,7 +141,21 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
 
     exportData() {
+        if (this.isLoading) {
+            return;
+        }
+        else {
+            this.isLoading = true;
+        }        
 
+        let dateRange = $('#calendar').fullCalendar('getDate')._i;
+        let year: number = dateRange[0];
+        let month: number = dateRange[1] + 1;        
+
+        this.shiftService.GetMonthlyShiftsForExport(year, month).then((dataSource: any) => {
+            this.isLoading = false;
+            this.eventService.Emit("excel", dataSource);
+        });
     }
 
     renderCalendar(shifts?: Array<any>) {

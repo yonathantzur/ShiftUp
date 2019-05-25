@@ -8,7 +8,7 @@ import { EventService } from '../../services/event/event.service'
 
 export class ExcelComponent {
     constructor(private eventService: EventService) {
-        this.eventService.Register("excel", (data: any) => {
+        this.eventService.Register("excel", (dataSource: any) => {
             // let dataSource = {
             //     data: [
             //         {
@@ -32,7 +32,7 @@ export class ExcelComponent {
             //     ]
             // };
 
-            this.excelExport(data)
+            this.excelExport(dataSource)
         });
     }
 

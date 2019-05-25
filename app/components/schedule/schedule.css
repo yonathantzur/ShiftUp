@@ -1,10 +1,10 @@
 .calendar {
     width: 60%;
-    height: 100%;
-    margin-top: 15px;
-    margin-right: 15px;
+    height: calc(100% - 70px);
+    margin-top: 15px;    
     position: absolute;
     right: 0;
+    padding-right: 5px;
 }
 
 .scheduler-container {
