@@ -89,7 +89,7 @@ var CalendarComponent = /** @class */ (function () {
                 }
             },
             viewRender: function (element) {
-                $(".fc-export-button").html('<i class="far fa-file-excel"></i>');
+                $(".fc-export-button").html('<i class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
                 self.renderCalendar();
             },
             eventClick: function (event) {

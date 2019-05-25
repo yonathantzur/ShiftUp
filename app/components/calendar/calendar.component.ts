@@ -115,7 +115,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 }
             },
             viewRender: function (element: any) {
-                $(".fc-export-button").html('<i class="far fa-file-excel"></i>');
+                $(".fc-export-button").html('<i class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
                 self.renderCalendar();
             },
             eventClick: function (event: any) {
@@ -146,11 +146,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
         }
         else {
             this.isLoading = true;
-        }        
+        }
 
         let dateRange = $('#calendar').fullCalendar('getDate')._i;
         let year: number = dateRange[0];
-        let month: number = dateRange[1] + 1;        
+        let month: number = dateRange[1] + 1;
 
         this.shiftService.GetMonthlyShiftsForExport(year, month).then((dataSource: any) => {
             this.isLoading = false;
