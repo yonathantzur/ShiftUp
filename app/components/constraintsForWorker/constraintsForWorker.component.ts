@@ -3,6 +3,7 @@ import { ConstraintsService } from '../../services/constraints/constraints.servi
 import { BusinessesService } from "../../services/businesses/businesses.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
+import {now} from "moment";
 
 declare let Swal: any;
 declare let $: any
@@ -87,13 +88,21 @@ export class ConstraintsForWorkerComponent implements OnInit {
             let isShiftSelected = false;
             this.newConstraint = AddConstraintForm.value;
             if (this.newConstraint.startDate) {
+                if(new Date(this.newConstraint.startDate) < new Date(Date.now())){
+                    Swal.fire({
+                        type: 'error',
+                        title: 'תאריך ההתחלה שהוכנס אינו תקין',
+                        text: 'נא לתקן ולנסות שנית'
+                    });
+                    return;
+                }
                 if (!this.newConstraint.endDate || !this.isRange) {
                     this.newConstraint.endDate = this.newConstraint.startDate;
                 }
                 if (new Date(this.newConstraint.endDate) < new Date(this.newConstraint.startDate)) {
                     Swal.fire({
                         type: 'error',
-                        title: 'טווח תאריכים לא תקין',
+                        title: 'טווח התאריכים לא תקין',
                         text: 'נא לתקן ולנסות שוב'
                     })
                 } else {
@@ -129,8 +138,8 @@ export class ConstraintsForWorkerComponent implements OnInit {
         } else {
             Swal.fire({
                 type: 'error',
-                title: 'אחד או יותר מהשדות ריקים',
-                text: 'נא למלא את כל השדות'
+                title: 'ישנם שדות ריקים',
+                text: 'נא למלא את כל השדות בצורה תקינה'
             })
         }
     }

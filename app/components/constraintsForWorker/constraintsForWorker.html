@@ -43,7 +43,8 @@
                         <td>
                             <ng-container *ngFor="let shift of con.shifts; let j=index">
                                 <input *ngIf="shift.isChecked" type="checkbox" name="vehicle" checked disabled>
-                                <input *ngIf="!shift.isChecked" type="checkbox" name="vehicle" disabled>{{ shift?.name }}
+                                <input *ngIf="!shift.isChecked" type="checkbox" name="vehicle"
+                                       disabled>{{ shift?.name }}
                                 <br>
                             </ng-container>
                         </td>
@@ -76,14 +77,16 @@
                     <div class="form-group">
                         <label class="modalSectionTitle">תאריך <span *ngIf="this.isRange">התחלה</span></label>
                         <input type='date' class="form-control" name="startDate" ngModel #startDate="ngModel" required
-                               title="הכנס תאריך תחילה"/>
+                               pattern="/^\d{4}[./-]\d{2}[./-]\d{2}$/" title="הכנס תאריך תחילה"/>
                     </div>
                     <div class="warning" *ngIf="startDate.errors?.required && startDate.touched">נא להכניס תאריך <span
                             *ngIf="this.isRange">התחלה</span></div>
+                    <div class="warning" *ngIf="startDate.errors?.pattern">תאריך בפורמט לא תקין</div>
                     <div class="form-group" *ngIf="this.isRange">
                         <label class="modalSectionTitle">תאריך סיום:</label>
-                        <input type='date' class="form-control" name="endDate" ngModel #endDate="ngModel" required
-                               title="הכנס תאריך סיום"/>
+                        <input type='date' class="form-control" name="endDate" ngModel #endDate="ngModel"
+                               pattern="/^\d{4}[./-]\d{2}[./-]\d{2}$/" title="הכנס תאריך סיום"/>
+                        <div class="warning" *ngIf="endDate.errors?.pattern">תאריך בפורמט לא תקין</div>
                     </div>
                     <div class="form-group">
                         <input type="checkbox" [(ngModel)]="this.isRange" [ngModelOptions]="{standalone: true}"> טווח
@@ -109,7 +112,8 @@
                                 </option>
                             </select>
                         </div>
-                        <div class="warning" *ngIf="description.errors?.required && description.touched">נא להזין סיבה</div>
+                        <div class="warning" *ngIf="description.errors?.required && description.touched">נא להזין סיבה
+                        </div>
                     </div>
                 </form>
             </div>
