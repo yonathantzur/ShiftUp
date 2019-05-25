@@ -16,35 +16,13 @@ var ExcelComponent = /** @class */ (function () {
         var _this = this;
         this.eventService = eventService;
         this.eventService.Register("excel", function (dataSource) {
-            // let dataSource = {
-            //     data: [
-            //         {
-            //             name: "יונתן צור",
-            //             age: 49
-            //         },
-            //         {
-            //             name: "נופר ישראלי",
-            //             age: 56
-            //         }
-            //     ],
-            //     columns: [
-            //         {
-            //             dataField: "name",
-            //             displayName: "שם"
-            //         },
-            //         {
-            //             dataField: "age",
-            //             displayName: "גיל"
-            //         }
-            //     ]
-            // };
             _this.excelExport(dataSource);
         });
     }
     ExcelComponent.prototype.createExportHeader = function (dataSource, separator) {
         var headerRow = "", columns = dataSource.columns, newLine = "\r\n";
         for (var i = 0; i < columns.length; i++) {
-            headerRow += (i > 0 ? separator : '') + columns[i].displayName;
+            headerRow += (i > 0 ? separator : '') + (columns[i].displayName || '');
         }
         return headerRow + newLine;
     };
@@ -52,8 +30,8 @@ var ExcelComponent = /** @class */ (function () {
         var content = "", columns = dataSource.columns, data = dataSource.data, newLine = "\r\n", dataField;
         for (var j = 0; j < data.length; j++) {
             for (var i = 0; i < columns.length; i++) {
-                dataField = columns[i].dataField;
-                content += (i > 0 ? separator : '') + data[j][dataField];
+                dataField = columns[i].dataField || '';
+                content += (i > 0 ? separator : '') + (data[j][dataField] || '');
             }
             content += newLine;
         }

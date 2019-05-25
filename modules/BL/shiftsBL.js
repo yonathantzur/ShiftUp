@@ -185,28 +185,66 @@ let self = module.exports = {
                 "lastName": 1
             };
 
-
             Promise.all([
                 DAL.FindSpecific(usersCollectionName, workersFindFilter, workersFields),
                 DAL.Find(shiftsCollectionName, shiftsFindFilter)
             ]).then(results => {
-                let workers = results[0];
+                let workersArray = results[0];
+                let workersObj = {};
                 let shifts = results[1];
+
+                workersArray.forEach(worker => {
+                    workersObj[worker._id.toString()] = worker.firstName + " " + worker.lastName;
+                });
 
                 let dataSource = {
                     data: [],
                     columns: []
                 }
 
-                // TODO: build dataSource
+                shifts.forEach((shift, shiftIndex) => {
+                    dataSource.columns.push({
+                        displayName: formatEventDate(shift.date)
+                    });
+
+                    shift.shiftsData.forEach((shiftData, shiftDataIndex) => {
+                        let shiftName = shiftData.name;
+                        let shiftId = "shift" + shiftIndex.toString() + shiftDataIndex.toString();
+
+                        dataSource.columns.push({
+                            dataField: shiftId,
+                            displayName: shiftName
+                        });
+
+                        shiftData.workers.forEach((workerId, workerIndex) => {
+                            let workerName = workersObj[workerId.toString()];
+                            let shiftDataWorker = getOrPushGet(dataSource.data, workerIndex);
+
+                            shiftDataWorker[shiftId] = workerName;
+                        });
+                    });
+
+                    dataSource.columns.push({});
+                });                
 
                 resolve(dataSource);
-                
+
             }).catch(reject);
         });
     }
 
 };
+
+function getOrPushGet(arr, index) {
+    if (arr.length > index) {
+        return arr[index];
+    }
+    else {
+        let objToPush = {};
+        arr.push(objToPush);
+        return objToPush;
+    }
+}
 
 function getWorkerById(workerId, workers) {
     for (let i = 0; i < workers.length; i++) {
@@ -216,4 +254,22 @@ function getWorkerById(workerId, workers) {
     }
 
     return null;
+}
+
+function formatEventDate(dateStr) {
+    let date = new Date(dateStr);
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear().toString().substring(2);
+
+    if (day < 10) {
+        day = "0" + day;
+    }
+
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+    return (day + "." + month + "." + year);
 }

@@ -9,64 +9,43 @@ import { EventService } from '../../services/event/event.service'
 export class ExcelComponent {
     constructor(private eventService: EventService) {
         this.eventService.Register("excel", (dataSource: any) => {
-            // let dataSource = {
-            //     data: [
-            //         {
-            //             name: "יונתן צור",
-            //             age: 49
-            //         },
-            //         {
-            //             name: "נופר ישראלי",
-            //             age: 56
-            //         }
-            //     ],
-            //     columns: [
-            //         {
-            //             dataField: "name",
-            //             displayName: "שם"
-            //         },
-            //         {
-            //             dataField: "age",
-            //             displayName: "גיל"
-            //         }
-            //     ]
-            // };
-
             this.excelExport(dataSource)
         });
     }
 
     createExportHeader(dataSource: any, separator: any) {
-        var headerRow = "",
+        let headerRow = "",
             columns = dataSource.columns,
             newLine = "\r\n";
 
-        for (var i = 0; i < columns.length; i++) {
-            headerRow += (i > 0 ? separator : '') + columns[i].displayName;
+        for (let i = 0; i < columns.length; i++) {
+            headerRow += (i > 0 ? separator : '') + (columns[i].displayName || '');
         }
         return headerRow + newLine;
     }
 
     createExportRows(dataSource: any, separator: any) {
-        var content = "",
+        let content = "",
             columns = dataSource.columns,
             data = dataSource.data,
             newLine = "\r\n",
             dataField;
 
-        for (var j = 0; j < data.length; j++) {
-            for (var i = 0; i < columns.length; i++) {
-                dataField = columns[i].dataField;
-                content += (i > 0 ? separator : '') + data[j][dataField];
+        for (let j = 0; j < data.length; j++) {
+            for (let i = 0; i < columns.length; i++) {
+                dataField = columns[i].dataField || '';
+                content += (i > 0 ? separator : '') + (data[j][dataField] || '');
             }
+
             content += newLine;
         }
+
         return content;
     }
 
     excelExport(dataSource: any) {
-        var separator = ',';
-        var content = this.createExportHeader(dataSource, separator);
+        let separator = ',';
+        let content = this.createExportHeader(dataSource, separator);
         content += this.createExportRows(dataSource, separator);
 
         // An anchor html element on the page (or create dynamically one)
