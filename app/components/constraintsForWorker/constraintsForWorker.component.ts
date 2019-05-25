@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
 import { BusinessesService } from "../../services/businesses/businesses.service";
-import { ActivatedRoute, Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
-import {now} from "moment";
 
 declare let Swal: any;
-declare let $: any
+declare let $: any;
 
 @Component({
     selector: 'constraintsForWorker',
@@ -26,10 +24,8 @@ export class ConstraintsForWorkerComponent implements OnInit {
     startDateFilter: Date;
     endDateFilter: Date;
 
-    constructor(private ConstraintsService: ConstraintsService,
-        private businessService: BusinessesService,
-        private route: ActivatedRoute,
-        private router: Router) {
+    constructor(private constraintsService: ConstraintsService,
+        private businessService: BusinessesService) {
     }
 
     ngOnInit() {
@@ -40,7 +36,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
     }
 
     InitiateConstraints() {
-        this.ConstraintsService.getAllConstraints().then((data: any) => {
+        this.constraintsService.getAllConstraints().then((data: any) => {
             this.sourceConstraints = data;
             this.constraints = this.sourceConstraints;
         });
@@ -56,7 +52,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
     }
 
     InitiateConstraintsReasons() {
-        this.ConstraintsService.getAllConstraintReasons().then((data: any) => {
+        this.constraintsService.getAllConstraintReasons().then((data: any) => {
             this.constraintsReasons = data;
         });
     }
@@ -146,7 +142,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
 
     AddConstraint(newConstraint: any) {
         newConstraint['shifts'] = this.shiftNames;
-        this.ConstraintsService.AddConstraint(newConstraint).then((result: any) => {
+        this.constraintsService.AddConstraint(newConstraint).then((result: any) => {
             if (result) {
                 $('#AddConstraintModal').modal('hide');
                 Swal.fire({
@@ -165,5 +161,19 @@ export class ConstraintsForWorkerComponent implements OnInit {
             }
         }
         );
+    }
+
+    DeleteConstraint(conObjId: string) {
+        this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
+            if (isDeleted) {
+                this.InitiateConstraints();
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה במחיקה',
+                    text: 'אופס... משהו השתבש'
+                })
+            }
+        })
     }
 }

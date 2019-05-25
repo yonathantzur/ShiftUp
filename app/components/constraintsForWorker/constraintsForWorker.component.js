@@ -12,13 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var constraints_service_1 = require("../../services/constraints/constraints.service");
 var businesses_service_1 = require("../../services/businesses/businesses.service");
-var router_1 = require("@angular/router");
 var ConstraintsForWorkerComponent = /** @class */ (function () {
-    function ConstraintsForWorkerComponent(ConstraintsService, businessService, route, router) {
-        this.ConstraintsService = ConstraintsService;
+    function ConstraintsForWorkerComponent(constraintsService, businessService) {
+        this.constraintsService = constraintsService;
         this.businessService = businessService;
-        this.route = route;
-        this.router = router;
         this.sourceConstraints = [];
         this.constraints = [];
         this.constraintsReasons = [];
@@ -31,7 +28,7 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
     };
     ConstraintsForWorkerComponent.prototype.InitiateConstraints = function () {
         var _this = this;
-        this.ConstraintsService.getAllConstraints().then(function (data) {
+        this.constraintsService.getAllConstraints().then(function (data) {
             _this.sourceConstraints = data;
             _this.constraints = _this.sourceConstraints;
         });
@@ -48,7 +45,7 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
     };
     ConstraintsForWorkerComponent.prototype.InitiateConstraintsReasons = function () {
         var _this = this;
-        this.ConstraintsService.getAllConstraintReasons().then(function (data) {
+        this.constraintsService.getAllConstraintReasons().then(function (data) {
             _this.constraintsReasons = data;
         });
     };
@@ -144,7 +141,7 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
     ConstraintsForWorkerComponent.prototype.AddConstraint = function (newConstraint) {
         var _this = this;
         newConstraint['shifts'] = this.shiftNames;
-        this.ConstraintsService.AddConstraint(newConstraint).then(function (result) {
+        this.constraintsService.AddConstraint(newConstraint).then(function (result) {
             if (result) {
                 $('#AddConstraintModal').modal('hide');
                 Swal.fire({
@@ -163,6 +160,21 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
             }
         });
     };
+    ConstraintsForWorkerComponent.prototype.DeleteConstraint = function (conObjId) {
+        var _this = this;
+        this.constraintsService.DeleteConstraint(conObjId).then(function (isDeleted) {
+            if (isDeleted) {
+                _this.InitiateConstraints();
+            }
+            else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה במחיקה',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
+    };
     ConstraintsForWorkerComponent = __decorate([
         core_1.Component({
             selector: 'constraintsForWorker',
@@ -171,9 +183,7 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
             styleUrls: ['./constraintsForWorker.css']
         }),
         __metadata("design:paramtypes", [constraints_service_1.ConstraintsService,
-            businesses_service_1.BusinessesService,
-            router_1.ActivatedRoute,
-            router_1.Router])
+            businesses_service_1.BusinessesService])
     ], ConstraintsForWorkerComponent);
     return ConstraintsForWorkerComponent;
 }());
