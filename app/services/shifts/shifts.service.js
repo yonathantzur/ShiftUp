@@ -83,6 +83,17 @@ var ShiftService = /** @class */ (function (_super) {
             return null;
         });
     };
+    ShiftService.prototype.GetMonthlyShiftsForExport = function (year, month, viewState) {
+        return _super.prototype.get.call(this, this.prefix +
+            '/getMonthlyShiftsForExport?year=' + year + '&month=' + month + '&viewState=' + viewState)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
     return ShiftService;
 }(basic_service_1.BasicService));
 exports.ShiftService = ShiftService;

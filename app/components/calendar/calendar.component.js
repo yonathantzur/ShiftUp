@@ -70,6 +70,17 @@ var CalendarComponent = /** @class */ (function () {
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
             editable: false,
+            customButtons: {
+                export: {
+                    click: function () {
+                        self.exportData();
+                    }
+                }
+            },
+            header: {
+                left: 'next,prev today export',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay, title'
+            },
             eventRender: function (event, element) {
                 if (self.isUserManager && event.shiftsData != null) {
                     element.bind('dblclick', function () {
@@ -77,7 +88,9 @@ var CalendarComponent = /** @class */ (function () {
                     });
                 }
             },
-            viewRender: function (element) {
+            viewRender: function () {
+                $(".fc-export-button")
+                    .html('<i class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
                 self.renderCalendar();
             },
             eventClick: function (event) {
@@ -98,6 +111,30 @@ var CalendarComponent = /** @class */ (function () {
     };
     CalendarComponent.prototype.ngOnDestroy = function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    };
+    CalendarComponent.prototype.exportData = function () {
+        var _this = this;
+        if (this.isLoading) {
+            return;
+        }
+        else {
+            this.isLoading = true;
+        }
+        var dateRange = $('#calendar').fullCalendar('getDate')._i;
+        var year = dateRange[0];
+        var month = dateRange[1] + 1;
+        this.shiftService.GetMonthlyShiftsForExport(year, month, this.viewState).then(function (dataSource) {
+            _this.isLoading = false;
+            var exportInfo = { dataSource: dataSource };
+            var exportDateTitle = $('#calendar').fullCalendar('getView').title;
+            if (_this.viewState == enums_1.SHIFTS_FILTER.ME) {
+                exportInfo["fileName"] = "המשמרות שלי - " + exportDateTitle;
+            }
+            else {
+                exportInfo["fileName"] = "משמרות - " + exportDateTitle;
+            }
+            _this.eventService.Emit("excel", exportInfo);
+        });
     };
     CalendarComponent.prototype.renderCalendar = function (shifts) {
         var _this = this;

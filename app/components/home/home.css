@@ -1,9 +1,10 @@
 .calendar {
     width: 100%;
-    height: calc(100% - 80px);
+    height: calc(100% - 20px);
     margin-top: 15px;    
     position: absolute;
     right: 0;
+    padding-right: 5px;
 }
 
 .shiftCard {

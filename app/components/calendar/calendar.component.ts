@@ -96,6 +96,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
             editable: false,
+            customButtons: {
+                export: {
+                    click: function () {
+                        self.exportData();
+                    }
+                }
+            },
+            header: {
+                left: 'next,prev today export',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay, title'
+            },
             eventRender: function (event: any, element: any) {
                 if (self.isUserManager && event.shiftsData != null) {
                     element.bind('dblclick', () => {
@@ -103,7 +114,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
                     });
                 }
             },
-            viewRender: function (element: any) {
+            viewRender: function () {
+                $(".fc-export-button")
+                    .html('<i class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
                 self.renderCalendar();
             },
             eventClick: function (event: any) {
@@ -126,6 +139,34 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    }
+
+    exportData() {
+        if (this.isLoading) {
+            return;
+        }
+        else {
+            this.isLoading = true;
+        }
+
+        let dateRange = $('#calendar').fullCalendar('getDate')._i;
+        let year: number = dateRange[0];
+        let month: number = dateRange[1] + 1;
+
+        this.shiftService.GetMonthlyShiftsForExport(year, month, this.viewState).then((dataSource: any) => {
+            this.isLoading = false;
+            let exportInfo = { dataSource };
+            let exportDateTitle = $('#calendar').fullCalendar('getView').title;
+
+            if (this.viewState == SHIFTS_FILTER.ME) {
+                exportInfo["fileName"] = "המשמרות שלי - " + exportDateTitle;
+            }
+            else {
+                exportInfo["fileName"] = "משמרות - " + exportDateTitle;
+            }
+
+            this.eventService.Emit("excel", exportInfo);
+        });
     }
 
     renderCalendar(shifts?: Array<any>) {

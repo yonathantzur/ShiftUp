@@ -8,7 +8,7 @@
                 <label class="filter-label">תצוגת משמרות</label>
                 <select id="filter-select" class="form-control filter-select" (change)="Filter($event.target.value)">
                     <option [attr.selected]="isUserManager || null" [value]="shiftsFilter.ALL">הכל</option>
-                    <option [attr.selected]="!isUserManager || null" [value]="shiftsFilter.ME">אני</option>
+                    <option [attr.selected]="!isUserManager || null" [value]="shiftsFilter.ME">המשמרות שלי</option>
                 </select>
                 <i class="fas fa-sort-down select-icon"></i>
             </div>
