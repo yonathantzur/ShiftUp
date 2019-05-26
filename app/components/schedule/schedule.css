@@ -8,17 +8,14 @@
 }
 
 .scheduler-container {
-    width: calc(40% - 20px);
+    width: 40%;
     height: calc(100% - 50px);
     position: absolute;
     left: 0;
-    display: flex;
-    min-height: 345px;
 }
 
 .scheduler-title {
-    position: absolute;
-    top: 20px;
+    position: relative;
     width: 100%;
     text-align: center;
     text-decoration: underline;
@@ -26,8 +23,9 @@
 
 .scheduler-btn {
     margin: auto;
-    width: 150px;
-    height: 150px;
+    width: 25vh;
+    height: 25vh;
+    font-size: 2.8vh;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -54,11 +52,34 @@
     border-left: 0.5px solid gray;
 }
 
+.alert-text {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    user-select: none;
+    padding: 15px;
+    height: 100%;
+}
+
 .subtext-title {
-    position: absolute;
-    top: 60px;
+    position: relative;
     width: 100%;
     text-align: center;
     font-size: 14px;
     padding: 0 20px;
+}
+
+.title-container {
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+}
+
+.action-container {    
+    width: 100%;
+    height: calc(100% - 110px);
+    position: relative;
+    display: flex;
 }
