@@ -15,8 +15,8 @@ var ExcelComponent = /** @class */ (function () {
     function ExcelComponent(eventService) {
         var _this = this;
         this.eventService = eventService;
-        this.eventService.Register("excel", function (dataSource) {
-            _this.excelExport(dataSource);
+        this.eventService.Register("excel", function (exportInfo) {
+            _this.excelExport(exportInfo.dataSource, exportInfo.fileName);
         });
     }
     ExcelComponent.prototype.createExportHeader = function (dataSource, separator) {
@@ -37,7 +37,7 @@ var ExcelComponent = /** @class */ (function () {
         }
         return content;
     };
-    ExcelComponent.prototype.excelExport = function (dataSource) {
+    ExcelComponent.prototype.excelExport = function (dataSource, fileName) {
         var separator = ',';
         var content = this.createExportHeader(dataSource, separator);
         content += this.createExportRows(dataSource, separator);
@@ -45,7 +45,7 @@ var ExcelComponent = /** @class */ (function () {
         // to use its download attribute to set filename
         var a = document.getElementById('csv');
         a.textContent = 'download';
-        a.download = "MyFile.csv";
+        a.download = fileName + ".csv";
         a.href = 'data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(content);
         a.click();
     };

@@ -8,8 +8,8 @@ import { EventService } from '../../services/event/event.service'
 
 export class ExcelComponent {
     constructor(private eventService: EventService) {
-        this.eventService.Register("excel", (dataSource: any) => {
-            this.excelExport(dataSource)
+        this.eventService.Register("excel", (exportInfo: any) => {
+            this.excelExport(exportInfo.dataSource, exportInfo.fileName)
         });
     }
 
@@ -43,7 +43,7 @@ export class ExcelComponent {
         return content;
     }
 
-    excelExport(dataSource: any) {
+    excelExport(dataSource: any, fileName: string) {
         let separator = ',';
         let content = this.createExportHeader(dataSource, separator);
         content += this.createExportRows(dataSource, separator);
@@ -52,7 +52,7 @@ export class ExcelComponent {
         // to use its download attribute to set filename
         let a: any = document.getElementById('csv');
         a.textContent = 'download';
-        a.download = "MyFile.csv";
+        a.download = fileName + ".csv";
         a.href = 'data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(content);
         a.click();
     }

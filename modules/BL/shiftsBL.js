@@ -2,6 +2,7 @@ const DAL = require('../DAL');
 const businessesBL = require('../BL/businessesBL');
 const config = require('../../config');
 const AlertScheduleType = require('../enums').AlertScheduleType;
+const ShiftsFilter = require('../enums').ShiftsFilter;
 
 const usersCollectionName = config.db.collections.users;
 const shiftsCollectionName = config.db.collections.shifts;
@@ -164,9 +165,8 @@ let self = module.exports = {
         });
     },
 
-    GetMonthlyShiftsForExport(businessId, year, month) {
+    GetMonthlyShiftsForExport(userObjId, businessId, year, month, viewState) {
         return new Promise((resolve, reject) => {
-
             if (month < 10) {
                 month = "0" + month;
             }
@@ -175,6 +175,10 @@ let self = module.exports = {
                 "businessId": DAL.GetObjectId(businessId),
                 "date": new RegExp(year + "-" + month + "-.*")
             };
+
+            if (viewState == ShiftsFilter.ME) {
+                shiftsFindFilter["shiftsData.workers"] = DAL.GetObjectId(userObjId);
+            }
 
             let workersFindFilter = {
                 "businessId": DAL.GetObjectId(businessId)
@@ -225,7 +229,7 @@ let self = module.exports = {
                     });
 
                     dataSource.columns.push({});
-                });                
+                });
 
                 resolve(dataSource);
 

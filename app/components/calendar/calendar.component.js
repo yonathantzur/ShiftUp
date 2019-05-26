@@ -88,8 +88,9 @@ var CalendarComponent = /** @class */ (function () {
                     });
                 }
             },
-            viewRender: function (element) {
-                $(".fc-export-button").html('<i class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
+            viewRender: function () {
+                $(".fc-export-button")
+                    .html('<i class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
                 self.renderCalendar();
             },
             eventClick: function (event) {
@@ -122,9 +123,17 @@ var CalendarComponent = /** @class */ (function () {
         var dateRange = $('#calendar').fullCalendar('getDate')._i;
         var year = dateRange[0];
         var month = dateRange[1] + 1;
-        this.shiftService.GetMonthlyShiftsForExport(year, month).then(function (dataSource) {
+        this.shiftService.GetMonthlyShiftsForExport(year, month, this.viewState).then(function (dataSource) {
             _this.isLoading = false;
-            _this.eventService.Emit("excel", dataSource);
+            var exportInfo = { dataSource: dataSource };
+            var exportDateTitle = $('#calendar').fullCalendar('getView').title;
+            if (_this.viewState == enums_1.SHIFTS_FILTER.ME) {
+                exportInfo["fileName"] = "המשמרות שלי - " + exportDateTitle;
+            }
+            else {
+                exportInfo["fileName"] = "משמרות - " + exportDateTitle;
+            }
+            _this.eventService.Emit("excel", exportInfo);
         });
     };
     CalendarComponent.prototype.renderCalendar = function (shifts) {
