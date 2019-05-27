@@ -12,7 +12,7 @@
 .container {
     position: fixed;
     width: 80%;
-    height: 570px;
+    height: calc(100% - 10px);
     background-color: #f3f3f3;
     box-shadow: 4px 4px 30px 5px #5d5d5d;
     border-radius: 3px;

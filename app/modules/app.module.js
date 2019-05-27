@@ -12,6 +12,7 @@ var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/common/http");
 // Components
 var app_component_1 = require("../components/app/app.component");
+var excel_component_1 = require("../components/excel/excel.component");
 var main_component_1 = require("../components/main/main.component");
 var login_component_1 = require("../components/login/login.component");
 var home_component_1 = require("../components/home/home.component");
@@ -49,6 +50,7 @@ var AppModule = /** @class */ (function () {
             ],
             declarations: [
                 app_component_1.AppComponent,
+                excel_component_1.ExcelComponent,
                 main_component_1.MainComponent,
                 login_component_1.LoginComponent,
                 home_component_1.HomeComponent,
