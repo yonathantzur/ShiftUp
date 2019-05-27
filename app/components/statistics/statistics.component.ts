@@ -28,7 +28,8 @@ export class StatisticsComponent {
     manager: any;
     workers: Array<any>;
     constraints: Array<any>;
-    loadingRequets: number;
+    loadingRequets: number = 3;
+    averageAges: number;
 
     constructor(
         private usersService: UsersService,
@@ -65,8 +66,10 @@ export class StatisticsComponent {
     }
 
     buildWorkersAgesChart = (workers: Array<any>) => {
+        let sumAges = 0;
         var groupAges = workers.map((worker: any) => {
             const age = calcAge(worker.birthDate);
+            sumAges += age;
             return age - age % 10 + 10;
         }).reduce(function(groups, item) {
             var val = item;
@@ -74,6 +77,7 @@ export class StatisticsComponent {
             groups[val].push(item);
             return groups;
         }, {});
+        this.averageAges = workers.length ? parseInt((sumAges / workers.length).toString()) : 0;
         var data: Array<any> = [];
         for (let a = 0; a <= 120; a += 10) {
             if (groupAges[a]) {
@@ -99,7 +103,7 @@ export class StatisticsComponent {
 
         var arc = d3.arc()
             .outerRadius(radius - 10)
-            .innerRadius(50)
+            .innerRadius(100)
             .padAngle(0.03)
             .context(workersAgesContext);
 

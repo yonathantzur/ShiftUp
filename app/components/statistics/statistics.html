@@ -6,7 +6,57 @@
     <ng-template #statistics>
         <h3 class="title">סטטיסטיקות</h3>
         <div class="statisticsChartsContainer">
-            <div class="charts">
+            <ul class="nav nav-tabs" id="tabs-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="tabs-ages-tab" data-toggle="tab" href="#tabs-ages" role="tab"
+                        aria-controls="tabs-ages" aria-selected="true">גילאים</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tabs-salary-tab" data-toggle="tab" href="#tabs-salary" role="tab"
+                        aria-controls="tabs-salary" aria-selected="false">שכר</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tabs-another-tab" data-toggle="tab" href="#tabs-another" role="tab"
+                        aria-controls="tabs-another" aria-selected="false">עוד סטטיסטיקה</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tabs-another-tab2" data-toggle="tab" href="#tabs-another" role="tab"
+                        aria-controls="tabs-another" aria-selected="false">עוד סטטיסטיקה</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tabs-another-tab3" data-toggle="tab" href="#tabs-another" role="tab"
+                        aria-controls="tabs-another" aria-selected="false">עוד סטטיסטיקה</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tabs-another-tab4" data-toggle="tab" href="#tabs-another" role="tab"
+                        aria-controls="tabs-another" aria-selected="false">עוד סטטיסטיקה</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tabs-another-tab5" data-toggle="tab" href="#tabs-another" role="tab"
+                        aria-controls="tabs-another" aria-selected="false">עוד סטטיסטיקה</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tabs-another-tab6" data-toggle="tab" href="#tabs-another" role="tab"
+                        aria-controls="tabs-another" aria-selected="false">עוד סטטיסטיקה</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="tabs-tabContent">
+                <div class="tab-pane fade show active" id="tabs-ages" role="tabpanel" aria-labelledby="tabs-ages-tab">
+                    <h4 class="chartTitle">גילאים</h4>
+                    <h5 *ngIf="workers">חתך גילאי {{ workers.length }} עובדים</h5>
+                    <span class="agesInfo" *ngIf="averageAges">ממוצע גילאי עובדים בעסק: <b>{{ averageAges }}</b></span>
+                    <canvas id="workersAgesChart" width="400" height="400"></canvas>
+                </div>
+                <div class="tab-pane fade" id="tabs-salary" role="tabpanel" aria-labelledby="tabs-salary-tab">
+                    <h4 class="chartTitle">גרף שכר</h4>
+                    <svg id="workersSalariesChart" width="400" height="400"></svg>
+                </div>
+                <div class="tab-pane fade" id="tabs-another" role="tabpanel" aria-labelledby="tabs-another-tab">
+                    <h4 class="chartTitle">סטטיסטיקה אחרת כלשהי</h4>
+                </div>
+            </div>
+
+            <!-- <div class="charts">
                 <h4 class="chartTitle">חתך גילאי עובדים</h4>
                 <canvas id="workersAgesChart" width="400" height="400"></canvas>
             </div>
@@ -29,7 +79,7 @@
             <div class="charts">
                 <h4 class="chartTitle">חתך אחר כלשהו</h4>
                 <canvas id="anotherChart5" width="400" height="400"></canvas>
-            </div>
+            </div> -->
         </div>
     </ng-template>
 </div>

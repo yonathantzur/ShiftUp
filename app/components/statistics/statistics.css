@@ -9,17 +9,56 @@
 }
 
 .statisticsChartsContainer {
-    display: flex;
-    flex-wrap: wrap;
+    margin: 0 10%;
+    background-color: #fff;
+    padding: 0.5em;
+    /* display: flex;
+    flex-wrap: wrap; */
 }
 
-.charts {
+/* .charts {
     margin: 10px auto;
     display: block;
     text-align: center;
-}
+} */
 
-.chartTitle {
+/* .chartTitle {
     margin: auto;
     width: 500px;
+} */
+
+.nav-tabs {
+    padding-inline-start: 0;
+}
+
+.nav-link {
+    font-size: 16px;
+    color: #007bff;
+    border: 1px solid transparent;
+    border-bottom-color: #e9ecef;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    padding: 0 auto;
+}
+
+/* .nav-tabs .nav-link:focus, .nav-tabs .nav-link :hover {
+    border-color: #bbb #bbb #495057 !important;
+}
+
+.nav-link.active, nav-link :active {
+    color: #495057 !important;
+    background-color: transparent !important;
+    border-color: #495057 #495057 transparent !important;
+} */
+
+.tab-content {
+    text-align: center;
+}
+
+.agesInfo {
+    position: absolute;
+    margin-top: 150px;
+    margin-right: 135px;
+    width: 120px;
+    font-size: 20px;
 }

@@ -53,14 +53,18 @@ var shifts_service_1 = require("../../services/shifts/shifts.service");
 var CHARTS_SIZE = 400;
 var StatisticsComponent = /** @class */ (function () {
     function StatisticsComponent(usersService, businessesService, workersService, constraintsService, shiftService) {
+        var _this = this;
         this.usersService = usersService;
         this.businessesService = businessesService;
         this.workersService = workersService;
         this.constraintsService = constraintsService;
         this.shiftService = shiftService;
+        this.loadingRequets = 3;
         this.buildWorkersAgesChart = function (workers) {
+            var sumAges = 0;
             var groupAges = workers.map(function (worker) {
                 var age = calcAge(worker.birthDate);
+                sumAges += age;
                 return age - age % 10 + 10;
             }).reduce(function (groups, item) {
                 var val = item;
@@ -68,6 +72,7 @@ var StatisticsComponent = /** @class */ (function () {
                 groups[val].push(item);
                 return groups;
             }, {});
+            _this.averageAges = workers.length ? parseInt((sumAges / workers.length).toString()) : 0;
             var data = [];
             for (var a = 0; a <= 120; a += 10) {
                 if (groupAges[a]) {
@@ -89,7 +94,7 @@ var StatisticsComponent = /** @class */ (function () {
             ];
             var arc = d3.arc()
                 .outerRadius(radius - 10)
-                .innerRadius(50)
+                .innerRadius(100)
                 .padAngle(0.03)
                 .context(workersAgesContext);
             var labelArc = d3.arc()
