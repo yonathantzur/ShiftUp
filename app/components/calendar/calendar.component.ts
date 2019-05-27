@@ -24,7 +24,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     markedEvent: any;
     eventsCache: Object = {};
     viewState: SHIFTS_FILTER;
-    isLoading: boolean;    
+    isLoading: boolean;
 
     // Event edit properties.
     eventEditObject: any;
