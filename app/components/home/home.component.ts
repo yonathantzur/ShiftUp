@@ -14,12 +14,16 @@ import { SHIFTS_FILTER } from '../../enums/enums';
 
 export class HomeComponent {
     isUserManager: boolean;
+    userId: string;
     shiftsFilter: any = SHIFTS_FILTER
 
     constructor(private eventService: EventService,
         private usersService: UsersService) {
-        this.usersService.isLoginUserManager().then(result => {
-            this.isUserManager = result;
+
+        Promise.all([this.usersService.isLoginUserManager(),
+        this.usersService.GetLoggedInUserId()]).then(results => {
+            this.isUserManager = results[0];
+            this.userId = results[1].id;
         });
     }
 

@@ -19,8 +19,10 @@ var HomeComponent = /** @class */ (function () {
         this.eventService = eventService;
         this.usersService = usersService;
         this.shiftsFilter = enums_1.SHIFTS_FILTER;
-        this.usersService.isLoginUserManager().then(function (result) {
-            _this.isUserManager = result;
+        Promise.all([this.usersService.isLoginUserManager(),
+            this.usersService.GetLoggedInUserId()]).then(function (results) {
+            _this.isUserManager = results[0];
+            _this.userId = results[1].id;
         });
     }
     HomeComponent.prototype.Filter = function (value) {

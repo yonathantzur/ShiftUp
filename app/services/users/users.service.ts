@@ -1,5 +1,5 @@
-import {BasicService} from '../basic/basic.service';
-import {Injectable} from "@angular/core";
+import { BasicService } from '../basic/basic.service';
+import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })
 export class UsersService extends BasicService {
@@ -7,6 +7,13 @@ export class UsersService extends BasicService {
 
     GetLoggedInUser() {
         return super.get(this.prefix + '/getLoggedInUser')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
+
+    GetLoggedInUserId() {
+        return super.get(this.prefix + '/getLoggedInUserId')
             .toPromise()
             .then((result: any) => result)
             .catch((err: any) => null);
