@@ -12,6 +12,10 @@ router.get("/getLoggedInUser", (req, res) => {
     })
 });
 
+router.get("/getLoggedInUserId", (req, res) => {
+    res.send({ "id": req.user.id });
+});
+
 router.get("/isUserAvailableForBusiness", (req, res) => {
     usersBL.IsUserAvailableForBusiness(req.query.userId, req.user.businessId).then(isAvailable => {
         res.send(isAvailable);
