@@ -34,6 +34,12 @@ var UsersService = /** @class */ (function (_super) {
             .then(function (result) { return result; })
             .catch(function (err) { return null; });
     };
+    UsersService.prototype.GetLoggedInUserId = function () {
+        return _super.prototype.get.call(this, this.prefix + '/getLoggedInUserId')
+            .toPromise()
+            .then(function (result) { return result; })
+            .catch(function (err) { return null; });
+    };
     UsersService.prototype.IsUserAvailableForBusiness = function (userId) {
         return _super.prototype.get.call(this, this.prefix + '/isUserAvailableForBusiness?userId=' + userId)
             .toPromise()

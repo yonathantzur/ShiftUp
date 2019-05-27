@@ -18,6 +18,8 @@ declare let $: any;
 export class CalendarComponent implements OnInit, OnDestroy {
     @Input()
     isUserManager: boolean;
+    @Input()
+    userId: string;
     calendar: any;
     markedEvent: any;
     eventsCache: Object = {};
@@ -209,12 +211,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
 
     handleShiftsResult(shifts: Array<any>) {
+        let self = this;
         let events: Array<any> = [];
 
         shifts && shifts.forEach((shift: any) => {
             events.push({
                 id: shift._id,
-                title: "שיבוץ",
+                title: self.calcShiftName(shift),
                 start: shift.date,
                 color: "#3788d8",
                 allDay: true,
@@ -223,6 +226,30 @@ export class CalendarComponent implements OnInit, OnDestroy {
         });
 
         return events;
+    }
+
+    calcShiftName(shift: any) {
+        let shiftCalcName = "שיבוץ";
+
+        // In case the view is for all shifts events.
+        if (this.viewState == SHIFTS_FILTER.ME) {
+            let workerShifts: Array<string> = [];
+
+            shift.shiftsData.forEach((shiftData: any) => {
+                if (shiftData.workers.indexOf(this.userId) != -1) {
+                    workerShifts.push(shiftData.name);
+                }
+            });
+
+            if (workerShifts.length > 0) {
+                shiftCalcName = "";
+                workerShifts.forEach((shiftName: string, index: number) => {
+                    shiftCalcName += shiftName + ((index != workerShifts.length - 1) ? ", " : "");
+                });
+            }
+        }
+
+        return shiftCalcName;
     }
 
     handleConstraintsResult(constraints: Array<any>) {
@@ -260,8 +287,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
             constraintName += ((i == 0) ? " - " : "/") + checkedShifts[i];
         }
 
-        return constraintName
-
+        return constraintName;
     }
 
     loadEvents(shifts: Array<any>, constraints: Array<any>, year: number, month: number) {
