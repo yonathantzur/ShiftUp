@@ -12,29 +12,27 @@ form {
 }
 
 .box {
-    width: 75%;
-    height: 485px;
+    width: 75%;    
     max-height: 90vh;
     box-shadow: 0 0 5px 0 #828282;
+    display: flex;
 }
 
 .regForm {
     width: 60%;
     padding: 15px;
-    border-left: 1px solid #d0d0d0;
+    border-left: 1px solid #b7b7b7;
     float: right;
     overflow-y: auto;
-    height: 100%;
+    height: auto;
 }
 
 .logoContainer {
-    width: 40%;
-    height: 100%;
-    float: left;
     display: flex;
+    width: 40%;
+    float: left;
     justify-content: center;
     align-items: center;
-    overflow-y: auto;
 }
 
 /* CSS design for small screens. */
@@ -104,6 +102,7 @@ label {
 
 .logo {
     width: 80%;
+    height: auto;
 }
 
 .btn-send {
