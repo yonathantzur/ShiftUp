@@ -11,22 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var forms_1 = require("@angular/forms");
 var registration_service_1 = require("../../services/registration/registration.service");
 var RegistrationComponent = /** @class */ (function () {
-    function RegistrationComponent(formBuilder, router, regService) {
-        this.formBuilder = formBuilder;
+    function RegistrationComponent(router, regService) {
         this.router = router;
         this.regService = regService;
-        this.submitted = false;
-        this.user = {};
     }
     RegistrationComponent.prototype.onSubmit = function (regForm) {
         var _this = this;
-        this.submitted = true;
         if (regForm.valid) {
-            this.user = regForm.value;
-            this.regService.register(this.user).then(function (result) {
+            this.regService.register(regForm.value).then(function (result) {
                 if (result) {
                     _this.router.navigateByUrl('/');
                 }
@@ -54,8 +48,7 @@ var RegistrationComponent = /** @class */ (function () {
             providers: [registration_service_1.registrationService],
             styleUrls: ['./registration.css']
         }),
-        __metadata("design:paramtypes", [forms_1.FormBuilder,
-            router_1.Router,
+        __metadata("design:paramtypes", [router_1.Router,
             registration_service_1.registrationService])
     ], RegistrationComponent);
     return RegistrationComponent;
