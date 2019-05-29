@@ -13,14 +13,14 @@ form {
 
 .box {
     width: 75%;
-    height: 490px;
+    height: 480px;
     max-height: 90vh;
     box-shadow: 0 0 5px 0 #828282;
 }
 
 .regForm {
     width: 60%;
-    padding: 20px;
+    padding: 15px;
     border-left: 1px solid #d0d0d0;
     float: right;
     overflow-y: auto;
