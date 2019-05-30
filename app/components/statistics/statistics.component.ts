@@ -24,6 +24,7 @@ export class StatisticsComponent {
     business: any;
     manager: any;
     workers: Array<any>;
+    shifts: Array<any>;
     constraints: Array<any>;
     loadingRequets: number = 3;
     averageAges: number;
