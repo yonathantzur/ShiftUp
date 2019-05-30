@@ -5,30 +5,34 @@
     left: 50%;
     width: 500px;
     border:#4f4f4f;
-    border-radius: 90px;
-    padding: 30px;
+    border-radius: 10px;
+    padding: 10px 30px;
     transform: translate(-50%,-50%);
 }
 
 .appLogo {
     text-align: center;
-    padding: 10px;
+    margin-bottom: 10px;
     font-family: 'Lobster', serif !important;
     font-size: 50px;
 }
 
-.loginButton
-{
+.loginButton {
     font-size: large
 }
 
-.formInput{
+.formInput {
     font-size: 15px;
     direction: rtl;
     margin: 0;
 }
 
-.warning{
+label {
+    font-size: 14px;
+    margin-bottom: -5px;
+}
+
+.warning {
     font-size: 12px;
     color: maroon;
 }
@@ -44,7 +48,7 @@
 
 }
 
-.shadow{
+.shadow {
     box-shadow: 1px 1px 6px 1px #afafaf !important;
 }
 
