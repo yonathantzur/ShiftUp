@@ -11,8 +11,8 @@ form {
     margin: 0;
 }
 
-.box {
-    width: 75%;    
+.box {    
+    width: 60vw;    
     max-height: 90vh;
     box-shadow: 0 0 5px 0 #828282;
     display: flex;
@@ -21,7 +21,7 @@ form {
 .regForm {
     width: 60%;
     padding: 15px;
-    border-left: 1px solid #b7b7b7;
+    border-left: 1px solid #d6d6d6;
     float: right;
     overflow-y: auto;
     height: auto;
@@ -33,18 +33,7 @@ form {
     float: left;
     justify-content: center;
     align-items: center;
-}
-
-/* CSS design for small screens. */
-@media (max-width: 750px) {
-    .regForm {
-        width: 100%;
-        border-left: none;
-    }
-    
-    .logoContainer {
-        display: none;
-    }
+    position: relative;
 }
 
 .title {
@@ -81,27 +70,22 @@ label {
 }
 
 .form-group {
-    margin-bottom: 35px;
+    margin-bottom: 25px;
     position: relative;
 }
 
 .back-btn {
     position: absolute;
-    bottom: 30px;
-    right: 30px;
-    width: 40px;
-    height: 40px;
-    background-color: #ffc300;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    bottom: 10px;
+    left: 10px;
+    font-size: 12px;
+    text-decoration: underline;
     cursor: pointer;
-    box-shadow: 1px 1px 3px 1px grey;
+    user-select: none;
 }
 
 .logo {
-    width: 80%;
+    width: 90%;
     height: auto;
 }
 
@@ -115,8 +99,4 @@ label {
     cursor: default !important;
     box-shadow: none !important;
     color: white !important;
-}
-
-.logout-icon {
-    color: white;
 }
