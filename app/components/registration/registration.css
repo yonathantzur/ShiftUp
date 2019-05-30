@@ -16,6 +16,7 @@ form {
     max-height: 90vh;
     box-shadow: 0 0 5px 0 #828282;
     display: flex;
+    border-radius: 5px;
 }
 
 .regForm {
