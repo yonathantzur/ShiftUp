@@ -1,6 +1,40 @@
+.regPage {
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+form {
+    margin: 0;
+}
+
+.box {    
+    width: 60vw;    
+    max-height: 90vh;
+    box-shadow: 0 0 5px 0 #828282;
+    display: flex;
+    border-radius: 5px;
+}
+
 .regForm {
-    width: 400px;
-    padding: 30px;
+    width: 60%;
+    padding: 15px;
+    border-left: 1px solid #d6d6d6;
+    float: right;
+    overflow-y: auto;
+    height: auto;
+}
+
+.logoContainer {
+    display: flex;
+    width: 40%;
+    float: left;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .title {
@@ -11,27 +45,20 @@
     font-size: large;
 }
 
-.lineDiv{
-    position: absolute;
-    right: 385px;
-    border-color: #bfbcb18a;
-    border-width: thin;
-    border-radius: 40px;
-    height: 600px;
-    top: -1px;
-    border-style: solid;
+.formInput {
+    font-size: 14px;
 }
 
-.formInput {
-    direction: rtl;
-    font-size: 18px;
-    margin: -3px;
-    font-style: inherit;
+label {
+    font-size: 14px;
+    margin-bottom: -5px;
 }
 
 .warning {
-    font-size: 14px;
+    font-size: 10px;
     color: maroon;
+    line-height: 1.5;
+    position: absolute;
 }
 
 .formButton {
@@ -43,43 +70,34 @@
     width: 100%;
 }
 
-.box{
-    position: absolute;
-    top: 55px;
-    right: 300px;
-    width: 900px;
-    height: 600px;
-}
-
 .form-group {
-    padding-bottom: 10px;
+    margin-bottom: 25px;
     position: relative;
-    height: 70px;
 }
 
-.back-btn{
+.back-btn {
     position: absolute;
-    bottom: 30px;
-    right: 30px;
-    width: 40px;
-    height: 40px;
-    background-color: #ffc300;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    bottom: 10px;
+    left: 10px;
+    font-size: 12px;
+    text-decoration: underline;
     cursor: pointer;
-    box-shadow: 1px 1px 3px 1px grey;
+    user-select: none;
 }
 
-.logo{
-    position: absolute;
-    top: 10px;
-    left: 34px;
-    width: 50%;
+.logo {
+    width: 90%;
+    height: auto;
 }
 
-.btn-send{
+.btn-send {
     background-color: #46B29E;
     color: white;
+}
+
+.btn-send-disabled {
+    background-color: #bdbdbd!important;
+    cursor: default !important;
+    box-shadow: none !important;
+    color: white !important;
 }
