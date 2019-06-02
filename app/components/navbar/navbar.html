@@ -3,7 +3,11 @@
         <span class="logo">ShiftUp</span>
     </a>
     <span *ngIf="loggedInUser" class="userGreeting">
-        <div>שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</div>
+        <div>
+            <span>שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
+            <br>
+            <span style="font-size:12px;">({{loggedInUser.isManager ? "מנהל" : "עובד"}} - {{loggedInUser.businessName}})</span>
+        </div>
         <div class="notificationsIndicator"
             *ngIf="loggedInUser && loggedInUser.isManager && ( (loggedInUser.requests && loggedInUser.requests.length > 0) || (loggedInUser.waitingConstraints > 0) )">
             <button class="btn btn-warning bmd-btn-fab bmd-btn-fab-sm dropdown-toggle" data-placement="bottom"
@@ -21,7 +25,7 @@
                     *ngIf="loggedInUser.waitingConstraints > 0">
                     <span *ngIf="loggedInUser.waitingConstraints == 1; then single else multi"></span>
                     <ng-template #single>בקשת אילוץ ממתינה</ng-template>
-                    <ng-template #multi>בקשות אילוצים ({{loggedInUser.waitingConstraints}})</ng-template>                    
+                    <ng-template #multi>בקשות אילוצים ({{loggedInUser.waitingConstraints}})</ng-template>
                 </button>
             </div>
         </div>
@@ -30,7 +34,7 @@
         <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked': page.isClicked}"
             (click)="pageClick(page)">
             <span class="navbarPageText">{{page.displayText}}</span>
-            <i [class]="page.icon"></i>
+            <i class="pageIcon {{page.icon}}"></i>
         </a>
     </div>
 </div>

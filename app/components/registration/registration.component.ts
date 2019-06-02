@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { registrationService } from '../../services/registration/registration.service';
 
 declare let Swal: any;
@@ -13,20 +13,12 @@ declare let Swal: any;
 })
 
 export class RegistrationComponent {
-    submitted = false;
-    user: any = {};
-
-    constructor(
-        private formBuilder: FormBuilder,
-        private router: Router,
-        private regService: registrationService,
-    ) { }
+    constructor(private router: Router,
+        private regService: registrationService) { }
 
     onSubmit(regForm: NgForm) {
-        this.submitted = true;
         if (regForm.valid) {
-            this.user = regForm.value;
-            this.regService.register(this.user).then((result: any) => {
+            this.regService.register(regForm.value).then((result: any) => {
                 if (result) {
                     this.router.navigateByUrl('/');
                 }
