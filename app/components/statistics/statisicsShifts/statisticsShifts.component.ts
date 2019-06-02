@@ -3,21 +3,6 @@ import { ShiftService } from '../../../services/shifts/shifts.service';
 
 declare var d3: any;
 
-const MONTHS = [
-    "ינואר",
-    "פברואר",
-    "מרץ",
-    "אפריל",
-    "מאי",
-    "יוני",
-    "יולי",
-    "אוגוסט",
-    "ספטמבר",
-    "אוקטובר",
-    "נובמבר",
-    "דצמבר"
-]
-
 @Component({
     selector: 'statisticsShifts',
     templateUrl: './statisticsShifts.html',
@@ -28,25 +13,80 @@ const MONTHS = [
 export class StatisticsShiftsComponent {
     @Input() workers: Array<any>;
     shifts: Array<any>;
-    monthAndYear: string = "";
+    months: Array<string> = [
+        "ינואר",
+        "פברואר",
+        "מרץ",
+        "אפריל",
+        "מאי",
+        "יוני",
+        "יולי",
+        "אוגוסט",
+        "ספטמבר",
+        "אוקטובר",
+        "נובמבר",
+        "דצמבר"
+    ];
+    firstYear: number = 2018;
+    lastYear: number = 2018;
+    years: Array<number> = [];
+    selectedMonth: number;
+    selectedYear: number;
     
-    constructor(private shiftService: ShiftService) {
-        
-    }
+    constructor(private shiftService: ShiftService) { }
 
     ngOnInit() {
         const currentDate: Date = new Date();
-        let month = currentDate.getMonth() + 1;
-        let year = currentDate.getFullYear();
-        this.monthAndYear = MONTHS[month - 1] + ' ' + year;
-        this.shiftService.GetShiftsForBusiness(year, month).then((shifts: any) => {
+        this.lastYear = currentDate.getFullYear();
+        this.selectedYear = this.lastYear;
+        this.selectedMonth = currentDate.getMonth();
+        for (let y = this.firstYear; y <= this.lastYear; y++) {
+            this.years.push(y);
+        }
+        this.resetShiftsSVG();
+        this.updateGraphByDate();
+
+        setTimeout(() => {
+            $("#yearSelector").val(this.selectedYear);
+            $("#monthSelector").val(this.months[this.selectedMonth]);
+        }, 0);
+    }
+
+    monthChangeHandler = (strMonth: string) => {
+        const month: number = this.months.indexOf(strMonth);
+        if (month >= 1 && month <= 12 && month != this.selectedMonth) {
+            this.selectedMonth = month;
+            this.resetShiftsSVG();
+            this.updateGraphByDate();
+        }
+    }
+
+    yearChangeHandler = (strYear: string) => {
+        const year = parseInt(strYear)
+        if (year >= this.firstYear && year <= this.lastYear && year != this.selectedYear) {
+            this.selectedYear = year;
+            this.resetShiftsSVG();
+            this.updateGraphByDate();
+        }
+    }
+
+    resetShiftsSVG = () => {
+        d3.select("#workersMonthShiftsChart").remove();
+        d3.select(".svgShiftsContainer").append("svg")
+            .attr("id", "workersMonthShiftsChart")
+            .attr("width", "600")
+            .attr("height", "600");
+    }
+
+    updateGraphByDate = () => {
+        this.shiftService.GetShiftsForBusiness(this.selectedYear, this.selectedMonth + 1).then((shifts: any) => {
             this.buildShiftsChart(shifts, this.workers);
         });
     }
 
     buildShiftsChart = (shifts: Array<any>, workers: Array<any>) => {
         const data = workers.map((worker: any) => {
-            let sumShiftsOfWorker = 0;
+            let sumShiftsOfWorker: number = 0;
             shifts.forEach((shift: any) => {
                 shift.shiftsData.forEach((shiftData: any) => {
                     if (shiftData.workers.indexOf(worker._id) != -1) {
@@ -54,13 +94,14 @@ export class StatisticsShiftsComponent {
                     }
                 });
             });
+
             return {
                 "name": worker.firstName + ' ' + worker.lastName,
-                "value": sumShiftsOfWorker 
+                "value": sumShiftsOfWorker
             };
         }).sort((a, b) => b.value - a.value);
 
-        const margin = ({top: 30, right: 0, bottom: 0, left: 100})
+        const margin = ({top: 30, right: 10, bottom: 0, left: 100})
         const width = 600;
         const height = 600;
 
@@ -79,11 +120,12 @@ export class StatisticsShiftsComponent {
             .call((g: any) => g.select(".domain").remove())
             .selectAll("text").attr("font-size", "16px");
 
-        const yAxis = (g: any) => g.call(d3.axisLeft(y).tickSizeOuter(0))
+        const yAxis = (g: any) => g
+            .call(d3.axisLeft(y).tickSizeOuter(0))
             .attr("transform", `translate(${margin.left},0)`)
-            .selectAll("text").attr("font-size", "16px").attr("transform", `translate(${20 - margin.left},0)`);
+            .selectAll("text").attr("font-size", "16px").style("text-anchor", "start");
 
-        const format = x.tickFormat(20);
+        const format = x.tickFormat(10);
         
         const svg: any = d3.select("#workersMonthShiftsChart");
 

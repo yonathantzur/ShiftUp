@@ -11,24 +11,55 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var shifts_service_1 = require("../../../services/shifts/shifts.service");
-var MONTHS = [
-    "ינואר",
-    "פברואר",
-    "מרץ",
-    "אפריל",
-    "מאי",
-    "יוני",
-    "יולי",
-    "אוגוסט",
-    "ספטמבר",
-    "אוקטובר",
-    "נובמבר",
-    "דצמבר"
-];
 var StatisticsShiftsComponent = /** @class */ (function () {
     function StatisticsShiftsComponent(shiftService) {
+        var _this = this;
         this.shiftService = shiftService;
-        this.monthAndYear = "";
+        this.months = [
+            "ינואר",
+            "פברואר",
+            "מרץ",
+            "אפריל",
+            "מאי",
+            "יוני",
+            "יולי",
+            "אוגוסט",
+            "ספטמבר",
+            "אוקטובר",
+            "נובמבר",
+            "דצמבר"
+        ];
+        this.firstYear = 2018;
+        this.lastYear = 2018;
+        this.years = [];
+        this.monthChangeHandler = function (strMonth) {
+            var month = _this.months.indexOf(strMonth);
+            if (month >= 1 && month <= 12 && month != _this.selectedMonth) {
+                _this.selectedMonth = month;
+                _this.resetShiftsSVG();
+                _this.updateGraphByDate();
+            }
+        };
+        this.yearChangeHandler = function (strYear) {
+            var year = parseInt(strYear);
+            if (year >= _this.firstYear && year <= _this.lastYear && year != _this.selectedYear) {
+                _this.selectedYear = year;
+                _this.resetShiftsSVG();
+                _this.updateGraphByDate();
+            }
+        };
+        this.resetShiftsSVG = function () {
+            d3.select("#workersMonthShiftsChart").remove();
+            d3.select(".svgShiftsContainer").append("svg")
+                .attr("id", "workersMonthShiftsChart")
+                .attr("width", "600")
+                .attr("height", "600");
+        };
+        this.updateGraphByDate = function () {
+            _this.shiftService.GetShiftsForBusiness(_this.selectedYear, _this.selectedMonth + 1).then(function (shifts) {
+                _this.buildShiftsChart(shifts, _this.workers);
+            });
+        };
         this.buildShiftsChart = function (shifts, workers) {
             var data = workers.map(function (worker) {
                 var sumShiftsOfWorker = 0;
@@ -44,7 +75,7 @@ var StatisticsShiftsComponent = /** @class */ (function () {
                     "value": sumShiftsOfWorker
                 };
             }).sort(function (a, b) { return b.value - a.value; });
-            var margin = ({ top: 30, right: 0, bottom: 0, left: 100 });
+            var margin = ({ top: 30, right: 10, bottom: 0, left: 100 });
             var width = 600;
             var height = 600;
             var x = d3.scaleLinear()
@@ -59,10 +90,11 @@ var StatisticsShiftsComponent = /** @class */ (function () {
                 .call(d3.axisTop(x).ticks(width / 80))
                 .call(function (g) { return g.select(".domain").remove(); })
                 .selectAll("text").attr("font-size", "16px"); };
-            var yAxis = function (g) { return g.call(d3.axisLeft(y).tickSizeOuter(0))
+            var yAxis = function (g) { return g
+                .call(d3.axisLeft(y).tickSizeOuter(0))
                 .attr("transform", "translate(" + margin.left + ",0)")
-                .selectAll("text").attr("font-size", "16px").attr("transform", "translate(" + (20 - margin.left) + ",0)"); };
-            var format = x.tickFormat(20);
+                .selectAll("text").attr("font-size", "16px").style("text-anchor", "start"); };
+            var format = x.tickFormat(10);
             var svg = d3.select("#workersMonthShiftsChart");
             svg.append("g")
                 .attr("fill", "steelblue")
@@ -91,12 +123,18 @@ var StatisticsShiftsComponent = /** @class */ (function () {
     StatisticsShiftsComponent.prototype.ngOnInit = function () {
         var _this = this;
         var currentDate = new Date();
-        var month = currentDate.getMonth() + 1;
-        var year = currentDate.getFullYear();
-        this.monthAndYear = MONTHS[month - 1] + ' ' + year;
-        this.shiftService.GetShiftsForBusiness(year, month).then(function (shifts) {
-            _this.buildShiftsChart(shifts, _this.workers);
-        });
+        this.lastYear = currentDate.getFullYear();
+        this.selectedYear = this.lastYear;
+        this.selectedMonth = currentDate.getMonth();
+        for (var y = this.firstYear; y <= this.lastYear; y++) {
+            this.years.push(y);
+        }
+        this.resetShiftsSVG();
+        this.updateGraphByDate();
+        setTimeout(function () {
+            $("#yearSelector").val(_this.selectedYear);
+            $("#monthSelector").val(_this.months[_this.selectedMonth]);
+        }, 0);
     };
     __decorate([
         core_1.Input(),

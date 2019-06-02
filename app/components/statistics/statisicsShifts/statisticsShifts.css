@@ -1,8 +1,9 @@
-.xAxis {
-    font-size: 16px;
+.dateSelector {
+    margin: auto;
+    width: 200px;
 }
 
-.yAxis {
-    font-size: 16px;
-
+.dateSelector .col {
+    text-align-last: center;
+    cursor: pointer;
 }
