@@ -26,7 +26,6 @@
     "@angular/platform-browser-dynamic": "~8.0.0",
     "@angular/router": "~8.0.0",
     "@fortawesome/fontawesome-free": "^5.9.0",
-    "@types/jquery": "^3.3.29",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
     "bootstrap-material-design": "^4.1.2",
@@ -41,13 +40,14 @@
     "mongodb": "^3.2.7",
     "nodemailer": "^6.2.1",
     "popper.js": "^1.15.0",
-    "rxjs": "^6.5.2",
     "python-shell": "^1.0.7",
+    "rxjs": "^6.5.2",
     "sweetalert2": "^8.11.7",
     "typescript": "~3.4.5",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.29",
     "codelyzer": "~5.0.1",
     "concurrently": "^4.1.0",
     "nodemon": "^1.19.1",

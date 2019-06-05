@@ -1,0 +1,17 @@
+<div id="shiftCard">
+    <div class="cardContainer" *ngIf="shiftsData">
+        <i class="far fa-edit edit-shift-icon" *ngIf="isUserManager" (click)="edit()" title="עריכת שיבוץ"></i>
+        <div class="title">שיבוץ - {{eventDate}}</div>
+        <div class="shiftContainer" *ngFor="let shift of shiftsData">
+            <div class="shiftName">{{shift.name}}</div>
+            <div>
+                <span class="worker" *ngFor="let worker of shift.workers; let i = index">
+                    {{worker.firstName + " " + worker.lastName}}
+                </span>
+            </div>
+            <div class="no-workers" *ngIf="shift.workers.length == 0">
+                אין עובדים
+            </div>
+        </div>
+    </div>
+</div>

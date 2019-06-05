@@ -1,0 +1,64 @@
+.buttonsContainer {
+    text-align: center;
+}
+
+.buttonsContainer > button {
+    margin-left: 20px;
+}
+
+.btn-icon {
+    font-size: 16px;
+    margin-right: 5px;
+    color: #fff;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.workersContainer {
+    display: flex;
+    justify-content: center;
+    padding: 0px 10px;
+}
+
+.workersContainer > div {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.workerCard {
+    margin: 15px;
+}
+
+.noWorkers {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.noWorkers > i {
+    margin-right: 5px;
+}
+
+.filterContainer {
+    margin: auto;
+    width: 400px;
+}
+
+.loader {
+    margin: auto;
+}
+
+.title-icon {
+    margin-right: 5px;
+}
+
+.search-icon-container {
+    display: flex;
+    align-items: center;
+}

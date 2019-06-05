@@ -1,0 +1,64 @@
+<div class="workersRequestsContainer">
+    <h4 class="title">
+        בקשות ממתינות לעסק - 
+        <span *ngIf="business">{{business.name}}</span>
+        <i class="fas fa-address-book title-icon"></i>
+    </h4>
+    <div class="backToUsersButtonContainer">
+        <button class="btn btn-dark btn-raised" (click)="backToWorkersHandler()">
+            חזרה לכל העובדים
+            <i class="btn-icon fa fa-users"></i>
+        </button>
+    </div>
+    <div *ngIf="requestUsers; then requestsContainer else requestsLoader"></div>
+    <ng-template #requestsLoader>
+        <div class="loader"></div>
+    </ng-template>
+    <ng-template #requestsContainer>
+        <div *ngIf="requestUsers.length == 0; then noRequests else requests"></div>
+        <ng-template #noRequests>
+            <h1 class="noRequests">אין בקשות הממתינות לאישור</h1>
+        </ng-template>
+        <ng-template #requests>
+            <table class="table requestsTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">תעודת זהות</th>
+                        <th scope="col">שם</th>
+                        <th scope="col">גיל</th>
+                        <th scope="col">שכר לשעה (20 - 100)</th>
+                        <th scope="col">פעולות</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let requestUser of requestUsers; let i=index;">
+                        <td>{{i+1}}</td>
+                        <td>{{requestUser.userId}}</td>
+                        <td>{{requestUser.fullName}}</td>
+                        <td>{{requestUser.age}}</td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" name="salary" class="form-control formInput"
+                                    [(ngModel)]="requestUsers[i].salary" min="20" max="100" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">₪</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="actions">
+                            <button class="btn btn-info bmd-btn-fab bmd-btn-fab-sm"
+                                (click)="acceptRequestHandler(requestUser)" title="אשר">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <button class="btn btn-danger bmd-btn-fab bmd-btn-fab-sm"
+                                (click)="denyRequestHandler(requestUser)" title="דחה">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-template>
+    </ng-template>
+</div>

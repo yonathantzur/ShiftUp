@@ -1,0 +1,44 @@
+<div id="workers">
+    <h4 class="title">
+        עובדי העסק - {{business.name}}
+        <i class="fa fa-users title-icon"></i>
+    </h4>
+    <div class="buttonsContainer" *ngIf="manager && allWorkers">
+        <button class="btn btn-dark btn-raised" (click)="showRequests()" *ngIf="manager.requests.length > 0">
+            <span *ngIf="manager.requests.length == 1; then single else multi"></span>
+            <ng-template #single>בקשת הצטרפות ממתינה</ng-template>
+            <ng-template #multi>{{manager.requests.length}} בקשות הצטרפות ממתינות</ng-template>
+            <i class="btn-icon fas fa-bell"></i>
+        </button>
+        <button class="btn btn-dark btn-raised" (click)="deleteAllWorkersHandler()" *ngIf="allWorkers.length > 0">
+            מחיקת כל העובדים
+            <i class="btn-icon fas fa-trash"></i>
+        </button>
+    </div>
+    <div class="filterContainer input-group" *ngIf="allWorkers && allWorkers.length > 0">
+        <input type="text" class="form-control" placeholder="חיפוש" [(ngModel)]="workerSearchText"
+            (keyup)="SearchWorkerHandler()" (keydown.esc)="ResetSearchWorkerHandler()" />
+        <div class="search-icon-container">
+            <i class="fas fa-search"></i>
+        </div>
+    </div>
+    <div *ngIf="allWorkers && filteredWorkers; then workers else workersLoader"></div>
+    <ng-template #workers>
+        <div class="workersContainer">
+            <div id="cards-container" [ngStyle]="{'padding': calcCardsContainerPadding()}">
+                <workerCard class="workerCard" *ngFor="let worker of filteredWorkers"
+                    [worker]=worker (onDelete)="deleteWorkerHandler(worker)"></workerCard>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #workersLoader>
+        <div class="loader"></div>
+    </ng-template>
+    <h3 *ngIf="allWorkers && filteredWorkers && allWorkers.length > 0 && filteredWorkers == 0" class="noWorkers">
+        לא נמצאו תוצאות לחיפוש
+    </h3>
+    <h3 *ngIf="allWorkers && allWorkers.length == 0" class="noWorkers">
+        אין עובדים לעסק
+        <span *ngIf="manager && manager.requests.length > 0">, יש לאשר בקשות הצטרפות</span>
+    </h3>
+</div>
