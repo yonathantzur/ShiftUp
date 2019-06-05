@@ -132,8 +132,8 @@ var StatisticsShiftsComponent = /** @class */ (function () {
         this.resetShiftsSVG();
         this.updateGraphByDate();
         setTimeout(function () {
-            $("#yearSelector").val(_this.selectedYear);
-            $("#monthSelector").val(_this.months[_this.selectedMonth]);
+            $("#shiftsYearSelector").val(_this.selectedYear);
+            $("#shiftsMonthSelector").val(_this.months[_this.selectedMonth]);
         }, 0);
     };
     __decorate([

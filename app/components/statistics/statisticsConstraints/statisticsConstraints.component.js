@@ -57,16 +57,24 @@ var StatisticsConstraintsComponent = /** @class */ (function () {
                 .attr("height", "600");
         };
         this.updateGraphByDate = function () {
-            // this.constraintsService.getAllConstraints(this.selectedYear, this.selectedMonth + 1).then((constraints: any) => {
-            //     this.buildConstraintsChart(constraints, this.workers);
-            // });
-            _this.constraintsService.getAllConstraints().then(function (constraints) {
-                _this.buildConstraintsChart(constraints, _this.workers);
+            _this.filteredConstraints = _this.allConstraints.filter(function (constraint) {
+                var month = _this.selectedMonth + 1;
+                var startOfMonthDate = new Date(_this.selectedYear + "/" + month);
+                var endOfMonthMonth = month + 1;
+                var endOfMonthYear = _this.selectedYear;
+                if (endOfMonthMonth == 13) {
+                    endOfMonthMonth = 1;
+                    endOfMonthYear++;
+                }
+                var endOfMonthDate = new Date(new Date(endOfMonthYear + "/" + endOfMonthMonth).valueOf() - 1);
+                var constraintStartDate = new Date(constraint.startDate);
+                var constraintEndDate = new Date(constraint.endDate);
+                return (constraintStartDate >= startOfMonthDate && constraintStartDate <= endOfMonthDate) ||
+                    (constraintEndDate >= startOfMonthDate && constraintEndDate <= endOfMonthDate);
             });
+            _this.buildConstraintsChart(_this.filteredConstraints, _this.workers);
         };
         this.buildConstraintsChart = function (constraints, workers) {
-            console.log(constraints);
-            // "Name", "Total", "Confirmed", "Refused", "Waiting"
             var data = workers.map(function (worker) {
                 var sumWaiting = 0;
                 var sumRefused = 0;
@@ -89,12 +97,6 @@ var StatisticsConstraintsComponent = /** @class */ (function () {
                         }
                     }
                 });
-                // const val: Array<any> = [sumConfirmed, sumRefused, sumWaiting];
-                // val. = worker.firstName + ' ' + worker.lastName;
-                // return {
-                //     "name": worker.firstName + ' ' + worker.lastName,
-                //     "value": [sumConfirmed, sumRefused, sumWaiting]
-                // }
                 return [
                     sumConfirmed,
                     sumRefused,
@@ -106,60 +108,57 @@ var StatisticsConstraintsComponent = /** @class */ (function () {
                 var sumB = b[0] + b[1] + b[2];
                 return sumB - sumA;
             });
-            // -----------------------------------------------------------------------------------
             var stackedData = d3.stack().keys([0, 1, 2])(data);
             if (data && data.length) {
-                var xMaxStacked = 6;
-                var n = xMaxStacked;
-                // const m = d3.range(data.length);
-                var m = data.map(function (d) { return d[3]; });
+                var xMaxStacked_1 = parseInt(data[0][0].toString()) + parseInt(data[0][1].toString()) + parseInt(data[0][2].toString());
+                var n = 3;
+                var m = d3.range(data.length);
                 var svg = d3.select('#workersMonthConstraintsChart');
                 var controlHeight = 50;
-                var margin = { top: 10, right: 10, bottom: 20, left: 100 };
-                var width = +svg.attr('width') - margin.left - margin.right;
-                var height = +svg.attr('height') - controlHeight - margin.top - margin.bottom;
-                var g = svg.append('g').attr('transform', "translate(" + margin.left + "," + margin.top + ")");
+                var margin_1 = { top: 20, right: 10, bottom: 20, left: 100 };
+                var width = +svg.attr('width') - margin_1.left - margin_1.right;
+                var height = +svg.attr('height') - controlHeight - margin_1.top - margin_1.bottom;
+                var g = svg.append('g').attr('transform', "translate(" + margin_1.left + "," + margin_1.top + ")");
                 var x_1 = d3.scaleLinear()
-                    .domain([0, xMaxStacked])
+                    .domain([0, xMaxStacked_1])
                     .range([0, width]);
-                var y_1 = d3.scaleBand()
+                var yNames = d3.scaleBand()
+                    .domain(data.map(function (d) { return d[3]; }))
+                    .rangeRound([0, height])
+                    .padding(0.08);
+                var yLocations_1 = d3.scaleBand()
                     .domain(m)
                     .rangeRound([0, height])
                     .padding(0.08);
                 var color_1 = d3.scaleOrdinal()
                     .domain(d3.range(n))
-                    .range(["#55E", "#55B", "#558"]);
+                    .range(["#2ca02c", "#d62728", "#1f77b4"]);
                 var series = g.selectAll('.series')
                     .data(stackedData)
                     .enter().append('g')
                     .attr('fill', function (d, i) { return color_1(i); });
-                var rect = series.selectAll('rect')
+                series.selectAll('rect')
                     .data(function (d) { return d; })
-                    .enter().append('rect')
-                    .attr('x', 0)
-                    .attr('y', function (d, i) { return y_1(i); })
-                    .attr('width', 0)
-                    .attr('height', y_1.bandwidth());
-                rect.transition()
-                    .delay(function (d, i) { return i * 10; })
+                    .enter()
+                    .append('rect')
                     .attr('x', function (d) { return x_1(d[0]); })
-                    .attr('y', function (d, i) { return y_1(i); })
+                    .attr('y', function (d, i) { return yLocations_1(i); })
+                    .attr('height', yLocations_1.bandwidth())
                     .attr('width', function (d) { return x_1(d[1]) - x_1(d[0]); });
                 g.append('g')
                     .attr('width', 'axis axis--y')
                     .attr('transform', "translate(0,0)")
-                    .call(d3.axisLeft(y_1)
+                    .call(d3.axisLeft(yNames)
                     .tickSize(0)
                     .tickPadding(6))
-                    .selectAll("text").attr("font-size", "16px").style("text-anchor", "start");
-                rect.transition()
-                    .duration(500)
-                    .delay(function (d, i) { return i * 10; })
-                    .attr('x', function (d) { return x_1(d[0]); })
-                    .attr('width', function (d) { return x_1(d[1]) - x_1(d[0]); })
-                    .transition()
-                    .attr('y', function (d, i) { return y_1(i); })
-                    .attr('height', y_1.bandwidth());
+                    .selectAll("text")
+                    .attr("font-size", "16px").style("text-anchor", "start");
+                g.append('g')
+                    .call(function (g) { return g
+                    .attr("transform", "translate(0," + (margin_1.top - 5) + ")")
+                    .call(d3.axisTop(x_1).ticks(xMaxStacked_1))
+                    .call(function (g) { return g.select(".domain").remove(); })
+                    .selectAll("text").attr("font-size", "14px"); });
             }
         };
     }
@@ -173,10 +172,13 @@ var StatisticsConstraintsComponent = /** @class */ (function () {
             this.years.push(y);
         }
         this.resetConstraintsSVG();
-        this.updateGraphByDate();
+        this.constraintsService.getAllConstraints().then(function (constraints) {
+            _this.allConstraints = constraints;
+            _this.updateGraphByDate();
+        });
         setTimeout(function () {
-            $("#yearSelector").val(_this.selectedYear);
-            $("#monthSelector").val(_this.months[_this.selectedMonth]);
+            $("#constraintsYearSelector").val(_this.selectedYear);
+            $("#constraintsMonthSelector").val(_this.months[_this.selectedMonth]);
         }, 0);
     };
     __decorate([

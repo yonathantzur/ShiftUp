@@ -13,7 +13,8 @@ const ConstraintStatusEnum = Object.freeze({ WAITING: 0, REFUSED: 1, CONFIRMED: 
 
 export class StatisticsConstraintsComponent {
     @Input() workers: Array<any>;
-    constraints: Array<any>;
+    allConstraints: Array<any>;
+    filteredConstraints: Array<any>
     months: Array<string> = [
         "ינואר",
         "פברואר",
@@ -45,11 +46,15 @@ export class StatisticsConstraintsComponent {
             this.years.push(y);
         }
         this.resetConstraintsSVG();
-        this.updateGraphByDate();
+        
+        this.constraintsService.getAllConstraints().then(constraints => {
+            this.allConstraints = constraints;
+            this.updateGraphByDate();
+        })
 
         setTimeout(() => {
-            $("#yearSelector").val(this.selectedYear);
-            $("#monthSelector").val(this.months[this.selectedMonth]);
+            $("#constraintsYearSelector").val(this.selectedYear);
+            $("#constraintsMonthSelector").val(this.months[this.selectedMonth]);
         }, 0);
     }
 
@@ -80,19 +85,26 @@ export class StatisticsConstraintsComponent {
     }
 
     updateGraphByDate = () => {
-        // this.constraintsService.getAllConstraints(this.selectedYear, this.selectedMonth + 1).then((constraints: any) => {
-        //     this.buildConstraintsChart(constraints, this.workers);
-        // });
-        this.constraintsService.getAllConstraints().then(constraints => {
-            this.buildConstraintsChart(constraints, this.workers);
-        })
+        this.filteredConstraints = this.allConstraints.filter((constraint: any) => {
+            const month: number = this.selectedMonth + 1;
+            const startOfMonthDate = new Date(this.selectedYear + "/" + month);
+            let endOfMonthMonth = month + 1;
+            let endOfMonthYear = this.selectedYear;
+            if (endOfMonthMonth == 13) {
+                endOfMonthMonth = 1;
+                endOfMonthYear++;
+            }
+            const endOfMonthDate = new Date(new Date(endOfMonthYear + "/" + endOfMonthMonth).valueOf() - 1);
+            const constraintStartDate = new Date(constraint.startDate);
+            const constraintEndDate = new Date(constraint.endDate);
+            return (constraintStartDate >= startOfMonthDate && constraintStartDate <= endOfMonthDate) ||
+                (constraintEndDate >= startOfMonthDate && constraintEndDate <= endOfMonthDate);
+        });
+        this.buildConstraintsChart(this.filteredConstraints, this.workers);
     }
 
     buildConstraintsChart = (constraints: Array<any>, workers: Array<any>) => {
-        console.log(constraints);
-        // "Name", "Total", "Confirmed", "Refused", "Waiting"
         const data = workers.map((worker: any) => {
-            
             let sumWaiting: number = 0;
             let sumRefused: number = 0;
             let sumConfirmed: number = 0;
@@ -115,13 +127,6 @@ export class StatisticsConstraintsComponent {
                 }
             });
 
-            // const val: Array<any> = [sumConfirmed, sumRefused, sumWaiting];
-            // val. = worker.firstName + ' ' + worker.lastName;
-            // return {
-            //     "name": worker.firstName + ' ' + worker.lastName,
-            //     "value": [sumConfirmed, sumRefused, sumWaiting]
-            // }
-
             return [
                 sumConfirmed,
                 sumRefused,
@@ -134,76 +139,67 @@ export class StatisticsConstraintsComponent {
             return sumB - sumA;
         });
 
-    // -----------------------------------------------------------------------------------
+        const stackedData = d3.stack().keys([0, 1, 2])(data);
 
+        if (data && data.length) {
+            const xMaxStacked: number = parseInt(data[0][0].toString()) + parseInt(data[0][1].toString()) + parseInt(data[0][2].toString());
+            const n: number = 3;
+            const m = d3.range(data.length);
 
-    const stackedData = d3.stack().keys([0, 1, 2])(data);
+            const svg = d3.select('#workersMonthConstraintsChart');
+            const controlHeight = 50;
+            const margin = {top: 20, right: 10, bottom: 20, left: 100};
+            const width = +svg.attr('width') - margin.left - margin.right;
+            const height = +svg.attr('height') - controlHeight - margin.top - margin.bottom;
+            const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+            
+            const x = d3.scaleLinear()
+                .domain([0, xMaxStacked])
+                .range([0, width]);
 
-    if (data && data.length) {
-        const xMaxStacked = 6;
-        const n = xMaxStacked;
-        // const m = d3.range(data.length);
-        const m = data.map((d: any) => d[3])
-
-        const svg = d3.select('#workersMonthConstraintsChart');
-        const controlHeight = 50;
-        const margin = {top: 10, right: 10, bottom: 20, left: 100};
-        const width = +svg.attr('width') - margin.left - margin.right;
-        const height = +svg.attr('height') - controlHeight - margin.top - margin.bottom;
-        const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+            const yNames = d3.scaleBand()
+                .domain(data.map((d: any) => d[3]))
+                .rangeRound([0, height])
+                .padding(0.08);
+            
+            const yLocations = d3.scaleBand()
+                .domain(m)
+                .rangeRound([0, height])
+                .padding(0.08);
         
-        const x = d3.scaleLinear()
-            .domain([0, xMaxStacked])
-            .range([0, width]);
+            const color = d3.scaleOrdinal()
+                .domain(d3.range(n))
+                .range(["#2ca02c", "#d62728", "#1f77b4"]);
+            
+            const series = g.selectAll('.series')
+                .data(stackedData)
+                .enter().append('g')
+                .attr('fill', (d: any, i: any) => color(i));
+            
+            series.selectAll('rect')
+                .data((d: any) => d)
+                .enter()
+                .append('rect')
+                    .attr('x', (d: any) => x(d[0]))
+                    .attr('y', (d: any, i: any) => yLocations(i))
+                    .attr('height', yLocations.bandwidth())
+                    .attr('width', (d: any) => x(d[1]) - x(d[0]));
+            
+            g.append('g')
+                .attr('width', 'axis axis--y')
+                .attr('transform', `translate(0,0)`)
+                .call(d3.axisLeft(yNames)
+                    .tickSize(0)
+                    .tickPadding(6))
+                .selectAll("text")
+                    .attr("font-size", "16px").style("text-anchor", "start");
 
-        const y = d3.scaleBand()
-            .domain(m)
-            .rangeRound([0, height])
-            .padding(0.08);
-    
-        const color = d3.scaleOrdinal()
-            .domain(d3.range(n))
-            .range(["#55E", "#55B", "#558"]);
-        
-        const series = g.selectAll('.series')
-            .data(stackedData)
-            .enter().append('g')
-            .attr('fill', (d: any, i: any) => color(i));
-        
-        const rect = series.selectAll('rect')
-            .data((d: any) => d)
-            .enter().append('rect')
-            .attr('x', 0)
-            .attr('y', (d: any, i: any) => y(i))
-            .attr('width', 0)
-            .attr('height', y.bandwidth());
-        
-        rect.transition()
-            .delay((d: any, i: any) => i * 10)
-            .attr('x', (d: any) => x(d[0]))
-            .attr('y', (d: any, i: any) => y(i))
-            .attr('width', (d: any) => x(d[1]) - x(d[0]));
-        
-        g.append('g')
-            .attr('width', 'axis axis--y')
-            .attr('transform', `translate(0,0)`)
-            .call(d3.axisLeft(y)
-                .tickSize(0)
-                .tickPadding(6))
-            .selectAll("text").attr("font-size", "16px").style("text-anchor", "start");
-
-        rect.transition()
-            .duration(500)
-            .delay((d: any, i: any) => i * 10)
-                .attr('x', (d: any) => x(d[0]))
-                .attr('width', (d: any) => x(d[1]) - x(d[0]))
-            .transition()
-                .attr('y', (d: any, i: any) => y(i))
-                .attr('height', y.bandwidth());
-    }
-
-
-
-
+            g.append('g')
+                .call((g: any) => g
+                .attr("transform", `translate(0,${margin.top - 5})`)
+                .call(d3.axisTop(x).ticks(xMaxStacked))
+                .call((g: any) => g.select(".domain").remove())
+                .selectAll("text").attr("font-size", "14px"));
+        }
     }
 }

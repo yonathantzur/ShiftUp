@@ -7,3 +7,35 @@
     text-align-last: center;
     cursor: pointer;
 }
+
+.svgConstraintsContainer {
+    margin-top: 20px;
+}
+
+.colorsCellsContainer {
+    position: absolute;
+    right: 2vw;
+}
+
+.colorsCellsContainer > div {
+    display: flex;
+}
+
+.colorsCellsContainer > div > div {
+    display: block;
+    width: 100px;
+    height: 16px;
+    margin-left: 5px;
+}
+
+.waitingCell {
+    background-color: #1f77b4;
+}
+
+.refusedCell {
+    background-color: #d62728;
+}
+
+.confirmedCell {
+    background-color: #2ca02c;
+}

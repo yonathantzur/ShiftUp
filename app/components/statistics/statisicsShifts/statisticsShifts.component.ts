@@ -47,8 +47,8 @@ export class StatisticsShiftsComponent {
         this.updateGraphByDate();
 
         setTimeout(() => {
-            $("#yearSelector").val(this.selectedYear);
-            $("#monthSelector").val(this.months[this.selectedMonth]);
+            $("#shiftsYearSelector").val(this.selectedYear);
+            $("#shiftsMonthSelector").val(this.months[this.selectedMonth]);
         }, 0);
     }
 
