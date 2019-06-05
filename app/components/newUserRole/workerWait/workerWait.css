@@ -84,8 +84,7 @@ form {
     background-color: #f44336;
     color: white !important;
     border-radius: 4px;
-    margin-top: 10px;
-    width: 100px;    
+    margin-top: 10px;    
 }
 
 .cancel-btn:hover, .cancel-btn:focus {
