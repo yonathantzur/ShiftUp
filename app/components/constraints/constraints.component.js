@@ -21,8 +21,15 @@ var ConstraintsComponent = /** @class */ (function () {
         this.router = router;
         this.sourceConstraints = [];
         this.constraints = [];
+        // sort variable
+        this.statusColName = 'statusId';
+        this.startDateColName = 'startDate';
+        this.downSort = 1;
+        this.upSort = -1;
     }
     ConstraintsComponent.prototype.ngOnInit = function () {
+        this.userSortCol = this.statusColName;
+        this.userSortDirection = this.downSort;
         this.InitiateConstraints();
     };
     ConstraintsComponent.prototype.DeleteConstraint = function (conObjId) {
@@ -72,7 +79,7 @@ var ConstraintsComponent = /** @class */ (function () {
     };
     ConstraintsComponent.prototype.InitiateConstraints = function () {
         var _this = this;
-        this.constraintsService.getAllConstraints().then(function (data) {
+        this.constraintsService.getAllConstraints(this.userSortCol, this.userSortDirection).then(function (data) {
             _this.sourceConstraints = data;
             _this.constraints = _this.sourceConstraints;
         });

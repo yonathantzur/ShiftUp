@@ -28,7 +28,7 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
     };
     ConstraintsForWorkerComponent.prototype.InitiateConstraints = function () {
         var _this = this;
-        this.constraintsService.getAllConstraints().then(function (data) {
+        this.constraintsService.getAllConstraints('statusId', 1).then(function (data) {
             _this.sourceConstraints = data;
             _this.constraints = _this.sourceConstraints;
         });
@@ -78,7 +78,8 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
             var isShiftSelected = false;
             this.newConstraint = AddConstraintForm.value;
             if (this.newConstraint.startDate) {
-                if (new Date(this.newConstraint.startDate) < new Date(Date.now())) {
+                if ((new Date(this.newConstraint.startDate) < new Date(Date.now())) ||
+                    (!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.startDate))) {
                     Swal.fire({
                         type: 'error',
                         title: 'תאריך ההתחלה שהוכנס אינו תקין',
@@ -88,6 +89,14 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
                 }
                 if (!this.newConstraint.endDate || !this.isRange) {
                     this.newConstraint.endDate = this.newConstraint.startDate;
+                }
+                if ((!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.endDate))) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'תאריך סיום שהוכנס אינו תקין',
+                        text: 'נא לתקן ולנסות שנית'
+                    });
+                    return;
                 }
                 if (new Date(this.newConstraint.endDate) < new Date(this.newConstraint.startDate)) {
                     Swal.fire({

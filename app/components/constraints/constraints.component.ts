@@ -18,7 +18,15 @@ export class ConstraintsComponent implements OnInit {
     searchWord: string;
     startDateFilter: Date;
     endDateFilter: Date;
-
+   
+    // sort variable
+    statusColName: string = 'statusId';
+    startDateColName: string = 'startDate';
+    downSort:number = 1;
+    upSort:number = -1;
+    userSortCol:string;
+    userSortDirection:number;
+    
     constructor(private constraintsService: ConstraintsService,
                 private usersService: UsersService,
                 private route: ActivatedRoute,
@@ -26,6 +34,8 @@ export class ConstraintsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.userSortCol = this.statusColName;
+        this.userSortDirection = this.downSort;
         this.InitiateConstraints();
     }
 
@@ -72,7 +82,7 @@ export class ConstraintsComponent implements OnInit {
     }
 
     InitiateConstraints() {
-        this.constraintsService.getAllConstraints().then((data: any) => {
+        this.constraintsService.getAllConstraints(this.userSortCol, this.userSortDirection).then((data: any) => {
             this.sourceConstraints = data;
             this.constraints = this.sourceConstraints;
         });

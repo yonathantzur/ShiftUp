@@ -18,3 +18,8 @@
 .dateInput {
     margin-right: 15px;
 }
+
+.sortIcon {
+    cursor: pointer;
+    color: white;
+}
