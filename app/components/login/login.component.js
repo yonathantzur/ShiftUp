@@ -16,19 +16,14 @@ var LoginComponent = /** @class */ (function () {
     function LoginComponent(loginService, router) {
         this.loginService = loginService;
         this.router = router;
-        this.user = {};
-        this.submitted = false;
     }
     LoginComponent.prototype.ngOnInit = function () {
         this.logout();
     };
     LoginComponent.prototype.onSubmit = function (loginForm) {
         var _this = this;
-        this.submitted = true;
         if (loginForm.valid) {
-            this.user.email = loginForm.value.email;
-            this.user.password = loginForm.value.password;
-            this.loginService.UserLogin(this.user).then(function (result) {
+            this.loginService.UserLogin(loginForm.value).then(function (result) {
                 if (result) {
                     _this.router.navigateByUrl('/');
                 }

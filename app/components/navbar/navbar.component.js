@@ -50,6 +50,9 @@ var NavbarComponent = /** @class */ (function () {
                 return (reqObjId != userObjId);
             });
         });
+        this.eventService.Register("setConstraintRequestAmount", function (amount) {
+            _this.loggedInUser.waitingConstraints = amount;
+        });
     }
     NavbarComponent.prototype.ngOnInit = function () {
         var _this = this;

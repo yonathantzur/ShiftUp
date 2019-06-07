@@ -70,6 +70,17 @@ var CalendarComponent = /** @class */ (function () {
         self.calendar = $('#calendar').fullCalendar({
             height: "parent",
             editable: false,
+            customButtons: {
+                export: {
+                    click: function () {
+                        self.exportData();
+                    }
+                }
+            },
+            header: {
+                left: 'next,prev today export',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay, title'
+            },
             eventRender: function (event, element) {
                 if (self.isUserManager && event.shiftsData != null) {
                     element.bind('dblclick', function () {
@@ -77,7 +88,9 @@ var CalendarComponent = /** @class */ (function () {
                     });
                 }
             },
-            viewRender: function (element) {
+            viewRender: function () {
+                $(".fc-export-button")
+                    .html('<i class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
                 self.renderCalendar();
             },
             eventClick: function (event) {
@@ -98,6 +111,30 @@ var CalendarComponent = /** @class */ (function () {
     };
     CalendarComponent.prototype.ngOnDestroy = function () {
         this.eventService.UnsubscribeEvents(this.eventsIds);
+    };
+    CalendarComponent.prototype.exportData = function () {
+        var _this = this;
+        if (this.isLoading) {
+            return;
+        }
+        else {
+            this.isLoading = true;
+        }
+        var dateRange = $('#calendar').fullCalendar('getDate')._i;
+        var year = dateRange[0];
+        var month = dateRange[1] + 1;
+        this.shiftService.GetMonthlyShiftsForExport(year, month, this.viewState).then(function (dataSource) {
+            _this.isLoading = false;
+            var exportInfo = { dataSource: dataSource };
+            var exportDateTitle = $('#calendar').fullCalendar('getView').title;
+            if (_this.viewState == enums_1.SHIFTS_FILTER.ME) {
+                exportInfo["fileName"] = "המשמרות שלי - " + exportDateTitle;
+            }
+            else {
+                exportInfo["fileName"] = "משמרות - " + exportDateTitle;
+            }
+            _this.eventService.Emit("excel", exportInfo);
+        });
     };
     CalendarComponent.prototype.renderCalendar = function (shifts) {
         var _this = this;
@@ -134,11 +171,12 @@ var CalendarComponent = /** @class */ (function () {
         }
     };
     CalendarComponent.prototype.handleShiftsResult = function (shifts) {
+        var self = this;
         var events = [];
         shifts && shifts.forEach(function (shift) {
             events.push({
                 id: shift._id,
-                title: "שיבוץ",
+                title: self.calcShiftName(shift),
                 start: shift.date,
                 color: "#3788d8",
                 allDay: true,
@@ -146,6 +184,26 @@ var CalendarComponent = /** @class */ (function () {
             });
         });
         return events;
+    };
+    CalendarComponent.prototype.calcShiftName = function (shift) {
+        var _this = this;
+        var shiftCalcName = "שיבוץ";
+        // In case the view is for all shifts events.
+        if (this.viewState == enums_1.SHIFTS_FILTER.ME) {
+            var workerShifts_1 = [];
+            shift.shiftsData.forEach(function (shiftData) {
+                if (shiftData.workers.indexOf(_this.userId) != -1) {
+                    workerShifts_1.push(shiftData.name);
+                }
+            });
+            if (workerShifts_1.length > 0) {
+                shiftCalcName = "";
+                workerShifts_1.forEach(function (shiftName, index) {
+                    shiftCalcName += shiftName + ((index != workerShifts_1.length - 1) ? ", " : "");
+                });
+            }
+        }
+        return shiftCalcName;
     };
     CalendarComponent.prototype.handleConstraintsResult = function (constraints) {
         var _this = this;
@@ -238,6 +296,10 @@ var CalendarComponent = /** @class */ (function () {
         core_1.Input(),
         __metadata("design:type", Boolean)
     ], CalendarComponent.prototype, "isUserManager", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], CalendarComponent.prototype, "userId", void 0);
     CalendarComponent = __decorate([
         core_1.Component({
             selector: 'calendar',

@@ -13,25 +13,16 @@ declare let Swal: any;
 })
 
 export class LoginComponent implements OnInit {
-    user: any = {};
-    submitted = false;
-
     constructor(private loginService: LoginService,
-        private router: Router) {
-    }
+        private router: Router) { }
 
     ngOnInit() {
         this.logout();
     }
 
     onSubmit(loginForm: NgForm) {
-        this.submitted = true;
-
         if (loginForm.valid) {
-            this.user.email = loginForm.value.email;
-            this.user.password = loginForm.value.password;
-
-            this.loginService.UserLogin(this.user).then((result: any) => {
+            this.loginService.UserLogin(loginForm.value).then((result: any) => {
                 if (result) {
                     this.router.navigateByUrl('/');
                 }

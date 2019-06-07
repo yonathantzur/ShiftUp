@@ -2,14 +2,26 @@ const express = require('express');
 const router = express.Router();
 const usersBL = require('../BL/usersBL');
 const constraintsBL = require('../BL/constraintsBL');
+const businessesBL = require('../BL/businessesBL');
 const middlewares = require('../middlewares');
 
 router.get("/getLoggedInUser", (req, res) => {
     let user = req.user;
-    constraintsBL.GetBusinessConstraintsWaitAmount(user.businessId).then(waitingConstraints => {
-        user.waitingConstraints = waitingConstraints;
+
+    Promise.all([
+        businessesBL.GetBusinessById(user.businessId),
+        constraintsBL.GetBusinessConstraintsWaitAmount(user.businessId)
+    ]).then(results => {
+        user.businessName = results[0].name;
+        user.waitingConstraints = results[1];
         res.send(user);
-    })
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
+
+router.get("/getLoggedInUserId", (req, res) => {
+    res.send({ "id": req.user.id });
 });
 
 router.get("/isUserAvailableForBusiness", (req, res) => {

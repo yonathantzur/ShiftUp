@@ -1,4 +1,5 @@
 import { BasicService } from '../basic/basic.service';
+import { SHIFTS_FILTER } from '../../enums/enums';
 
 export class ShiftService extends BasicService {
     prefix = "/api/shifts";
@@ -63,7 +64,19 @@ export class ShiftService extends BasicService {
     }
 
     DeleteEvent(shiftId: string) {
-        return super.delete(this.prefix + '/DeleteEvent?eventId=' + shiftId)
+        return super.delete(this.prefix + '/deleteEvent?eventId=' + shiftId)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
+
+    GetMonthlyShiftsForExport(year: number, month: number, viewState: SHIFTS_FILTER) {
+        return super.get(this.prefix +
+            '/getMonthlyShiftsForExport?year=' + year + '&month=' + month + '&viewState=' + viewState)
             .toPromise()
             .then((result: any) => {
                 return result;

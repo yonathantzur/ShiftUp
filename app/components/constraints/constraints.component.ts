@@ -3,6 +3,7 @@ import {ConstraintsService} from '../../services/constraints/constraints.service
 import {STATUS_CODE} from '../../enums/enums'
 import {UsersService} from "../../services/users/users.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import { EventService } from '../../services/event/event.service';
 
 declare let Swal: any;
 
@@ -30,6 +31,7 @@ export class ConstraintsComponent implements OnInit {
     
     constructor(private constraintsService: ConstraintsService,
                 private usersService: UsersService,
+                private EventService: EventService,
                 private route: ActivatedRoute,
                 private router: Router) {
     }
@@ -101,6 +103,13 @@ export class ConstraintsComponent implements OnInit {
         this.constraintsService.getAllConstraints(this.userSortCol, this.userSortDirection).then((data: any) => {
             this.sourceConstraints = data;
             this.constraints = this.sourceConstraints;
+            
+            // Calculate waiting constraints requests.
+            let waitingConstraintsAmount = data.filter((constraint: any) => {
+                return (constraint.statusId == 0);
+            }).length;
+            
+            this.EventService.Emit("setConstraintRequestAmount", waitingConstraintsAmount);
         });
     }
 

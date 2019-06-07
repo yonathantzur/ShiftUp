@@ -1,6 +1,8 @@
 const DAL = require('../DAL');
 const businessesBL = require('../BL/businessesBL');
 const config = require('../../config');
+const AlertScheduleType = require('../enums').AlertScheduleType;
+const ShiftsFilter = require('../enums').ShiftsFilter;
 
 const usersCollectionName = config.db.collections.users;
 const shiftsCollectionName = config.db.collections.shifts;
@@ -99,13 +101,19 @@ let self = module.exports = {
 
     UpdateEventShifts(shiftId, shiftsData) {
         return new Promise((resolve, reject) => {
+            let eventWorkers = [];
+
             // Remove workers name from shifts workers.
             shiftsData = shiftsData.map(shift => {
+                let shiftWorkers = shift.workers.map(worker => {
+                    return DAL.GetObjectId(worker._id);
+                });
+
+                eventWorkers = eventWorkers.concat(shiftWorkers);
+
                 return {
                     "name": shift.name,
-                    "workers": shift.workers.map(worker => {
-                        return DAL.GetObjectId(worker._id);
-                    })
+                    "workers": shiftWorkers
                 }
             });
 
@@ -116,20 +124,131 @@ let self = module.exports = {
                 }
             }
 
-            DAL.UpdateOne(shiftsCollectionName, shiftFilter, updateShiftDataQuery).then(() => {
+            DAL.UpdateOne(shiftsCollectionName, shiftFilter, updateShiftDataQuery).then((event) => {
                 resolve(true);
+                let eventDate = new Date(event.date);
+                const scheduleBL = require("../BL/scheduleBL");
+                scheduleBL.AlertWorkersWithSchedule([event],
+                    eventWorkers,
+                    eventDate.getMonth() + 1,
+                    eventDate.getFullYear(),
+                    AlertScheduleType.UPDATE);
             }).catch(reject);
         });
     },
 
     DeleteEvent(eventId) {
         return new Promise((resolve, reject) => {
-            DAL.DeleteOne(shiftsCollectionName, { "_id": DAL.GetObjectId(eventId) })
-                .then(resolve).catch(reject);
+            let workersIds = [];
+
+            let filter = { "_id": DAL.GetObjectId(eventId) };
+
+            DAL.FindOne(shiftsCollectionName, filter).then(event => {
+                event.shiftsData.forEach(shift => {
+                    shift.workers.forEach(workerId => {
+                        workersIds.push(DAL.GetObjectId(workerId));
+                    });
+                });
+
+                let eventDate = new Date(event.date);
+
+                DAL.DeleteOne(shiftsCollectionName, filter)
+                    .then(resolve).catch(reject);
+
+                const scheduleBL = require("../BL/scheduleBL");
+                scheduleBL.AlertWorkersWithSchedule([event],
+                    workersIds,
+                    eventDate.getMonth() + 1,
+                    eventDate.getFullYear(),
+                    AlertScheduleType.DELETE);
+            }).catch(reject);
         });
     },
 
+    GetMonthlyShiftsForExport(userObjId, businessId, year, month, viewState) {
+        return new Promise((resolve, reject) => {
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            let shiftsFindFilter = {
+                "businessId": DAL.GetObjectId(businessId),
+                "date": new RegExp(year + "-" + month + "-.*")
+            };
+
+            if (viewState == ShiftsFilter.ME) {
+                shiftsFindFilter["shiftsData.workers"] = DAL.GetObjectId(userObjId);
+            }
+
+            let workersFindFilter = {
+                "businessId": DAL.GetObjectId(businessId)
+            };
+
+            let workersFields = {
+                "firstName": 1,
+                "lastName": 1
+            };
+
+            Promise.all([
+                DAL.FindSpecific(usersCollectionName, workersFindFilter, workersFields),
+                DAL.Find(shiftsCollectionName, shiftsFindFilter)
+            ]).then(results => {
+                let workersArray = results[0];
+                let workersObj = {};
+                let shifts = results[1];
+
+                workersArray.forEach(worker => {
+                    workersObj[worker._id.toString()] = worker.firstName + " " + worker.lastName;
+                });
+
+                let dataSource = {
+                    data: [],
+                    columns: []
+                }
+
+                shifts.forEach((shift, shiftIndex) => {
+                    dataSource.columns.push({
+                        displayName: formatEventDate(shift.date)
+                    });
+
+                    shift.shiftsData.forEach((shiftData, shiftDataIndex) => {
+                        let shiftName = shiftData.name;
+                        let shiftId = "shift" + shiftIndex.toString() + shiftDataIndex.toString();
+
+                        dataSource.columns.push({
+                            dataField: shiftId,
+                            displayName: shiftName
+                        });
+
+                        shiftData.workers.forEach((workerId, workerIndex) => {
+                            let workerName = workersObj[workerId.toString()];
+                            let shiftDataWorker = getOrPushGet(dataSource.data, workerIndex);
+
+                            shiftDataWorker[shiftId] = workerName;
+                        });
+                    });
+
+                    dataSource.columns.push({});
+                });
+
+                resolve(dataSource);
+
+            }).catch(reject);
+        });
+    }
+
 };
+
+function getOrPushGet(arr, index) {
+    if (arr.length > index) {
+        return arr[index];
+    }
+    else {
+        let objToPush = {};
+        arr.push(objToPush);
+        return objToPush;
+    }
+}
 
 function getWorkerById(workerId, workers) {
     for (let i = 0; i < workers.length; i++) {
@@ -139,4 +258,22 @@ function getWorkerById(workerId, workers) {
     }
 
     return null;
+}
+
+function formatEventDate(dateStr) {
+    let date = new Date(dateStr);
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear().toString().substring(2);
+
+    if (day < 10) {
+        day = "0" + day;
+    }
+
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+    return (day + "." + month + "." + year);
 }

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Components
 import { AppComponent } from '../components/app/app.component';
+import { ExcelComponent } from '../components/excel/excel.component';
 import { MainComponent } from '../components/main/main.component';
 import { LoginComponent } from '../components/login/login.component';
 import { HomeComponent } from '../components/home/home.component';
@@ -41,6 +42,7 @@ import { Routing } from '../routes/app.routing'
     ],
     declarations: [
         AppComponent,
+        ExcelComponent,
         MainComponent,
         LoginComponent,
         HomeComponent,

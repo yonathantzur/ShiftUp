@@ -45,10 +45,6 @@ a, a:hover, a:focus, i {
     border-color: #7882b6;
 }
 
-.form-group.is-focused label, .form-group.is-focused label.control-label {
-    color: #6e7288;
-}
-
 .fc-event, .fc-event:hover {
     color: white !important;
     text-align: right;

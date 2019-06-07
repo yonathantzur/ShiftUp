@@ -74,7 +74,18 @@ var ShiftService = /** @class */ (function (_super) {
         });
     };
     ShiftService.prototype.DeleteEvent = function (shiftId) {
-        return _super.prototype.delete.call(this, this.prefix + '/DeleteEvent?eventId=' + shiftId)
+        return _super.prototype.delete.call(this, this.prefix + '/deleteEvent?eventId=' + shiftId)
+            .toPromise()
+            .then(function (result) {
+            return result;
+        })
+            .catch(function (e) {
+            return null;
+        });
+    };
+    ShiftService.prototype.GetMonthlyShiftsForExport = function (year, month, viewState) {
+        return _super.prototype.get.call(this, this.prefix +
+            '/getMonthlyShiftsForExport?year=' + year + '&month=' + month + '&viewState=' + viewState)
             .toPromise()
             .then(function (result) {
             return result;
