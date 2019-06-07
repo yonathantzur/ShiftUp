@@ -173,7 +173,12 @@ var ConstraintsForWorkerComponent = /** @class */ (function () {
         var _this = this;
         this.constraintsService.DeleteConstraint(conObjId).then(function (isDeleted) {
             if (isDeleted) {
-                _this.InitiateConstraints();
+                for (var i in _this.constraints) {
+                    if (_this.constraints[i]._id == conObjId) {
+                        _this.constraints.splice(Number(i), 1);
+                        break;
+                    }
+                }
             }
             else {
                 Swal.fire({

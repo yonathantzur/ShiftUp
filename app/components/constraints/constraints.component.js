@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var constraints_service_1 = require("../../services/constraints/constraints.service");
+var enums_1 = require("../../enums/enums");
 var users_service_1 = require("../../services/users/users.service");
 var router_1 = require("@angular/router");
 var ConstraintsComponent = /** @class */ (function () {
@@ -36,7 +37,12 @@ var ConstraintsComponent = /** @class */ (function () {
         var _this = this;
         this.constraintsService.DeleteConstraint(conObjId).then(function (isDeleted) {
             if (isDeleted) {
-                _this.InitiateConstraints();
+                for (var i in _this.constraints) {
+                    if (_this.constraints[i]._id == conObjId) {
+                        _this.constraints.splice(Number(i), 1);
+                        break;
+                    }
+                }
             }
             else {
                 Swal.fire({
@@ -51,7 +57,12 @@ var ConstraintsComponent = /** @class */ (function () {
         var _this = this;
         this.constraintsService.ApproveConstraint(conObjId).then(function (isApprove) {
             if (isApprove) {
-                _this.InitiateConstraints();
+                for (var i in _this.constraints) {
+                    if (_this.constraints[i]._id == conObjId) {
+                        _this.constraints[i].status[0].statusName = enums_1.STATUS_CODE.CONFIRMED;
+                        _this.constraints[i].status[0].statusId = isApprove.statusId;
+                    }
+                }
             }
             else {
                 Swal.fire({
@@ -66,7 +77,12 @@ var ConstraintsComponent = /** @class */ (function () {
         var _this = this;
         this.constraintsService.RefuseConstraint(conObjId).then(function (isCanceled) {
             if (isCanceled) {
-                _this.InitiateConstraints();
+                for (var i in _this.constraints) {
+                    if (_this.constraints[i]._id == conObjId) {
+                        _this.constraints[i].status[0].statusName = enums_1.STATUS_CODE.REFUSED;
+                        _this.constraints[i].status[0].statusId = isCanceled.statusId;
+                    }
+                }
             }
             else {
                 Swal.fire({

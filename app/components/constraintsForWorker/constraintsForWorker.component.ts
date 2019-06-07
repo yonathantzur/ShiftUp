@@ -175,7 +175,12 @@ export class ConstraintsForWorkerComponent implements OnInit {
     DeleteConstraint(conObjId: string) {
         this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
             if (isDeleted) {
-                this.InitiateConstraints();
+                for(let i in this.constraints){
+                    if(this.constraints[i]._id == conObjId) {
+                        this.constraints.splice(Number(i), 1);
+                        break;
+                    }
+                }
             } else {
                 Swal.fire({
                     type: 'error',

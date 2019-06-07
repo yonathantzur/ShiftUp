@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ConstraintsService} from '../../services/constraints/constraints.service';
+import {STATUS_CODE} from '../../enums/enums'
 import {UsersService} from "../../services/users/users.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -42,7 +43,12 @@ export class ConstraintsComponent implements OnInit {
     DeleteConstraint(conObjId: string) {
         this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
             if (isDeleted) {
-                this.InitiateConstraints();
+                for(let i in this.constraints){
+                    if(this.constraints[i]._id == conObjId) {
+                        this.constraints.splice(Number(i), 1);
+                        break;
+                    }
+                }
             } else {
                 Swal.fire({
                     type: 'error',
@@ -56,7 +62,12 @@ export class ConstraintsComponent implements OnInit {
     ApproveConstraint(conObjId: string) {
         this.constraintsService.ApproveConstraint(conObjId).then((isApprove: any) => {
             if (isApprove) {
-                this.InitiateConstraints();
+                for(let i in this.constraints){
+                    if(this.constraints[i]._id == conObjId){
+                        this.constraints[i].status[0].statusName = STATUS_CODE.CONFIRMED;
+                        this.constraints[i].status[0].statusId = isApprove.statusId;
+                    }
+                }
             } else {
                 Swal.fire({
                     type: 'error',
@@ -70,7 +81,12 @@ export class ConstraintsComponent implements OnInit {
     RefuseConstraint(conObjId: string) {
         this.constraintsService.RefuseConstraint(conObjId).then((isCanceled: any) => {
             if (isCanceled) {
-                this.InitiateConstraints();
+                for(let i in this.constraints){
+                    if(this.constraints[i]._id == conObjId){
+                        this.constraints[i].status[0].statusName = STATUS_CODE.REFUSED;
+                        this.constraints[i].status[0].statusId = isCanceled.statusId;
+                    }
+                }
             } else {
                 Swal.fire({
                     type: 'error',
