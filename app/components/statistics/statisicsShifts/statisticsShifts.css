@@ -1,0 +1,9 @@
+.dateSelector {
+    margin: auto;
+    width: 200px;
+}
+
+.dateSelector .col {
+    text-align-last: center;
+    cursor: pointer;
+}

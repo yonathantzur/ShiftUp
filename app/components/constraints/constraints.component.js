@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var constraints_service_1 = require("../../services/constraints/constraints.service");
+var enums_1 = require("../../enums/enums");
 var users_service_1 = require("../../services/users/users.service");
 var router_1 = require("@angular/router");
 var event_service_1 = require("../../services/event/event.service");
@@ -23,15 +24,27 @@ var ConstraintsComponent = /** @class */ (function () {
         this.router = router;
         this.sourceConstraints = [];
         this.constraints = [];
+        // sort variable
+        this.statusColName = 'statusId';
+        this.startDateColName = 'startDate';
+        this.downSort = 1;
+        this.upSort = -1;
     }
     ConstraintsComponent.prototype.ngOnInit = function () {
+        this.userSortCol = this.statusColName;
+        this.userSortDirection = this.downSort;
         this.InitiateConstraints();
     };
     ConstraintsComponent.prototype.DeleteConstraint = function (conObjId) {
         var _this = this;
         this.constraintsService.DeleteConstraint(conObjId).then(function (isDeleted) {
             if (isDeleted) {
-                _this.InitiateConstraints();
+                for (var i in _this.constraints) {
+                    if (_this.constraints[i]._id == conObjId) {
+                        _this.constraints.splice(Number(i), 1);
+                        break;
+                    }
+                }
             }
             else {
                 Swal.fire({
@@ -46,7 +59,12 @@ var ConstraintsComponent = /** @class */ (function () {
         var _this = this;
         this.constraintsService.ApproveConstraint(conObjId).then(function (isApprove) {
             if (isApprove) {
-                _this.InitiateConstraints();
+                for (var i in _this.constraints) {
+                    if (_this.constraints[i]._id == conObjId) {
+                        _this.constraints[i].status[0].statusName = enums_1.STATUS_CODE.CONFIRMED;
+                        _this.constraints[i].status[0].statusId = isApprove.statusId;
+                    }
+                }
             }
             else {
                 Swal.fire({
@@ -61,7 +79,12 @@ var ConstraintsComponent = /** @class */ (function () {
         var _this = this;
         this.constraintsService.RefuseConstraint(conObjId).then(function (isCanceled) {
             if (isCanceled) {
-                _this.InitiateConstraints();
+                for (var i in _this.constraints) {
+                    if (_this.constraints[i]._id == conObjId) {
+                        _this.constraints[i].status[0].statusName = enums_1.STATUS_CODE.REFUSED;
+                        _this.constraints[i].status[0].statusId = isCanceled.statusId;
+                    }
+                }
             }
             else {
                 Swal.fire({
@@ -74,7 +97,7 @@ var ConstraintsComponent = /** @class */ (function () {
     };
     ConstraintsComponent.prototype.InitiateConstraints = function () {
         var _this = this;
-        this.constraintsService.getAllConstraints().then(function (data) {
+        this.constraintsService.getAllConstraints(this.userSortCol, this.userSortDirection).then(function (data) {
             _this.sourceConstraints = data;
             _this.constraints = _this.sourceConstraints;
             // Calculate waiting constraints requests.

@@ -33,6 +33,7 @@
                         <th scope="col">משמרות</th>
                         <th scope="col">פירוט</th>
                         <th scope="col">סטטוס בקשה</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -43,12 +44,16 @@
                         <td>
                             <ng-container *ngFor="let shift of con.shifts; let j=index">
                                 <input *ngIf="shift.isChecked" type="checkbox" name="vehicle" checked disabled>
-                                <input *ngIf="!shift.isChecked" type="checkbox" name="vehicle" disabled>{{ shift?.name }}
+                                <input *ngIf="!shift.isChecked" type="checkbox" name="vehicle"
+                                       disabled>{{ shift?.name }}
                                 <br>
                             </ng-container>
                         </td>
                         <td>{{ con.description }}</td>
                         <td>{{ con.status[0].statusName }}</td>
+                        <td>
+                            <a (click)="DeleteConstraint(con._id)"><i class="far fa-trash-alt iconConstraints" title="מחיקה"></i></a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -76,14 +81,14 @@
                     <div class="form-group">
                         <label class="modalSectionTitle">תאריך <span *ngIf="this.isRange">התחלה</span></label>
                         <input type='date' class="form-control" name="startDate" ngModel #startDate="ngModel" required
-                               title="הכנס תאריך תחילה"/>
+                        title="הכנס תאריך תחילה"/>
                     </div>
                     <div class="warning" *ngIf="startDate.errors?.required && startDate.touched">נא להכניס תאריך <span
                             *ngIf="this.isRange">התחלה</span></div>
                     <div class="form-group" *ngIf="this.isRange">
                         <label class="modalSectionTitle">תאריך סיום:</label>
-                        <input type='date' class="form-control" name="endDate" ngModel #endDate="ngModel" required
-                               title="הכנס תאריך סיום"/>
+                        <input type='date' class="form-control" name="endDate" ngModel #endDate="ngModel"
+                             title="הכנס תאריך סיום"/>
                     </div>
                     <div class="form-group">
                         <input type="checkbox" [(ngModel)]="this.isRange" [ngModelOptions]="{standalone: true}"> טווח
@@ -109,7 +114,8 @@
                                 </option>
                             </select>
                         </div>
-                        <div class="warning" *ngIf="description.errors?.required && description.touched">נא להזין סיבה</div>
+                        <div class="warning" *ngIf="description.errors?.required && description.touched">נא להזין סיבה
+                        </div>
                     </div>
                 </form>
             </div>

@@ -1,0 +1,27 @@
+<h4>התפלגות אילוצים לחודש</h4>
+<div class="form-group dateSelector">
+    <div class="row">
+        <select id="constraintsMonthSelector" class="form-control col" (change)="monthChangeHandler($event.target.value)">
+            <option *ngFor="let month of months">{{ month }}</option>
+        </select>
+        <select id="constraintsYearSelector" class="form-control col" (change)="yearChangeHandler($event.target.value)">
+            <option *ngFor="let year of years">{{ year }}</option>
+        </select>
+    </div>
+</div>
+<div class="colorsCellsContainer">
+    <div>מקרא אילוצים:</div>
+    <div>
+        <div class="waitingCell"></div>
+        ממתינים
+    </div>
+    <div>
+        <div class="refusedCell"></div>
+        נדחו
+    </div>
+    <div>
+        <div class="confirmedCell"></div>
+        אושרו
+    </div>
+</div>
+<div class="svgConstraintsContainer"></div>

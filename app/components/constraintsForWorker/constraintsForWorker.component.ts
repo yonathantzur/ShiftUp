@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ConstraintsService} from '../../services/constraints/constraints.service';
-import {BusinessesService} from "../../services/businesses/businesses.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {NgForm} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { ConstraintsService } from '../../services/constraints/constraints.service';
+import { BusinessesService } from "../../services/businesses/businesses.service";
+import { NgForm } from "@angular/forms";
 
 declare let Swal: any;
+declare let $: any;
 
 @Component({
     selector: 'constraintsForWorker',
@@ -24,10 +24,8 @@ export class ConstraintsForWorkerComponent implements OnInit {
     startDateFilter: Date;
     endDateFilter: Date;
 
-    constructor(private ConstraintsService: ConstraintsService,
-                private businessService: BusinessesService,
-                private route: ActivatedRoute,
-                private router: Router) {
+    constructor(private constraintsService: ConstraintsService,
+        private businessService: BusinessesService) {
     }
 
     ngOnInit() {
@@ -38,7 +36,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
     }
 
     InitiateConstraints() {
-        this.ConstraintsService.getAllConstraints().then((data: any) => {
+        this.constraintsService.getAllConstraints('statusId',1).then((data: any) => {
             this.sourceConstraints = data;
             this.constraints = this.sourceConstraints;
         });
@@ -47,14 +45,14 @@ export class ConstraintsForWorkerComponent implements OnInit {
     InitiateShiftNames() {
         this.businessService.GetLoggedInBusiness().then((data: any) => {
             this.shiftNames = data.shifts;
-            for(let shift of this.shiftNames) {
+            for (let shift of this.shiftNames) {
                 delete shift.workersAmount;
             }
         });
     }
 
     InitiateConstraintsReasons() {
-        this.ConstraintsService.getAllConstraintReasons().then((data: any) => {
+        this.constraintsService.getAllConstraintReasons().then((data: any) => {
             this.constraintsReasons = data;
         });
     }
@@ -86,13 +84,30 @@ export class ConstraintsForWorkerComponent implements OnInit {
             let isShiftSelected = false;
             this.newConstraint = AddConstraintForm.value;
             if (this.newConstraint.startDate) {
+                if((new Date(this.newConstraint.startDate) < new Date(Date.now())) ||
+                (!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.startDate))) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'תאריך ההתחלה שהוכנס אינו תקין',
+                        text: 'נא לתקן ולנסות שנית'
+                    });
+                    return;
+                }
                 if (!this.newConstraint.endDate || !this.isRange) {
                     this.newConstraint.endDate = this.newConstraint.startDate;
+                }
+                if((!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.endDate))) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'תאריך סיום שהוכנס אינו תקין',
+                        text: 'נא לתקן ולנסות שנית'
+                    });
+                    return;
                 }
                 if (new Date(this.newConstraint.endDate) < new Date(this.newConstraint.startDate)) {
                     Swal.fire({
                         type: 'error',
-                        title: 'טווח תאריכים לא תקין',
+                        title: 'טווח התאריכים לא תקין',
                         text: 'נא לתקן ולנסות שוב'
                     })
                 } else {
@@ -128,31 +143,51 @@ export class ConstraintsForWorkerComponent implements OnInit {
         } else {
             Swal.fire({
                 type: 'error',
-                title: 'אחד או יותר מהשדות ריקים',
-                text: 'נא למלא את כל השדות'
+                title: 'ישנם שדות ריקים',
+                text: 'נא למלא את כל השדות בצורה תקינה'
             })
         }
     }
 
     AddConstraint(newConstraint: any) {
         newConstraint['shifts'] = this.shiftNames;
-        this.ConstraintsService.AddConstraint(newConstraint).then((result: any) => {
-                if (result) {
-                    Swal.fire({
-                        type: 'success',
-                        title: 'האילוץ נשמר בהצלחה',
-                    });
-                    this.InitiateConstraints();
-                    this.InitiateShiftNames();
-                } else {
-                    Swal.fire({
-                        type: 'error',
-                        title: 'שגיאה בהוספת אילוץ',
-                        text: 'אופס... משהו השתבש'
-                    })
+        this.constraintsService.AddConstraint(newConstraint).then((result: any) => {
+            if (result) {
+                $('#AddConstraintModal').modal('hide');
+                Swal.fire({
+                    type: 'success',
+                    title: 'האילוץ נשמר בהצלחה',
+                });
+                this.InitiateConstraints();
+                this.InitiateShiftNames();
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בהוספת אילוץ',
+                    text: 'אופס... משהו השתבש'
+                })
 
-                }
             }
+        }
         );
+    }
+
+    DeleteConstraint(conObjId: string) {
+        this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
+            if (isDeleted) {
+                for(let i in this.constraints){
+                    if(this.constraints[i]._id == conObjId) {
+                        this.constraints.splice(Number(i), 1);
+                        break;
+                    }
+                }
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה במחיקה',
+                    text: 'אופס... משהו השתבש'
+                })
+            }
+        })
     }
 }
