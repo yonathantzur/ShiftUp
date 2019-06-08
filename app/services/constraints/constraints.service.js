@@ -28,8 +28,9 @@ var ConstraintsService = /** @class */ (function (_super) {
         _this.prefix = "/api/constraints";
         return _this;
     }
-    ConstraintsService.prototype.getAllConstraints = function () {
-        return _super.prototype.get.call(this, this.prefix + "/getAllConstraints")
+    ConstraintsService.prototype.getAllConstraints = function (sortCol, sortDirection) {
+        return _super.prototype.get.call(this, this.prefix + "/getAllConstraints?sortCol=" + sortCol
+            + "&sortDirection=" + sortDirection)
             .toPromise()
             .then(function (result) {
             return result;

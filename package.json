@@ -24,6 +24,7 @@
     "@types/jquery": "^3.3.29",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
+    "bootstrap-datepicker": "^1.9.0",
     "bootstrap-material-design": "^4.1.1",
     "core-js-bundle": "^3.0.1",
     "d3": "^5.9.2",
