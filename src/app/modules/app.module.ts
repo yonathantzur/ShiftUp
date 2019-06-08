@@ -25,6 +25,10 @@ import { WorkerComponent } from '../components/newUserRole/worker/worker.compone
 import { WorkerWaitComponent } from '../components/newUserRole/workerWait/workerWait.component';
 import { WorkersRequestsComponent } from '../components/workersRequests/workersRequests.component';
 import { ShiftEditComponent } from "../components/shiftEdit/shiftEdit.component";
+import { StatisticsAgesComponent } from '../components/statistics/statisticsAges/statisticsAges.component';
+import { StatisticsSalariesComponent } from '../components/statistics/statisticsSalaries/statisticsSalaries.component';
+import { StatisticsShiftsComponent } from '../components/statistics/statisicsShifts/statisticsShifts.component';
+import { StatisticsConstraintsComponent } from '../components/statistics/statisticsConstraints/statisticsConstraints.component';
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -61,7 +65,11 @@ import { Routing } from '../routes/app.routing'
         WorkerComponent,
         WorkerWaitComponent,
         WorkersRequestsComponent,
-        ShiftEditComponent
+        ShiftEditComponent,
+        StatisticsAgesComponent,
+        StatisticsSalariesComponent,
+        StatisticsShiftsComponent,
+        StatisticsConstraintsComponent
     ],
     providers: [
         EventService
