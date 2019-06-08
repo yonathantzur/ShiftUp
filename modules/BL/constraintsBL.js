@@ -39,7 +39,7 @@ let self = module.exports = {
 
         let sortObj;
 
-        if (sortCol && sortCol != "null") {
+        if (sortCol && sortDirection) {
             sortObj = { $sort: {} };
 
             switch (sortCol) {
