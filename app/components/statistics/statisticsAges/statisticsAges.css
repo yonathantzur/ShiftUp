@@ -1,0 +1,11 @@
+.agesContainer {
+    margin: auto;
+}
+
+.agesInfo {
+    position: absolute;
+    margin-top: 150px;
+    margin-right: 135px;
+    width: 120px;
+    font-size: 20px;
+}

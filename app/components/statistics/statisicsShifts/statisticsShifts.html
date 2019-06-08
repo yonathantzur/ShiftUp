@@ -1,0 +1,12 @@
+<h4>התפלגות משמרות לחודש</h4>
+<div class="form-group dateSelector">
+    <div class="row">
+        <select id="shiftsMonthSelector" class="form-control col" (change)="monthChangeHandler($event.target.value)">
+            <option *ngFor="let month of months">{{ month }}</option>
+        </select>
+        <select id="shiftsYearSelector" class="form-control col" (change)="yearChangeHandler($event.target.value)">
+            <option *ngFor="let year of years">{{ year }}</option>
+        </select>
+    </div>
+</div>
+<div class="svgShiftsContainer"></div>

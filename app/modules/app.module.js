@@ -32,6 +32,10 @@ var worker_component_1 = require("../components/newUserRole/worker/worker.compon
 var workerWait_component_1 = require("../components/newUserRole/workerWait/workerWait.component");
 var workersRequests_component_1 = require("../components/workersRequests/workersRequests.component");
 var shiftEdit_component_1 = require("../components/shiftEdit/shiftEdit.component");
+var statisticsAges_component_1 = require("../components/statistics/statisticsAges/statisticsAges.component");
+var statisticsSalaries_component_1 = require("../components/statistics/statisticsSalaries/statisticsSalaries.component");
+var statisticsShifts_component_1 = require("../components/statistics/statisicsShifts/statisticsShifts.component");
+var statisticsConstraints_component_1 = require("../components/statistics/statisticsConstraints/statisticsConstraints.component");
 // Services
 var event_service_1 = require("../services/event/event.service");
 // Routing
@@ -69,7 +73,11 @@ var AppModule = /** @class */ (function () {
                 worker_component_1.WorkerComponent,
                 workerWait_component_1.WorkerWaitComponent,
                 workersRequests_component_1.WorkersRequestsComponent,
-                shiftEdit_component_1.ShiftEditComponent
+                shiftEdit_component_1.ShiftEditComponent,
+                statisticsAges_component_1.StatisticsAgesComponent,
+                statisticsSalaries_component_1.StatisticsSalariesComponent,
+                statisticsShifts_component_1.StatisticsShiftsComponent,
+                statisticsConstraints_component_1.StatisticsConstraintsComponent
             ],
             providers: [
                 event_service_1.EventService
