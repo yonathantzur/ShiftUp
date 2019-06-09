@@ -8,3 +8,9 @@ export enum STATUS_CODE {
     REFUSED = "לא מאושר", 
     CONFIRMED = "מאושר"
 }
+
+export enum STATUS_CODE_NUMBER {
+    WAITING, 
+    REFUSED, 
+    CONFIRMED
+}

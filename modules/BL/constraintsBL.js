@@ -193,5 +193,11 @@ let self = module.exports = {
             projectRangeObj, constraintsTimeFilter, lastProject];
 
         return DAL.Aggregate(constraintsCollectionName, aggregate);
+    },
+
+    UpdateConstraintShifts(conObjId, shifts) {
+        return DAL.UpdateOne(constraintsCollectionName,
+            { _id: DAL.GetObjectId(conObjId) },
+            { $set: { shifts } });
     }
 };

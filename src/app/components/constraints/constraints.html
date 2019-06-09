@@ -69,11 +69,12 @@
                                 <td>{{ con.startDate | date: 'dd/MM/yyyy'}}</td>
                                 <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
                                 <td>
-                                    <ng-container *ngFor="let shift of con.shifts; let j=index"><input
-                                            *ngIf="shift.isChecked" type="checkbox" name="vehicle" checked
-                                            disabled><input *ngIf="!shift.isChecked" type="checkbox" name="vehicle"
-                                            disabled>{{ shift?.name }}
-                                        <br></ng-container>
+                                    <ng-container *ngFor="let shift of con.shifts; let j=index">
+                                        <i
+                                            class="far {{shift.isChecked ? 'fa-check-square' : 'fa-square'}}"></i>
+                                        {{ shift?.name }}
+                                        <br>
+                                    </ng-container>
                                 </td>
                                 <td>{{ con.description }}</td>
                                 <td>{{ con.status[0].statusName }}</td>

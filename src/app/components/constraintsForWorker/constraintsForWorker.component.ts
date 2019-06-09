@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
 import { BusinessesService } from "../../services/businesses/businesses.service";
+import { STATUS_CODE_NUMBER } from "../../enums/enums";
 import { NgForm } from "@angular/forms";
 
 declare let Swal: any;
@@ -36,7 +37,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
     }
 
     InitiateConstraints() {
-        this.constraintsService.getAllConstraints('statusId',1).then((data: any) => {
+        this.constraintsService.getAllConstraints('statusId', 1).then((data: any) => {
             this.sourceConstraints = data;
             this.constraints = this.sourceConstraints;
         });
@@ -84,8 +85,8 @@ export class ConstraintsForWorkerComponent implements OnInit {
             let isShiftSelected = false;
             this.newConstraint = AddConstraintForm.value;
             if (this.newConstraint.startDate) {
-                if((new Date(this.newConstraint.startDate) < new Date(Date.now())) ||
-                (!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.startDate))) {
+                if ((new Date(this.newConstraint.startDate) < new Date(Date.now())) ||
+                    (!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.startDate))) {
                     Swal.fire({
                         type: 'error',
                         title: 'תאריך ההתחלה שהוכנס אינו תקין',
@@ -96,7 +97,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
                 if (!this.newConstraint.endDate || !this.isRange) {
                     this.newConstraint.endDate = this.newConstraint.startDate;
                 }
-                if((!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.endDate))) {
+                if ((!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.endDate))) {
                     Swal.fire({
                         type: 'error',
                         title: 'תאריך סיום שהוכנס אינו תקין',
@@ -172,22 +173,50 @@ export class ConstraintsForWorkerComponent implements OnInit {
         );
     }
 
-    DeleteConstraint(conObjId: string) {
+    DeleteConstraint(conObjId: string, index: number) {
         this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
             if (isDeleted) {
-                for(let i in this.constraints){
-                    if(this.constraints[i]._id == conObjId) {
-                        this.constraints.splice(Number(i), 1);
-                        break;
-                    }
-                }
+                this.constraints.splice(index, 1);
             } else {
                 Swal.fire({
                     type: 'error',
                     title: 'שגיאה במחיקה',
                     text: 'אופס... משהו השתבש'
-                })
+                });
             }
         })
+    }
+
+    shiftChange(con: any, shift: any) {
+        if (this.isEditShiftConstraintDisable(con)) {
+            return;
+        }
+
+        shift.isChecked = !shift.isChecked;
+        let conObjId: string = con._id;
+        let shifts: Array<any> = con.shifts;
+
+        this.constraintsService.UpdateConstraintShifts(conObjId, shifts).then(result => {
+            if (!result) {
+                Swal.fire({
+                    type: 'error',
+                    title: 'שגיאה בעדכון משמרת לאילוץ',
+                    text: 'אופס... משהו השתבש'
+                });
+            }
+        });
+    }
+
+    isEditShiftConstraintDisable(con: any) {
+        return con.status[0].statusId != STATUS_CODE_NUMBER.WAITING;
+    }
+
+    getCheckedClass(con: any) {
+        if (this.isEditShiftConstraintDisable(con)) {
+            return "checked-disabled";
+        }
+        else {
+            return "";
+        }
     }
 }

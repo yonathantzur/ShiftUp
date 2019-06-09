@@ -84,4 +84,17 @@ export class ConstraintsService extends BasicService {
                 return null;
             });
     }
+
+    UpdateConstraintShifts(conObjId: string, shifts: Array<any>) {
+        let data = { conObjId, shifts };
+
+        return super.put(this.prefix + "/updateConstraintShifts", data)
+            .toPromise()
+            .then((result: any) => {
+                return result;
+            })
+            .catch((e: any) => {
+                return null;
+            });
+    }
 }

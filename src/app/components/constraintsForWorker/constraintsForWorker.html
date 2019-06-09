@@ -50,18 +50,18 @@
                             <td>{{i + 1}}</td>
                             <td>{{ con.startDate | date: 'dd/MM/yyyy'}}</td>
                             <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
-                            <td>
+                            <td class="shifts-check-container">
                                 <ng-container *ngFor="let shift of con.shifts; let j=index">
-                                    <input *ngIf="shift.isChecked" type="checkbox" name="vehicle" checked disabled>
-                                    <input *ngIf="!shift.isChecked" type="checkbox" name="vehicle"
-                                        disabled>{{ shift?.name }}
+                                    <i (click)="shiftChange(con, shift)"
+                                        class="checked-icon far {{getCheckedClass(con)}} {{shift.isChecked ? 'fa-check-square' : 'fa-square'}}">
+                                    </i> {{ shift?.name }}
                                     <br>
                                 </ng-container>
                             </td>
                             <td>{{ con.description }}</td>
                             <td>{{ con.status[0].statusName }}</td>
                             <td style="text-align: center;">
-                                <i (click)="DeleteConstraint(con._id)" class="far fa-trash-alt iconConstraints"
+                                <i (click)="DeleteConstraint(con._id, i)" class="far fa-trash-alt iconConstraints"
                                     title="מחיקה"></i>
                             </td>
                         </tr>
@@ -83,28 +83,31 @@
             <div class="modal-body">
                 <form #AddConstraintForm="ngForm" (ngSubmit)="onSubmit(AddConstraintForm)" id="AddConstraintForm">
                     <div class="form-group">
-                        <label class="modalSectionTitle">תאריך <span *ngIf="this.isRange">התחלה</span></label>
+                        <label class="modalSectionTitle">תאריך <span *ngIf="isRange">התחלה</span></label>
                         <input type='date' class="form-control" name="startDate" ngModel #startDate="ngModel" required
                             title="הכנס תאריך תחילה" />
                         <div class="warning" *ngIf="startDate.errors?.required && startDate.touched">נא להכניס תאריך
-                            <span *ngIf="this.isRange">התחלה</span></div>
+                            <span *ngIf="isRange">התחלה</span></div>
                     </div>
-                    <div class="form-group" *ngIf="this.isRange">
+                    <div class="form-group" *ngIf="isRange">
                         <label class="modalSectionTitle">תאריך סיום:</label>
                         <input type='date' class="form-control" name="endDate" ngModel #endDate="ngModel"
                             title="הכנס תאריך סיום" />
                     </div>
                     <div class="form-group">
-                        <input type="checkbox" [(ngModel)]="this.isRange" [ngModelOptions]="{standalone: true}"> טווח
-                        תאריכים
+                        <i (click)="isRange = !isRange"
+                            class="checked-icon far {{isRange ? 'fa-check-square' : 'fa-square'}}"></i>
+                        טווח תאריכים
                     </div>
                     <div class="form-group">
-                        <label class="modalSectionTitle">משמרות באילוץ <span *ngIf="this.isRange">לטווח
+                        <label class="modalSectionTitle">משמרות באילוץ <span *ngIf="isRange">לטווח
                                 שהוזן</span></label>
                         <div class="checkbox">
-                            <ng-container *ngFor="let shift of this.shiftNames; let i=index">
-                                <input type="checkbox" [(ngModel)]="this.shiftNames[i].isChecked"
-                                    [ngModelOptions]="{standalone: true}"> {{ shift?.name }}<br>
+                            <ng-container *ngFor="let shift of shiftNames;">
+                                <i (click)="shift.isChecked = !shift.isChecked"
+                                    class="checked-icon far {{shift.isChecked ? 'fa-check-square' : 'fa-square'}}"></i>
+                                {{ shift?.name }}
+                                <br>
                             </ng-container>
                         </div>
                     </div>
@@ -113,7 +116,7 @@
                         <div>
                             <select class="form-control custom-select selectDesc" name="description" ngModel
                                 #description="ngModel" required>
-                                <option *ngFor="let desc of this.constraintsReasons" [value]="desc.name">
+                                <option *ngFor="let desc of constraintsReasons" [value]="desc.name">
                                     {{desc.name}}
                                 </option>
                             </select>
