@@ -15,7 +15,7 @@ declare let $: any;
 
 export class ConstraintsForWorkerComponent implements OnInit {
     sourceConstraints: Array<any> = [];
-    constraints: Array<any> = [];
+    constraints: Array<any>;
     constraintsReasons: Array<any> = [];
     newConstraint: any;
     shiftNames: any;

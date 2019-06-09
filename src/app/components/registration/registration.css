@@ -83,6 +83,7 @@ label {
     text-decoration: underline;
     cursor: pointer;
     user-select: none;
+    color: inherit;
 }
 
 .logo {

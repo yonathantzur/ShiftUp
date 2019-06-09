@@ -13,6 +13,7 @@ router.get("/getLoggedInUser", (req, res) => {
         constraintsBL.GetBusinessConstraintsWaitAmount(user.businessId)
     ]).then(results => {
         user.businessName = results[0].name;
+        user.businessCode = results[0].businessCode;
         user.waitingConstraints = results[1];
         res.send(user);
     }).catch(err => {

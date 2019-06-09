@@ -1,3 +1,7 @@
+.container {
+    position: relative;
+}
+
 .iconConstraints {
     cursor: pointer;
 }
@@ -10,6 +14,7 @@
 .conTitle {
     text-align: center;
     font-weight: bold;
+    margin-top: 10px;
 }
 
 .dateInput {
@@ -17,20 +22,24 @@
 }
 
 .btn-addCon {
-    color: #ffffff;
     background-color: #fff;
-    border-color: #777777;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px 1px #bbbbbb;
+    display: flex;
+    justify-content: center;
 }
 
-.btn-addCon:hover, .btn-addCon:focus, .btn-addCon:active, .btn-addCon.active, .open>.dropdown-toggle.btn-addCon {
-    color: #fff; ;
-    background-color: #46B29E;
-    border-color: #46B29E;
-
+.btn-addCon:hover {
+    color: #fff !important;
+    background-color: #92afff;
 }
 
 .addDiv {
-    margin-top:5%;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .modalSectionTitle {

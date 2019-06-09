@@ -6,7 +6,8 @@
         <div>
             <span>שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
             <br>
-            <span style="font-size:12px;">({{loggedInUser.isManager ? "מנהל" : "עובד"}} - {{loggedInUser.businessName}})</span>
+            <span style="font-size:12px;">{{loggedInUser.isManager ? "מנהל" : "עובד"}} - {{loggedInUser.businessName}} -
+                (קוד {{loggedInUser.businessCode}})</span>
         </div>
         <div class="notificationsIndicator"
             *ngIf="loggedInUser && loggedInUser.isManager && ( (loggedInUser.requests && loggedInUser.requests.length > 0) || (loggedInUser.waitingConstraints > 0) )">
