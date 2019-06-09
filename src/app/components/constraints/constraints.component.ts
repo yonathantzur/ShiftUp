@@ -42,15 +42,10 @@ export class ConstraintsComponent implements OnInit {
         this.InitiateConstraints();
     }
 
-    DeleteConstraint(conObjId: string) {
+    DeleteConstraint(conObjId: string, conIndex: number) {
         this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
             if (isDeleted) {
-                for (let i in this.constraints) {
-                    if (this.constraints[i]._id == conObjId) {
-                        this.constraints.splice(Number(i), 1);
-                        break;
-                    }
-                }
+                this.constraints.splice(conIndex, 1);
             } else {
                 Swal.fire({
                     type: 'error',
@@ -61,15 +56,11 @@ export class ConstraintsComponent implements OnInit {
         })
     }
 
-    ApproveConstraint(conObjId: string) {
-        this.constraintsService.ApproveConstraint(conObjId).then((isApprove: any) => {
+    ApproveConstraint(conObj: any) {
+        this.constraintsService.ApproveConstraint(conObj._id).then((isApprove: any) => {
             if (isApprove) {
-                for (let i in this.constraints) {
-                    if (this.constraints[i]._id == conObjId) {
-                        this.constraints[i].status[0].statusName = STATUS_CODE.CONFIRMED;
-                        this.constraints[i].status[0].statusId = isApprove.statusId;
-                    }
-                }
+                conObj.status[0].statusName = STATUS_CODE.CONFIRMED;
+                conObj.status[0].statusId = isApprove.statusId;
             } else {
                 Swal.fire({
                     type: 'error',
@@ -80,15 +71,11 @@ export class ConstraintsComponent implements OnInit {
         })
     }
 
-    RefuseConstraint(conObjId: string) {
-        this.constraintsService.RefuseConstraint(conObjId).then((isCanceled: any) => {
+    RefuseConstraint(conObj: any) {
+        this.constraintsService.RefuseConstraint(conObj._id).then((isCanceled: any) => {
             if (isCanceled) {
-                for (let i in this.constraints) {
-                    if (this.constraints[i]._id == conObjId) {
-                        this.constraints[i].status[0].statusName = STATUS_CODE.REFUSED;
-                        this.constraints[i].status[0].statusId = isCanceled.statusId;
-                    }
-                }
+                conObj.status[0].statusName = STATUS_CODE.REFUSED;
+                conObj.status[0].statusId = isCanceled.statusId;
             } else {
                 Swal.fire({
                     type: 'error',

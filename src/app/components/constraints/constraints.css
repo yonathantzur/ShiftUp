@@ -1,4 +1,8 @@
-.tb {
+.constraints-box {
+    height: 100%;    
+}
+
+.table-container {
     overflow: auto;    
     width: 100%;
 }
