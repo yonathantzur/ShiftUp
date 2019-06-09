@@ -16,7 +16,7 @@ declare let Swal: any;
 
 export class ConstraintsComponent implements OnInit {
     sourceConstraints: Array<any> = [];
-    constraints: Array<any> = [];
+    constraints: Array<any>;
     searchWord: string;
     startDateFilter: Date;
     endDateFilter: Date;

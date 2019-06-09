@@ -25,15 +25,6 @@ export class WorkerCardComponent {
             return 0;
         }
     }
-
-    calcWorkerSalery = () => {
-        Swal.fire({
-            title: "עדיין בפיתוח! עובדים על זה",
-            text: "חישוב שכר עבור עובד " + this.worker.userId,
-            type: "warning",
-            confirmButtonText: "אישור"
-        });
-    }
     
     deleteWorker = () => {
         this.onDelete.emit();

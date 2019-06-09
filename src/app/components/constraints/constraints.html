@@ -3,7 +3,10 @@
         <h4 class="conTitle">
             אילוצי עובדים
         </h4>
-        <div class="constraints-box row justify-content-center">
+        <div *ngIf="!constraints">
+            <div class="loader"></div>
+        </div>
+        <div *ngIf="constraints" class="constraints-box row justify-content-center">
             <form class="form-inline">
                 <div class="col-md-4">
                     <input class="form-control w-75" type="text" placeholder="חיפוש" aria-label="Search"

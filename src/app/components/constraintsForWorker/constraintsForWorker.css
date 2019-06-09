@@ -57,3 +57,7 @@
 .form-group {
     margin-bottom: 20px;
 }
+
+.loader {
+    margin: auto;
+}
