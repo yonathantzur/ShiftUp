@@ -26,33 +26,33 @@ export class StatisticsComponent {
     workers: Array<any>;
     shifts: Array<any>;
     constraints: Array<any>;
-    loadingRequets: number = 3;
+    loadingRequests: number = 3;
     averageAges: number;
 
     constructor(private businessesService: BusinessesService,
         private constraintsService: ConstraintsService) {
 
-        this.loadingRequets = 3;
+        this.loadingRequests = 3;
     }
 
     ngOnInit() {
         this.businessesService.GetLoggedInBusiness().then((business: any) => {
             this.business = business;
 
-            this.loadingRequets--;
+            this.loadingRequests--;
         });
 
         this.businessesService.GetWorkersForBusiness().then((workers: any) => {
             this.manager = workers.filter((worker: any) => worker.isManager)[0];
             this.workers = workers.filter((worker: any) => !worker.isManager);
 
-            this.loadingRequets--;
+            this.loadingRequests--;
         });
 
         this.constraintsService.getAllConstraints(null, null).then((constraints: any) => {
             this.constraints = constraints;
 
-            this.loadingRequets--;
+            this.loadingRequests--;
         });
     }
 }
