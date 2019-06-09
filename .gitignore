@@ -43,3 +43,5 @@ jspm_packages
 # vscode config
 .vscode
 \.idea/
+
+dist
