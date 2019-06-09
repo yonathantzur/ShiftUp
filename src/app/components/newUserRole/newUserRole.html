@@ -3,15 +3,14 @@
         קצת הגדרות וסיימנו...
     </h1>
     <div class="choose-container">
-        <div class="marker" [ngClass]="{'marker-hover': (hoverBtn == 1)}">
-            <div class="choose-btn" (click)="workerSettings()" (mouseenter)="hoverBtn=1;" (mouseleave)="hoverBtn=null;">
+        <div class="marker">
+            <div class="choose-btn" (click)="workerSettings()">
                 <span class="btn-text">הצטרפות לעסק קיים</span>
                 <i class="btn-icon fas fa-user"></i>
             </div>
         </div>
-        <div class="marker" [ngClass]="{'marker-hover': (hoverBtn == 2)}">
-            <div class="choose-btn" (click)="businessSettings()" (mouseenter)="hoverBtn=2;"
-                (mouseleave)="hoverBtn=null;">
+        <div class="marker">
+            <div class="choose-btn" (click)="businessSettings()">
                 <span class="btn-text">יצירת עסק חדש</span>
                 <i class="btn-icon fas fa-store-alt"></i>
             </div>
