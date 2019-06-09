@@ -4,7 +4,7 @@
         <i class="fa fa-users title-icon"></i>
     </h4>
     <div class="buttonsContainer" *ngIf="manager && allWorkers">
-        <button class="btn btn-dark btn-raised" (click)="showRequests()" *ngIf="manager.requests.length > 0">
+        <button class="btn btn-dark btn-raised" (click)="showRequests()" *ngIf="manager.requests && manager.requests.length > 0">
             <span *ngIf="manager.requests.length == 1; then single else multi"></span>
             <ng-template #single>בקשת הצטרפות ממתינה</ng-template>
             <ng-template #multi>{{manager.requests.length}} בקשות הצטרפות ממתינות</ng-template>
@@ -38,6 +38,6 @@
     </h3>
     <h3 *ngIf="allWorkers && allWorkers.length == 0" class="noWorkers">
         אין עובדים לעסק
-        <span *ngIf="manager && manager.requests.length > 0">, יש לאשר בקשות הצטרפות</span>
+        <span *ngIf="manager && manager.requests && manager.requests.length > 0">, יש לאשר בקשות הצטרפות</span>
     </h3>
 </div>
