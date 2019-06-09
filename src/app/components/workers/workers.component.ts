@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Router } from '@angular/router';
 import { BusinessesService } from '../../services/businesses/businesses.service';
 import { WorkersService } from '../../services/workers/workers.service';
@@ -13,14 +13,14 @@ declare let $: any;
     styleUrls: ['./workers.css']
 })
 
-export class WorkersComponent {
+export class WorkersComponent implements AfterViewChecked {
     business: any = {};
     manager: any;
     allWorkers: Array<any>;
     filteredWorkers: Array<any>;
     workerSearchText: string = "";
 
-    constructor(
+    constructor(private cdRef:ChangeDetectorRef,
         private businessesService: BusinessesService,
         private workersService: WorkersService,
         private router: Router) { }
@@ -35,6 +35,10 @@ export class WorkersComponent {
             this.allWorkers = workers.filter((worker: any) => !worker.isManager);
             this.filteredWorkers = this.allWorkers;
         });
+    }
+
+    ngAfterViewChecked() {
+        this.cdRef.detectChanges();
     }
 
     showRequests = () => {
@@ -137,12 +141,17 @@ export class WorkersComponent {
         let containerWidth = $("#cards-container").innerWidth();
         let cardWidth = $(".workerCard").innerWidth();
 
-        let cardsInLine = Math.min(5, Math.floor(containerWidth / cardWidth));
+        if (!cardWidth) {
+            return "0px";
+        }
+        else {
+            let cardsInLine = Math.min(5, Math.floor(containerWidth / cardWidth));
 
-        let cardsMargin = 30 * cardsInLine;
+            let cardsMargin = 30 * cardsInLine;
 
-        let finalWidth = containerWidth - (cardsInLine * cardWidth) - cardsMargin;
+            let finalWidth = containerWidth - (cardsInLine * cardWidth) - cardsMargin;
 
-        return "0 " + Math.min((finalWidth / 2), cardWidth) + "px";
+            return "0 " + Math.min((finalWidth / 2), cardWidth) + "px";
+        }
     }
 }

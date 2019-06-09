@@ -22,18 +22,17 @@
             <i class="fas fa-search"></i>
         </div>
     </div>
-    <div *ngIf="allWorkers && filteredWorkers; then workers else workersLoader"></div>
-    <ng-template #workers>
+    <div *ngIf="allWorkers && filteredWorkers">
         <div class="workersContainer">
             <div id="cards-container" [ngStyle]="{'padding': calcCardsContainerPadding()}">
                 <workerCard class="workerCard" *ngFor="let worker of filteredWorkers"
                     [worker]=worker (onDelete)="deleteWorkerHandler(worker)"></workerCard>
             </div>
         </div>
-    </ng-template>
-    <ng-template #workersLoader>
+    </div>
+    <div *ngIf="!allWorkers || !filteredWorkers">
         <div class="loader"></div>
-    </ng-template>
+    </div >
     <h3 *ngIf="allWorkers && filteredWorkers && allWorkers.length > 0 && filteredWorkers == 0" class="noWorkers">
         לא נמצאו תוצאות לחיפוש
     </h3>
