@@ -77,7 +77,6 @@ export class StatisticsSalariesComponent {
         var yAxis = (g: any) => g
             .attr("transform", `translate(${margin.left},0)`)
             .call(d3.axisLeft(y))
-            .call((g: any) => g.select(".domain").remove())
                 .attr("x", 12)
                 .attr("dy", -10)
                 .attr("text-anchor", "start")

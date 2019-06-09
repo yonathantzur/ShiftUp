@@ -182,25 +182,20 @@ export class StatisticsConstraintsComponent {
                 .data((d: any) => d)
                 .enter()
                 .append('rect')
-                .attr('x', (d: any) => x(d[0]))
-                .attr('y', (d: any, i: any) => yLocations(i))
-                .attr('height', yLocations.bandwidth())
-                .attr('width', (d: any) => x(d[1]) - x(d[0]));
+                    .attr('x', (d: any) => x(d[0]))
+                    .attr('y', (d: any, i: any) => yLocations(i))
+                    .attr('height', yLocations.bandwidth())
+                    .attr('width', (d: any) => x(d[1]) - x(d[0]));
 
             g.append('g')
                 .attr('width', 'axis axis--y')
-                .attr('transform', `translate(0,0)`)
-                .call(d3.axisLeft(yNames)
-                    .tickSize(0)
-                    .tickPadding(6))
+                .call(d3.axisLeft(yNames).tickSizeOuter(0).tickPadding(6))
                 .selectAll("text")
-                .attr("font-size", "16px").style("text-anchor", "start");
+                    .attr("font-size", "16px").style("text-anchor", "start");
 
             g.append('g')
                 .call((g: any) => g
-                    .attr("transform", `translate(0,${margin.top - 5})`)
                     .call(d3.axisTop(x).ticks(xMaxStacked))
-                    .call((g: any) => g.select(".domain").remove())
                     .selectAll("text").attr("font-size", "14px"));
         }
     }

@@ -45,7 +45,6 @@ export class StatisticsShiftsComponent {
             this.years.push(y);
         }
         this.resetShiftsSVG();
-        this.updateGraphByDate();
 
         setTimeout(() => {
             $("#shiftsYearSelector").val(this.selectedYear);
@@ -58,7 +57,6 @@ export class StatisticsShiftsComponent {
         if (month >= 1 && month <= 12 && month != this.selectedMonth) {
             this.selectedMonth = month;
             this.resetShiftsSVG();
-            this.updateGraphByDate();
         }
     }
 
@@ -67,7 +65,6 @@ export class StatisticsShiftsComponent {
         if (year >= this.firstYear && year <= this.lastYear && year != this.selectedYear) {
             this.selectedYear = year;
             this.resetShiftsSVG();
-            this.updateGraphByDate();
         }
     }
 
@@ -77,9 +74,7 @@ export class StatisticsShiftsComponent {
             .attr("id", "workersMonthShiftsChart")
             .attr("width", "600")
             .attr("height", "600");
-    }
 
-    updateGraphByDate = () => {
         this.shiftService.GetShiftsForBusiness(this.selectedYear, this.selectedMonth + 1).then((shifts: any) => {
             this.buildShiftsChart(shifts, this.workers);
         });
@@ -118,7 +113,6 @@ export class StatisticsShiftsComponent {
         const xAxis = (g: any) => g
             .attr("transform", `translate(0,${margin.top})`)
             .call(d3.axisTop(x).ticks(width / 80))
-            .call((g: any) => g.select(".domain").remove())
             .selectAll("text").attr("font-size", "16px");
 
         const yAxis = (g: any) => g
