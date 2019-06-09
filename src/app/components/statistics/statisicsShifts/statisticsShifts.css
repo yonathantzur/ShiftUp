@@ -7,3 +7,23 @@
     text-align-last: center;
     cursor: pointer;
 }
+
+.svgShiftsContainer {
+    margin-top: 20px;
+}
+
+.colorsCellsContainer {
+    position: absolute;
+    right: 2vw;
+}
+
+.colorData {
+    display: flex;
+}
+
+.colorData > div {
+    display: block;
+    width: 100px;
+    height: 16px;
+    margin-left: 5px;
+}

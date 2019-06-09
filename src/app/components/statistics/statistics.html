@@ -23,7 +23,7 @@
                         <statisticsSalaries [workers]=workers></statisticsSalaries>
                     </div>
                     <div class="tab-pane fade" id="v-pills-shifts" role="tabpanel" aria-labelledby="v-pills-shifts-tab">
-                        <statisticsShifts [workers]=workers></statisticsShifts>
+                        <statisticsShifts *ngIf="business" [business]=business [workers]=workers></statisticsShifts>
                     </div>
                     <div class="tab-pane fade" id="v-pills-constraints" role="tabpanel" aria-labelledby="v-pills-constraints-tab">
                         <statisticsConstraints [workers]=workers></statisticsConstraints>

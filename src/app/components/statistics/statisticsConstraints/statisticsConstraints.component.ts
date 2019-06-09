@@ -144,9 +144,13 @@ export class StatisticsConstraintsComponent {
         const stackedData = d3.stack().keys([0, 1, 2])(data);
 
         if (data && data.length) {
-            const xMaxStacked: number = parseInt(data[0][0].toString()) + parseInt(data[0][1].toString()) + parseInt(data[0][2].toString());
             const n: number = 3;
             const m = d3.range(data.length);
+
+            let xMaxStacked: number = 0;
+            for (let i = 0; i < n; i++) {
+                xMaxStacked += parseInt(data[0][i].toString());
+            }
 
             const svg = d3.select('#workersMonthConstraintsChart');
             const controlHeight = 50;
@@ -160,7 +164,7 @@ export class StatisticsConstraintsComponent {
                 .range([0, width]);
 
             const yNames = d3.scaleBand()
-                .domain(data.map((d: any) => d[3]))
+                .domain(data.map((d: any) => d[n]))
                 .rangeRound([0, height])
                 .padding(0.08);
 
