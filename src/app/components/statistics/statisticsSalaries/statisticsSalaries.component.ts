@@ -64,23 +64,30 @@ export class StatisticsSalariesComponent {
         var xAxis = (g: any) => g
             .attr("transform", `translate(0,${height - margin.bottom})`)
             .call(d3.axisBottom(x).tickSizeOuter(0))
+                .attr("font-size", "12px")
             .call((g: any) => g.append("text")
-                .attr("x", width - margin.right)
+                .attr("x", width - margin.right - 5)
                 .attr("y", -4)
                 .attr("fill", "currentcolor")
                 .attr("text-anchor", "end")
-                .attr("font-size", "12px")
+                .attr("font-size", "14px")
+                .style("font-weight", "bold")
                 .text(data.x));
 
         var yAxis = (g: any) => g
             .attr("transform", `translate(${margin.left},0)`)
             .call(d3.axisLeft(y))
             .call((g: any) => g.select(".domain").remove())
-            .call((g: any) => g.select(".tick:last-of-type text").clone()
                 .attr("x", 12)
                 .attr("dy", -10)
                 .attr("text-anchor", "start")
                 .attr("font-size", "12px")
+            .call((g: any) => g.select(".tick:last-of-type text").clone()
+                .attr("x", 12)
+                .attr("dy", -10)
+                .attr("text-anchor", "start")
+                .attr("font-size", "14px")
+                .style("font-weight", "bold")
                 .text(data.y));
 
         svg.append("g")
