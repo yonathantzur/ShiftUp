@@ -3,8 +3,8 @@ const constraintsBL = require('../BL/constraintsBL');
 const middlewares = require('../middlewares');
 const router = express.Router();
 
-router.get("/getAllConstraints", (req, res) => {
-    constraintsBL.getAllConstraints(req.user, req.query.sortCol, req.query.sortDirection).then(data => {
+router.post("/getAllConstraints", (req, res) => {
+    constraintsBL.getAllConstraints(req.user, req.body.sortCol, req.body.sortDirection).then(data => {
         res.send(data);
     }).catch(err => {
         res.status(500).end();

@@ -1,0 +1,72 @@
+.container {
+    position: relative;
+}
+
+.iconConstraints {
+    cursor: pointer;
+}
+
+.tb {
+    overflow: auto;    
+    width: 100%;
+}
+
+.conTitle {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.dateInput {
+    margin-right: 15px;
+}
+
+.btn-addCon {
+    background-color: #fff;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px 1px #bbbbbb;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-addCon:hover {
+    color: #fff !important;
+    background-color: #92afff;
+}
+
+.addDiv {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.modalSectionTitle {
+    font-weight: bolder;
+}
+
+.modalTitle {
+    margin:0 auto;
+}
+
+.warning {
+    font-size: 12px;
+    color: maroon;
+    margin-bottom: inherit;
+    position: absolute;
+    line-height: 1.5;
+}
+
+.selectDesc {
+    box-shadow: none;
+    width: 50%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.loader {
+    margin: auto;
+}

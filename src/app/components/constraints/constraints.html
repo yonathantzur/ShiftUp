@@ -1,0 +1,94 @@
+<div class="container">
+    <div id="workers">
+        <h4 class="conTitle">
+            אילוצי עובדים
+        </h4>
+        <div *ngIf="!constraints">
+            <div class="loader"></div>
+        </div>
+        <div *ngIf="constraints">
+            <h3 class="no-constraints" *ngIf="constraints.length == 0">אין אילוצים</h3>
+            <div *ngIf="constraints.length > 0" class="row justify-content-center">
+                <form class="form-inline">
+                    <div class="col-md-4">
+                        <input class="form-control w-75" type="text" placeholder="חיפוש" aria-label="Search"
+                            [(ngModel)]="searchWord" name="filter" (input)="filterItem()" />
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                    </div>
+                    <div class="form-inline">
+                        <label class="formInput">מ:</label>
+                        <input class="form-control dateInput" [(ngModel)]="startDateFilter" name="dateFilter1"
+                            (input)="filterItem()" type="date" />
+                    </div>
+                    <div class="form-inline">
+                        <label class="formInput">עד:</label>
+                        <input class="form-control dateInput" [(ngModel)]="endDateFilter" name="dateFilter2"
+                            (input)="filterItem()" type="date" />
+                    </div>
+                </form>
+                <div class="table-container">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>תעודת זהות</th>
+                                <th>שם</th>
+                                <th>תאריך תחילה
+                                    <i class="fa fa-fw fa-sort sortIcon"
+                                        (click)="userSortCol = startDateColName; userSort = downSort; InitiateConstraints()"
+                                        *ngIf="userSortCol == statusColName;"></i>
+                                    <ng-container *ngIf="userSortCol == startDateColName">
+                                        <i class="fa fa-fw fa-sort-up sortIcon" *ngIf="userSortDirection == upSort"
+                                            (click)="userSortDirection = downSort; InitiateConstraints()"></i>
+                                        <i class="fa fa-fw fa-sort-down sortIcon" *ngIf="userSortDirection == downSort"
+                                            (click)="userSortDirection = upSort; InitiateConstraints()"></i>
+                                    </ng-container>
+                                </th>
+                                <th>תאריך סיום</th>
+                                <th>משמרות</th>
+                                <th>פירוט</th>
+                                <th>סטטוס בקשה
+                                    <i class="fa fa-fw fa-sort sortIcon"
+                                        (click)="userSortCol = statusColName; userSort = downSort; InitiateConstraints()"
+                                        *ngIf="userSortCol == startDateColName"></i>
+                                    <ng-container *ngIf="userSortCol == statusColName">
+                                        <i class="fa fa-fw fa-sort-up sortIcon" *ngIf="userSortDirection == upSort"
+                                            (click)="userSortDirection = downSort; InitiateConstraints()"></i>
+                                        <i class="fa fa-fw fa-sort-down sortIcon" *ngIf="userSortDirection == downSort"
+                                            (click)="userSortDirection = upSort; InitiateConstraints()"></i>
+                                    </ng-container>
+                                </th>
+                                <th>פעולות</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let con of constraints; let i=index;">
+                                <td>{{i + 1}}</td>
+                                <td>{{con.user[0].userId }}</td>
+                                <td>{{con.user[0].firstName + " " + con.user[0].lastName}}</td>
+                                <td>{{ con.startDate | date: 'dd/MM/yyyy'}}</td>
+                                <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
+                                <td>
+                                    <ng-container *ngFor="let shift of con.shifts; let j=index"><input
+                                            *ngIf="shift.isChecked" type="checkbox" name="vehicle" checked
+                                            disabled><input *ngIf="!shift.isChecked" type="checkbox" name="vehicle"
+                                            disabled>{{ shift?.name }}
+                                        <br></ng-container>
+                                </td>
+                                <td>{{ con.description }}</td>
+                                <td>{{ con.status[0].statusName }}</td>
+                                <td><a (click)="ApproveConstraint(con)"><i class="far fa-thumbs-up iconConstraints"
+                                            title="אישור"></i></a>
+                                    <a (click)="RefuseConstraint(con)"><i class="far fa-thumbs-down iconConstraints"
+                                            title="סירוב"></i></a>
+                                    <a (click)="DeleteConstraint(con._id, i)"><i
+                                            class="far fa-trash-alt iconConstraints" title="מחיקה"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

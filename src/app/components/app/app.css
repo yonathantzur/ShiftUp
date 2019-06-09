@@ -1,0 +1,149 @@
+/* START OVERRIDE BOOTSTRAP MATERIAL CSS */
+
+a, a:hover, a:focus, i {
+    color: #4f4f4f;
+}
+
+.form-control, .input-group .form-control {
+    background-image: linear-gradient(0deg, #7882b6 2px, rgba(0, 150, 136, 0) 0), linear-gradient(0deg, rgba(84, 84, 84, .26) 1px, transparent 0) !important;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #9d9d9d;
+    font-size: 14px;
+    line-height: unset;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #9d9d9d;
+    font-size: 14px;
+    line-height: unset;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #9d9d9d;
+    font-size: 14px;
+    line-height: unset;
+}
+
+.btn:not(.btn-raised).btn-primary, .input-group-btn .btn:not(.btn-raised).btn-primary {
+    color: #7882b6;
+}
+
+.btn:focus {
+    background-color: transparent;
+    border-color: #ccc;
+}
+
+.btn:hover {
+    background-color: transparent;
+    border-color: #7882b6;
+}
+
+.fc-event, .fc-event:hover {
+    color: white !important;
+    text-align: right;
+    cursor: pointer;
+}
+
+/* END OVERRIDE BOOTSTRAP MATERIAL CSS */
+
+body {
+    background-color: #EEE !important;
+    font-family: Rubik !important;
+    color: #5a5a5a !important;
+    text-align: right !important;
+}
+
+input {
+    color: #5a5a5a;
+}
+
+::-webkit-scrollbar {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 12px;
+    direction: rtl;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    border: 4px solid rgba(255, 255, 255, 0);
+    background-clip: content-box;
+    background-color: #aaa;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+}
+
+.loader {
+    border: 5px solid #d4d4d4;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top: 5px solid #555;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    height: 50px;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+      
+.rings {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 50%;
+    margin-left: -400px;
+    top: 0;
+    right: 0;
+}
+	
+.ring__ringlet {
+    width: 200px;
+    height: 200px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid #979797;
+    border-radius: 50%;
+    margin-left: 50%;
+    left: -100px;
+    position: absolute;
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+    animation: ring-1 3000ms ease-out infinite;
+    bottom: -115px;
+}
+    
+.ring__ringlet:nth-of-type(2) {
+    animation-delay: 600ms;
+}
+
+.ring__ringlet:nth-of-type(3) {
+    animation-delay: 1200ms;
+}
+	
+
+@keyframes ring-1 {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+  }
+}

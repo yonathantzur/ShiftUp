@@ -1,0 +1,67 @@
+.loginForm {
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    border:#4f4f4f;
+    border-radius: 10px;
+    padding: 10px 30px;
+    transform: translate(-50%,-50%);
+}
+
+.appLogo {
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Lobster', serif !important;
+    font-size: 50px;
+}
+
+.loginButton {
+    font-size: large
+}
+
+.formInput {
+    font-size: 15px;
+    direction: rtl;
+    margin: 0;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: -5px;
+}
+
+.warning {
+    font-size: 12px;
+    color: maroon;
+}
+
+.formButton {
+    text-align: center;
+}
+
+.formButton > button {
+    font-size: large;
+    width: 40%;
+    margin:0 15px 0;
+
+}
+
+.shadow {
+    box-shadow: 1px 1px 6px 1px #afafaf !important;
+}
+
+.registerBtn {
+    position: relative;
+    float: left;
+    font-size: 14px;
+    color: inherit;
+}
+
+.form-group {
+    padding-bottom: 10px;
+    margin: 0 0 14px 0;
+    position: relative;
+    height: 80px;
+}

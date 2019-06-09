@@ -1,0 +1,41 @@
+<div class="navbarContainer">
+    <a class="logoContainer" (click)="pageClick(pages[0])">
+        <span class="logo">ShiftUp</span>
+    </a>
+    <span *ngIf="loggedInUser" class="userGreeting">
+        <div>
+            <span>שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
+            <br>
+            <span style="font-size:12px;">{{loggedInUser.isManager ? "מנהל" : "עובד"}} - {{loggedInUser.businessName}} -
+                (קוד {{loggedInUser.businessCode}})</span>
+        </div>
+        <div class="notificationsIndicator"
+            *ngIf="loggedInUser && loggedInUser.isManager && ( (loggedInUser.requests && loggedInUser.requests.length > 0) || (loggedInUser.waitingConstraints > 0) )">
+            <button class="btn btn-warning bmd-btn-fab bmd-btn-fab-sm dropdown-toggle" data-placement="bottom"
+                data-toggle="dropdown" id="notificationsDropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell"></i>
+            </button>
+            <div class="dropdown-menu notificationsDropdown" aria-labelledby="notificationsDropdown">
+                <button class="dropdown-item btn" (click)="notificationsWorkersRequestsClick()"
+                    *ngIf="loggedInUser.requests && loggedInUser.requests.length > 0">
+                    <span *ngIf="loggedInUser.requests.length == 1; then single else multi"></span>
+                    <ng-template #single>בקשת הצטרפות לעסק</ng-template>
+                    <ng-template #multi>בקשות הצטרפות לעסק ({{loggedInUser.requests.length}})</ng-template>
+                </button>
+                <button class="dropdown-item btn" (click)="notificationsConstraintsClick()"
+                    *ngIf="loggedInUser.waitingConstraints > 0">
+                    <span *ngIf="loggedInUser.waitingConstraints == 1; then single else multi"></span>
+                    <ng-template #single>בקשת אילוץ ממתינה</ng-template>
+                    <ng-template #multi>בקשות אילוצים ({{loggedInUser.waitingConstraints}})</ng-template>
+                </button>
+            </div>
+        </div>
+    </span>
+    <div class="navbarPages">
+        <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked': page.isClicked}"
+            (click)="pageClick(page)">
+            <span class="navbarPageText">{{page.displayText}}</span>
+            <i class="pageIcon {{page.icon}}"></i>
+        </a>
+    </div>
+</div>
