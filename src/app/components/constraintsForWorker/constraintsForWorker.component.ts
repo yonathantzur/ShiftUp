@@ -33,7 +33,19 @@ export class ConstraintsForWorkerComponent implements OnInit {
         this.isRange = false;
         this.InitiateConstraints();
         this.InitiateShiftNames();
-        this.InitiateConstraintsReasons()
+        this.InitiateConstraintsReasons();
+    }
+
+    InitiateForm(AddConstraintForm: NgForm) {
+        this.isRange = false;
+        let shifts = this.shiftNames;
+
+        shifts && shifts.forEach(shift => {
+            shift.isChecked = false;
+        });
+
+        AddConstraintForm.resetForm();
+        $("#AddConstraintModal").modal('hide');
     }
 
     InitiateConstraints() {
@@ -62,17 +74,21 @@ export class ConstraintsForWorkerComponent implements OnInit {
         if (this.searchWord || this.startDateFilter || this.endDateFilter) {
             this.constraints = this.sourceConstraints.filter(item => {
                 let bool = true;
+
                 if (this.searchWord) {
                     bool = (this.searchWord && (item.user[0].userId.includes(this.searchWord)) ||
                         (item.description.includes(this.searchWord)) ||
                         (item.status[0].statusName.includes(this.searchWord)));
                 }
+
                 if (bool && this.startDateFilter) {
                     bool = new Date(item.startDate) >= new Date(this.startDateFilter);
                 }
+
                 if (bool && this.endDateFilter) {
                     bool = new Date(item.endDate) <= new Date(this.endDateFilter);
                 }
+
                 return bool;
             });
         } else {
@@ -84,39 +100,54 @@ export class ConstraintsForWorkerComponent implements OnInit {
         if (AddConstraintForm.valid) {
             let isShiftSelected = false;
             this.newConstraint = AddConstraintForm.value;
+
             if (this.newConstraint.startDate) {
-                if ((new Date(this.newConstraint.startDate) < new Date(Date.now())) ||
-                    (!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.startDate))) {
+                if (new Date(this.newConstraint.startDate) < new Date(Date.now())) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'תאריך ההתחלה שהוכנס עבר',
+                        text: 'נא לתקן ולנסות שנית'
+                    });
+
+                    return;
+                }
+                else if (!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.startDate)) {
                     Swal.fire({
                         type: 'error',
                         title: 'תאריך ההתחלה שהוכנס אינו תקין',
                         text: 'נא לתקן ולנסות שנית'
                     });
+
                     return;
                 }
+
                 if (!this.newConstraint.endDate || !this.isRange) {
                     this.newConstraint.endDate = this.newConstraint.startDate;
                 }
+
                 if ((!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.endDate))) {
                     Swal.fire({
                         type: 'error',
                         title: 'תאריך סיום שהוכנס אינו תקין',
                         text: 'נא לתקן ולנסות שנית'
                     });
+
                     return;
                 }
+
                 if (new Date(this.newConstraint.endDate) < new Date(this.newConstraint.startDate)) {
                     Swal.fire({
                         type: 'error',
                         title: 'טווח התאריכים לא תקין',
                         text: 'נא לתקן ולנסות שוב'
-                    })
+                    });
                 } else {
                     for (let shift of this.shiftNames) {
                         if (shift.isChecked) {
                             isShiftSelected = true;
                         }
                     }
+
                     if (!isShiftSelected) {
                         Swal.fire({
                             title: 'להמשיך?',
@@ -132,12 +163,14 @@ export class ConstraintsForWorkerComponent implements OnInit {
                                 for (let shift of this.shiftNames) {
                                     shift['isChecked'] = true;
                                 }
-                                this.AddConstraint(this.newConstraint);
+
+                                this.AddConstraint(this.newConstraint, AddConstraintForm);
+
                                 return;
                             }
                         })
                     } else {
-                        this.AddConstraint(this.newConstraint);
+                        this.AddConstraint(this.newConstraint, AddConstraintForm);
                     }
                 }
             }
@@ -150,7 +183,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
         }
     }
 
-    AddConstraint(newConstraint: any) {
+    AddConstraint(newConstraint: any, AddConstraintForm: NgForm) {
         newConstraint['shifts'] = this.shiftNames;
         this.constraintsService.AddConstraint(newConstraint).then((result: any) => {
             if (result) {
@@ -161,6 +194,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
                 });
                 this.InitiateConstraints();
                 this.InitiateShiftNames();
+                this.InitiateForm(AddConstraintForm);
             } else {
                 Swal.fire({
                     type: 'error',
@@ -169,8 +203,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
                 })
 
             }
-        }
-        );
+        });
     }
 
     DeleteConstraint(conObjId: string, index: number) {
@@ -217,6 +250,17 @@ export class ConstraintsForWorkerComponent implements OnInit {
         }
         else {
             return "";
+        }
+    }
+
+    getStatusLightColor(statusId: number) {
+        switch (statusId) {
+            case (STATUS_CODE_NUMBER.CONFIRMED):
+                return "rgb(76, 175, 80)";
+            case (STATUS_CODE_NUMBER.REFUSED):
+                return "rgb(244, 67, 54)";
+            case (STATUS_CODE_NUMBER.WAITING):
+                return "rgb(255, 193, 7)";
         }
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
-import { STATUS_CODE } from '../../enums/enums'
+import { STATUS_CODE } from '../../enums/enums';
+import { STATUS_CODE_NUMBER } from '../../enums/enums';
 import { UsersService } from "../../services/users/users.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EventService } from '../../services/event/event.service';
@@ -120,6 +121,17 @@ export class ConstraintsComponent implements OnInit {
             });
         } else {
             this.constraints = this.sourceConstraints;
+        }
+    }
+
+    getStatusLightColor(statusId: number) {
+        switch (statusId) {
+            case (STATUS_CODE_NUMBER.CONFIRMED):
+                return "rgb(76, 175, 80)";
+            case (STATUS_CODE_NUMBER.REFUSED):
+                return "rgb(244, 67, 54)";
+            case (STATUS_CODE_NUMBER.WAITING):
+                return "rgb(255, 193, 7)";
         }
     }
 }

@@ -70,15 +70,19 @@
                                 <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
                                 <td>
                                     <ng-container *ngFor="let shift of con.shifts; let j=index">
-                                        <i
-                                            class="far {{shift.isChecked ? 'fa-check-square' : 'fa-square'}}"></i>
+                                        <i class="far {{shift.isChecked ? 'fa-check-square' : 'fa-square'}}"></i>
                                         {{ shift?.name }}
                                         <br>
                                     </ng-container>
                                 </td>
                                 <td>{{ con.description }}</td>
-                                <td>{{ con.status[0].statusName }}</td>
-                                <td><a (click)="ApproveConstraint(con)"><i class="far fa-thumbs-up iconConstraints"
+                                <td style="display: flex;">
+                                    <i class="fas fa-circle status-light"
+                                        [ngStyle]="{'color': getStatusLightColor(con.status[0].statusId)}"></i>
+                                    {{ con.status[0].statusName }}
+                                </td>
+                                <td>
+                                    <a (click)="ApproveConstraint(con)"><i class="far fa-thumbs-up iconConstraints"
                                             title="אישור"></i></a>
                                     <a (click)="RefuseConstraint(con)"><i class="far fa-thumbs-down iconConstraints"
                                             title="סירוב"></i></a>

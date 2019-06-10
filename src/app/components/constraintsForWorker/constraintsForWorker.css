@@ -83,3 +83,9 @@
     cursor: default;
     color: gray;
 }
+
+.status-light {
+    font-size: 10px;
+    margin-left: 5px;
+    align-self: center;
+}
