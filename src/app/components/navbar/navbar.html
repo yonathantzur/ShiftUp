@@ -1,12 +1,12 @@
 <div class="navbarContainer">
     <a class="logoContainer" (click)="pageClick(pages[0])">
-        <span class="logo">ShiftUp</span>
+        <span><img class="logo" src="../../../assets/logo/ShiftUp.png"></span>
     </a>
     <span *ngIf="loggedInUser" class="userGreeting">
         <div>
-            <span>שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
+            <span style="font-size: 15px">שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
             <br>
-            <span style="font-size:12px;">{{loggedInUser.isManager ? "מנהל" : "עובד"}} - {{loggedInUser.businessName}} -
+            <span style="font-size:14px;">{{loggedInUser.isManager ? "מנהל" : "עובד"}} - {{loggedInUser.businessName}} -
                 (קוד {{loggedInUser.businessCode}})</span>
         </div>
         <div class="notificationsIndicator"
@@ -32,7 +32,7 @@
         </div>
     </span>
     <div class="navbarPages">
-        <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked': page.isClicked}"
+        <a *ngFor="let page of pages" class="navbarItem" [ngClass]="{'navbarItemClicked': page.isClicked,'logoutButton': page.displayText === 'התנתקות'}"
             (click)="pageClick(page)">
             <span class="navbarPageText">{{page.displayText}}</span>
             <i class="pageIcon {{page.icon}}"></i>

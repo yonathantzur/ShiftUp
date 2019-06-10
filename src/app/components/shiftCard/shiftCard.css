@@ -37,6 +37,8 @@
     padding: 12px;
     border-radius: 50%;
     box-shadow: 1px 1px 8px 1px grey;
+    background-color: #ef7975;
+    color: white;
 }
 
 .no-workers {

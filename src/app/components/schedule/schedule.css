@@ -34,6 +34,7 @@
     position: relative;
     box-shadow: 1px 1px 8px 1px grey;
     user-select: none;
+    background-color: #fac2069e
 }
 
 .scheduler-btn:hover {
@@ -67,7 +68,7 @@
     position: relative;
     width: 100%;
     text-align: center;
-    font-size: 14px;
+    font-size: 18px;
     padding: 0 20px;
 }
 

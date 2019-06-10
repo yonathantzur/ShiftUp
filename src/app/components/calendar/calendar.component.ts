@@ -118,7 +118,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
             },
             viewRender: function () {
                 $(".fc-export-button")
-                    .html('<i class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
+                    .html('<i style="color:#ef7975" class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
                 self.renderCalendar();
             },
             eventClick: function (event: any) {

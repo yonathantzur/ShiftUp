@@ -11,29 +11,27 @@
 }
 
 .appLogo {
-    text-align: center;
-    margin-bottom: 10px;
-    font-family: 'Lobster', serif !important;
-    font-size: 50px;
+    width: 70%
 }
 
+
 .loginButton {
-    font-size: large
+    font-size: 1vw
 }
 
 .formInput {
-    font-size: 15px;
+    font-size: 1vw;
     direction: rtl;
     margin: 0;
 }
 
 label {
-    font-size: 14px;
+    font-size: 1.2vw;
     margin-bottom: -5px;
 }
 
 .warning {
-    font-size: 12px;
+    font-size: 14px;
     color: maroon;
 }
 
@@ -45,6 +43,8 @@ label {
     font-size: large;
     width: 40%;
     margin:0 15px 0;
+    background-color: #ef7975;
+    color: white;
 
 }
 

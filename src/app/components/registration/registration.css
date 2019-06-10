@@ -46,18 +46,18 @@ form {
 }
 
 .formInput {
-    font-size: 14px;
+    font-size: 1vw;
 }
 
 label {
-    font-size: 14px;
+    font-size: 1.2vw;
     margin-bottom: -5px;
 }
 
 .warning {
-    font-size: 10px;
-    color: maroon;
-    line-height: 1.5;
+    font-size: 14px;
+    color: maroon;  
+    line-height: 1;
     position: absolute;
 }
 
@@ -79,7 +79,7 @@ label {
     position: absolute;
     bottom: 10px;
     left: 10px;
-    font-size: 12px;
+    font-size: 1vw;
     text-decoration: underline;
     cursor: pointer;
     user-select: none;
@@ -87,12 +87,12 @@ label {
 }
 
 .logo {
-    width: 90%;
+    width: 120%;
     height: auto;
 }
 
 .btn-send {
-    background-color: #46B29E;
+    background-color: #ef7975;
     color: white;
 }
 

@@ -25,7 +25,8 @@
 }
 
 .filter-label {
-    font-size: 14px;
+    font-size: 1.2vw;
+    font-weight: bold
 }
 
 .filter-select {

@@ -4,19 +4,23 @@
         <div class="loader"></div>
     </ng-template>
     <ng-template #statistics>
-        <h3 class="title">סטטיסטיקות</h3>
         <div class="statisticsChartsContainer row">
             <div class="col-1">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-ages-tab" data-toggle="pill" href="#v-pills-ages" role="tab" aria-controls="v-pills-ages" aria-selected="true">גילאים</a>
-                <a class="nav-link" id="v-pills-salary-tab" data-toggle="pill" href="#v-pills-salary" role="tab" aria-controls="v-pills-salary" aria-selected="false">שכר</a>
-                <a class="nav-link" id="v-pills-shifts-tab" data-toggle="pill" href="#v-pills-shifts" role="tab" aria-controls="v-pills-shifts" aria-selected="false">משמרות</a>
-                <a class="nav-link" id="v-pills-constraints-tab" data-toggle="pill" href="#v-pills-constraints" role="tab" aria-controls="v-pills-constraints" aria-selected="false">אילוצים</a>
-            </div>
+                    <a class="nav-link active" id="v-pills-ages-tab" data-toggle="pill" href="#v-pills-ages" role="tab"
+                        aria-controls="v-pills-ages" aria-selected="true">גילאים</a>
+                    <a class="nav-link" id="v-pills-salary-tab" data-toggle="pill" href="#v-pills-salary" role="tab"
+                        aria-controls="v-pills-salary" aria-selected="false">שכר</a>
+                    <a class="nav-link" id="v-pills-shifts-tab" data-toggle="pill" href="#v-pills-shifts" role="tab"
+                        aria-controls="v-pills-shifts" aria-selected="false">משמרות</a>
+                    <a class="nav-link" id="v-pills-constraints-tab" data-toggle="pill" href="#v-pills-constraints"
+                        role="tab" aria-controls="v-pills-constraints" aria-selected="false">אילוצים</a>
+                </div>
             </div>
             <div class="col-10" *ngIf="workers">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-ages" role="tabpanel" aria-labelledby="v-pills-ages-tab">
+                    <div class="tab-pane fade show active" id="v-pills-ages" role="tabpanel"
+                        aria-labelledby="v-pills-ages-tab">
                         <statisticsAges [workers]=workers></statisticsAges>
                     </div>
                     <div class="tab-pane fade" id="v-pills-salary" role="tabpanel" aria-labelledby="v-pills-salary-tab">
@@ -25,7 +29,8 @@
                     <div class="tab-pane fade" id="v-pills-shifts" role="tabpanel" aria-labelledby="v-pills-shifts-tab">
                         <statisticsShifts *ngIf="business" [business]=business [workers]=workers></statisticsShifts>
                     </div>
-                    <div class="tab-pane fade" id="v-pills-constraints" role="tabpanel" aria-labelledby="v-pills-constraints-tab">
+                    <div class="tab-pane fade" id="v-pills-constraints" role="tabpanel"
+                        aria-labelledby="v-pills-constraints-tab">
                         <statisticsConstraints [workers]=workers></statisticsConstraints>
                     </div>
                 </div>
