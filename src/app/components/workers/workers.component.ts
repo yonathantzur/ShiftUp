@@ -48,7 +48,7 @@ export class WorkersComponent implements AfterViewChecked {
     deleteWorkerHandler = (workerToDelete: any) => {
         Swal.fire({
             title: "האם אתה בטוח?",
-            text: "העובד " + workerToDelete.firstName + ' ' + workerToDelete.lastName + " יימחק",
+            text: "העובד " + workerToDelete.firstName + ' ' + workerToDelete.lastName + " יימחק מהעסק!",
             type: "warning",
             showCancelButton: true,
             cancelButtonColor: "#d33",
@@ -83,7 +83,7 @@ export class WorkersComponent implements AfterViewChecked {
     deleteAllWorkersHandler = () => {
         Swal.fire({
             title: "האם אתה בטוח?",
-            text: "כל העובדים יימחקו.",
+            text: "כל העובדים יימחקו!",
             type: "warning",
             showCancelButton: true,
             cancelButtonColor: "#d33",
