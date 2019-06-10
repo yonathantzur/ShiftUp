@@ -59,7 +59,11 @@
                                 </ng-container>
                             </td>
                             <td>{{ con.description }}</td>
-                            <td>{{ con.status[0].statusName }}</td>
+                            <td style="display: flex;">
+                                <i class="fas fa-circle status-light"
+                                    [ngStyle]="{'color': getStatusLightColor(con.status[0].statusId)}"></i>
+                                {{ con.status[0].statusName }}
+                            </td>
                             <td style="text-align: center;">
                                 <i (click)="DeleteConstraint(con._id, i)" class="far fa-trash-alt iconConstraints"
                                     title="מחיקה"></i>
@@ -73,7 +77,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="AddConstraintModal" tabindex="-1" role="dialog" aria-labelledby="AddConstraintModal"
+<div class="modal fade" id="AddConstraintModal" tabindex="-1" role="dialog"  data-backdrop="static" data-keyboard="false" aria-labelledby="AddConstraintModal"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -128,7 +132,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" form="AddConstraintForm" class="btn btn-primary">הוספה</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">חזרה</button>
+                <button type="button" class="btn btn-secondary" (click)="InitiateForm(AddConstraintForm)">חזרה</button>
             </div>
         </div>
     </div>
