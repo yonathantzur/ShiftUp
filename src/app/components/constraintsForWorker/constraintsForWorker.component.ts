@@ -84,39 +84,54 @@ export class ConstraintsForWorkerComponent implements OnInit {
         if (AddConstraintForm.valid) {
             let isShiftSelected = false;
             this.newConstraint = AddConstraintForm.value;
+
             if (this.newConstraint.startDate) {
-                if ((new Date(this.newConstraint.startDate) < new Date(Date.now())) ||
-                    (!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.startDate))) {
+                if (new Date(this.newConstraint.startDate) < new Date(Date.now())) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'תאריך ההתחלה שהוכנס עבר',
+                        text: 'נא לתקן ולנסות שנית'
+                    });
+
+                    return;
+                }
+                else if (!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.startDate)) {
                     Swal.fire({
                         type: 'error',
                         title: 'תאריך ההתחלה שהוכנס אינו תקין',
                         text: 'נא לתקן ולנסות שנית'
                     });
+
                     return;
                 }
+
                 if (!this.newConstraint.endDate || !this.isRange) {
                     this.newConstraint.endDate = this.newConstraint.startDate;
                 }
+
                 if ((!/^\d{4}-\d{2}-\d{2}$/.test(this.newConstraint.endDate))) {
                     Swal.fire({
                         type: 'error',
                         title: 'תאריך סיום שהוכנס אינו תקין',
                         text: 'נא לתקן ולנסות שנית'
                     });
+
                     return;
                 }
+
                 if (new Date(this.newConstraint.endDate) < new Date(this.newConstraint.startDate)) {
                     Swal.fire({
                         type: 'error',
                         title: 'טווח התאריכים לא תקין',
                         text: 'נא לתקן ולנסות שוב'
-                    })
+                    });
                 } else {
                     for (let shift of this.shiftNames) {
                         if (shift.isChecked) {
                             isShiftSelected = true;
                         }
                     }
+
                     if (!isShiftSelected) {
                         Swal.fire({
                             title: 'להמשיך?',
@@ -132,7 +147,9 @@ export class ConstraintsForWorkerComponent implements OnInit {
                                 for (let shift of this.shiftNames) {
                                     shift['isChecked'] = true;
                                 }
+
                                 this.AddConstraint(this.newConstraint);
+
                                 return;
                             }
                         })
@@ -169,8 +186,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
                 })
 
             }
-        }
-        );
+        });
     }
 
     DeleteConstraint(conObjId: string, index: number) {
@@ -217,6 +233,17 @@ export class ConstraintsForWorkerComponent implements OnInit {
         }
         else {
             return "";
+        }
+    }
+
+    getStatusLightColor(statusId: number) {
+        switch (statusId) {
+            case (STATUS_CODE_NUMBER.CONFIRMED):
+                return "rgb(76, 175, 80)";
+            case (STATUS_CODE_NUMBER.REFUSED):
+                return "rgb(244, 67, 54)";
+            case (STATUS_CODE_NUMBER.WAITING):
+                return "rgb(255, 193, 7)";
         }
     }
 }

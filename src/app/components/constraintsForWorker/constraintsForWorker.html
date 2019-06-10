@@ -59,7 +59,11 @@
                                 </ng-container>
                             </td>
                             <td>{{ con.description }}</td>
-                            <td>{{ con.status[0].statusName }}</td>
+                            <td style="display: flex;">
+                                <i class="fas fa-circle status-light"
+                                    [ngStyle]="{'color': getStatusLightColor(con.status[0].statusId)}"></i>
+                                {{ con.status[0].statusName }}
+                            </td>
                             <td style="text-align: center;">
                                 <i (click)="DeleteConstraint(con._id, i)" class="far fa-trash-alt iconConstraints"
                                     title="מחיקה"></i>
