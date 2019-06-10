@@ -33,7 +33,19 @@ export class ConstraintsForWorkerComponent implements OnInit {
         this.isRange = false;
         this.InitiateConstraints();
         this.InitiateShiftNames();
-        this.InitiateConstraintsReasons()
+        this.InitiateConstraintsReasons();
+    }
+
+    InitiateForm(AddConstraintForm: NgForm) {
+        this.isRange = false;
+        let shifts = this.shiftNames;
+
+        shifts && shifts.forEach(shift => {
+            shift.isChecked = false;
+        });
+
+        AddConstraintForm.resetForm();
+        $("#AddConstraintModal").modal('hide');
     }
 
     InitiateConstraints() {
@@ -62,17 +74,21 @@ export class ConstraintsForWorkerComponent implements OnInit {
         if (this.searchWord || this.startDateFilter || this.endDateFilter) {
             this.constraints = this.sourceConstraints.filter(item => {
                 let bool = true;
+
                 if (this.searchWord) {
                     bool = (this.searchWord && (item.user[0].userId.includes(this.searchWord)) ||
                         (item.description.includes(this.searchWord)) ||
                         (item.status[0].statusName.includes(this.searchWord)));
                 }
+
                 if (bool && this.startDateFilter) {
                     bool = new Date(item.startDate) >= new Date(this.startDateFilter);
                 }
+
                 if (bool && this.endDateFilter) {
                     bool = new Date(item.endDate) <= new Date(this.endDateFilter);
                 }
+
                 return bool;
             });
         } else {
@@ -148,13 +164,13 @@ export class ConstraintsForWorkerComponent implements OnInit {
                                     shift['isChecked'] = true;
                                 }
 
-                                this.AddConstraint(this.newConstraint);
+                                this.AddConstraint(this.newConstraint, AddConstraintForm);
 
                                 return;
                             }
                         })
                     } else {
-                        this.AddConstraint(this.newConstraint);
+                        this.AddConstraint(this.newConstraint, AddConstraintForm);
                     }
                 }
             }
@@ -167,7 +183,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
         }
     }
 
-    AddConstraint(newConstraint: any) {
+    AddConstraint(newConstraint: any, AddConstraintForm: NgForm) {
         newConstraint['shifts'] = this.shiftNames;
         this.constraintsService.AddConstraint(newConstraint).then((result: any) => {
             if (result) {
@@ -178,6 +194,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
                 });
                 this.InitiateConstraints();
                 this.InitiateShiftNames();
+                this.InitiateForm(AddConstraintForm);
             } else {
                 Swal.fire({
                     type: 'error',

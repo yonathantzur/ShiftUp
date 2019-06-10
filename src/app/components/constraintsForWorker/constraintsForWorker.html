@@ -77,7 +77,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="AddConstraintModal" tabindex="-1" role="dialog" aria-labelledby="AddConstraintModal"
+<div class="modal fade" id="AddConstraintModal" tabindex="-1" role="dialog"  data-backdrop="static" data-keyboard="false" aria-labelledby="AddConstraintModal"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -132,7 +132,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" form="AddConstraintForm" class="btn btn-primary">הוספה</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">חזרה</button>
+                <button type="button" class="btn btn-secondary" (click)="InitiateForm(AddConstraintForm)">חזרה</button>
             </div>
         </div>
     </div>
