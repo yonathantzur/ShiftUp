@@ -1,16 +1,15 @@
 <div id="workers">
     <h5 class="title">
         עובדי העסק - {{business.name}}
-        <i class="fa fa-users title-icon"></i>
     </h5>
     <div class="buttonsContainer" *ngIf="manager && allWorkers">
-        <button class="btn btn-dark btn-raised" style="background-color:#ef7975"  (click)="showRequests()" *ngIf="manager.requests && manager.requests.length > 0">
+        <button class="btn btn-dark btn-raised" style="background-color:#ef7975; direction: ltr"  (click)="showRequests()" *ngIf="manager.requests && manager.requests.length > 0">
             <span *ngIf="manager.requests.length == 1; then single else multi"></span>
-            <ng-template #single>בקשת הצטרפות ממתינה</ng-template>
-            <ng-template #multi>{{manager.requests.length}} בקשות הצטרפות ממתינות</ng-template>
+            <ng-template #single>  בקשת הצטרפות ממתינה</ng-template>
+            <ng-template #multi> ({{manager.requests.length}}) בקשות הצטרפות ממתינות  </ng-template>
             <i class="btn-icon fas fa-bell"></i>
         </button>
-        <button class="btn btn-dark btn-raised" (click)="deleteAllWorkersHandler()" *ngIf="allWorkers.length > 0">
+        <button class="btn btn-dark btn-raised" style="direction: ltr" (click)="deleteAllWorkersHandler()" *ngIf="allWorkers.length > 0">
             מחיקת כל העובדים
             <i class="btn-icon fas fa-trash"></i>
         </button>
