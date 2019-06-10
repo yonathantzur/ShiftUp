@@ -33,7 +33,7 @@
     <div *ngIf="!allWorkers || !filteredWorkers">
         <div class="loader"></div>
     </div >
-    <h3 *ngIf="allWorkers && filteredWorkers && allWorkers.length > 0 && filteredWorkers == 0" class="noWorkers">
+    <h3 *ngIf="allWorkers && filteredWorkers && allWorkers.length > 0 && filteredWorkers.length == 0" class="noWorkers">
         לא נמצאו תוצאות לחיפוש
     </h3>
     <h3 *ngIf="allWorkers && allWorkers.length == 0" class="noWorkers">

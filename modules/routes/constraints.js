@@ -62,4 +62,12 @@ router.get("/getUserConstraints", (req, res) => {
     });
 });
 
+router.put("/updateConstraintShifts", (req, res) => {
+    constraintsBL.UpdateConstraintShifts(req.body.conObjId, req.body.shifts).then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
+
 module.exports = router;

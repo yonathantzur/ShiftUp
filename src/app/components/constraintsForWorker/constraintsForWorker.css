@@ -70,3 +70,16 @@
 .loader {
     margin: auto;
 }
+
+.shifts-check-container {
+    user-select: none;
+}
+
+.checked-icon {
+    cursor: pointer;
+}
+
+.checked-disabled {
+    cursor: default;
+    color: gray;
+}
