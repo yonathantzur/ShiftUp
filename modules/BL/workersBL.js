@@ -163,14 +163,14 @@ let self = module.exports = {
         return new Promise((resolve, reject) => {
             userObjId = DAL.GetObjectId(userId);
             userFilter = { "_id": userObjId };
-            userUpdateQuery = { $unset: { "waitBusinessId": 1 } }
+            userUpdateQuery = { $unset: { "waitBusinessId": 1 } };
             managerRequestUpdateQuery = { $pull: { "requests": userObjId } };
 
             let userUpdate = DAL.UpdateOne(usersCollectionName, userFilter, userUpdateQuery);
-            let managerUpdate = DAL.UpdateOne(usersCollectionName, {}, managerRequestUpdateQuery);
+            let managerUpdate = DAL.Update(usersCollectionName, {}, managerRequestUpdateQuery);
 
             Promise.all([userUpdate, managerUpdate]).then(results => {
-                // Resulove the updated user object.
+                // Resolve the updated user object.
                 resolve(results[0]);
             }).catch(reject);
         });

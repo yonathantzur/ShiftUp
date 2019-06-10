@@ -9,4 +9,13 @@
         </select>
     </div>
 </div>
+<div class="colorsCellsContainer">
+    <div>מקרא משמרות:</div>
+    <div *ngIf="colorsData">
+        <div *ngFor="let colorData of colorsData" class="colorData">
+            <div [ngStyle]="{'background-color': colorData.hex}"></div>
+            {{ colorData.shiftName }}
+        </div>
+    </div>
+</div>
 <div class="svgShiftsContainer"></div>

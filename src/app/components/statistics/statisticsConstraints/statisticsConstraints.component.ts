@@ -144,9 +144,13 @@ export class StatisticsConstraintsComponent {
         const stackedData = d3.stack().keys([0, 1, 2])(data);
 
         if (data && data.length) {
-            const xMaxStacked: number = parseInt(data[0][0].toString()) + parseInt(data[0][1].toString()) + parseInt(data[0][2].toString());
             const n: number = 3;
             const m = d3.range(data.length);
+
+            let xMaxStacked: number = 0;
+            for (let i = 0; i < n; i++) {
+                xMaxStacked += parseInt(data[0][i].toString());
+            }
 
             const svg = d3.select('#workersMonthConstraintsChart');
             const controlHeight = 50;
@@ -160,7 +164,7 @@ export class StatisticsConstraintsComponent {
                 .range([0, width]);
 
             const yNames = d3.scaleBand()
-                .domain(data.map((d: any) => d[3]))
+                .domain(data.map((d: any) => d[n]))
                 .rangeRound([0, height])
                 .padding(0.08);
 
@@ -182,25 +186,20 @@ export class StatisticsConstraintsComponent {
                 .data((d: any) => d)
                 .enter()
                 .append('rect')
-                .attr('x', (d: any) => x(d[0]))
-                .attr('y', (d: any, i: any) => yLocations(i))
-                .attr('height', yLocations.bandwidth())
-                .attr('width', (d: any) => x(d[1]) - x(d[0]));
+                    .attr('x', (d: any) => x(d[0]))
+                    .attr('y', (d: any, i: any) => yLocations(i))
+                    .attr('height', yLocations.bandwidth())
+                    .attr('width', (d: any) => x(d[1]) - x(d[0]));
 
             g.append('g')
                 .attr('width', 'axis axis--y')
-                .attr('transform', `translate(0,0)`)
-                .call(d3.axisLeft(yNames)
-                    .tickSize(0)
-                    .tickPadding(6))
+                .call(d3.axisLeft(yNames).tickSizeOuter(0).tickPadding(6))
                 .selectAll("text")
-                .attr("font-size", "16px").style("text-anchor", "start");
+                    .attr("font-size", "16px").style("text-anchor", "start");
 
             g.append('g')
                 .call((g: any) => g
-                    .attr("transform", `translate(0,${margin.top - 5})`)
                     .call(d3.axisTop(x).ticks(xMaxStacked))
-                    .call((g: any) => g.select(".domain").remove())
                     .selectAll("text").attr("font-size", "14px"));
         }
     }
