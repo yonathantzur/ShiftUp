@@ -20,18 +20,17 @@
 }
 
 .formInput {
-    font-size: 1vw;
     direction: rtl;
     margin: 0;
 }
 
 label {
-    font-size: 1.2vw;
+    font-size: 14px;
     margin-bottom: -5px;
 }
 
 .warning {
-    font-size: 14px;
+    font-size: 12px;
     color: maroon;
 }
 
@@ -64,4 +63,14 @@ label {
     margin: 0 0 14px 0;
     position: relative;
     height: 80px;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.logo-img {
+    width: 55%;
+    margin-bottom: 5px;
 }

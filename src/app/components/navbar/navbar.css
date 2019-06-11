@@ -2,10 +2,13 @@
     width: 100%;
     height: 50px;
     display: flex;
-    padding: 0px 10px; 
     background-color: #e6e6e6;
     direction: rtl;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
+    padding: 0;       
 }
 
 .navbarPages {
@@ -17,9 +20,9 @@
 }
 
 .navbarItem {
-    /* width: 50%; */
+    width: 50%;
     height: 100%;
-    /* font-size: 16px; */
+    font-size: 16px;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -63,6 +66,7 @@
 
 .logo {
     width: 100%;
+    margin: 3px;
 }
 
 .pointer {
@@ -71,7 +75,7 @@
 
 .navbarPageText {
     margin: 4px;
-    font-size: 1vw;
+    font-size: 0.9em;
 }
 
 .notificationsIndicator > span {
@@ -79,13 +83,14 @@
 }
 
 .notificationsIndicator {
-    margin-right: 10px;
+    margin-right: 15px;
 }
 
 .notificationsIndicator > .dropdown-toggle {
     height: 30px;
     width: 30px;
     min-width: unset !important;
+    margin-bottom: 0;
 }
 
 .notificationsIndicator :hover {
@@ -105,7 +110,7 @@
 }
 
 .pageIcon {
-    font-size: 1.2vw;
+    font-size: 1em;
 }
 
 .logoutButton{

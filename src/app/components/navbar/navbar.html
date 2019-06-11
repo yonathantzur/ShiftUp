@@ -1,18 +1,18 @@
-<div class="navbarContainer">
+<div class="navbarContainer container">
     <a class="logoContainer" (click)="pageClick(pages[0])">
         <span><img class="logo" src="../../../assets/logo/ShiftUp.png"></span>
     </a>
     <span *ngIf="loggedInUser" class="userGreeting">
         <div>
-            <span style="font-size: 15px">שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
+            <span>שלום {{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
             <br>
-            <span style="font-size:14px;">{{loggedInUser.isManager ? "מנהל" : "עובד"}} - {{loggedInUser.businessName}} -
-                (קוד {{loggedInUser.businessCode}})</span>
+            <span style="font-size:12px;">{{loggedInUser.isManager ? "מנהל" : "עובד"}} - {{loggedInUser.businessName}}
+                {{loggedInUser.isManager ? (" - (קוד " + loggedInUser.businessCode + ")") : ""}}</span>
         </div>
         <div class="notificationsIndicator"
             *ngIf="loggedInUser && loggedInUser.isManager && ( (loggedInUser.requests && loggedInUser.requests.length > 0) || (loggedInUser.waitingConstraints > 0) )">
             <button class="btn btn-warning bmd-btn-fab bmd-btn-fab-sm dropdown-toggle" data-placement="bottom"
-                data-toggle="dropdown" id="notificationsDropdown" aria-haspopup="true" aria-expanded="false">
+                data-toggle="dropdown" id="notificationsDropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #ef7975 !important;">
                 <i class="fas fa-bell"></i>
             </button>
             <div class="dropdown-menu notificationsDropdown" aria-labelledby="notificationsDropdown">

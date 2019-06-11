@@ -1,16 +1,17 @@
 #shiftCard {
     display: flex;
-    width: 100%;
+    width: 85%;
     overflow-y: auto;
+    margin: auto;    
 }
 
 .cardContainer {        
     align-self: center;
-    border-bottom: 0.5px dashed #858585;
-    border-top: 0.5px dashed #858585;
-    padding: 10px 20px;
+    padding: 10px 15px;
     width: 100%;
-    margin: 0 5px;
+    margin: auto;
+    border: 0.5px solid #989898;
+    border-radius: 5px;
 }
 
 .shiftContainer {
@@ -30,9 +31,9 @@
 }
 
 .edit-shift-icon {
-    position: fixed;
+    position: absolute;
     left: 20px;
-    top: 70px;
+    top: 20px;
     cursor: pointer;
     padding: 12px;
     border-radius: 50%;

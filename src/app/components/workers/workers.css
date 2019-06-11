@@ -1,9 +1,6 @@
 .buttonsContainer {
     text-align: center;
-}
-
-.buttonsContainer > button {
-    margin-left: 20px;
+    position: relative;    
 }
 
 .btn-icon {
@@ -16,6 +13,7 @@
     text-align: center;
     font-weight: bold;
     margin: 10px;
+    font-size: 1.2em;
 }
 
 .workersContainer {
@@ -31,7 +29,8 @@
 }
 
 .workerCard {
-    margin: 15px;
+    margin: auto;
+    margin-bottom: 15px
 }
 
 .noWorkers {
@@ -48,6 +47,7 @@
 .filterContainer {
     margin: auto;
     width: 400px;
+    margin-bottom: 15px;
 }
 
 .loader {
@@ -61,4 +61,11 @@
 .search-icon-container {
     display: flex;
     align-items: center;
+}
+
+.delete-all-btn {
+    direction: ltr;
+    position: absolute;
+    left: 0;
+    background-color: rgba(0,0,0,.5) !important;
 }

@@ -1,4 +1,4 @@
-<div id="workers">
+<div id="workers" class="container">
     <h5 class="title">
         עובדי העסק - {{business.name}}
     </h5>
@@ -9,7 +9,7 @@
             <ng-template #multi> ({{manager.requests.length}}) בקשות הצטרפות ממתינות  </ng-template>
             <i class="btn-icon fas fa-bell"></i>
         </button>
-        <button class="btn btn-dark btn-raised" style="direction: ltr" (click)="deleteAllWorkersHandler()" *ngIf="allWorkers.length > 0">
+        <button class="btn btn-dark btn-raised delete-all-btn" (click)="deleteAllWorkersHandler()" *ngIf="allWorkers.length > 0">
             מחיקת כל העובדים
             <i class="btn-icon fas fa-trash"></i>
         </button>
@@ -23,7 +23,7 @@
     </div>
     <div *ngIf="allWorkers && filteredWorkers">
         <div class="workersContainer">
-            <div id="cards-container" [ngStyle]="{'padding': calcCardsContainerPadding()}">
+            <div id="cards-container">
                 <workerCard class="workerCard" *ngFor="let worker of filteredWorkers"
                     [worker]=worker (onDelete)="deleteWorkerHandler(worker)"></workerCard>
             </div>

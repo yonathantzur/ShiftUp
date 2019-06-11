@@ -1,7 +1,9 @@
 <div class="loginForm shadow">
-    <div><img src="../../../assets/logo/ShiftUp.png" style="width: 100%"></div>
+    <div class="logo-container">
+        <img class="logo-img" src="../../../assets/logo/ShiftUp.png">
+    </div>
     <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-        <div class="form-group">        
+        <div class="form-group">
             <label>אימייל</label>
             <input type="email" class="form-control formInput" name="email" ngModel #email="ngModel" required
                 title="הכנס אימייל תקין" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
@@ -18,5 +20,5 @@
             <button type=submit class="btn btn-raised">התחברות</button>
         </div>
     </form>
-    <a [routerLink]="['/register']" style="font-size: 16px" class="btn btn-link registerBtn">משתמש חדש?</a>
+    <a [routerLink]="['/register']" class="btn btn-link registerBtn">משתמש חדש?</a>
 </div>

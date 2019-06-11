@@ -1,6 +1,8 @@
 .table-container {
-    overflow: auto;    
+    overflow: auto;
     width: 100%;
+    max-height: calc(100vh - 190px);
+    position: relative;
 }
 
 .iconConstraints {
@@ -13,7 +15,7 @@
     text-align: center;
     font-weight: bold;
     margin: 10px;
-    font-size: 1.2vw;
+    font-size: 1.2em;
 }
 
 .dateInput {

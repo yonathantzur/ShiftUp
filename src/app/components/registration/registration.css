@@ -45,17 +45,13 @@ form {
     font-size: large;
 }
 
-.formInput {
-    font-size: 1vw;
-}
-
 label {
-    font-size: 1.2vw;
+    font-size: 0.9em;
     margin-bottom: -5px;
 }
 
 .warning {
-    font-size: 14px;
+    font-size: 12px;
     color: maroon;  
     line-height: 1;
     position: absolute;
@@ -87,7 +83,7 @@ label {
 }
 
 .logo {
-    width: 120%;
+    width: 90%;
     height: auto;
 }
 

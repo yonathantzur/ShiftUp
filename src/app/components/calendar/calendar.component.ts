@@ -118,7 +118,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
             },
             viewRender: function () {
                 $(".fc-export-button")
-                    .html('<i style="color:#ef7975" class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
+                    .html('<i style="color:#28a745" class="far fa-file-excel"></i>').prop('title', 'ייצוא לאקסל');
                 self.renderCalendar();
             },
             eventClick: function (event: any) {
@@ -219,7 +219,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 id: shift._id,
                 title: self.calcShiftName(shift),
                 start: shift.date,
-                color: "#3788d8",
+                color: "#49ae9c",
                 allDay: true,
                 shiftsData: shift.shiftsData
             });
@@ -262,7 +262,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 title: self.calcConstraintName(constraint),
                 start: this.formatToEventDate(constraint.startDate),
                 end: this.formatToEventDate(constraint.endDate, true),
-                color: '#28a745',
+                color: '#ffce26ad',
                 allDay: true
             });
         });

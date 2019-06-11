@@ -1,10 +1,9 @@
 .calendar {
     width: 100%;
     height: calc(100% - 20px);
-    margin-top: 15px;    
+    margin-top: 15px;
     position: absolute;
-    right: 0;
-    padding-right: 5px;
+    right: 0;    
 }
 
 .shiftCard {
@@ -46,6 +45,7 @@
 .right-container {
     width: 60%;
     height: calc(100% - 50px);
+    max-height: 650px;
     position: relative;
     float: right;    
 }

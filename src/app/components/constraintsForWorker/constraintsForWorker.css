@@ -9,12 +9,15 @@
 .tb {
     overflow: auto;    
     width: 100%;
+    max-height: calc(100vh - 190px);
 }
 
 .conTitle {
     text-align: center;
     font-weight: bold;
     margin-top: 10px;
+    width: 100%;
+    font-size: 1.2em;
 }
 
 .dateInput {

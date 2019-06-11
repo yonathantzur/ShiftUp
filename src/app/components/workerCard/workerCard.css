@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 1vw;
+    font-size: 14px;
 }
 
 .btn-icon {
@@ -34,8 +34,9 @@
 
 .workerDetailsContaienr > span {
     margin-right: 20px;
+    margin-top: 5px;
     margin-left: 20px;
-    font-size: 1vw;
+    font-size: 14px;
 }
 
 .buttonsContainer {
@@ -46,7 +47,7 @@
 
 .buttonsContainer > button {
     height: 25px;
-    background-color:gray; 
+    background-color: #939393;
     width: 25px;
     min-width: unset !important;
 }
