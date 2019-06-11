@@ -262,7 +262,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
                 title: self.calcConstraintName(constraint),
                 start: this.formatToEventDate(constraint.startDate),
                 end: this.formatToEventDate(constraint.endDate, true),
-                color: '#ffce26ad',
+                color: '#ffce26c4',
                 allDay: true
             });
         });

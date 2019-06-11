@@ -13,8 +13,9 @@
 }
 
 .colorsCellsContainer {
-    position: absolute;
-    right: 2vw;
+    left: 60px;
+    position: fixed;
+    top: 75px;
 }
 
 .colorData {

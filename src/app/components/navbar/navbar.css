@@ -94,7 +94,7 @@
 }
 
 .notificationsIndicator :hover {
-    color: #ef7975 !important;
+    color: #ef7975;
 }
 
 .notificationsIndicator > button > i {

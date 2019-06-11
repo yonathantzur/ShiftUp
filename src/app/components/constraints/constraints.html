@@ -7,8 +7,8 @@
             <div class="loader"></div>
         </div>
         <div *ngIf="constraints">
-            <h3 class="no-constraints" *ngIf="constraints.length == 0">אין אילוצים</h3>
-            <div *ngIf="constraints.length > 0" class="row justify-content-center">
+            <h3 class="no-constraints" *ngIf="constraints.length == 0 && !searchWord">אין אילוצים</h3>
+            <div *ngIf="constraints.length > 0 || searchWord" class="row justify-content-center">
                 <form class="form-inline">
                     <div class="col-md-4">
                         <input class="form-control w-75" type="text" placeholder="חיפוש" aria-label="Search"
