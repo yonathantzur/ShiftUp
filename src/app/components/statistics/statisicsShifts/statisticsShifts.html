@@ -1,21 +1,24 @@
-<h4>התפלגות משמרות לחודש</h4>
-<div class="form-group dateSelector">
-    <div class="row">
-        <select id="shiftsMonthSelector" class="form-control col" (change)="monthChangeHandler($event.target.value)">
-            <option *ngFor="let month of months">{{ month }}</option>
-        </select>
-        <select id="shiftsYearSelector" class="form-control col" (change)="yearChangeHandler($event.target.value)">
-            <option *ngFor="let year of years">{{ year }}</option>
-        </select>
-    </div>
-</div>
-<div class="colorsCellsContainer">
-    <div>מקרא משמרות:</div>
-    <div *ngIf="colorsData">
-        <div *ngFor="let colorData of colorsData" class="colorData">
-            <div [ngStyle]="{'background-color': colorData.hex}"></div>
-            {{ colorData.shiftName }}
+<div style="position: relative;">
+    <h4>התפלגות משמרות לחודש</h4>
+    <div class="form-group dateSelector">
+        <div class="row">
+            <select id="shiftsMonthSelector" class="form-control col"
+                (change)="monthChangeHandler($event.target.value)">
+                <option *ngFor="let month of months">{{ month }}</option>
+            </select>
+            <select id="shiftsYearSelector" class="form-control col" (change)="yearChangeHandler($event.target.value)">
+                <option *ngFor="let year of years">{{ year }}</option>
+            </select>
         </div>
     </div>
+    <div class="colorsCellsContainer">
+        <div>מקרא משמרות:</div>
+        <div *ngIf="colorsData">
+            <div *ngFor="let colorData of colorsData" class="colorData">
+                <div [ngStyle]="{'background-color': colorData.hex}"></div>
+                {{ colorData.shiftName }}
+            </div>
+        </div>
+    </div>
+    <div class="svgShiftsContainer"></div>
 </div>
-<div class="svgShiftsContainer"></div>
