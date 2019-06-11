@@ -1,5 +1,7 @@
 <div class="loginForm shadow">
-    <div class="appLogo">ShiftUp</div>
+    <div class="logo-container">
+        <img class="logo-img" src="../../../assets/logo/ShiftUp.png">
+    </div>
     <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
         <div class="form-group">
             <label>אימייל</label>
@@ -15,7 +17,7 @@
             <div class="warning" *ngIf="password.errors?.required && password.touched">נא להכניס סיסמה</div>
         </div>
         <div class="formButton">
-            <button type=submit class="btn btn-raised btn-dark">התחברות</button>
+            <button type=submit class="btn btn-raised">התחברות</button>
         </div>
     </form>
     <a [routerLink]="['/register']" class="btn btn-link registerBtn">משתמש חדש?</a>

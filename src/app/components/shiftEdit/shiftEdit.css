@@ -27,7 +27,7 @@
 }
 
 .title {
-    font-size: 20px;
+    font-size: 1em;
     text-align: center;
     padding: 10px;
     text-overflow: ellipsis;
@@ -59,7 +59,7 @@ label {
     margin: 0;
     margin-bottom: 3px;
     line-height: 0;
-    font-size: 14px;
+    font-size: 1vw;
 }
 
 .bottom-icon {
@@ -79,7 +79,9 @@ label {
 }
 
 .sector-title {
-    font-size: 22px;    
+    text-align: right;
+    font-weight: bold;
+    font-size: 1em;
     margin-bottom: 5px;
     text-decoration: underline;
 }
@@ -100,7 +102,7 @@ label {
 }
 
 .shift-name {
-    font-size: 20px;
+    font-size: 1em;
     font-weight: bold;
     display: inline-block;
 }
@@ -153,7 +155,7 @@ label {
     margin-right: 5px;
     cursor: pointer;
     position: absolute;
-    margin-top: 8px;
+    margin-top: 5px;
 }
 
 .shifts-view {    

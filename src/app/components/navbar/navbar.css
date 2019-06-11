@@ -2,10 +2,13 @@
     width: 100%;
     height: 50px;
     display: flex;
-    padding: 0px 10px; 
     background-color: #e6e6e6;
     direction: rtl;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
+    padding: 0;       
 }
 
 .navbarPages {
@@ -17,7 +20,7 @@
 }
 
 .navbarItem {
-    width: 100%;
+    width: 50%;
     height: 100%;
     font-size: 16px;
     cursor: pointer;
@@ -25,8 +28,8 @@
     justify-content: center;
     align-items: center;
     text-decoration: none !important;
-    direction: rtl;
-    padding: 10px;
+    direction: ltr;
+    padding: 20px;
 }
 
 .activeNavbarItem {
@@ -46,6 +49,7 @@
 
 .notificationsDropdown {
     top: 10px !important;
+    direction: rtl !important;
 }
 
 .navbarItemClicked {
@@ -61,8 +65,8 @@
 }
 
 .logo {
-    font-family: 'Lobster';
-    font-size: 30px;
+    width: 100%;
+    margin: 3px;
 }
 
 .pointer {
@@ -70,26 +74,27 @@
 }
 
 .navbarPageText {
-    margin: 10px;
-    font-size: 1.2vw;
+    margin: 4px;
+    font-size: 0.9em;
 }
 
 .notificationsIndicator > span {
-    background-color: #f45;
+    background-color: #ef7975;
 }
 
 .notificationsIndicator {
-    margin-right: 10px;
+    margin-right: 15px;
 }
 
 .notificationsIndicator > .dropdown-toggle {
     height: 30px;
     width: 30px;
     min-width: unset !important;
+    margin-bottom: 0;
 }
 
 .notificationsIndicator :hover {
-    color: #f6b800 !important;
+    color: #ef7975 !important;
 }
 
 .notificationsIndicator > button > i {
@@ -101,9 +106,18 @@
     padding: 0 10px;
     min-height: 0;
     height: 25px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .pageIcon {
-    font-size: 1.2vw;
+    font-size: 1em;
+}
+
+.logoutButton{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none !important; 
+    margin-right: auto
 }
