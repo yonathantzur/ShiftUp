@@ -174,5 +174,91 @@ let self = module.exports = {
                 resolve(results[0]);
             }).catch(reject);
         });
+    },
+
+    GetWorkersAverageAge(businessId) {
+        return new Promise((resolve, reject) => {
+            const businessWorkersFilter = { $match: {
+                $and: [
+                    { "businessId": DAL.GetObjectId(businessId) },
+                    { "isManager": false }
+                ]
+            }};
+
+            const currentDate = new Date();
+
+            const groupFilter = {
+                $group: {
+                    _id: 0,
+                    averageAge: {
+                        $avg: {
+                            $subtract: [
+                                currentDate.getFullYear(),
+                                { $year: "$birthDate"}
+                            ]
+                        }
+                    }
+                }
+            };
+
+            const aggregatePipline = [
+                businessWorkersFilter,
+                groupFilter
+            ];
+
+            DAL.Aggregate(usersCollectionName, aggregatePipline).then(decadesGroups => {
+                resolve(decadesGroups.map((result) => {
+                    resolve(result);
+                }));
+            }).catch(result => reject);
+        })
+    },
+
+    GetWorkersGroupByAgesDecades(businessId) {
+        return new Promise((resolve, reject) => {
+            const businessWorkersFilter = { $match: {
+                $and: [
+                    { "businessId": DAL.GetObjectId(businessId) },
+                    { "isManager": false }
+                ]
+            }};
+
+            const currentDate = new Date();
+
+            const groupFilter = {
+                $group: {
+                    "_id": {
+                        "decade": {
+                            $multiply: [ {
+                                $floor: {
+                                    $divide: [ {
+                                        $subtract: [
+                                            currentDate.getFullYear(),
+                                            { $year: "$birthDate" }
+                                        ]
+                                    }, 10 ]
+                                }
+                            } , 10 ]
+                        }
+                    },
+                    count: { $sum: 1 }
+                }
+            };
+
+            const aggregatePipline = [
+                businessWorkersFilter,
+                groupFilter
+            ];
+
+            DAL.Aggregate(usersCollectionName, aggregatePipline).then(decadesGroups => {
+                resolve(decadesGroups.map((group) => {
+                    const nextDecade = group._id.decade + 10;
+                    return {
+                        "name": group._id.decade + '-' + nextDecade,
+                        "value": group.count
+                    };
+                }));
+            }).catch(result => reject);
+        });
     }
 };

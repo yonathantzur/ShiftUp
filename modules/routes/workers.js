@@ -104,4 +104,20 @@ router.delete("/cancelBusinessRequest", (req, res) => {
     });
 });
 
+router.get("/getWorkersAverageAge", (req, res) => {
+    workersBL.GetWorkersAverageAge(req.user.businessId).then(result => {
+        res.send(result);
+    }).catch(err => {
+        res.sendStatus(500);
+    })
+});
+
+router.get("/getWorkersGroupByAgesDecades", (req, res) => {
+    workersBL.GetWorkersGroupByAgesDecades(req.user.businessId).then(result => {
+        res.send(result);
+    }).catch(err => {
+        res.sendStatus(500);
+    });
+});
+
 module.exports = router;
