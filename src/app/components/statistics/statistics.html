@@ -5,9 +5,8 @@
     </ng-template>
     <ng-template #statistics>
         <h3 class="title">סטטיסטיקות</h3>
-        <div class="statisticsChartsContainer row">
-            <div class="col-2"></div>
-            <div class="col-2" style="position: absolute; right:0;">
+        <div class="statisticsChartsContainer container">
+            <div class="statisticsMenu">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-ages-tab" data-toggle="pill" href="#v-pills-ages" role="tab"
                         aria-controls="v-pills-ages" aria-selected="true">גילאים</a>
@@ -19,7 +18,7 @@
                         role="tab" aria-controls="v-pills-constraints" aria-selected="false">אילוצים</a>
                 </div>
             </div>
-            <div class="col-8" *ngIf="workers">
+            <div class="statisticsContent" *ngIf="workers">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-ages" role="tabpanel"
                         aria-labelledby="v-pills-ages-tab">

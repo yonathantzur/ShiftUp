@@ -13,9 +13,9 @@
 }
 
 .colorsCellsContainer {
+    position: absolute;
     left: 60px;
-    position: fixed;
-    top: 75px;
+    top: 120px;
 }
 
 .colorsCellsContainer > div {
