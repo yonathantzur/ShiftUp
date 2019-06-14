@@ -178,14 +178,23 @@ export class StatisticsShiftsComponent {
     }
 
     generateColors = () => {
+        const limitedColors = [
+            "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
+            "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
+        ];
         this.colorsData = [];
         const colors = [];
-        this.business.shifts.forEach((shiftData: any) => {
-            const randomColor = this.getRandomColor();
-            colors.push(randomColor);
+        this.business.shifts.forEach((shiftData: any, index: number) => {
+            let colorHex = "";
+            if (this.business.shifts.length <= limitedColors.length) {
+                colorHex = limitedColors[index];
+            } else {
+                colorHex = this.getRandomColor();
+            }
+            colors.push(colorHex);
             this.colorsData.push({
                 "shiftName": shiftData.name,
-                "hex": randomColor
+                "hex": colorHex
             });
         });
 
