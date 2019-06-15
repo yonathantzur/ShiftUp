@@ -1,5 +1,4 @@
-<h5>גילאים</h5>
-<h5 *ngIf="workers">חתך גילאי העובדים {{"(" + workers.length + " עובדים)"}}</h5>
+<h5>חתך גילאי העובדים</h5>
 <div class="canvasWorkersAgesContainer">
     <span class="agesInfo" *ngIf="averageAge">ממוצע גילאי עובדי העסק: <b>{{ averageAge }}</b></span>
     <canvas id="workersAgesChart" width="400" height="400"></canvas>
