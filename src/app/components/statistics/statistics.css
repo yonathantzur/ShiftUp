@@ -11,7 +11,17 @@
 }
 
 .statisticsChartsContainer {
-    margin: 0 3em;
+    display: flex;
+}
+
+.statisticsMenu {
+    width: 150px;
+    position: absolute;
+    z-index: 1;
+}
+
+.statisticsContent {
+    width: 100%;
 }
 
 .nav-tabs {

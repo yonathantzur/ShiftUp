@@ -59,4 +59,17 @@ export class WorkersService extends BasicService {
             .catch((err: any) => null);
     }
 
+    GetWorkersAverageAge() {
+        return super.get(this.prefix + '/getWorkersAverageAge')
+            .toPromise()
+            .then((result: any) => result.averageAge)
+            .catch((err: any) => null);
+    }
+
+    GetWorkersGroupByAgesDecades() {
+        return super.get(this.prefix + '/getWorkersGroupByAgesDecades')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
 }
