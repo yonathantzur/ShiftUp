@@ -12,6 +12,10 @@
     max-height: calc(100vh - 190px);
 }
 
+.table td {
+    vertical-align: middle !important;
+}
+
 .conTitle {
     text-align: center;
     font-weight: bold;
