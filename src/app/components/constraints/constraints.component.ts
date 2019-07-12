@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../../services/global/global.service';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
 import { STATUS_CODE } from '../../enums/enums';
 import { STATUS_CODE_NUMBER } from '../../enums/enums';
 import { UsersService } from "../../services/users/users.service";
-import { ActivatedRoute, Router } from "@angular/router";
 import { EventService } from '../../services/event/event.service';
 
 declare let Swal: any;
@@ -16,7 +16,6 @@ declare let Swal: any;
 })
 
 export class ConstraintsComponent implements OnInit {
-    sourceConstraints: Array<any> = [];
     constraints: Array<any>;
     searchWord: string;
     startDateFilter: Date;
@@ -30,31 +29,22 @@ export class ConstraintsComponent implements OnInit {
     userSortCol: string;
     userSortDirection: number;
 
-    constructor(private constraintsService: ConstraintsService,
-        private usersService: UsersService,
-        private EventService: EventService,
-        private route: ActivatedRoute,
-        private router: Router) {
-    }
+    constructor(
+        private globalService: GlobalService,
+        private constraintsService: ConstraintsService,
+        private EventService: EventService) { }
 
     ngOnInit() {
         this.userSortCol = this.statusColName;
         this.userSortDirection = this.downSort;
         this.InitiateConstraints();
-    }
 
-    DeleteConstraint(conObjId: string, conIndex: number) {
-        this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
-            if (isDeleted) {
-                this.constraints.splice(conIndex, 1);
-            } else {
-                Swal.fire({
-                    type: 'error',
-                    title: 'שגיאה במחיקה',
-                    text: 'אופס... משהו השתבש'
-                })
-            }
-        })
+        let self = this;
+
+        self.globalService.socket.on("UpdateConstraintServer", () => {
+            self.InitiateConstraints();
+        });
+
     }
 
     ApproveConstraint(conObj: any) {
@@ -62,6 +52,7 @@ export class ConstraintsComponent implements OnInit {
             if (isApprove) {
                 conObj.status[0].statusName = STATUS_CODE.CONFIRMED;
                 conObj.status[0].statusId = isApprove.statusId;
+                this.globalService.socket.emit("UpdateConstraintStatusClient", conObj.userObjId);
             } else {
                 Swal.fire({
                     type: 'error',
@@ -77,6 +68,7 @@ export class ConstraintsComponent implements OnInit {
             if (isCanceled) {
                 conObj.status[0].statusName = STATUS_CODE.REFUSED;
                 conObj.status[0].statusId = isCanceled.statusId;
+                this.globalService.socket.emit("UpdateConstraintStatusClient", conObj.userObjId);
             } else {
                 Swal.fire({
                     type: 'error',
@@ -89,8 +81,7 @@ export class ConstraintsComponent implements OnInit {
 
     InitiateConstraints() {
         this.constraintsService.getAllConstraints(this.userSortCol, this.userSortDirection).then((data: any) => {
-            this.sourceConstraints = data;
-            this.constraints = this.sourceConstraints;
+            this.constraints = data;
 
             // Calculate waiting constraints requests.
             let waitingConstraintsAmount = data.filter((constraint: any) => {
@@ -103,7 +94,7 @@ export class ConstraintsComponent implements OnInit {
 
     filterItem() {
         if (this.searchWord || this.startDateFilter || this.endDateFilter) {
-            this.constraints = this.sourceConstraints.filter(item => {
+            this.constraints = this.constraints.filter(item => {
                 let bool = true;
                 if (this.searchWord) {
                     bool = (this.searchWord && (item.user[0].userId.includes(this.searchWord)) ||
@@ -119,8 +110,6 @@ export class ConstraintsComponent implements OnInit {
                 }
                 return bool;
             });
-        } else {
-            this.constraints = this.sourceConstraints;
         }
     }
 

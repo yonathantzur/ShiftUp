@@ -1,4 +1,5 @@
 const tokenHandler = require('./handlers/tokenHandler');
+const businessesBL = require('./BL/businessesBL');
 
 module.exports = (io) => {
     io.on('connection', (socket) => {
@@ -13,6 +14,19 @@ module.exports = (io) => {
 
         socket.on('disconnect', () => {
 
+        });
+
+        socket.on('UpdateConstraintClient', () => {
+            // Decode user object from the token.
+            let user = tokenHandler.decodeTokenFromSocket(socket);
+
+            businessesBL.GetBusinessManagerId(user.businessId).then(managerId => {
+                socket.to(managerId).emit("UpdateConstraintServer");
+            });
+        });
+
+        socket.on('UpdateConstraintStatusClient', (userId) => {
+            socket.to(userId).emit("UpdateConstraintStatusServer");
         });
 
     });
