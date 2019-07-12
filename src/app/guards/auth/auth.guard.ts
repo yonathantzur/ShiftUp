@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, } from '@angular/router';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
+import { GlobalService } from '../../services/global/global.service';
 import { LoginService } from '../../services/login/login.service';
 import { UsersService } from '../../services/users/users.service';
 
@@ -8,6 +9,7 @@ import { UsersService } from '../../services/users/users.service';
 export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
+        private globalService: GlobalService,
         private loginService: LoginService) {
     }
 
@@ -15,6 +17,7 @@ export class AuthGuard implements CanActivate {
         return Observable.create((observer: any) => {
             this.loginService.isUserLogin().then(result => {
                 if (result) {
+                    this.globalService.Initialize();
                     observer.next(true);
                 } else {
                     this.router.navigateByUrl('/role');

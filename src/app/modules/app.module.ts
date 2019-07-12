@@ -32,6 +32,7 @@ import { StatisticsConstraintsComponent } from '../components/statistics/statist
 
 // Services
 import { EventService } from '../services/event/event.service'
+import { GlobalService } from '../services/global/global.service'
 
 // Routing
 import { Routing } from '../routes/app.routing'
@@ -72,6 +73,7 @@ import { Routing } from '../routes/app.routing'
         StatisticsConstraintsComponent
     ],
     providers: [
+        GlobalService,
         EventService
     ],
     bootstrap: [AppComponent]
