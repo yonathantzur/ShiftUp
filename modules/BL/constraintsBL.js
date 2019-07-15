@@ -45,9 +45,11 @@ let self = module.exports = {
             switch (sortCol) {
                 case "statusId":
                     sortObj.$sort.statusId = parseInt(sortDirection);
+                    sortObj.$sort.startDate = -1;
                     break;
                 case "startDate":
                     sortObj.$sort.startDate = parseInt(sortDirection);
+                    sortObj.$sort.statusId = 1;
                     break;
             }
         }

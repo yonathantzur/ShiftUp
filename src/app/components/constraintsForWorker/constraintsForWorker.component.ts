@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../../services/global/global.service';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
 import { BusinessesService } from "../../services/businesses/businesses.service";
 import { STATUS_CODE_NUMBER } from "../../enums/enums";
@@ -15,7 +16,6 @@ declare let $: any;
 })
 
 export class ConstraintsForWorkerComponent implements OnInit {
-    sourceConstraints: Array<any> = [];
     constraints: Array<any>;
     constraintsReasons: Array<any> = [];
     newConstraint: any;
@@ -25,15 +25,21 @@ export class ConstraintsForWorkerComponent implements OnInit {
     startDateFilter: Date;
     endDateFilter: Date;
 
-    constructor(private constraintsService: ConstraintsService,
-        private businessService: BusinessesService) {
-    }
+    constructor(private globalService: GlobalService,
+        private constraintsService: ConstraintsService,
+        private businessService: BusinessesService) { }
 
     ngOnInit() {
         this.isRange = false;
         this.InitiateConstraints();
         this.InitiateShiftNames();
         this.InitiateConstraintsReasons();
+
+        let self = this;
+
+        self.globalService.socket.on("UpdateConstraintStatusServer", () => {
+            self.InitiateConstraints();
+        });
     }
 
     InitiateForm(AddConstraintForm: NgForm) {
@@ -49,9 +55,8 @@ export class ConstraintsForWorkerComponent implements OnInit {
     }
 
     InitiateConstraints() {
-        this.constraintsService.getAllConstraints('statusId', 1).then((data: any) => {
-            this.sourceConstraints = data;
-            this.constraints = this.sourceConstraints;
+        this.constraintsService.getAllConstraints('startDate', -1).then((data: any) => {
+            this.constraints = data;
         });
     }
 
@@ -72,7 +77,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
 
     filterItem() {
         if (this.searchWord || this.startDateFilter || this.endDateFilter) {
-            this.constraints = this.sourceConstraints.filter(item => {
+            this.constraints = this.constraints.filter(item => {
                 let bool = true;
 
                 if (this.searchWord) {
@@ -91,8 +96,6 @@ export class ConstraintsForWorkerComponent implements OnInit {
 
                 return bool;
             });
-        } else {
-            this.constraints = this.sourceConstraints;
         }
     }
 
@@ -195,6 +198,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
                 this.InitiateConstraints();
                 this.InitiateShiftNames();
                 this.InitiateForm(AddConstraintForm);
+                this.globalService.socket.emit("UpdateConstraintClient");
             } else {
                 Swal.fire({
                     type: 'error',
@@ -210,6 +214,7 @@ export class ConstraintsForWorkerComponent implements OnInit {
         this.constraintsService.DeleteConstraint(conObjId).then((isDeleted: any) => {
             if (isDeleted) {
                 this.constraints.splice(index, 1);
+                this.globalService.socket.emit("UpdateConstraintClient");
             } else {
                 Swal.fire({
                     type: 'error',

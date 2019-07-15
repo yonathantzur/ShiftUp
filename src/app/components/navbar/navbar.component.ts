@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { GlobalService } from '../../services/global/global.service';
 import { EventService } from '../../services/event/event.service'
 import { LoginService } from '../../services/login/login.service';
 import { UsersService } from '../../services/users/users.service';
@@ -25,6 +26,7 @@ export class NavbarComponent implements OnInit {
     loggedInUser: any;
 
     constructor(private router: Router,
+        private globalService: GlobalService,
         private eventService: EventService,
         private loginService: LoginService,
         private usersService: UsersService) {
@@ -40,6 +42,7 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.globalService.socket.emit('login');
         this.usersService.GetLoggedInUser().then((user: any) => {
             this.loggedInUser = user;
 

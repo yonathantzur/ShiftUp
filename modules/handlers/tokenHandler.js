@@ -4,8 +4,12 @@ const config = require('../../config');
 
 module.exports = {
     getUserFromToken(req) {
+        return this.decodeToken(parseCookies(req).tk);
+    },
+
+    decodeToken(tk) {
         try {
-            return jwt.decode(parseCookies(req).tk).payload;
+            return jwt.decode(tk).payload;
         }
         catch (e) {
             return null;
@@ -40,7 +44,16 @@ module.exports = {
 
     removeTokenFromCookie(response) {
         response.clearCookie("tk");
-    }
+    },
+
+    decodeTokenFromSocket(socket) {
+        let token = this.getTokenFromSocket(socket);
+        return this.decodeToken(token);
+    },
+
+    getTokenFromSocket(socket) {
+        return getCookieByName("tk", socket.request.headers.cookie);
+    },
 };
 
 function parseCookies(request) {
@@ -53,4 +66,27 @@ function parseCookies(request) {
     });
 
     return list;
+}
+
+function getCookieByName(cname, cookie) {
+    if (!cookie) {
+        return '';
+    }
+
+    let name = cname + "=";
+    let ca = cookie.split(';');
+
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+
+    return '';
 }

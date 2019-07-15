@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const http = require('http').Server(app);
+const io = require('socket.io')(http);
 const path = require('path');
 const config = require('./config');
 const tokenHandler = require('./modules/handlers/tokenHandler');
@@ -31,6 +32,8 @@ app.use('/api/businesses/', require('./modules/routes/businesses'));
 app.use('/api/workers/', require('./modules/routes/workers'));
 app.use('/api/constraints/', require('./modules/routes/constraints'));
 app.use('/api/schedule/', middlewares.CheckManager, require('./modules/routes/schedule'));
+
+require('./modules/socket')(io);
 
 // Allowed extensions list.
 const allowedExt = [

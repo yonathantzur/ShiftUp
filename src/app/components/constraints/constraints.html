@@ -76,7 +76,7 @@
                                     </ng-container>
                                 </td>
                                 <td>{{ con.description }}</td>
-                                <td style="display: flex;">
+                                <td>
                                     <i class="fas fa-circle status-light"
                                         [ngStyle]="{'color': getStatusLightColor(con.status[0].statusId)}"></i>
                                     {{ con.status[0].statusName }}
@@ -86,8 +86,6 @@
                                             title="אישור"></i></a>
                                     <a (click)="RefuseConstraint(con)"><i class="far fa-thumbs-down iconConstraints"
                                             title="סירוב"></i></a>
-                                    <a (click)="DeleteConstraint(con._id, i)"><i
-                                            class="far fa-trash-alt iconConstraints" title="מחיקה"></i></a>
                                 </td>
                             </tr>
                         </tbody>

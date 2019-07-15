@@ -5,6 +5,14 @@
     position: relative;
 }
 
+.table td {
+    vertical-align: middle !important;
+}
+
+.table tr:hover {
+    background-color: rgba(0,0,0,.075);
+}
+
 .iconConstraints {
     float: right;
     margin: 0 10px;
