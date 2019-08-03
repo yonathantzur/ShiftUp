@@ -51,8 +51,9 @@ export class ConstraintsComponent implements OnInit {
         this.constraintsService.ApproveConstraint(conObj._id).then((isApprove: any) => {
             if (isApprove) {
                 conObj.status[0].statusName = STATUS_CODE.CONFIRMED;
-                conObj.status[0].statusId = isApprove.statusId;
+                conObj.statusId = conObj.status[0].statusId = isApprove.statusId;
                 this.globalService.socket.emit("UpdateConstraintStatusClient", conObj.userObjId);
+                this.CalcWaitingConstraintsAmount();
             } else {
                 Swal.fire({
                     type: 'error',
@@ -67,8 +68,9 @@ export class ConstraintsComponent implements OnInit {
         this.constraintsService.RefuseConstraint(conObj._id).then((isCanceled: any) => {
             if (isCanceled) {
                 conObj.status[0].statusName = STATUS_CODE.REFUSED;
-                conObj.status[0].statusId = isCanceled.statusId;
+                conObj.statusId = conObj.status[0].statusId = isCanceled.statusId;
                 this.globalService.socket.emit("UpdateConstraintStatusClient", conObj.userObjId);
+                this.CalcWaitingConstraintsAmount();
             } else {
                 Swal.fire({
                     type: 'error',
@@ -82,14 +84,17 @@ export class ConstraintsComponent implements OnInit {
     InitiateConstraints() {
         this.constraintsService.getAllConstraints(this.userSortCol, this.userSortDirection).then((data: any) => {
             this.constraints = data;
-
-            // Calculate waiting constraints requests.
-            let waitingConstraintsAmount = data.filter((constraint: any) => {
-                return (constraint.statusId == 0);
-            }).length;
-
-            this.EventService.Emit("setConstraintRequestAmount", waitingConstraintsAmount);
+            this.CalcWaitingConstraintsAmount();
         });
+    }
+
+    CalcWaitingConstraintsAmount() {
+        // Calculate waiting constraints requests.
+        let waitingConstraintsAmount = this.constraints.filter((constraint: any) => {
+            return (constraint.statusId == 0);
+        }).length;
+
+        this.EventService.Emit("setConstraintRequestAmount", waitingConstraintsAmount);
     }
 
     filterItem() {
