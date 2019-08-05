@@ -11,18 +11,18 @@
                 <form class="form-inline">
                     <div class="col-md-4">
                         <input class="form-control w-75" type="text" placeholder="חיפוש" aria-label="Search"
-                            [(ngModel)]="searchWord" name="filter" (input)="filterItem()" />
+                            [(ngModel)]="searchWord" name="filter" />
                         <i class="fas fa-search" aria-hidden="true"></i>
                     </div>
                     <div class="form-inline">
                         <label class="formInput">מ:</label>
                         <input class="form-control dateInput" [(ngModel)]="startDateFilter" name="dateFilter1"
-                            (input)="filterItem()" type="date" />
+                            type="date" />
                     </div>
                     <div class="form-inline">
                         <label class="formInput">עד:</label>
                         <input class="form-control dateInput" [(ngModel)]="endDateFilter" name="dateFilter2"
-                            (input)="filterItem()" type="date" />
+                            type="date" />
                     </div>
                 </form>
                 <div class="addDiv">
@@ -46,7 +46,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let con of constraints; let i=index;">
+                        <tr *ngFor="let con of filterItem(); let i=index;">
                             <td>{{i + 1}}</td>
                             <td>{{ con.startDate | date: 'dd/MM/yyyy'}}</td>
                             <td>{{ con.endDate | date:'dd/MM/yyyy'}}</td>
@@ -77,8 +77,8 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="AddConstraintModal" tabindex="-1" role="dialog"  data-backdrop="static" data-keyboard="false" aria-labelledby="AddConstraintModal"
-    aria-hidden="true">
+<div class="modal fade" id="AddConstraintModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+    aria-labelledby="AddConstraintModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

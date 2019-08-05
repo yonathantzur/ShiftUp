@@ -77,25 +77,28 @@ export class ConstraintsForWorkerComponent implements OnInit {
 
     filterItem() {
         if (this.searchWord || this.startDateFilter || this.endDateFilter) {
-            this.constraints = this.constraints.filter(item => {
-                let bool = true;
+            return this.constraints.filter(item => {
+                let isInclude = true;
 
                 if (this.searchWord) {
-                    bool = (this.searchWord && (item.user[0].userId.includes(this.searchWord)) ||
-                        (item.description.includes(this.searchWord)) ||
-                        (item.status[0].statusName.includes(this.searchWord)));
+                    isInclude = (item.user[0].userId.startsWith(this.searchWord)) ||
+                        (item.description.startsWith(this.searchWord)) ||
+                        (item.status[0].statusName.startsWith(this.searchWord));
                 }
 
-                if (bool && this.startDateFilter) {
-                    bool = new Date(item.startDate) >= new Date(this.startDateFilter);
+                if (isInclude && this.startDateFilter) {
+                    isInclude = new Date(item.startDate) >= new Date(this.startDateFilter);
                 }
 
-                if (bool && this.endDateFilter) {
-                    bool = new Date(item.endDate) <= new Date(this.endDateFilter);
+                if (isInclude && this.endDateFilter) {
+                    isInclude = new Date(item.endDate) <= new Date(this.endDateFilter);
                 }
 
-                return bool;
+                return isInclude;
             });
+        }
+        else {
+            return this.constraints;
         }
     }
 
