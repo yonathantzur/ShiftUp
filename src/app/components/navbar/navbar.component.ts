@@ -78,7 +78,10 @@ export class NavbarComponent implements OnInit {
 
     logout() {
         return new Promise((resolve, reject) => {
-            this.loginService.logout().then(resolve).catch(reject);
+            this.loginService.logout().then(result => {
+                this.globalService.ResetSocket();
+                resolve(result);
+            }).catch(reject);
         });
     }
 

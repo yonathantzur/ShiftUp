@@ -13,4 +13,9 @@ export class GlobalService {
             this.socket = io();
         }
     }
+
+    ResetSocket() {
+        this.socket && this.socket.destroy();
+        this.socket = null;
+    }
 }
