@@ -1,6 +1,8 @@
 import { BasicService } from '../basic/basic.service';
 import {Business} from "../../components/newUserRole/newBusiness/newBusiness.component";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class BusinessesService extends BasicService {
     prefix = "/api/businesses";
 

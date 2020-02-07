@@ -1,5 +1,7 @@
 import { BasicService } from '../basic/basic.service';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ScheduleService extends BasicService {
     prefix = "/api/schedule";
 

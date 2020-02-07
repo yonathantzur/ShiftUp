@@ -1,6 +1,8 @@
 import { BasicService } from '../basic/basic.service';
 import { SHIFTS_FILTER } from '../../enums/enums';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ShiftService extends BasicService {
     prefix = "/api/shifts";
 
