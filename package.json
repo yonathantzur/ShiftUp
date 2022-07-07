@@ -37,7 +37,7 @@
     "jquery": "^3.4.1",
     "js-sha512": "^0.8.0",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "mongodb": "^3.5.2",
     "nodemailer": "^6.4.2",
     "popper.js": "^1.16.1",
