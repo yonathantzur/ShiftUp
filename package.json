@@ -30,7 +30,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-datepicker": "^1.9.0",
     "bootstrap-material-design": "^4.1.2",
-    "d3": "^5.15.0",
+    "d3": "^7.6.1",
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^3.10.1",
